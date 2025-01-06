@@ -33,7 +33,7 @@ public class SkillManager {
 		List<ExperienceLink> experienceRequirements = new ArrayList<>();
 		List<SkillLink> skillRequirements = new ArrayList<>();
 		List<TrainingLink> trainingRequirements = new ArrayList<>();
-		Skill skill = new Skill(FireUnitType.FireEngine, "First Aid Skill", experienceRequirements, skillRequirements, trainingRequirements);
+		Skill skill = new Skill(FireUnitType.FIRE_ENGINE, "First Aid Skill", experienceRequirements, skillRequirements, trainingRequirements);
 		addSkill(skill);
 
 	}

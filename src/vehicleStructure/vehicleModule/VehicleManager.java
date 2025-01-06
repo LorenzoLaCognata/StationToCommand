@@ -29,7 +29,7 @@ public class VehicleManager {
 	public void initVehicles(DepartmentManager departmentManager) {
 		
 		// TODO: loop through Stations and Units
-		FireUnit unit = new FireUnit(FireUnitType.FireEngine);
+		FireUnit unit = new FireUnit(FireUnitType.FIRE_ENGINE, 0);
 		addVehicle(new Vehicle(unit));
 
 	}

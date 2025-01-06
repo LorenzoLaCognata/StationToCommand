@@ -48,13 +48,13 @@ public class ResponderManager {
 	public void initResponders(DepartmentManager departmentManager) {
 
 		// TODO: loop through Stations and Units
-		FireUnit unit = new FireUnit(FireUnitType.FireEngine);
+		FireUnit unit = new FireUnit(FireUnitType.FIRE_ENGINE, 0);
 		Experience experience = new Experience(1);
 
 		List<RankLink> rankRequirements = new ArrayList<>();
 		List<ExperienceLink> experienceRequirements = new ArrayList<>();
 		List<SkillLink> skillRequirements = new ArrayList<>();
-		Rank rank = new Rank(DepartmentType.FireDepartment, "Captain", rankRequirements, experienceRequirements,
+		Rank rank = new Rank(DepartmentType.FIRE_DEPARTMENT, "Captain", rankRequirements, experienceRequirements,
 				skillRequirements);
 		Location location = new Location(0.0f, 0.0f); // TODO: random coordinates
 		List<UnitLink> unitLinks = new ArrayList<>() {

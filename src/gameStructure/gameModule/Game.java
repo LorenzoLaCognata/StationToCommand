@@ -11,26 +11,27 @@ import vehicleStructure.vehicleModule.VehicleManager;
 
 public class Game {
 
+	public LocationManager locationManager;
 	public DepartmentManager departmentManager;
 	public VehicleManager vehicleManager;
 	public EquipmentManager equipmentManager;
 	public ResponderManager responderManager;
 	public CivilianManager civilianManager;
-	public LocationManager locationManager;
 	public MissionManager missionManager;
 	public TaskManager taskManager;
 
 	public Game() {
-		System.out.println("Game initializing");
-		this.departmentManager = new DepartmentManager();
-		this.locationManager = new LocationManager(this.departmentManager);
+		this.locationManager = new LocationManager();
+		this.departmentManager = new DepartmentManager(this.locationManager);
+		// TODO: initialize
+		/*
 		this.vehicleManager = new VehicleManager(this.departmentManager);
 		this.equipmentManager = new EquipmentManager(this.departmentManager);
 		this.responderManager = new ResponderManager(this.departmentManager);
 		this.civilianManager = new CivilianManager();
 		this.missionManager = new MissionManager();
 		this.taskManager = new TaskManager();
-		System.out.println("Game initialized successfully");
+ */
 	}
 
 }

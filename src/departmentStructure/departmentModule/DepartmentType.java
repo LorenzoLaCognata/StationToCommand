@@ -1,7 +1,20 @@
 package departmentStructure.departmentModule;
 
 public enum DepartmentType {
-  FireDepartment,
-  PoliceDepartment,
-  MedicDepartment
+
+  FIRE_DEPARTMENT("Fire"),
+  POLICE_DEPARTMENT("Police"),
+  MEDIC_DEPARTMENT("EMS");
+
+  private final String name;
+
+  DepartmentType(String name) {
+    this.name = name;
+  }
+
+  @Override
+  public String toString() {
+    return this.name;
+  }
+
 }

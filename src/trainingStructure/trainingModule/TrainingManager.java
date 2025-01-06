@@ -31,7 +31,7 @@ public class TrainingManager {
 		// TODO: loop through UnitTypes
 		List<ExperienceLink> experienceRequirements = new ArrayList<>();
 		List<TrainingLink> trainingRequirements = new ArrayList<>();
-		Training training = new Training(FireUnitType.FireEngine, "First Aid Basics", experienceRequirements, trainingRequirements);
+		Training training = new Training(FireUnitType.FIRE_ENGINE, "First Aid Basics", experienceRequirements, trainingRequirements);
 		addTraining(training);
 		
 	}

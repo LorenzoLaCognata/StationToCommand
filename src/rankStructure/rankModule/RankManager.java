@@ -33,7 +33,7 @@ public class RankManager {
 		List<RankLink> rankRequirements = new ArrayList<>();
 		List<ExperienceLink> experienceRequirements = new ArrayList<>();
 		List<SkillLink> skillRequirements = new ArrayList<>();
-		Rank rank = new Rank(DepartmentType.FireDepartment, "Captain", rankRequirements, experienceRequirements,
+		Rank rank = new Rank(DepartmentType.FIRE_DEPARTMENT, "Captain", rankRequirements, experienceRequirements,
 				skillRequirements);
 		addRank(rank);
 

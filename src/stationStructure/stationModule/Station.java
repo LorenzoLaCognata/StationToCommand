@@ -6,16 +6,24 @@ import unitStructure.unitModule.UnitManager;
 
 public class Station {
 
-    private int number;
-	private Location location;
-	private UnitManager unitManager;
+    private final DepartmentType departmentType;
+    private final int number;
+	private final Location location;
+	private final UnitManager unitManager;
 	
-    public Station(DepartmentType departmentType) {
-        System.out.println("Station initializing");
-		this.number = 1; // TO DO: station counter
-		//this.location = new Location(...);
-		this.unitManager = new UnitManager(departmentType);
-        System.out.println("Station initialized successfully");
+    public Station(DepartmentType departmentType, int number, Location location, StationManager stationManager) {
+        this.departmentType = departmentType;
+		this.number = number;
+        this.location = location;
+		this.unitManager = new UnitManager(departmentType, stationManager);
     }
 
+    @Override
+    public String toString() {
+        return "[STATION] " + departmentType + " Station " + number + " (" + location + ")\n" + unitManager;
+    }
+
+    public int getNumber() {
+        return number;
+    }
 }

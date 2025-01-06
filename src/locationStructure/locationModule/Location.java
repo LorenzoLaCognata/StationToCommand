@@ -1,15 +1,15 @@
 package locationStructure.locationModule;
 
-public class Location {
+public record Location(float latitude, float longitude) {
 
-    private float latitude;
-	private float longitude;
+    @Override
+    public String toString() {
+        String latDirection = this.latitude >= 0 ? "N" : "S";
+        String lonDirection = this.longitude >= 0 ? "E" : "W";
 
-    public Location(float latitude, float longitude) {
-        System.out.println("Location initializing");
-        this.latitude = latitude;
-        this.longitude = longitude;
-        System.out.println("Location initialized successfully");
+        return String.format("%.6f° %s, %.6f° %s",
+                Math.abs(this.latitude), latDirection,
+                Math.abs(this.longitude), lonDirection);
     }
-	
+
 }

@@ -4,14 +4,25 @@ import unitStructure.unitTypeModule.UnitType;
 
 public abstract class Unit {
 
-    private UnitType unitType;
-    private int number;
+    private final UnitType unitType;
+    private final int number;
 
-    public Unit(UnitType unitType) {
-        System.out.println("Unit initializing");
+    public Unit(UnitType unitType, int number) {
         this.unitType = unitType;
-		this.number = 1; // TODO: unit counter
-        System.out.println("Unit initialized successfully");
+		this.number = number;
     }
 
+    @Override
+    public String toString() {
+        return "[UNIT] " + unitType + " Unit " + number;
+    }
+
+    public UnitType getUnitType() {
+        return unitType;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+    
 }
