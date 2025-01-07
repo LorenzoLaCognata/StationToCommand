@@ -1,4 +1,4 @@
-package civilianStructure.civilianModule;
+package personStructure.civilianModule;
 
 import java.util.ArrayList;
 import java.util.List;

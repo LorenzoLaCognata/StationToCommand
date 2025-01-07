@@ -1,6 +1,6 @@
 package actionStructure.actionModule;
 
-import civilianStructure.civilianModule.Civilian;
+import personStructure.civilianModule.Civilian;
 import equipmentStructure.equipmentModule.Equipment;
 import responderStructure.responderModule.Responder;
 import taskStructure.taskModule.Task;

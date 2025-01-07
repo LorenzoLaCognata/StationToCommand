@@ -2,7 +2,10 @@ package stationStructure.stationModule;
 
 import departmentStructure.departmentModule.DepartmentType;
 import locationStructure.locationModule.Location;
+import unitStructure.unitModule.Unit;
 import unitStructure.unitModule.UnitManager;
+
+import java.util.List;
 
 public class Station {
 
@@ -20,10 +23,23 @@ public class Station {
 
     @Override
     public String toString() {
-        return "[STATION] " + departmentType + " Station " + number + " (" + location + ")\n" + unitManager;
+        return "[STATION] " + departmentType + " Station " + number;
     }
 
     public int getNumber() {
         return number;
     }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public UnitManager getUnitManager() {
+        return unitManager;
+    }
+
+    public List<Unit> getUnits() {
+        return unitManager.getUnits();
+    }
+
 }

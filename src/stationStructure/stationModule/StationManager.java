@@ -24,6 +24,10 @@ public class StationManager {
 				.collect(Collectors.joining("\n"));
 	}
 
+	public List<Station> getStations() {
+		return stations;
+	}
+
 	public Station getStation(int number) {
 		return stations.stream()
 				.filter(item -> item.getNumber() == number)

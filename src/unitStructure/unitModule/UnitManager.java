@@ -26,6 +26,10 @@ public class UnitManager {
 				.collect(Collectors.joining("\n"));
 	}
 
+	public List<Unit> getUnits() {
+		return units;
+	}
+
 	public Unit getUnit(int number) {
 		return units.stream()
 				.filter(item -> item.getNumber() == number)

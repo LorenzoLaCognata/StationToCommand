@@ -7,9 +7,15 @@ public abstract class UnitLink {
     private Unit unit;
 
     public UnitLink(Unit unit) {
-        System.out.println("UnitLink initializing");
         this.unit = unit;
-		System.out.println("UnitLink initialized successfully");
     }
-	
+
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
+
 }

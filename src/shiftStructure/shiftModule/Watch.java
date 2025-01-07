@@ -2,7 +2,7 @@ package shiftStructure.shiftModule;
 
 import java.util.Date;
 
-public abstract class Watch {
+public class Watch {
 
     private Date start;
     private Date end;

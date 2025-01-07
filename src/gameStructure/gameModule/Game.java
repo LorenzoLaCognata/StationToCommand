@@ -1,6 +1,6 @@
 package gameStructure.gameModule;
 
-import civilianStructure.civilianModule.CivilianManager;
+import personStructure.civilianModule.CivilianManager;
 import departmentStructure.departmentModule.DepartmentManager;
 import equipmentStructure.equipmentModule.EquipmentManager;
 import locationStructure.locationModule.LocationManager;
@@ -13,9 +13,9 @@ public class Game {
 
 	public LocationManager locationManager;
 	public DepartmentManager departmentManager;
+	public ResponderManager responderManager;
 	public VehicleManager vehicleManager;
 	public EquipmentManager equipmentManager;
-	public ResponderManager responderManager;
 	public CivilianManager civilianManager;
 	public MissionManager missionManager;
 	public TaskManager taskManager;
@@ -23,11 +23,11 @@ public class Game {
 	public Game() {
 		this.locationManager = new LocationManager();
 		this.departmentManager = new DepartmentManager(this.locationManager);
+		this.responderManager = new ResponderManager(this.departmentManager);
 		// TODO: initialize
-		/*
+/*
 		this.vehicleManager = new VehicleManager(this.departmentManager);
 		this.equipmentManager = new EquipmentManager(this.departmentManager);
-		this.responderManager = new ResponderManager(this.departmentManager);
 		this.civilianManager = new CivilianManager();
 		this.missionManager = new MissionManager();
 		this.taskManager = new TaskManager();

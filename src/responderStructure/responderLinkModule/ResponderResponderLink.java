@@ -11,5 +11,13 @@ public class ResponderResponderLink extends ResponderLink {
 		super(responder);
 		this.relationship = relationship;
     }
-	
+
+	public float getRelationship() {
+		return relationship;
+	}
+
+	public void setRelationship(float relationship) {
+		this.relationship = relationship;
+	}
+
 }

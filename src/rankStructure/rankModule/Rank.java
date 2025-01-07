@@ -11,33 +11,33 @@ import java.util.List;
 
 public class Rank {
 
-	private DepartmentType departmentType;
-	private String name;
-	private List<RankLink> rankRequirements;
-	private List<ExperienceLink> experienceRequirements;
-	private List<SkillLink> skillRequirements;
+	private final int level;
+	private final String name;
+	private final List<RankLink> rankRequirements;
+	private final List<ExperienceLink> experienceRequirements;
+	private final List<SkillLink> skillRequirements;
 
-	public Rank(DepartmentType departmentType, String name, List<RankLink> rankRequirements, List<ExperienceLink>
+	public Rank(int level, String name, List<RankLink> rankRequirements, List<ExperienceLink>
 		experienceRequirements, List<SkillLink> skillRequirements) {
-	 	System.out.println("Rank initializing");
-		this.departmentType = departmentType;
+		this.level = level;
 		this.name = name;
 		this.rankRequirements = rankRequirements;
 		this.experienceRequirements = experienceRequirements;
 		this.skillRequirements = skillRequirements;
-		System.out.println("Rank initialized successfully");
 	}
 
-	public void requireRank(Rank rank) {
-		// TODO
+	@Override
+	// TODO: associate appropriate symbols/images to ranks
+	public String toString() {
+		return "\uD83C\uDF96".repeat(level) + " " + name;
 	}
 
-	public void requireExperience(Experience experience) {
-		// TODO
+	public int getLevel() {
+		return level;
 	}
 
-	public void requireSkill(Skill skill) {
-		// TODO
+	public String getName() {
+		return name;
 	}
 
 }

@@ -2,7 +2,7 @@ package shiftStructure.shiftModule;
 
 import unitStructure.unitModule.Unit;
 
-public abstract class Shift {
+public class Shift {
 
     // TODO
     //    private Responder responder;

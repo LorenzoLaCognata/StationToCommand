@@ -4,12 +4,13 @@ import rankStructure.rankModule.Rank;
 
 public abstract class RankLink {
 
-    private Rank rank;
+    private final Rank rank;
 
     public RankLink(Rank rank) {
-        System.out.println("RankLink initializing");
         this.rank = rank;
-        System.out.println("RankLink initialized successfully");
     }
 
+    public Rank getRank() {
+        return rank;
+    }
 }
