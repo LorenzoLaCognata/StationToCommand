@@ -10,15 +10,28 @@ import java.util.List;
 
 public class MissionStationLink extends StationLink {
 
-  private List<UnitLink> unitLinks;
+  private final List<MissionUnitLink> unitLinks;
 
   public MissionStationLink(Station station) {
     super(station);
     unitLinks = new ArrayList<>();
   }
 
-  public void linkUnit(Unit unit) {
-    // TODO
+  public List<MissionUnitLink> getUnitLinks() {
+    return unitLinks;
+  }
+
+  public MissionUnitLink linkUnit(Unit unit) {
+    if (unitLinks.stream()
+            .noneMatch(item -> item.getUnit().getUnitType().equals(unit.getUnitType()) &&
+                    item.getUnit().getNumber() == unit.getNumber())) {
+      MissionUnitLink missionUnitLink = new MissionUnitLink(unit);
+      unitLinks.add(missionUnitLink);
+      return missionUnitLink;
+    }
+    else {
+      return null;
+    }
   }
 
 }

@@ -4,12 +4,13 @@ import departmentStructure.departmentModule.Department;
 
 public abstract class DepartmentLink {
 
-    private Department department;
+    private final Department department;
 
     public DepartmentLink(Department department) {
-        System.out.println("DepartmentLink initializing");
         this.department = department;
-        System.out.println("DepartmentLink initialized successfully");
     }
 
+    public Department getDepartment() {
+        return department;
+    }
 }

@@ -30,9 +30,9 @@ public class UnitManager {
 		return units;
 	}
 
-	public Unit getUnit(int number) {
+	public Unit getUnit(UnitType unitType, int number) {
 		return units.stream()
-				.filter(item -> item.getNumber() == number)
+				.filter(item -> item.getUnitType().equals(unitType) && item.getNumber() == number)
 				.findFirst()
 				.orElse(null);
 	}

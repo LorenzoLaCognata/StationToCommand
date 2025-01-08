@@ -10,13 +10,13 @@ public class MissionManager {
     private List<Mission> missions = new ArrayList<>();
 
     public MissionManager() {
-        System.out.println("MissionManager initializing");
-        System.out.println("MissionManager initialized successfully");
     }
 
-    public Mission getMission(Location location) {
-        // TODO
-        return missions.get(0);
+    public Mission getMission(MissionType missionType, Location location) {
+        return missions.stream()
+                .filter(item -> item.getMissionType().equals(missionType) && item.getLocation().equals(location))
+                .findFirst()
+                .orElse(null);
     }
 
     public void addMission(Mission mission) {

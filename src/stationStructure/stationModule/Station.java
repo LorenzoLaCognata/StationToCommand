@@ -26,6 +26,10 @@ public class Station {
         return "[STATION] " + departmentType + " Station " + number;
     }
 
+    public DepartmentType getDepartmentType() {
+        return departmentType;
+    }
+
     public int getNumber() {
         return number;
     }

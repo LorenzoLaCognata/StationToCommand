@@ -14,9 +14,9 @@ import java.util.List;
 
 public class MissionUnitLink extends UnitLink {
 
-  private List<ResponderLink> responderLinks;
-  private List<VehicleLink> vehicleLinks;
-  private List<MissionObjectiveLink> missionObjectiveLink;
+  private final List<ResponderLink> responderLinks;
+  private final List<VehicleLink> vehicleLinks;
+  private final List<MissionObjectiveLink> missionObjectiveLink;
 
   public MissionUnitLink(Unit unit) {
     super(unit);
