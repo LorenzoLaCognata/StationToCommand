@@ -1,7 +1,7 @@
 package skillStructure.skillRequirementModule;
 
-import trainingStructure.trainingModule.Training;
 import linkStructure.trainingLinkModule.TrainingLink;
+import trainingStructure.trainingModule.Training;
 
 public class SkillTrainingRequirement extends TrainingLink {
 

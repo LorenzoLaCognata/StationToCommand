@@ -1,8 +1,8 @@
 package trainingStructure.trainingModule;
 
-import unitStructure.unitTypeModule.FireUnitType;
 import linkStructure.experienceLinkModule.ExperienceLink;
 import linkStructure.trainingLinkModule.TrainingLink;
+import unitStructure.unitTypeModule.FireUnitType;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,8 +1,8 @@
 package equipmentStructure.equipmentModule;
 
 import equipmentStructure.equipmentLinkModule.EquipmentUnitLink;
-import unitStructure.unitModule.Unit;
 import linkStructure.organizationLinkModule.UnitLink;
+import unitStructure.unitModule.Unit;
 
 public class Equipment {
 

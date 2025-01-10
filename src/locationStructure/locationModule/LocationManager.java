@@ -1,13 +1,13 @@
 package locationStructure.locationModule;
 
+import utilsStructure.utilsModule.Utils;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class LocationManager {
 
     private final List<Location> locations = new ArrayList<>();
-	public static final Random randomGenerator = new Random();
 
     public LocationManager() {
     }
@@ -28,8 +28,8 @@ public class LocationManager {
 		float MAX_LATITUDE = 42.0230f;
 		float MIN_LONGITUDE = -87.9401f;
 		float MAX_LONGITUDE = -87.5237f;
-        float randomLatitude = randomGenerator.nextFloat(MIN_LATITUDE, MAX_LATITUDE);
-		float randomLongitude = randomGenerator.nextFloat(MIN_LONGITUDE, MAX_LONGITUDE);
+        float randomLatitude = Utils.randomGenerator.nextFloat(MIN_LATITUDE, MAX_LATITUDE);
+		float randomLongitude = Utils.randomGenerator.nextFloat(MIN_LONGITUDE, MAX_LONGITUDE);
 		Location location  = new Location(randomLatitude, randomLongitude);
 		addLocation(location);
 		return location;

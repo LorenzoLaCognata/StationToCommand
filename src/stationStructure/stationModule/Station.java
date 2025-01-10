@@ -1,6 +1,6 @@
 package stationStructure.stationModule;
 
-import departmentStructure.departmentModule.DepartmentType;
+import departmentStructure.departmentModule.Department;
 import locationStructure.locationModule.Location;
 import unitStructure.unitModule.Unit;
 import unitStructure.unitModule.UnitManager;
@@ -9,25 +9,25 @@ import java.util.List;
 
 public class Station {
 
-    private final DepartmentType departmentType;
+    private final Department department;
     private final int number;
 	private final Location location;
 	private final UnitManager unitManager;
 	
-    public Station(DepartmentType departmentType, int number, Location location, StationManager stationManager) {
-        this.departmentType = departmentType;
+    public Station(Department department, int number, Location location, StationManager stationManager) {
+        this.department = department;
 		this.number = number;
         this.location = location;
-		this.unitManager = new UnitManager(departmentType, stationManager);
+		this.unitManager = new UnitManager(this, stationManager);
     }
 
     @Override
     public String toString() {
-        return "[STATION] " + departmentType + " Station " + number;
+        return "[STATION] " + department.getDepartmentType() + " Station " + number;
     }
 
-    public DepartmentType getDepartmentType() {
-        return departmentType;
+    public Department getDepartment() {
+        return department;
     }
 
     public int getNumber() {

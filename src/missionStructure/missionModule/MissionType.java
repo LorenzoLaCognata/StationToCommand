@@ -1,12 +1,12 @@
 package missionStructure.missionModule;
 
 public enum MissionType {
-  STRUCTURE_FIRE("Structure Fire"),
-  VEHICLE_FIRE("Vehicle Fire"),
-  WATER_RESCUE("Water Rescue"),
-  COLLAPSE_RESCUE("Collapse Rescue"),
-  VEHICLE_EXTRICATION("Vehicle Extrication"),
-  ANIMAL_RESCUE("Animal Rescue");
+  STRUCTURE_FIRE("Structure Fire", 0.5f),
+  VEHICLE_FIRE("Vehicle Fire", 0.1f),
+  WATER_RESCUE("Water Rescue", 0.1f),
+  COLLAPSE_RESCUE("Collapse Rescue", 0.1f),
+  VEHICLE_EXTRICATION("Vehicle Extrication", 0.1f),
+  ANIMAL_RESCUE("Animal Rescue", 0.1f);
 
   /*
     TRAFFIC_INCIDENT: Managing road accidents or directing traffic after disruptions.
@@ -31,9 +31,11 @@ public enum MissionType {
  */
 
   private final String name;
+  private final float probability;
 
-  MissionType(String name) {
+  MissionType(String name, float probability) {
     this.name = name;
+    this.probability = probability;
   }
 
   @Override

@@ -1,7 +1,7 @@
 package taskStructure.taskLinkModule;
 
-import missionStructure.missionModule.Mission;
 import linkStructure.missionLinkModule.MissionLink;
+import missionStructure.missionModule.Mission;
 
 public class TaskMissionLink extends MissionLink {
 

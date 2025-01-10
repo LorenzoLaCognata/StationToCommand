@@ -1,7 +1,7 @@
 package equipmentStructure.equipmentLinkModule;
 
-import unitStructure.unitModule.Unit;
 import linkStructure.organizationLinkModule.UnitLink;
+import unitStructure.unitModule.Unit;
 
 public class EquipmentUnitLink extends UnitLink {
 

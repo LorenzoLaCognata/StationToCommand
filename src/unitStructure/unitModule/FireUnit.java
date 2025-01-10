@@ -1,11 +1,12 @@
 package unitStructure.unitModule;
 
+import stationStructure.stationModule.Station;
 import unitStructure.unitTypeModule.UnitType;
 
 public class FireUnit extends Unit {
   
-    public FireUnit(UnitType unitType, int number) {
-        super(unitType, number);
+    public FireUnit(Station station, UnitType unitType, int number) {
+        super(station, unitType, number);
     }
 
 }

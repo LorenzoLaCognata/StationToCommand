@@ -1,8 +1,8 @@
 package vehicleStructure.vehicleModule;
 
+import linkStructure.organizationLinkModule.UnitLink;
 import locationStructure.locationModule.Location;
 import unitStructure.unitModule.Unit;
-import linkStructure.organizationLinkModule.UnitLink;
 import vehicleStructure.vehicleLinkModule.VehicleUnitLink;
 
 public class Vehicle {

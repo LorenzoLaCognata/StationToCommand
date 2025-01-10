@@ -1,6 +1,6 @@
 package stationStructure.stationModule;
 
-import departmentStructure.departmentModule.DepartmentType;
+import departmentStructure.departmentModule.Department;
 import locationStructure.locationModule.LocationManager;
 
 import java.util.ArrayList;
@@ -13,8 +13,8 @@ public class StationManager {
 	private int nextStationNumber = 1;
 	private int nextUnitNumber = 1;
 
-    public StationManager(DepartmentType departmentType, LocationManager locationManager) {
-		initStations(departmentType, locationManager);
+    public StationManager(Department department, LocationManager locationManager) {
+		initStations(department, locationManager);
     }
 
 	@Override
@@ -48,10 +48,10 @@ public class StationManager {
 		this.nextStationNumber++;
 	}
 	
-	public void initStations(DepartmentType departmentType, LocationManager locationManager) {
-        addStation(new Station(departmentType, nextStationNumber, locationManager.generateLocation(), this));
-		addStation(new Station(departmentType, nextStationNumber, locationManager.generateLocation(), this));
-		addStation(new Station(departmentType, nextStationNumber, locationManager.generateLocation(), this));
+	public void initStations(Department department, LocationManager locationManager) {
+        addStation(new Station(department, nextStationNumber, locationManager.generateLocation(), this));
+		addStation(new Station(department, nextStationNumber, locationManager.generateLocation(), this));
+		addStation(new Station(department, nextStationNumber, locationManager.generateLocation(), this));
 	}
 
 

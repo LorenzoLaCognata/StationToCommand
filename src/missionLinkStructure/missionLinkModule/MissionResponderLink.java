@@ -1,7 +1,7 @@
 package missionLinkStructure.missionLinkModule;
 
-import responderStructure.responderModule.Responder;
 import linkStructure.responderLinkModule.ResponderLink;
+import responderStructure.responderModule.Responder;
 
 public class MissionResponderLink extends ResponderLink {
 

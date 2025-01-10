@@ -1,7 +1,7 @@
 package actionStructure.actionLinkModule;
 
-import taskStructure.taskModule.Task;
 import linkStructure.taskLinkModule.TaskLink;
+import taskStructure.taskModule.Task;
 
 public class ActionTaskLink extends TaskLink {
 

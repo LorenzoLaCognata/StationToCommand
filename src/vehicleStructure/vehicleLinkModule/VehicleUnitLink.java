@@ -1,7 +1,7 @@
 package vehicleStructure.vehicleLinkModule;
 
-import unitStructure.unitModule.Unit;
 import linkStructure.organizationLinkModule.UnitLink;
+import unitStructure.unitModule.Unit;
 
 public class VehicleUnitLink extends UnitLink {
 

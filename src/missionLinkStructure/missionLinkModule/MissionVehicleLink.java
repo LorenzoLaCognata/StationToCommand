@@ -1,7 +1,7 @@
 package missionLinkStructure.missionLinkModule;
 
-import vehicleStructure.vehicleModule.Vehicle;
 import linkStructure.vehicleLinkModule.VehicleLink;
+import vehicleStructure.vehicleModule.Vehicle;
 
 public class MissionVehicleLink extends VehicleLink {
 

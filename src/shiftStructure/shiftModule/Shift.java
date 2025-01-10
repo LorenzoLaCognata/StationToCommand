@@ -1,6 +1,5 @@
 package shiftStructure.shiftModule;
 
-import responderStructure.responderModule.Responder;
 import unitStructure.unitModule.Unit;
 
 public class Shift {

@@ -1,9 +1,9 @@
 package taskStructure.taskModule;
 
-import missionStructure.missionModule.Mission;
-import responderStructure.responderModule.Responder;
 import linkStructure.missionLinkModule.MissionLink;
 import linkStructure.responderLinkModule.ResponderLink;
+import missionStructure.missionModule.Mission;
+import responderStructure.responderModule.Responder;
 
 import java.util.List;
 

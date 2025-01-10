@@ -2,15 +2,13 @@ package actionStructure.actionModule;
 
 import actionStructure.actionLinkModule.ActionResponderLink;
 import actionStructure.actionLinkModule.ActionTaskLink;
-import personStructure.civilianModule.Civilian;
 import equipmentStructure.equipmentModule.Equipment;
+import linkStructure.responderLinkModule.ResponderLink;
+import linkStructure.taskLinkModule.TaskLink;
+import personStructure.civilianModule.Civilian;
 import responderStructure.responderModule.Responder;
 import taskStructure.taskModule.Task;
 import vehicleStructure.vehicleModule.Vehicle;
-import linkStructure.responderLinkModule.ResponderLink;
-import linkStructure.taskLinkModule.TaskLink;
-
-import java.util.ArrayList;
 
 public class Action {
 

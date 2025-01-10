@@ -1,7 +1,7 @@
 package taskStructure.taskLinkModule;
 
-import responderStructure.responderModule.Responder;
 import linkStructure.responderLinkModule.ResponderLink;
+import responderStructure.responderModule.Responder;
 
 public class TaskResponderLink extends ResponderLink {
 

@@ -1,7 +1,7 @@
 package skillStructure.skillRequirementModule;
 
-import skillStructure.skillModule.Skill;
 import linkStructure.skillLinkModule.SkillLink;
+import skillStructure.skillModule.Skill;
 
 public class SkillSkillRequirement extends SkillLink {
 

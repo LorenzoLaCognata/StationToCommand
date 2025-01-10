@@ -1,14 +1,14 @@
 package responderStructure.responderModule;
 
 import experienceStructure.experienceModule.Experience;
+import linkStructure.organizationLinkModule.UnitLink;
+import linkStructure.responderLinkModule.ResponderLink;
 import locationStructure.locationModule.Location;
 import personStructure.personModule.Gender;
 import personStructure.personModule.Person;
 import rankStructure.rankModule.Rank;
 import responderStructure.responderLinkModule.ResponderUnitLink;
 import unitStructure.unitModule.Unit;
-import linkStructure.organizationLinkModule.UnitLink;
-import linkStructure.responderLinkModule.ResponderLink;
 
 import java.util.List;
 

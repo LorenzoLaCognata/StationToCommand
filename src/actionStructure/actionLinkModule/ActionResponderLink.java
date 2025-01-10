@@ -1,7 +1,7 @@
 package actionStructure.actionLinkModule;
 
-import responderStructure.responderModule.Responder;
 import linkStructure.responderLinkModule.ResponderLink;
+import responderStructure.responderModule.Responder;
 
 public class ActionResponderLink extends ResponderLink {
 

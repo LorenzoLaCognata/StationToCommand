@@ -1,8 +1,5 @@
 package rankStructure.rankModule;
 
-import departmentStructure.departmentModule.DepartmentType;
-import experienceStructure.experienceModule.Experience;
-import skillStructure.skillModule.Skill;
 import linkStructure.experienceLinkModule.ExperienceLink;
 import linkStructure.rankLinkModule.RankLink;
 import linkStructure.skillLinkModule.SkillLink;

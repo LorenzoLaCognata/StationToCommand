@@ -1,6 +1,8 @@
 package equipmentStructure.equipmentModule;
 
+import departmentStructure.departmentModule.Department;
 import departmentStructure.departmentModule.DepartmentManager;
+import stationStructure.stationModule.Station;
 import unitStructure.unitModule.FireUnit;
 import unitStructure.unitTypeModule.FireUnitType;
 
@@ -29,7 +31,9 @@ public class EquipmentManager {
 	public void initEquipments(DepartmentManager departmentManager) {
 
 		// TODO: loop through Stations and Units
-		FireUnit unit = new FireUnit(FireUnitType.FIRE_ENGINE, 0);
+		Department department = departmentManager.getDepartments().getFirst();
+		Station station = department.getStations().getFirst();
+		FireUnit unit = new FireUnit(station, FireUnitType.FIRE_ENGINE, 0);
 		addEquipment(new Equipment(unit));
 
 	}

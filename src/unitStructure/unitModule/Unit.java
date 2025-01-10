@@ -1,13 +1,16 @@
 package unitStructure.unitModule;
 
+import stationStructure.stationModule.Station;
 import unitStructure.unitTypeModule.UnitType;
 
 public abstract class Unit {
 
+    private final Station station;
     private final UnitType unitType;
     private final int number;
 
-    public Unit(UnitType unitType, int number) {
+    public Unit(Station station, UnitType unitType, int number) {
+        this.station = station;
         this.unitType = unitType;
 		this.number = number;
     }
@@ -15,6 +18,10 @@ public abstract class Unit {
     @Override
     public String toString() {
         return "[UNIT] " + unitType + " Unit " + number;
+    }
+
+    public Station getStation() {
+        return station;
     }
 
     public UnitType getUnitType() {

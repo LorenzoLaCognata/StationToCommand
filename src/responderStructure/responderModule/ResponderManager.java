@@ -6,22 +6,21 @@ import departmentStructure.departmentModule.DepartmentManager;
 import departmentStructure.departmentModule.DepartmentType;
 import experienceStructure.experienceModule.Experience;
 import experienceStructure.experienceModule.ExperienceManager;
+import linkStructure.experienceLinkModule.ExperienceLink;
+import linkStructure.rankLinkModule.RankLink;
 import linkStructure.responderLinkModule.ResponderLink;
+import linkStructure.skillLinkModule.SkillLink;
 import locationStructure.locationModule.Location;
 import personStructure.personModule.Gender;
 import rankStructure.rankModule.Rank;
 import skillStructure.skillModule.SkillManager;
 import stationStructure.stationModule.Station;
 import unitStructure.unitModule.Unit;
-import linkStructure.experienceLinkModule.ExperienceLink;
-import linkStructure.rankLinkModule.RankLink;
-import linkStructure.skillLinkModule.SkillLink;
 import unitStructure.unitTypeModule.FireUnitType;
-import unitStructure.unitTypeModule.UnitType;
+import utilsStructure.utilsModule.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class ResponderManager {
 
@@ -62,8 +61,6 @@ public class ResponderManager {
 		List<ExperienceLink> experienceRequirements = new ArrayList<>();
 		List<SkillLink> skillRequirements = new ArrayList<>();
 
-		Random randomGenerator = new Random();
-
 		for (Department department: departmentManager.getDepartments()) {
 			for (Station station : department.getStations()) {
 				for (Unit unit : station.getUnits()) {
@@ -79,7 +76,7 @@ public class ResponderManager {
 							case 7 -> 0.0f;
 							default -> 0.0f;
 						};
-						if (randomGenerator.nextFloat() < randomLimit) {
+						if (Utils.randomGenerator.nextFloat() < randomLimit) {
 							Rank rank = department.getRankManager().getRank(level);
 							// TODO: distribute experience according to ranks
 							Experience experience = new Experience(1);
