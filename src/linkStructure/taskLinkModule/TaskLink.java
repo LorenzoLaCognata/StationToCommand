@@ -4,7 +4,7 @@ import taskStructure.taskModule.Task;
 
 public abstract class TaskLink {
 
-    private Task task;
+    private final Task task;
 
     public TaskLink(Task task) {
         System.out.println("TaskLink initializing");

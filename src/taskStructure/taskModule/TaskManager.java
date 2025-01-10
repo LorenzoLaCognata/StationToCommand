@@ -5,7 +5,7 @@ import java.util.List;
 
 public class TaskManager {
 
-	private List<Task> tasks = new ArrayList<>();
+	private final List<Task> tasks = new ArrayList<>();
 
 	public Task getTask(String name) {
 		// TODO

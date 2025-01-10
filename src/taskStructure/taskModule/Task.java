@@ -9,9 +9,9 @@ import java.util.List;
 
 public class Task {
 
-	private String name;
-	private List<ResponderLink> responderLinks;
-	private MissionLink missionLink;
+	private final String name;
+	private final List<ResponderLink> responderLinks;
+	private final MissionLink missionLink;
 
 	public Task(String name, List<ResponderLink> responderLinks, MissionLink missionLink) {
 		System.out.println("Task initializing");

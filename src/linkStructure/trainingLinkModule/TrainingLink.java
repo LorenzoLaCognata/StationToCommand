@@ -4,7 +4,7 @@ import trainingStructure.trainingModule.Training;
 
 public abstract class TrainingLink {
 
-    private Training training;
+    private final Training training;
 
     public TrainingLink(Training training) {
         System.out.println("TrainingLink initializing");

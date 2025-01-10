@@ -9,7 +9,7 @@ import java.util.List;
 
 public class VehicleManager {
 
-    private List<Vehicle> vehicles = new ArrayList<>();
+    private final List<Vehicle> vehicles = new ArrayList<>();
 
     public VehicleManager(DepartmentManager departmentManager) {
 			System.out.println("VehicleManager initializing");

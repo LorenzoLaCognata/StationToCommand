@@ -17,7 +17,7 @@ public class Responder extends Person {
     private Experience experience;
     private Rank rank;
     // TODO: manage ranks 5+ that are not linked to a unit but to the entire department (e.g. create ad Admin unit?!)
-    private final UnitLink unitLink;
+    private UnitLink unitLink;
     private final List<ResponderLink> responderLinks;
 
     public Responder(String firstName, String lastName, Gender gender, Location location, Experience experience, Rank rank, Unit unit, List<ResponderLink> responderLinks) {
@@ -75,7 +75,7 @@ public class Responder extends Person {
     }
 
     public void setUnitLink(Unit unit) {
-        unitLink.setUnit(unit);
+        this.unitLink = new ResponderUnitLink(unit);
     }
 
     // TODO find if a link with that responder exists and update it, if not create it

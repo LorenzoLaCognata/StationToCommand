@@ -9,7 +9,7 @@ import java.util.List;
 
 public class TrainingManager {
 
-    private List<Training> trainings = new ArrayList<>();
+    private final List<Training> trainings = new ArrayList<>();
 
     public TrainingManager() {
 	    System.out.println("TrainingManager initializing");

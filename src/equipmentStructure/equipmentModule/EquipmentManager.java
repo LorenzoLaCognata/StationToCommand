@@ -9,7 +9,7 @@ import java.util.List;
 
 public class EquipmentManager {
 
-    private List<Equipment> equipments = new ArrayList<>();
+    private final List<Equipment> equipments = new ArrayList<>();
 
     public EquipmentManager(DepartmentManager departmentManager) {
       System.out.println("EquipmentManager initializing");

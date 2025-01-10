@@ -4,7 +4,7 @@ import experienceStructure.experienceModule.Experience;
 
 public abstract class ExperienceLink {
 
-    private Experience experience;
+    private final Experience experience;
 
     public ExperienceLink(Experience experience) {
         System.out.println("ExperienceLink initializing");

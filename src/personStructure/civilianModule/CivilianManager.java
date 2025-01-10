@@ -5,7 +5,7 @@ import java.util.List;
 
 public class CivilianManager {
 
-    private List<Civilian> civilians = new ArrayList<>();
+    private final List<Civilian> civilians = new ArrayList<>();
 
     public CivilianManager() {
         System.out.println("CivilianManager initializing");

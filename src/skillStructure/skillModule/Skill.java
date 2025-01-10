@@ -9,16 +9,17 @@ import linkStructure.responderLinkModule.ResponderLink;
 import linkStructure.skillLinkModule.SkillLink;
 import linkStructure.trainingLinkModule.TrainingLink;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Skill {
 
-	private UnitType unitType;
-	private String name;
-	private List<ResponderLink> responderLinks;
-	private List<ExperienceLink> experienceRequirements;
-	private List<SkillLink> skillRequirements;
-	private List<TrainingLink> trainingRequirements;
+	private final UnitType unitType;
+	private final String name;
+	private final List<ExperienceLink> experienceRequirements;
+	private final List<SkillLink> skillRequirements;
+	private final List<TrainingLink> trainingRequirements;
+	private final List<ResponderLink> responderLinks;
 
 	public Skill(UnitType unitType, String name, List<ExperienceLink> experienceRequirements,
 			List<SkillLink> skillRequirements, List<TrainingLink> trainingRequirements) {
@@ -28,6 +29,7 @@ public class Skill {
 		this.experienceRequirements = experienceRequirements;
 		this.skillRequirements = skillRequirements;
 		this.trainingRequirements = trainingRequirements;
+		this.responderLinks = new ArrayList<>();
 		System.out.println("Skill initialized successfully");
 	}
 

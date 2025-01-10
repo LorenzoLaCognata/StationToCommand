@@ -10,7 +10,7 @@ import java.util.List;
 
 public class SkillManager {
 
-	private List<Skill> skills = new ArrayList<>();
+	private final List<Skill> skills = new ArrayList<>();
 
 	public SkillManager() {
 		System.out.println("SkillManager initializing");

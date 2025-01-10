@@ -3,16 +3,17 @@ package vehicleStructure.vehicleModule;
 import locationStructure.locationModule.Location;
 import unitStructure.unitModule.Unit;
 import linkStructure.organizationLinkModule.UnitLink;
+import vehicleStructure.vehicleLinkModule.VehicleUnitLink;
 
 public class Vehicle {
 
 	private Location Location;
-	private UnitLink unitLink;
+	private final UnitLink unitLink;
 
     public Vehicle(Unit unit) {
         System.out.println("Vehicle initializing");
 		//this.location = new Location(); // TODO
-		linkUnit(unit);
+		this.unitLink = new VehicleUnitLink(unit);
         System.out.println("Vehicle initialized successfully");
     }
 

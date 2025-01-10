@@ -4,8 +4,8 @@ import java.util.Date;
 
 public class Watch {
 
-    private Date start;
-    private Date end;
+    private final Date start;
+    private final Date end;
 
     public Watch(Date start, Date end) {
         System.out.println("Watch initializing");

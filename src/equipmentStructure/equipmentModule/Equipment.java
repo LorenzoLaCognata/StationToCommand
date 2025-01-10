@@ -1,15 +1,16 @@
 package equipmentStructure.equipmentModule;
 
+import equipmentStructure.equipmentLinkModule.EquipmentUnitLink;
 import unitStructure.unitModule.Unit;
 import linkStructure.organizationLinkModule.UnitLink;
 
 public class Equipment {
 
-	private UnitLink unitLink;
+	private final UnitLink unitLink;
 
 	public Equipment(Unit unit) {
 		System.out.println("Equipment initializing");
-		linkUnit(unit);
+		this.unitLink = new EquipmentUnitLink(unit);
 		System.out.println("Equipment initialized successfully");
 	}
 

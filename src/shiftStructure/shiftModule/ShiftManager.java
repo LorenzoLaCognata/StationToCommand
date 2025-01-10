@@ -8,7 +8,7 @@ import java.util.List;
 
 public class ShiftManager {
 
-    private List<Shift> shifts = new ArrayList<>();
+    private final List<Shift> shifts = new ArrayList<>();
 
     public ShiftManager() {
         System.out.println("ShiftManager initializing");

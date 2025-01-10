@@ -7,7 +7,7 @@ import java.util.List;
 
 public class MissionManager {
 
-    private List<Mission> missions = new ArrayList<>();
+    private final List<Mission> missions = new ArrayList<>();
 
     public MissionManager() {
     }

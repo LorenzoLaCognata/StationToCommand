@@ -4,7 +4,7 @@ import vehicleStructure.vehicleModule.Vehicle;
 
 public abstract class VehicleLink {
 
-    private Vehicle vehicle;
+    private final Vehicle vehicle;
 
     public VehicleLink(Vehicle vehicle) {
         System.out.println("VehicleLink initializing");

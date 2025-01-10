@@ -7,15 +7,16 @@ import linkStructure.experienceLinkModule.ExperienceLink;
 import linkStructure.responderLinkModule.ResponderLink;
 import linkStructure.trainingLinkModule.TrainingLink;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Training {
 
-	private UnitType unitType;
-	private String name;
-	private List<ResponderLink> responderLinks;
-	private List<ExperienceLink> experienceRequirements;
-	private List<TrainingLink> trainingRequirements;
+	private final UnitType unitType;
+	private final String name;
+	private final List<ExperienceLink> experienceRequirements;
+	private final List<TrainingLink> trainingRequirements;
+	private final List<ResponderLink> responderLinks;
 
     public Training(UnitType unitType, String name, List<ExperienceLink> experienceRequirements, List<TrainingLink> trainingRequirements) {
         System.out.println("Training initializing");
@@ -23,6 +24,7 @@ public class Training {
 		this.name = name;
 		this.experienceRequirements = experienceRequirements;
 		this.trainingRequirements = trainingRequirements;
+		this.responderLinks = new ArrayList<>();
         System.out.println("Training initialized successfully");
     }
 

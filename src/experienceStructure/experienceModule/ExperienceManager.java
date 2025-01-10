@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ExperienceManager {
 
-    private List<Experience> experiences = new ArrayList<>();
+    private final List<Experience> experiences = new ArrayList<>();
 
     public ExperienceManager() {
         System.out.println("ExperienceManager initializing");

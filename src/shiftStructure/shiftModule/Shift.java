@@ -1,13 +1,14 @@
 package shiftStructure.shiftModule;
 
+import responderStructure.responderModule.Responder;
 import unitStructure.unitModule.Unit;
 
 public class Shift {
 
     // TODO
-    //    private Responder responder;
-	private Unit unit;
-	private Watch watch;
+//	private final Responder responder;
+	private final Unit unit;
+	private final Watch watch;
 
 // TODO
 //    public Shift(Responder responder, Unit unit, Watch watch) {

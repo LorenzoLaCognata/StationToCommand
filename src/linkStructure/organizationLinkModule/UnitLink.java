@@ -4,7 +4,7 @@ import unitStructure.unitModule.Unit;
 
 public abstract class UnitLink {
 
-    private Unit unit;
+    private final Unit unit;
 
     public UnitLink(Unit unit) {
         this.unit = unit;
@@ -12,10 +12,6 @@ public abstract class UnitLink {
 
     public Unit getUnit() {
         return unit;
-    }
-
-    public void setUnit(Unit unit) {
-        this.unit = unit;
     }
 
 }

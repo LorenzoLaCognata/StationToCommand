@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ActionManager {
 
-    private List<Action> actions = new ArrayList<>();
+    private final List<Action> actions = new ArrayList<>();
 
     public ActionManager() {
 			System.out.println("ActionManager initializing");

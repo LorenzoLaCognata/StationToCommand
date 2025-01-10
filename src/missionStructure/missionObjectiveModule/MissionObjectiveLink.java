@@ -2,7 +2,7 @@ package missionStructure.missionObjectiveModule;
 
 public class MissionObjectiveLink {
 
-    private MissionObjective missionObjective;
+    private final MissionObjective missionObjective;
 
     public MissionObjectiveLink(MissionObjective missionObjective) {
         System.out.println("MissionObjectiveLink initializing");

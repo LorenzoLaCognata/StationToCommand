@@ -23,14 +23,16 @@ import vehicleStructure.vehicleModule.VehicleManager;
 
 public class Game {
 
-	public LocationManager locationManager;
-	public DepartmentManager departmentManager;
-	public ResponderManager responderManager;
-	public MissionManager missionManager;
-	public VehicleManager vehicleManager;
-	public EquipmentManager equipmentManager;
-	public CivilianManager civilianManager;
-	public TaskManager taskManager;
+	public final LocationManager locationManager;
+	public final DepartmentManager departmentManager;
+	public final ResponderManager responderManager;
+	public final MissionManager missionManager;
+/*
+	public final VehicleManager vehicleManager;
+	public final EquipmentManager equipmentManager;
+	public final CivilianManager civilianManager;
+	public final TaskManager taskManager;
+ */
 
 	public Game() {
 		this.locationManager = new LocationManager();

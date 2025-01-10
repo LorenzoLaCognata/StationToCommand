@@ -4,7 +4,7 @@ import responderStructure.responderModule.Responder;
 
 public abstract class ResponderLink {
 
-    private Responder responder;
+    private final Responder responder;
 
     public ResponderLink(Responder responder) {
         System.out.println("ResponderLink initializing");
@@ -14,10 +14,6 @@ public abstract class ResponderLink {
 
     public Responder getResponder() {
         return responder;
-    }
-
-    public void setResponder(Responder responder) {
-        this.responder = responder;
     }
 
 }

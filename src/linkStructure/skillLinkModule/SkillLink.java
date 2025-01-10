@@ -4,7 +4,7 @@ import skillStructure.skillModule.Skill;
 
 public abstract class SkillLink {
 
-    private Skill skill;
+    private final Skill skill;
 
     public SkillLink(Skill skill) {
         System.out.println("SkillLink initializing");
