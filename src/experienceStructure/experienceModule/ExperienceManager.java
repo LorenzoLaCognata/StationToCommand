@@ -8,14 +8,19 @@ public class ExperienceManager {
     private final List<Experience> experiences = new ArrayList<>();
 
     public ExperienceManager() {
-        System.out.println("ExperienceManager initializing");
 		initExperiences();
-        System.out.println("ExperienceManager initialized successfully");
     }
-	
+
+	@Override
+	public String toString() {
+		return experiences.toString();
+	}
+
 	public Experience getExperience(int level) {
-		// TODO
-		return experiences.get(0);
+		return experiences.stream()
+				.filter(item -> item.getLevel() == level)
+				.findFirst()
+				.orElse(null);
 	}
 
 	public void addExperience(Experience Experience) {
@@ -24,10 +29,10 @@ public class ExperienceManager {
 	
 	public void initExperiences() {
 
-		// TODO: loop for i from 1 to N
-		int i = 1;
-		addExperience(new Experience(i));
-		
+		for (int i=1; i<=20; i++) {
+			addExperience(new Experience(i));
+		}
+
 	}
 
 }

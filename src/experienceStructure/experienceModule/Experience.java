@@ -8,4 +8,13 @@ public class Experience {
         this.level = level;
     }
 
+    @Override
+    public String toString() {
+        return Integer.toString(level);
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
 }

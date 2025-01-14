@@ -52,8 +52,8 @@ public class RankManager {
 
 			if (department.getDepartmentType().equals(DepartmentType.FIRE_DEPARTMENT)) {
 				name = switch (level) {
-					case 1 -> "Firefighter";
-					case 2 -> "Engineer";
+					case 1 -> "Candidate Firefighter";
+					case 2 -> "Firefighter";
 					case 3 -> "Lieutenant";
 					case 4 -> "Captain";
 					case 5 -> "Battalion Chief";
