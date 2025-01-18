@@ -13,23 +13,27 @@ import unitStructure.unitModule.Unit;
 import java.util.List;
 
 public class Responder extends Person {
-    private boolean isPlayer = false;
+
+    private final int id;
+    private final boolean isPlayer = false;
     private Experience experience;
     private Rank rank;
     // TODO: manage ranks 5+ that are not linked to a unit but to the entire department (e.g. create ad Admin unit?!)
     private UnitLink unitLink;
     private final List<ResponderLink> responderLinks;
 
-    public Responder(String firstName, String lastName, Gender gender, Location location, Experience experience, Rank rank, Unit unit, List<ResponderLink> responderLinks) {
+    public Responder(String firstName, String lastName, Gender gender, Location location, int id, boolean isPlayer, Experience experience, Rank rank, Unit unit, List<ResponderLink> responderLinks) {
         super(firstName, lastName, gender, location);
+        this.id = id;
         this.experience = experience;
         this.rank = rank;
         this.unitLink = new ResponderUnitLink(unit);
         this.responderLinks = responderLinks;
     }
 
-    public Responder(Location location, Experience experience, Rank rank, Unit unit, List<ResponderLink> responderLinks) {
+    public Responder(Location location, int id, Experience experience, Rank rank, Unit unit, List<ResponderLink> responderLinks) {
         super(location);
+        this.id = id;
         this.experience = experience;
         this.rank = rank;
         this.unitLink = new ResponderUnitLink(unit);
@@ -39,11 +43,15 @@ public class Responder extends Person {
     @Override
     public String toString() {
         if (this.isPlayer) {
-            return "[PLAYER] " + getGender() + " " + getFirstName() + " " + getLastName() + " (" + rank + ")";
+            return "[PLAYER] " + String.format("%06d", id) + " " + getGender() + " " + getFirstName() + " " + getLastName() + " (" + rank + ")";
         }
         else {
-            return "[RESPONDER] " + getGender() + " " + getFirstName() + " " + getLastName() + " (" + rank + ")";
+            return "[RESPONDER] " + String.format("%06d", id) + " " + getGender() + " " + getFirstName() + " " + getLastName() + " (" + rank + ")";
         }
+    }
+
+    public int getId() {
+        return id;
     }
 
     public boolean isPlayer() {
@@ -62,10 +70,6 @@ public class Responder extends Person {
         return unitLink;
     }
 
-    public void setPlayer(boolean player) {
-        isPlayer = player;
-    }
-
     public void setExperience(Experience experience) {
         this.experience = experience;
     }
@@ -74,7 +78,7 @@ public class Responder extends Person {
         this.rank = rank;
     }
 
-    public void setUnitLink(Unit unit) {
+    public void linkUnit(Unit unit) {
         this.unitLink = new ResponderUnitLink(unit);
     }
 

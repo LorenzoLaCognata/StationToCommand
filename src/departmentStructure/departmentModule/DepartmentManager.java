@@ -14,13 +14,11 @@ public class DepartmentManager {
 	private final TrainingManager trainingManager;
 
 	public DepartmentManager(LocationManager locationManager) {
-		System.out.println("DepartmentManager initializing");
 		initDepartments(locationManager);
 		// TODO: init Shifts
 		this.shiftManager = new ShiftManager();
 		// TODO: init Trainings
 		this.trainingManager = new TrainingManager();
-		System.out.println("DepartmentManager initialized successfully");
 	}
 
 	@Override

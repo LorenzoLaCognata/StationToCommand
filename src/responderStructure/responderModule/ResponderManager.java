@@ -24,23 +24,26 @@ import java.util.List;
 
 public class ResponderManager {
 
+	private int responderIdCounter = 0;
 	private final List<Responder> responders = new ArrayList<>();
 	private final ExperienceManager experienceManager;
 	private final SkillManager skillManager;
 	private final ActionManager actionManager;
 
 	public ResponderManager(DepartmentManager departmentManager) {
-		System.out.println("ResponderManager initializing");
 		initResponders(departmentManager);
 		this.experienceManager = new ExperienceManager();
 		this.skillManager = new SkillManager();
 		this.actionManager = new ActionManager();
-		System.out.println("ResponderManager initialized successfully");
 	}
 
 	@Override
 	public String toString() {
 		return responders.toString();
+	}
+
+	public List<Responder> getResponders() {
+		return responders;
 	}
 
 	public Responder getResponder(String firstName, String lastName) {
@@ -50,8 +53,20 @@ public class ResponderManager {
 				.orElse(null);
 	}
 
+	public Responder getResponder(Unit unit) {
+		return responders.stream()
+				.filter(item -> item.getUnitLink().getUnit().equals(unit))
+				.findFirst()
+				.orElse(null);
+	}
+
 	public void addResponder(Responder responder) {
 		this.responders.add(responder);
+	}
+
+	public int nextResponderId() {
+		this.responderIdCounter++;
+		return responderIdCounter;
 	}
 
 	public void initResponders(DepartmentManager departmentManager) {
@@ -82,7 +97,7 @@ public class ResponderManager {
 							Experience experience = new Experience(1);
 							Location location = station.getLocation();
 							List<ResponderLink> responderLinks = new ArrayList<>();
-							Responder responder = new Responder(location, experience, rank, unit, responderLinks);
+							Responder responder = new Responder(location, nextResponderId(), experience, rank, unit, responderLinks);
 							addResponder(responder);
 						}
 					}
@@ -97,24 +112,8 @@ public class ResponderManager {
 		Experience playerExperience = new Experience(1);
 		Location playerLocation = playerStation.getLocation();
 		List<ResponderLink> playerResponderLinks = new ArrayList<>();
-		Responder player = new Responder("Giulia", "Carlà", Gender.FEMALE, playerLocation, playerExperience, playerRank, playerUnit, playerResponderLinks);
-		player.setPlayer(true);
+		Responder player = new Responder("Giulia", "Carlà", Gender.FEMALE, playerLocation,  nextResponderId(), true, playerExperience, playerRank, playerUnit, playerResponderLinks);
 		addResponder(player);
-
-		for (Department department : departmentManager.getDepartments()) {
-			System.out.println("\n" + department);
-			for (Station station : department.getStations()) {
-				System.out.println("\n\t\t- " + station);
-				for (Unit unit : station.getUnits()) {
-					System.out.println("\t\t\t\t- " + unit);
-					for (Responder responder : responders) {
-						if (responder.getUnitLink().getUnit().equals(unit)) {
-							System.out.println("\t\t\t\t\t\t- " + responder);
-						}
-					}
-				}
-			}
-		}
 
 	}
 

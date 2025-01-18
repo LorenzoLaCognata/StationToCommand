@@ -22,8 +22,7 @@ public class MissionDepartmentLink extends DepartmentLink {
 
   public void linkStation(Station station) {
     if (stationLinks.stream()
-            .noneMatch(item -> item.getStation().getDepartment().equals(station.getDepartment()) &&
-                               item.getStation().getNumber() == station.getNumber())) {
+            .noneMatch(item -> item.getStation().equals(station))) {
       MissionStationLink missionStationLink = new MissionStationLink(station);
       stationLinks.add(missionStationLink);
     }

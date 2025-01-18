@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 public class StationManager {
 
     private final List<Station> stations = new ArrayList<>();
-	private int nextStationNumber = 1;
-	private int nextUnitNumber = 1;
+	private int stationNumberCounter = 0;
+	private int unitNumberCounter = 0;
 
     public StationManager(Department department, LocationManager locationManager) {
 		initStations(department, locationManager);
@@ -35,23 +35,24 @@ public class StationManager {
 				.orElse(null);
 	}
 
-	public int getNextUnitNumber() {
-		return nextUnitNumber;
-	}
-
-	public void setNextUnitNumber(int nextUnitNumber) {
-		this.nextUnitNumber = nextUnitNumber;
-	}
-
 	public void addStation(Station station) {
 		this.stations.add(station);
-		this.nextStationNumber++;
 	}
-	
+
+	public int nextStationNumber() {
+		this.stationNumberCounter++;
+		return stationNumberCounter;
+	}
+
+	public int nextUnitNumber() {
+		this.unitNumberCounter++;
+		return unitNumberCounter;
+	}
+
 	public void initStations(Department department, LocationManager locationManager) {
-        addStation(new Station(department, nextStationNumber, locationManager.generateLocation(), this));
-		addStation(new Station(department, nextStationNumber, locationManager.generateLocation(), this));
-		addStation(new Station(department, nextStationNumber, locationManager.generateLocation(), this));
+        addStation(new Station(department, nextStationNumber(), locationManager.generateLocation(), this));
+		addStation(new Station(department, nextStationNumber(), locationManager.generateLocation(), this));
+		addStation(new Station(department, nextStationNumber(), locationManager.generateLocation(), this));
 	}
 
 

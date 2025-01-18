@@ -4,8 +4,11 @@ import departmentStructure.departmentModule.Department;
 import locationStructure.locationModule.Location;
 import missionLinkStructure.missionOrganizationModule.MissionDepartmentLink;
 import missionLinkStructure.missionOrganizationModule.MissionStationLink;
+import missionLinkStructure.missionOrganizationModule.MissionUnitLink;
+import responderStructure.responderModule.Responder;
 import stationStructure.stationModule.Station;
 import unitStructure.unitModule.Unit;
+import vehicleStructure.vehicleModule.Vehicle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +20,9 @@ public class Mission {
     private final List<MissionDepartmentLink> departmentLinks;
 
     public Mission(MissionType missionType, Location location) {
-        System.out.println("Mission initializing");
         this.missionType = missionType;
         this.location = location;
         this.departmentLinks = new ArrayList<>();
-        System.out.println("Mission initialized successfully");
     }
 
     @Override
@@ -43,7 +44,7 @@ public class Mission {
 
     public void linkDepartment(Department department) {
         if (departmentLinks.stream()
-                .noneMatch(item -> item.getDepartment().getDepartmentType().equals(department.getDepartmentType()))) {
+                .noneMatch(item -> item.getDepartment().equals(department))) {
             MissionDepartmentLink missionDepartmentLink = new MissionDepartmentLink(department);
             departmentLinks.add(missionDepartmentLink);
         }
@@ -77,6 +78,56 @@ public class Mission {
             }
         }
 
+    }
+
+    public void linkResponder(Responder responder) {
+        MissionDepartmentLink missionDepartmentLink = this.departmentLinks.stream()
+                .filter(item -> item.getDepartment().equals(responder.getUnitLink().getUnit().getStation().getDepartment()))
+                .findFirst()
+                .orElse(null);
+
+        if (missionDepartmentLink != null) {
+            MissionStationLink missionStationLink = missionDepartmentLink.getStationLinks().stream()
+                    .filter(item -> item.getStation().equals(responder.getUnitLink().getUnit().getStation()))
+                    .findFirst()
+                    .orElse(null);
+
+            if (missionStationLink != null) {
+                MissionUnitLink missionUnitLink = missionStationLink.getUnitLinks().stream()
+                        .filter(item -> item.getUnit().equals(responder.getUnitLink().getUnit()))
+                        .findFirst()
+                        .orElse(null);
+
+                if (missionUnitLink != null) {
+                    missionUnitLink.linkResponder(responder);
+                }
+            }
+        }
+    }
+
+    public void linkVehicle(Vehicle vehicle) {
+        MissionDepartmentLink missionDepartmentLink = this.departmentLinks.stream()
+                .filter(item -> item.getDepartment().equals(vehicle.getUnitLink().getUnit().getStation().getDepartment()))
+                .findFirst()
+                .orElse(null);
+
+        if (missionDepartmentLink != null) {
+            MissionStationLink missionStationLink = missionDepartmentLink.getStationLinks().stream()
+                    .filter(item -> item.getStation().equals(vehicle.getUnitLink().getUnit().getStation()))
+                    .findFirst()
+                    .orElse(null);
+
+            if (missionStationLink != null) {
+                MissionUnitLink missionUnitLink = missionStationLink.getUnitLinks().stream()
+                        .filter(item -> item.getUnit().equals(vehicle.getUnitLink().getUnit()))
+                        .findFirst()
+                        .orElse(null);
+
+                if (missionUnitLink != null) {
+                    missionUnitLink.linkVehicle(vehicle);
+                }
+            }
+        }
     }
 
 }

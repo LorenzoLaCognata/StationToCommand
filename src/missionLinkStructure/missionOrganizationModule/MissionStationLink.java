@@ -20,16 +20,11 @@ public class MissionStationLink extends StationLink {
     return unitLinks;
   }
 
-  public MissionUnitLink linkUnit(Unit unit) {
+  public void linkUnit(Unit unit) {
     if (unitLinks.stream()
-            .noneMatch(item -> item.getUnit().getUnitType().equals(unit.getUnitType()) &&
-                    item.getUnit().getNumber() == unit.getNumber())) {
+            .noneMatch(item -> item.getUnit().equals(unit))) {
       MissionUnitLink missionUnitLink = new MissionUnitLink(unit);
       unitLinks.add(missionUnitLink);
-      return missionUnitLink;
-    }
-    else {
-      return null;
     }
   }
 

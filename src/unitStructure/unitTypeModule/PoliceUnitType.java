@@ -3,8 +3,8 @@ package unitStructure.unitTypeModule;
 public enum PoliceUnitType implements UnitType {
   PATROL_UNIT("Patrol"),
   DETECTIVE_UNIT("Detective"),
-  NARCOTICS_UNIT("Narcotics"),
   HOMICIDE_UNIT("Homicide"),
+  NARCOTICS_UNIT("Narcotics"),
   VICE_UNIT("Vice");
 
   private final String name;

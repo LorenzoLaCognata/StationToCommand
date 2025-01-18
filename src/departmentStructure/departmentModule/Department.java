@@ -14,11 +14,9 @@ public class Department {
     private final RankManager rankManager;
 
     public Department(DepartmentType departmentType, LocationManager locationManager) {
-        System.out.println("Department initializing");
         this.departmentType = departmentType;
         this.stationManager = new StationManager(this, locationManager);
         this.rankManager = new RankManager(this);
-        System.out.println("Department initialized successfully");
     }
 
     @Override

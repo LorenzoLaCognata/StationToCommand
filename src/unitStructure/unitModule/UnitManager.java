@@ -49,15 +49,14 @@ public class UnitManager {
 
 	public void addUnit(DepartmentType departmentType, UnitType unitType, StationManager stationManager) {
 		if (departmentType == DepartmentType.FIRE_DEPARTMENT) {
-			this.units.add(new FireUnit(station, unitType, stationManager.getNextUnitNumber()));
+			this.units.add(new FireUnit(station, unitType, stationManager.nextUnitNumber()));
 		}
 		else if (departmentType == DepartmentType.POLICE_DEPARTMENT) {
-			this.units.add(new PoliceUnit(station, unitType, stationManager.getNextUnitNumber()));
+			this.units.add(new PoliceUnit(station, unitType, stationManager.nextUnitNumber()));
 		}
 		else if (departmentType == DepartmentType.MEDIC_DEPARTMENT) {
-			this.units.add(new MedicUnit(station, unitType, stationManager.getNextUnitNumber()));
+			this.units.add(new MedicUnit(station, unitType, stationManager.nextUnitNumber()));
 		}
-		stationManager.setNextUnitNumber(stationManager.getNextUnitNumber()+1);
 	}
 
 	public void initUnits(Station station, StationManager stationManager) {

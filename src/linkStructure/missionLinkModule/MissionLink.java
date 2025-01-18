@@ -7,9 +7,7 @@ public abstract class MissionLink {
     private final Mission mission;
 
     public MissionLink(Mission mission) {
-        System.out.println("MissionLink initializing");
         this.mission = mission;
-        System.out.println("MissionLink initialized successfully");
     }
 
 }

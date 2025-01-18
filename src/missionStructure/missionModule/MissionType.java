@@ -1,34 +1,21 @@
 package missionStructure.missionModule;
 
 public enum MissionType {
-  STRUCTURE_FIRE("Structure Fire", 0.5f),
-  VEHICLE_FIRE("Vehicle Fire", 0.1f),
-  WATER_RESCUE("Water Rescue", 0.1f),
-  COLLAPSE_RESCUE("Collapse Rescue", 0.1f),
-  VEHICLE_EXTRICATION("Vehicle Extrication", 0.1f),
-  ANIMAL_RESCUE("Animal Rescue", 0.1f);
-
-  /*
-    TRAFFIC_INCIDENT: Managing road accidents or directing traffic after disruptions.
-    BURGLARY_IN_PROGRESS: Responding to active break-ins.
-    DOMESTIC_DISTURBANCE: Addressing disputes or violence in homes.
-    SUSPECT_APPREHENSION: Pursuing or arresting individuals involved in criminal activity.
-    CROWD_CONTROL: Maintaining order during events or protests.
-    WELFARE_CHECK: Ensuring the safety of vulnerable individuals.
-
-    MEDICAL_EMERGENCY: Treating patients with acute medical conditions (e.g., heart attacks, strokes).
-    TRAUMA_RESPONSE: Addressing injuries from accidents or violence (e.g., gunshot wounds).
-    CARDIAC_ARREST: Providing CPR and advanced life support for cardiac emergencies.
-    POISONING_OR_OVERDOSE: Assisting individuals exposed to toxic substances or overdosed.
-    MATERNITY_EMERGENCY: Responding to childbirth complications or labor emergencies.
-    PANDEMIC_RESPONSE: Handling mass medical crises or infectious disease outbreaks.
-
-    VEHICLE_COLLISION: Police manage traffic, Fire extricate victims, EMS treat injuries.
-    NATURAL_DISASTER_RESPONSE: Coordinated response to earthquakes, floods, or hurricanes.
-    ACTIVE_SHOOTER: Police neutralize the threat, EMS treat victims, and Fire assist with evacuation.
-    EXPLOSION_RESPONSE: Fire fights the fire, Police secure the area, EMS treat the injured.
-    MISSING_PERSON_SEARCH
- */
+  STRUCTURE_FIRE("Structure Fire", 1.0f),
+  VEHICLE_FIRE("Vehicle Fire", 0.0f),
+  WATER_RESCUE("Water Rescue", 0.0f),
+  COLLAPSE_RESCUE("Collapse Rescue", 0.0f),
+  ANIMAL_RESCUE("Animal Rescue", 0.0f),
+  TRAFFIC_INCIDENT("Traffic Incident", 0.0f),
+  BURGLARY_IN_PROGRESS("Burglary In Progress", 0.0f),
+  DOMESTIC_DISTURBANCE("Domestic Disturbance", 0.0f),
+  SUSPECT_APPREHENSION("Suspect Apprehension", 0.0f),
+  CROWD_CONTROL("Crowd Control", 0.0f),
+  MEDICAL_EMERGENCY("Medical Emergency", 0.0f),
+  TRAUMA_RESPONSE("Trauma Response", 0.0f),
+  CARDIAC_ARREST("Cardiac Arrest", 0.0f),
+  POISONING_OR_OVERDOSE("Poisoning or Overdose", 0.0f),
+  MATERNITY_EMERGENCY("Maternity Emergency", 0.0f);
 
   private final String name;
   private final float probability;

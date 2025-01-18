@@ -6,16 +6,29 @@ import unitStructure.unitModule.Unit;
 
 public class Equipment {
 
-	private final UnitLink unitLink;
+	private final EquipmentType equipmentType;
+	private UnitLink unitLink;
 
-	public Equipment(Unit unit) {
-		System.out.println("Equipment initializing");
+	public Equipment(EquipmentType equipmentType, Unit unit) {
+		this.equipmentType = equipmentType;
 		this.unitLink = new EquipmentUnitLink(unit);
-		System.out.println("Equipment initialized successfully");
+	}
+
+	@Override
+	public String toString() {
+		return "[EQUIPMENT] " + this.equipmentType;
+	}
+
+	public EquipmentType getEquipmentType() {
+		return equipmentType;
+	}
+
+	public UnitLink getUnitLink() {
+		return unitLink;
 	}
 
 	public void linkUnit(Unit unit) {
-		// TODO
+		this.unitLink = new EquipmentUnitLink(unit);
 	}
 
 }
