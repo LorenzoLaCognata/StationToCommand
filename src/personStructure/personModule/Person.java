@@ -61,6 +61,7 @@ public abstract class Person {
         return firstNames.get(Utils.randomGenerator.nextInt(firstNames.size()));
     }
 
+    @SuppressWarnings("SpellCheckingInspection")
     public String generateLastName() {
         List<String> lastNames = Arrays.asList("Hayden","Fleming","Dennis","Lawson","Castaneda","Dwyer","Ibarra","Cox","Humphrey","Golden","Bass","Sandoval","Pittman","Soto","Garcia","Mathews","Roth","Bryant","Hanson","Larsen","Perry","Walsh","Baker","Orozco","Russell","Romero","Jordan","Leach","Wallace","Roberson","Wyatt","Gentry","Hughes","Peck","Whitehead","Meadows","Bond","Weeks","Jamison","Collins","O'Connor","Weber","Britton","Holder","Stout","Gutierrez","Booth","House","Fuller","Walls","Sampson","McGrath","Mack","Rogers","Hull","Albright","Brennan","Church","Byrd","Brady","Gregory","McKee","Willis","Graham","Hunter","Robbins","Kent","Douglas","Madden","Clay","McIntyre","Barber","Morris","McGuire","Fischer","Decker","Powers","Muller","Gilmore","Snyder","Noble","Perkins","Hayes","Thomson","Cobb","Kelly","Page","Cameron","Patton","Compton","Downey","Carpenter","Cline","Foley","Harper","Sexton","Gordon","Bradshaw","Gaines","Nixon");
         return lastNames.get(Utils.randomGenerator.nextInt(lastNames.size()));
