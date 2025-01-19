@@ -1,52 +1,51 @@
 package skillStructure.skillModule;
 
-import experienceStructure.experienceModule.Experience;
 import linkStructure.experienceLinkModule.ExperienceLink;
 import linkStructure.personLinkModule.ResponderLink;
 import linkStructure.skillLinkModule.SkillLink;
 import linkStructure.trainingLinkModule.TrainingLink;
 import responderStructure.responderModule.Responder;
-import trainingStructure.trainingModule.Training;
-import unitStructure.unitTypeModule.UnitType;
+import skillStructure.skillLinkModule.SkillResponderLink;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Skill {
 
-	private final UnitType unitType;
-	private final String name;
-	private final List<ExperienceLink> experienceRequirements;
+	private final SkillType skillType;
+	private final ExperienceLink experienceRequirement;
 	private final List<SkillLink> skillRequirements;
 	private final List<TrainingLink> trainingRequirements;
 	private final List<ResponderLink> responderLinks;
 
-	public Skill(UnitType unitType, String name, List<ExperienceLink> experienceRequirements,
+	public Skill(SkillType skillType, ExperienceLink experienceRequirement,
 			List<SkillLink> skillRequirements, List<TrainingLink> trainingRequirements) {
-		System.out.println("Skill initializing");
-		this.unitType = unitType;
-		this.name = name;
-		this.experienceRequirements = experienceRequirements;
+		this.skillType = skillType;
+		this.experienceRequirement = experienceRequirement;
 		this.skillRequirements = skillRequirements;
 		this.trainingRequirements = trainingRequirements;
 		this.responderLinks = new ArrayList<>();
-		System.out.println("Skill initialized successfully");
+	}
+
+	@Override
+	public String toString() {
+		return "[SKILL] " + skillType + " (requires: " + experienceRequirement + ", " + skillRequirements + ", " + trainingRequirements + ")";
+	}
+
+	public SkillType getSkillType() {
+		return skillType;
+	}
+
+	public List<ResponderLink> getResponderLinks() {
+		return responderLinks;
 	}
 
 	public void linkResponder(Responder responder) {
-		// TODO
-	}
-
-	public void requireExperience(Experience experience) {
-		// TODO
-	}
-
-	public void requireSkill(Skill skill) {
-		// TODO
-	}
-
-	public void requireTraining(Training training) {
-		// TODO
+		if (responderLinks.stream()
+				.noneMatch(item -> item.getResponder().equals(responder))) {
+			SkillResponderLink skillResponderLink = new SkillResponderLink(responder);
+			responderLinks.add(skillResponderLink);
+		}
 	}
 
 }

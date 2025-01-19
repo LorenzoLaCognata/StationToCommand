@@ -1,14 +1,12 @@
 package shiftStructure.shiftModule;
 
 import departmentStructure.departmentModule.Department;
-import equipmentStructure.equipmentModule.Equipment;
 import responderStructure.responderModule.Responder;
 import responderStructure.responderModule.ResponderManager;
 import shiftStructure.watchModule.Watch;
 import shiftStructure.watchModule.WatchManager;
 import stationStructure.stationModule.Station;
 import unitStructure.unitModule.Unit;
-import vehicleStructure.vehicleModule.Vehicle;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -5,7 +5,6 @@ import departmentStructure.departmentModule.DepartmentManager;
 import departmentStructure.departmentModule.DepartmentType;
 import equipmentStructure.equipmentModule.Equipment;
 import equipmentStructure.equipmentModule.EquipmentManager;
-import experienceStructure.experienceModule.Experience;
 import experienceStructure.experienceModule.ExperienceManager;
 import locationStructure.locationModule.LocationManager;
 import missionStructure.missionModule.Mission;
@@ -16,6 +15,9 @@ import responderStructure.responderModule.Responder;
 import responderStructure.responderModule.ResponderManager;
 import shiftStructure.shiftModule.Shift;
 import shiftStructure.watchModule.WatchManager;
+import skillStructure.skillModule.Skill;
+import skillStructure.skillModule.SkillManager;
+import skillStructure.skillModule.SkillType;
 import stationStructure.stationModule.Station;
 import taskStructure.taskModule.Task;
 import taskStructure.taskModule.TaskManager;
@@ -41,6 +43,7 @@ public class Game {
 	public final CivilianManager civilianManager;
 	public final ExperienceManager experienceManager;
 	public final TrainingManager trainingManager;
+	public final SkillManager skillManager;
 	public final TaskManager taskManager;
 
 	public Game() {
@@ -54,6 +57,7 @@ public class Game {
 		civilianManager = new CivilianManager();
 		experienceManager = new ExperienceManager();
 		trainingManager = new TrainingManager(experienceManager);
+		skillManager = new SkillManager(experienceManager, trainingManager);
 		taskManager = new TaskManager();
 
 		for (Department department : departmentManager.getDepartments()) {
@@ -142,6 +146,11 @@ public class Game {
 		training.linkResponder(responderManager.getPlayer());
 
 		System.out.println(training.getResponderLinks().getFirst().getResponder() + " completes " + training);
+
+		Skill skill = skillManager.getSkill(SkillType.SELF_DEFENSE);
+		skill.linkResponder(responderManager.getPlayer());
+
+		System.out.println(skill.getResponderLinks().getFirst().getResponder() + " obtains " + skill);
 
 	}
 

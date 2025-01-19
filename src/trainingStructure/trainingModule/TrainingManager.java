@@ -5,7 +5,6 @@ import linkStructure.experienceLinkModule.ExperienceLink;
 import linkStructure.trainingLinkModule.TrainingLink;
 import trainingStructure.trainingRequirementModule.TrainingExperienceRequirement;
 import trainingStructure.trainingRequirementModule.TrainingTrainingRequirement;
-import unitStructure.unitTypeModule.FireUnitType;
 
 import java.util.ArrayList;
 import java.util.List;

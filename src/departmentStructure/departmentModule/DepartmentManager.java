@@ -1,8 +1,6 @@
 package departmentStructure.departmentModule;
 
 import locationStructure.locationModule.LocationManager;
-import shiftStructure.shiftModule.ShiftManager;
-import trainingStructure.trainingModule.TrainingManager;
 
 import java.util.ArrayList;
 import java.util.List;

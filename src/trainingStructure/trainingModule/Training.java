@@ -1,13 +1,10 @@
 package trainingStructure.trainingModule;
 
-import experienceStructure.experienceModule.Experience;
 import linkStructure.experienceLinkModule.ExperienceLink;
 import linkStructure.personLinkModule.ResponderLink;
 import linkStructure.trainingLinkModule.TrainingLink;
-import responderStructure.responderLinkModule.ResponderResponderLink;
 import responderStructure.responderModule.Responder;
 import trainingStructure.trainingLinkModule.TrainingResponderLink;
-import unitStructure.unitTypeModule.UnitType;
 
 import java.util.ArrayList;
 import java.util.List;

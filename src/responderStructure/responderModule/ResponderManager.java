@@ -5,14 +5,12 @@ import departmentStructure.departmentModule.Department;
 import departmentStructure.departmentModule.DepartmentManager;
 import departmentStructure.departmentModule.DepartmentType;
 import experienceStructure.experienceModule.Experience;
-import experienceStructure.experienceModule.ExperienceManager;
 import linkStructure.experienceLinkModule.ExperienceLink;
 import linkStructure.rankLinkModule.RankLink;
 import linkStructure.skillLinkModule.SkillLink;
 import locationStructure.locationModule.Location;
 import personStructure.personModule.Gender;
 import rankStructure.rankModule.Rank;
-import skillStructure.skillModule.SkillManager;
 import stationStructure.stationModule.Station;
 import unitStructure.unitModule.Unit;
 import unitStructure.unitTypeModule.FireUnitType;
@@ -26,12 +24,10 @@ public class ResponderManager {
 
 	private int responderIdCounter = 0;
 	private final List<Responder> responders = new ArrayList<>();
-	private final SkillManager skillManager;
 	private final ActionManager actionManager;
 
 	public ResponderManager(DepartmentManager departmentManager) {
 		initResponders(departmentManager);
-		this.skillManager = new SkillManager();
 		this.actionManager = new ActionManager();
 	}
 
