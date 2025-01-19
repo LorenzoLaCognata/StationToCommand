@@ -3,8 +3,6 @@ package missionLinkStructure.missionOrganizationModule;
 import linkStructure.organizationLinkModule.UnitLink;
 import missionLinkStructure.missionLinkModule.MissionResponderLink;
 import missionLinkStructure.missionLinkModule.MissionVehicleLink;
-import missionStructure.missionObjectiveModule.MissionObjective;
-import missionStructure.missionObjectiveModule.MissionObjectiveLink;
 import responderStructure.responderModule.Responder;
 import unitStructure.unitModule.Unit;
 import vehicleStructure.vehicleModule.Vehicle;
@@ -16,13 +14,11 @@ public class MissionUnitLink extends UnitLink {
 
   private final List<MissionResponderLink> responderLinks;
   private final List<MissionVehicleLink> vehicleLinks;
-  private final List<MissionObjectiveLink> missionObjectiveLink;
 
   public MissionUnitLink(Unit unit) {
     super(unit);
     responderLinks = new ArrayList<>();
     vehicleLinks = new ArrayList<>();
-    missionObjectiveLink = new ArrayList<>();
   }
 
   public List<MissionResponderLink> getResponderLinks() {
@@ -31,10 +27,6 @@ public class MissionUnitLink extends UnitLink {
 
   public List<MissionVehicleLink> getVehicleLinks() {
     return vehicleLinks;
-  }
-
-  public List<MissionObjectiveLink> getMissionObjectiveLink() {
-    return missionObjectiveLink;
   }
 
   public void linkResponder(Responder responder) {
@@ -51,10 +43,6 @@ public class MissionUnitLink extends UnitLink {
       MissionVehicleLink missionVehicleLink = new MissionVehicleLink(vehicle);
       vehicleLinks.add(missionVehicleLink);
     }
-  }
-
-  public void linkMissionObjective(MissionObjective missionObjective) {
-    // TODO
   }
 
 }

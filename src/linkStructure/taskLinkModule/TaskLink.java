@@ -7,9 +7,7 @@ public abstract class TaskLink {
     private final Task task;
 
     public TaskLink(Task task) {
-        System.out.println("TaskLink initializing");
         this.task = task;
-        System.out.println("TaskLink initialized successfully");
     }
 
 }

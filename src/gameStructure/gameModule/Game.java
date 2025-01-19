@@ -1,5 +1,8 @@
 package gameStructure.gameModule;
 
+import actionStructure.actionModule.Action;
+import actionStructure.actionModule.ActionManager;
+import actionStructure.actionModule.ActionType;
 import departmentStructure.departmentModule.Department;
 import departmentStructure.departmentModule.DepartmentManager;
 import departmentStructure.departmentModule.DepartmentType;
@@ -9,6 +12,8 @@ import experienceStructure.experienceModule.ExperienceManager;
 import locationStructure.locationModule.LocationManager;
 import missionStructure.missionModule.Mission;
 import missionStructure.missionModule.MissionManager;
+import missionStructure.objectiveModule.Objective;
+import missionStructure.objectiveModule.ObjectiveType;
 import personStructure.civilianModule.Civilian;
 import personStructure.civilianModule.CivilianManager;
 import responderStructure.responderModule.Responder;
@@ -45,6 +50,7 @@ public class Game {
 	public final TrainingManager trainingManager;
 	public final SkillManager skillManager;
 	public final TaskManager taskManager;
+	public final ActionManager actionManager;
 
 	public Game() {
 		locationManager = new LocationManager();
@@ -59,6 +65,7 @@ public class Game {
 		trainingManager = new TrainingManager(experienceManager);
 		skillManager = new SkillManager(experienceManager, trainingManager);
 		taskManager = new TaskManager();
+		actionManager = new ActionManager();
 
 		for (Department department : departmentManager.getDepartments()) {
 			department.getShiftManager().initShifts(department, watchManager, responderManager);
@@ -126,6 +133,10 @@ public class Game {
 		Unit unit = station.getUnitManager().getUnits(FireUnitType.FIRE_TRUCK).getFirst();
 		sampleMission.linkUnit(unit);
 
+		sampleMission.linkObjective(new Objective(ObjectiveType.EVACUATE_CIVILIANS));
+
+		System.out.println(missionManager.getMissions().getFirst() + " has objective " + missionManager.getMissions().getFirst().getObjectiveLinks().getFirst().getObjective());
+
 		System.out.println(missionManager.getMissions().getFirst() + " assigned to " + missionManager.getMissions().getFirst().getDepartmentLinks().getFirst().getStationLinks().getFirst().getUnitLinks().getFirst().getUnit());
 
 		Responder responder = responderManager.getResponders(unit).getFirst();
@@ -151,6 +162,11 @@ public class Game {
 		skill.linkResponder(responderManager.getPlayer());
 
 		System.out.println(skill.getResponderLinks().getFirst().getResponder() + " obtains " + skill);
+
+		Action action = new Action(ActionType.SETUP_PERIMETER, responderManager.getPlayer(),null,null,null,null);
+		actionManager.addAction(action);
+
+		System.out.println(actionManager.getActions().getFirst().getResponderLink().getResponder() + " performs " + actionManager.getActions().getFirst());
 
 	}
 

@@ -1,6 +1,5 @@
 package responderStructure.responderModule;
 
-import actionStructure.actionModule.ActionManager;
 import departmentStructure.departmentModule.Department;
 import departmentStructure.departmentModule.DepartmentManager;
 import departmentStructure.departmentModule.DepartmentType;
@@ -24,11 +23,9 @@ public class ResponderManager {
 
 	private int responderIdCounter = 0;
 	private final List<Responder> responders = new ArrayList<>();
-	private final ActionManager actionManager;
 
 	public ResponderManager(DepartmentManager departmentManager) {
 		initResponders(departmentManager);
-		this.actionManager = new ActionManager();
 	}
 
 	@Override

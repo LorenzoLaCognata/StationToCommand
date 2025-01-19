@@ -3,7 +3,9 @@ package missionStructure.missionModule;
 import departmentStructure.departmentModule.Department;
 import locationStructure.locationModule.Location;
 import missionLinkStructure.missionLinkModule.MissionCivilianLink;
+import missionLinkStructure.missionLinkModule.MissionObjectiveLink;
 import missionLinkStructure.missionOrganizationModule.MissionDepartmentLink;
+import missionStructure.objectiveModule.Objective;
 import personStructure.civilianModule.Civilian;
 import responderStructure.responderModule.Responder;
 import stationStructure.stationModule.Station;
@@ -19,12 +21,14 @@ public class Mission {
     private final Location location;
     private final List<MissionDepartmentLink> departmentLinks;
     private final List<MissionCivilianLink> civilianLinks;
+    private final List<MissionObjectiveLink> objectiveLinks;
 
     public Mission(MissionType missionType, Location location) {
         this.missionType = missionType;
         this.location = location;
         this.departmentLinks = new ArrayList<>();
         this.civilianLinks = new ArrayList<>();
+        this.objectiveLinks = new ArrayList<>();
     }
 
     @Override
@@ -46,6 +50,10 @@ public class Mission {
 
     public List<MissionCivilianLink> getCivilianLinks() {
         return civilianLinks;
+    }
+
+    public List<MissionObjectiveLink> getObjectiveLinks() {
+        return objectiveLinks;
     }
 
     public void linkDepartment(Department department) {
@@ -100,6 +108,14 @@ public class Mission {
                     .filter(item -> item.getUnit().equals(vehicle.getUnitLink().getUnit()))
                     .findAny()).ifPresent(missionUnitLink -> missionUnitLink.linkVehicle(vehicle));
 
+    }
+
+    public void linkObjective(Objective objective) {
+        if (objectiveLinks.stream()
+                .noneMatch(item -> item.getObjective().equals(objective))) {
+            MissionObjectiveLink missionObjectiveLink = new MissionObjectiveLink(objective);
+            objectiveLinks.add(missionObjectiveLink);
+        }
     }
 
 }

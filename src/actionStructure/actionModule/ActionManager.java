@@ -9,8 +9,6 @@ public class ActionManager {
     private final List<Action> actions = new ArrayList<>();
 
     public ActionManager() {
-			System.out.println("ActionManager initializing");
-			System.out.println("ActionManager initialized successfully");
     }
 
 	@Override
@@ -20,9 +18,15 @@ public class ActionManager {
 				.collect(Collectors.joining("\n"));
 	}
 
-	public Action getAction() {
-		// TODO
-		return actions.get(0);
+	public Action getAction(ActionType actionType) {
+		return actions.stream()
+				.filter(item -> item.getActionType().equals(actionType))
+				.findAny()
+				.orElse(null);
+	}
+
+	public List<Action> getActions() {
+		return actions;
 	}
 
 	public void addAction(Action action) {
