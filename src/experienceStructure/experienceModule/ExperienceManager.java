@@ -21,7 +21,7 @@ public class ExperienceManager {
 
 	public Experience getExperience(int level) {
 		return experiences.stream()
-				.filter(item -> item.getLevel() == level)
+				.filter(item -> item.level() == level)
 				.findAny().
 				orElse(null);
 	}

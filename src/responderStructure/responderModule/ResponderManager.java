@@ -26,13 +26,11 @@ public class ResponderManager {
 
 	private int responderIdCounter = 0;
 	private final List<Responder> responders = new ArrayList<>();
-	private final ExperienceManager experienceManager;
 	private final SkillManager skillManager;
 	private final ActionManager actionManager;
 
 	public ResponderManager(DepartmentManager departmentManager) {
 		initResponders(departmentManager);
-		this.experienceManager = new ExperienceManager();
 		this.skillManager = new SkillManager();
 		this.actionManager = new ActionManager();
 	}
@@ -52,6 +50,13 @@ public class ResponderManager {
 		return responders.stream()
 				.filter(item -> item.getFirstName().equals(firstName) && item.getLastName().equals(lastName))
 				.collect(Collectors.toList());
+	}
+
+	public Responder getPlayer() {
+		return responders.stream()
+				.filter(item -> item.isPlayer())
+				.findAny()
+				.orElse(null);
 	}
 
 	public List<Responder> getResponders(Unit unit) {

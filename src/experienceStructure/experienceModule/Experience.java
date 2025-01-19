@@ -1,20 +1,10 @@
 package experienceStructure.experienceModule;
 
-public class Experience {
-
-	private final int level;
-
-    public Experience(int level) {
-        this.level = level;
-    }
+public record Experience(int level) {
 
     @Override
     public String toString() {
-        return Integer.toString(level);
-    }
-
-    public int getLevel() {
-        return level;
+        return "[EXPERIENCE] " + Integer.toString(level);
     }
 
 }

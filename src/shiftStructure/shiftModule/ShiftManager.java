@@ -1,8 +1,14 @@
 package shiftStructure.shiftModule;
 
+import departmentStructure.departmentModule.Department;
+import equipmentStructure.equipmentModule.Equipment;
 import responderStructure.responderModule.Responder;
+import responderStructure.responderModule.ResponderManager;
 import shiftStructure.watchModule.Watch;
+import shiftStructure.watchModule.WatchManager;
+import stationStructure.stationModule.Station;
 import unitStructure.unitModule.Unit;
+import vehicleStructure.vehicleModule.Vehicle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +18,7 @@ public class ShiftManager {
 
     private final List<Shift> shifts = new ArrayList<>();
 
-    public ShiftManager() {
-        System.out.println("ShiftManager initializing");
-        System.out.println("ShiftManager initialized successfully");
+    public ShiftManager(Department department) {
     }
 
 	@Override
@@ -44,6 +48,22 @@ public class ShiftManager {
 
 	public void addShift(Shift Shift) {
 		this.shifts.add(Shift);
+	}
+
+	public void initShifts(Department department, WatchManager watchManager, ResponderManager responderManager) {
+		for (Station station : department.getStations()) {
+			for (Unit unit : station.getUnits()) {
+				for (Responder responder : responderManager.getResponders()) {
+					if (responder.getUnitLink().getUnit().equals(unit)) {
+						for (Watch watch : watchManager.getWatches()) {
+							if (watch.start().getDayOfMonth() == 1 && watch.start().getHour() == 5) {
+								addShift(new Shift(responder, unit, watch));
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 }

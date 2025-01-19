@@ -20,6 +20,10 @@ public class WatchManager {
 				.collect(Collectors.joining("\n"));
 	}
 
+	public List<Watch> getWatches() {
+		return watches;
+	}
+
 	public Watch getWatch(LocalDateTime start, LocalDateTime end) {
 		return watches.stream()
 				.filter(item -> item.start().equals(start) && item.end().equals(end))

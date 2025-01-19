@@ -7,9 +7,12 @@ public abstract class ExperienceLink {
     private final Experience experience;
 
     public ExperienceLink(Experience experience) {
-        System.out.println("ExperienceLink initializing");
         this.experience = experience;
-		System.out.println("ExperienceLink initialized successfully");
     }
-	
+
+    @Override
+    public String toString() {
+        return experience.toString();
+    }
+
 }

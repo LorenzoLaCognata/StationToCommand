@@ -11,14 +11,9 @@ import java.util.stream.Collectors;
 public class DepartmentManager {
 
 	private final List<Department> departments = new ArrayList<>();
-	private final ShiftManager shiftManager;
-	private final TrainingManager trainingManager;
 
 	public DepartmentManager(LocationManager locationManager) {
 		initDepartments(locationManager);
-		this.shiftManager = new ShiftManager();
-		// TODO: init Trainings
-		this.trainingManager = new TrainingManager();
 	}
 
 	@Override

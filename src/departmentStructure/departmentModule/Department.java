@@ -2,6 +2,7 @@ package departmentStructure.departmentModule;
 
 import locationStructure.locationModule.LocationManager;
 import rankStructure.rankModule.RankManager;
+import shiftStructure.shiftModule.ShiftManager;
 import stationStructure.stationModule.Station;
 import stationStructure.stationModule.StationManager;
 
@@ -12,11 +13,13 @@ public class Department {
     private final DepartmentType departmentType;
     private final StationManager stationManager;
     private final RankManager rankManager;
+    private final ShiftManager shiftManager;
 
     public Department(DepartmentType departmentType, LocationManager locationManager) {
         this.departmentType = departmentType;
         this.stationManager = new StationManager(this, locationManager);
         this.rankManager = new RankManager(this);
+        this.shiftManager = new ShiftManager(this);
     }
 
     @Override
@@ -39,4 +42,9 @@ public class Department {
     public RankManager getRankManager() {
         return rankManager;
     }
+
+    public ShiftManager getShiftManager() {
+        return shiftManager;
+    }
+
 }

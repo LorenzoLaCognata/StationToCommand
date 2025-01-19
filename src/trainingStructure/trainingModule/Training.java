@@ -4,7 +4,9 @@ import experienceStructure.experienceModule.Experience;
 import linkStructure.experienceLinkModule.ExperienceLink;
 import linkStructure.personLinkModule.ResponderLink;
 import linkStructure.trainingLinkModule.TrainingLink;
+import responderStructure.responderLinkModule.ResponderResponderLink;
 import responderStructure.responderModule.Responder;
+import trainingStructure.trainingLinkModule.TrainingResponderLink;
 import unitStructure.unitTypeModule.UnitType;
 
 import java.util.ArrayList;
@@ -12,33 +14,37 @@ import java.util.List;
 
 public class Training {
 
-	private final UnitType unitType;
-	private final String name;
-	private final List<ExperienceLink> experienceRequirements;
+	private final TrainingType trainingType;
+	private final ExperienceLink experienceRequirement;
 	private final List<TrainingLink> trainingRequirements;
 	private final List<ResponderLink> responderLinks;
 
-    public Training(UnitType unitType, String name, List<ExperienceLink> experienceRequirements, List<TrainingLink> trainingRequirements) {
-        System.out.println("Training initializing");
-        this.unitType = unitType;
-		this.name = name;
-		this.experienceRequirements = experienceRequirements;
+    public Training(TrainingType trainingType, ExperienceLink experienceRequirement, List<TrainingLink> trainingRequirements) {
+        this.trainingType = trainingType;
+		this.experienceRequirement = experienceRequirement;
 		this.trainingRequirements = trainingRequirements;
 		this.responderLinks = new ArrayList<>();
-        System.out.println("Training initialized successfully");
     }
 
+	@Override
+	public String toString() {
+		return "[TRAINING] " + trainingType + " (requires: " + experienceRequirement + ", " + trainingRequirements + ")";
+	}
+
+	public TrainingType getTrainingType() {
+		return trainingType;
+	}
+
+	public List<ResponderLink> getResponderLinks() {
+		return responderLinks;
+	}
+
 	public void linkResponder(Responder responder) {
-		// TODO
+		if (responderLinks.stream()
+				.noneMatch(item -> item.getResponder().equals(responder))) {
+			TrainingResponderLink trainingResponderLink = new TrainingResponderLink(responder);
+			responderLinks.add(trainingResponderLink);
+		}
 	}
-
-	public void requireExperience(Experience experience) {
-		// TODO
-	}
-
-	public void requireTraining(Training training) {
-		// TODO
-	}
-
 
 }
