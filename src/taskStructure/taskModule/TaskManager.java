@@ -5,10 +5,18 @@ import missionStructure.missionModule.MissionType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TaskManager {
 
 	private final List<Task> tasks = new ArrayList<>();
+
+	@Override
+	public String toString() {
+		return tasks.stream()
+				.map(item -> "\t- " + item)
+				.collect(Collectors.joining("\n"));
+	}
 
 	public List<Task> getTasks() {
 		return tasks;
@@ -17,7 +25,7 @@ public class TaskManager {
 	public Task getTask(TaskType taskType) {
 		return tasks.stream()
 				.filter(item -> item.getTaskType().equals(taskType))
-				.findFirst()
+				.findAny()
 				.orElse(null);
 	}
 

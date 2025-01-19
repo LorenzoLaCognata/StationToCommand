@@ -20,6 +20,7 @@ import utilsStructure.utilsModule.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ResponderManager {
 
@@ -38,25 +39,25 @@ public class ResponderManager {
 
 	@Override
 	public String toString() {
-		return responders.toString();
+		return responders.stream()
+				.map(item -> "\t- " + item)
+				.collect(Collectors.joining("\n"));
 	}
 
 	public List<Responder> getResponders() {
 		return responders;
 	}
 
-	public Responder getResponder(String firstName, String lastName) {
+	public List<Responder> getResponders(String firstName, String lastName) {
 		return responders.stream()
 				.filter(item -> item.getFirstName().equals(firstName) && item.getLastName().equals(lastName))
-				.findFirst()
-				.orElse(null);
+				.collect(Collectors.toList());
 	}
 
-	public Responder getResponder(Unit unit) {
+	public List<Responder> getResponders(Unit unit) {
 		return responders.stream()
 				.filter(item -> item.getUnitLink().getUnit().equals(unit))
-				.findFirst()
-				.orElse(null);
+				.collect(Collectors.toList());
 	}
 
 	public void addResponder(Responder responder) {
@@ -105,14 +106,14 @@ public class ResponderManager {
 
 		Department playerDepartment = departmentManager.getDepartment(DepartmentType.FIRE_DEPARTMENT);
 		Station playerStation = playerDepartment.getStationManager().getStation(1);
-		Unit playerUnit = playerStation.getUnitManager().getUnit(FireUnitType.FIRE_ENGINE);
+		Unit playerUnit = playerStation.getUnitManager().getUnits(FireUnitType.FIRE_ENGINE).getFirst();
 		Rank playerRank = playerDepartment.getRankManager().getRank(1);
 		Experience playerExperience = new Experience(1);
 		Location playerLocation = playerStation.getLocation();
 
 		Responder player = new Responder("Giulia", "Carlà", Gender.FEMALE, playerLocation,  nextResponderId(), true, playerExperience, playerRank, playerUnit);
 
-		Responder relatedResponder = getResponder(playerUnit);
+		Responder relatedResponder = getResponders(playerUnit).getFirst();
 		player.linkResponder(relatedResponder, 0.2f);
 
 		addResponder(player);

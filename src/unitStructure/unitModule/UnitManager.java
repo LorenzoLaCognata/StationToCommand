@@ -25,7 +25,7 @@ public class UnitManager {
 	@Override
 	public String toString() {
 		return units.stream()
-				.map(unit -> "\t\t- " + unit)
+				.map(item -> "\t- " + item)
 				.collect(Collectors.joining("\n"));
 	}
 
@@ -36,15 +36,14 @@ public class UnitManager {
 	public Unit getUnit(UnitType unitType, int number) {
 		return units.stream()
 				.filter(item -> item.getUnitType().equals(unitType) && item.getNumber() == number)
-				.findFirst()
+				.findAny()
 				.orElse(null);
 	}
 
-	public Unit getUnit(UnitType unitType) {
+	public List<Unit> getUnits(UnitType unitType) {
 		return units.stream()
 				.filter(item -> item.getUnitType().equals(unitType))
-				.findFirst()
-				.orElse(null);
+				.collect(Collectors.toList());
 	}
 
 	public void addUnit(DepartmentType departmentType, UnitType unitType, StationManager stationManager) {

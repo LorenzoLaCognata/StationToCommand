@@ -2,6 +2,7 @@ package experienceStructure.experienceModule;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ExperienceManager {
 
@@ -13,14 +14,16 @@ public class ExperienceManager {
 
 	@Override
 	public String toString() {
-		return experiences.toString();
+		return experiences.stream()
+				.map(item -> "\t- " + item)
+				.collect(Collectors.joining("\n"));
 	}
 
 	public Experience getExperience(int level) {
 		return experiences.stream()
 				.filter(item -> item.getLevel() == level)
-				.findFirst()
-				.orElse(null);
+				.findAny().
+				orElse(null);
 	}
 
 	public void addExperience(Experience Experience) {

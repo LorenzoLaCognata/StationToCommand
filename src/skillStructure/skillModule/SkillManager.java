@@ -7,6 +7,7 @@ import unitStructure.unitTypeModule.FireUnitType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SkillManager {
 
@@ -16,6 +17,13 @@ public class SkillManager {
 		System.out.println("SkillManager initializing");
 		initSkills();
 		System.out.println("SkillManager initialized successfully");
+	}
+
+	@Override
+	public String toString() {
+		return skills.stream()
+				.map(item -> "\t- " + item)
+				.collect(Collectors.joining("\n"));
 	}
 
 	public Skill getSkill(String name) {

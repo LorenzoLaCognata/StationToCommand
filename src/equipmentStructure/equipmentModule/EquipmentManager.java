@@ -10,6 +10,7 @@ import unitStructure.unitTypeModule.PoliceUnitType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class EquipmentManager {
 
@@ -21,25 +22,25 @@ public class EquipmentManager {
 
 	@Override
 	public String toString() {
-		return this.equipments.toString();
+		return equipments.stream()
+				.map(item -> "\t- " + item)
+				.collect(Collectors.joining("\n"));
 	}
 
 	public List<Equipment> getEquipments() {
 		return equipments;
 	}
 
-	public Equipment getEquipment(EquipmentType equipmentType) {
+	public List<Equipment> getEquipments(EquipmentType equipmentType) {
 		return equipments.stream()
 				.filter(item -> item.getEquipmentType().equals(equipmentType))
-				.findFirst()
-				.orElse(null);
+				.collect(Collectors.toList());
 	}
 
-	public Equipment getEquipment(Unit unit) {
+	public List<Equipment> getEquipments(Unit unit) {
 		return equipments.stream()
 				.filter(item -> item.getUnitLink().getUnit().equals(unit))
-				.findFirst()
-				.orElse(null);
+				.collect(Collectors.toList());
 	}
 
 	public void addEquipment(Equipment Equipment) {

@@ -1,10 +1,12 @@
 package shiftStructure.shiftModule;
 
 import responderStructure.responderModule.Responder;
+import shiftStructure.watchModule.Watch;
 import unitStructure.unitModule.Unit;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ShiftManager {
 
@@ -15,15 +17,29 @@ public class ShiftManager {
         System.out.println("ShiftManager initialized successfully");
     }
 
-	// TODO	
-	public List<Shift> getShift(Responder responder) {
-		// TODO
-		return shifts;
+	@Override
+	public String toString() {
+		return shifts.stream()
+				.map(item -> "\t- " + item)
+				.collect(Collectors.joining("\n"));
 	}
 
-	public List<Shift> getShift(Unit unit) {
-		// TODO
-		return shifts;
+	public List<Shift> getShifts(Responder responder) {
+		return shifts.stream()
+				.filter(item -> item.responder().equals(responder))
+				.collect(Collectors.toList());
+	}
+
+	public List<Shift> getShifts(Unit unit) {
+		return shifts.stream()
+				.filter(item -> item.unit().equals(unit))
+				.collect(Collectors.toList());
+	}
+
+	public List<Shift> getShifts(Watch watch) {
+		return shifts.stream()
+				.filter(item -> item.watch().equals(watch))
+				.collect(Collectors.toList());
 	}
 
 	public void addShift(Shift Shift) {

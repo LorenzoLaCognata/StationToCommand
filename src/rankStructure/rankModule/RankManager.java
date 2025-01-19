@@ -9,6 +9,7 @@ import rankStructure.rankLinkModule.RankRankLink;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class RankManager {
 
@@ -20,13 +21,15 @@ public class RankManager {
 
 	@Override
 	public String toString() {
-		return ranks.toString();
+		return ranks.stream()
+				.map(item -> "\t- " + item)
+				.collect(Collectors.joining("\n"));
 	}
 
 	public Rank getRank(int level) {
 		return ranks.stream()
 				.filter(item -> item.getLevel() == level)
-				.findFirst()
+				.findAny()
 				.orElse(null);
 	}
 

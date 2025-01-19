@@ -12,6 +12,7 @@ import personStructure.civilianModule.Civilian;
 import personStructure.civilianModule.CivilianManager;
 import responderStructure.responderModule.Responder;
 import responderStructure.responderModule.ResponderManager;
+import shiftStructure.watchModule.WatchManager;
 import stationStructure.stationModule.Station;
 import taskStructure.taskModule.Task;
 import taskStructure.taskModule.TaskManager;
@@ -32,6 +33,7 @@ public class Game {
 	public final EquipmentManager equipmentManager;
 	public final CivilianManager civilianManager;
 	public final TaskManager taskManager;
+	public final WatchManager watchManager;
 
 	public Game() {
 		this.locationManager = new LocationManager();
@@ -42,6 +44,7 @@ public class Game {
 		this.equipmentManager = new EquipmentManager(this.departmentManager);
 		this.civilianManager = new CivilianManager();
 		this.taskManager = new TaskManager();
+		this.watchManager = new WatchManager();
 
 		for (Department department : departmentManager.getDepartments()) {
 			System.out.println("\n" + department);
@@ -97,12 +100,12 @@ public class Game {
 		Station station = department.getStationManager().getStation(1);
 		sampleMission.linkStation(station);
 
-		Unit unit = station.getUnitManager().getUnit(FireUnitType.FIRE_TRUCK);
+		Unit unit = station.getUnitManager().getUnits(FireUnitType.FIRE_TRUCK).getFirst();
 		sampleMission.linkUnit(unit);
 
 		System.out.println(missionManager.getMissions().getFirst() + " assigned to " + missionManager.getMissions().getFirst().getDepartmentLinks().getFirst().getStationLinks().getFirst().getUnitLinks().getFirst().getUnit());
 
-		Responder responder = responderManager.getResponder(unit);
+		Responder responder = responderManager.getResponders(unit).getFirst();
 		sampleMission.linkResponder(responder);
 
 		System.out.println(missionManager.getMissions().getFirst() + " assigned to " + missionManager.getMissions().getFirst().getDepartmentLinks().getFirst().getStationLinks().getFirst().getUnitLinks().getFirst().getResponderLinks().getFirst().getResponder());
@@ -111,7 +114,7 @@ public class Game {
 
 		System.out.println(sampleTasks.getFirst() + " assigned to " + responder);
 
-		Vehicle vehicle = vehicleManager.getVehicle(unit);
+		Vehicle vehicle = vehicleManager.getVehicles(unit).getFirst();
 		sampleMission.linkVehicle(vehicle);
 
 		System.out.println(missionManager.getMissions().getFirst() + " assigned to " + missionManager.getMissions().getFirst().getDepartmentLinks().getFirst().getStationLinks().getFirst().getUnitLinks().getFirst().getVehicleLinks().getFirst().getVehicle());

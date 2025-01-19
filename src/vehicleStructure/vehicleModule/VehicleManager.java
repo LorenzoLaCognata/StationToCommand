@@ -10,6 +10,7 @@ import unitStructure.unitTypeModule.PoliceUnitType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class VehicleManager {
 
@@ -21,25 +22,25 @@ public class VehicleManager {
 
 	@Override
 	public String toString() {
-		return this.vehicles.toString();
+		return vehicles.stream()
+				.map(item -> "\t- " + item)
+				.collect(Collectors.joining("\n"));
 	}
 
 	public List<Vehicle> getVehicles() {
 		return vehicles;
 	}
 
-	public Vehicle getVehicle(VehicleType vehicleType) {
+	public List<Vehicle> getVehicles(VehicleType vehicleType) {
 		return vehicles.stream()
 				.filter(item -> item.getVehicleType().equals(vehicleType))
-				.findFirst()
-				.orElse(null);
+				.collect(Collectors.toList());
 	}
 
-	public Vehicle getVehicle(Unit unit) {
+	public List<Vehicle> getVehicles(Unit unit) {
 		return vehicles.stream()
 				.filter(item -> item.getUnitLink().getUnit().equals(unit))
-				.findFirst()
-				.orElse(null);
+				.collect(Collectors.toList());
 	}
 
 	public void addVehicle(Vehicle Vehicle) {

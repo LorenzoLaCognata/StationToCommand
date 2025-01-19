@@ -6,6 +6,7 @@ import trainingStructure.trainingModule.TrainingManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DepartmentManager {
 
@@ -15,7 +16,6 @@ public class DepartmentManager {
 
 	public DepartmentManager(LocationManager locationManager) {
 		initDepartments(locationManager);
-		// TODO: init Shifts
 		this.shiftManager = new ShiftManager();
 		// TODO: init Trainings
 		this.trainingManager = new TrainingManager();
@@ -23,7 +23,9 @@ public class DepartmentManager {
 
 	@Override
 	public String toString() {
-		return departments.toString();
+		return departments.stream()
+				.map(item -> "\t- " + item)
+				.collect(Collectors.joining("\n"));
 	}
 
 	public List<Department> getDepartments() {
@@ -33,8 +35,8 @@ public class DepartmentManager {
 	public Department getDepartment(DepartmentType departmentType) {
 		return departments.stream()
 				.filter(item -> item.getDepartmentType().equals(departmentType))
-				.findFirst()
-				.orElse(null);
+				.findAny().
+				orElse(null);
 	}
 
 	public void addDepartment(Department department) {

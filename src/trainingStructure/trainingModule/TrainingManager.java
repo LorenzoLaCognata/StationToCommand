@@ -6,6 +6,7 @@ import unitStructure.unitTypeModule.FireUnitType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TrainingManager {
 
@@ -16,7 +17,14 @@ public class TrainingManager {
 			initTrainings();
       System.out.println("TrainingManager initialized successfully");
     }
-	
+
+	@Override
+	public String toString() {
+		return trainings.stream()
+				.map(item -> "\t- " + item)
+				.collect(Collectors.joining("\n"));
+	}
+
 	public Training getTraining(String name) {
 		// TODO
 		return trainings.get(0);

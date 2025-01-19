@@ -20,7 +20,7 @@ public class StationManager {
 	@Override
 	public String toString() {
 		return stations.stream()
-				.map(station -> "\t- " + station)
+				.map(item -> "\t- " + item)
 				.collect(Collectors.joining("\n"));
 	}
 
@@ -31,7 +31,7 @@ public class StationManager {
 	public Station getStation(int number) {
 		return stations.stream()
 				.filter(item -> item.getNumber() == number)
-				.findFirst()
+				.findAny()
 				.orElse(null);
 	}
 

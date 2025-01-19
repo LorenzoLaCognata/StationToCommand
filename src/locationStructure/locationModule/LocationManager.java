@@ -4,6 +4,7 @@ import utilsStructure.utilsModule.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class LocationManager {
 
@@ -11,12 +12,18 @@ public class LocationManager {
 
     public LocationManager() {
     }
-	
-	public Location getLocation(float latitude, float longitude) {
+
+	@Override
+	public String toString() {
+		return locations.stream()
+				.map(item -> "\t- " + item)
+				.collect(Collectors.joining("\n"));
+	}
+
+	public List<Location> getLocations(float latitude, float longitude) {
 		return locations.stream()
 				.filter(item -> item.latitude() == latitude && item.longitude() == longitude)
-				.findFirst()
-				.orElse(null);
+				.collect(Collectors.toList());
 	}
 
 	public void addLocation(Location location) {

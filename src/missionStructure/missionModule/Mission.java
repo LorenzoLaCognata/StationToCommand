@@ -4,8 +4,6 @@ import departmentStructure.departmentModule.Department;
 import locationStructure.locationModule.Location;
 import missionLinkStructure.missionLinkModule.MissionCivilianLink;
 import missionLinkStructure.missionOrganizationModule.MissionDepartmentLink;
-import missionLinkStructure.missionOrganizationModule.MissionStationLink;
-import missionLinkStructure.missionOrganizationModule.MissionUnitLink;
 import personStructure.civilianModule.Civilian;
 import responderStructure.responderModule.Responder;
 import stationStructure.stationModule.Station;
@@ -59,32 +57,18 @@ public class Mission {
     }
 
     public void linkStation(Station station) {
-        MissionDepartmentLink missionDepartmentLink = this.departmentLinks.stream()
+        this.departmentLinks.stream()
             .filter(item -> item.getDepartment().equals(station.getDepartment()))
-            .findFirst()
-            .orElse(null);
+            .findAny().ifPresent(missionDepartmentLink -> missionDepartmentLink.linkStation(station));
 
-        if (missionDepartmentLink != null) {
-            missionDepartmentLink.linkStation(station);
-        }
     }
 
     public void linkUnit(Unit unit) {
-        MissionDepartmentLink missionDepartmentLink = this.departmentLinks.stream()
+        this.departmentLinks.stream()
             .filter(item -> item.getDepartment().equals(unit.getStation().getDepartment()))
-            .findFirst()
-            .orElse(null);
-
-        if (missionDepartmentLink != null) {
-            MissionStationLink missionStationLink = missionDepartmentLink.getStationLinks().stream()
+            .findAny().flatMap(missionDepartmentLink -> missionDepartmentLink.getStationLinks().stream()
                 .filter(item -> item.getStation().equals(unit.getStation()))
-                .findFirst()
-                .orElse(null);
-
-            if (missionStationLink != null) {
-                missionStationLink.linkUnit(unit);
-            }
-        }
+                .findAny()).ifPresent(missionStationLink -> missionStationLink.linkUnit(unit));
 
     }
 
@@ -97,53 +81,25 @@ public class Mission {
     }
 
     public void linkResponder(Responder responder) {
-        MissionDepartmentLink missionDepartmentLink = this.departmentLinks.stream()
-                .filter(item -> item.getDepartment().equals(responder.getUnitLink().getUnit().getStation().getDepartment()))
-                .findFirst()
-                .orElse(null);
+        this.departmentLinks.stream()
+            .filter(item -> item.getDepartment().equals(responder.getUnitLink().getUnit().getStation().getDepartment()))
+            .findAny().flatMap(missionDepartmentLink -> missionDepartmentLink.getStationLinks().stream()
+                .filter(item -> item.getStation().equals(responder.getUnitLink().getUnit().getStation()))
+                .findAny()).flatMap(missionStationLink -> missionStationLink.getUnitLinks().stream()
+                    .filter(item -> item.getUnit().equals(responder.getUnitLink().getUnit()))
+                    .findAny()).ifPresent(missionUnitLink -> missionUnitLink.linkResponder(responder));
 
-        if (missionDepartmentLink != null) {
-            MissionStationLink missionStationLink = missionDepartmentLink.getStationLinks().stream()
-                    .filter(item -> item.getStation().equals(responder.getUnitLink().getUnit().getStation()))
-                    .findFirst()
-                    .orElse(null);
-
-            if (missionStationLink != null) {
-                MissionUnitLink missionUnitLink = missionStationLink.getUnitLinks().stream()
-                        .filter(item -> item.getUnit().equals(responder.getUnitLink().getUnit()))
-                        .findFirst()
-                        .orElse(null);
-
-                if (missionUnitLink != null) {
-                    missionUnitLink.linkResponder(responder);
-                }
-            }
-        }
     }
 
     public void linkVehicle(Vehicle vehicle) {
-        MissionDepartmentLink missionDepartmentLink = this.departmentLinks.stream()
-                .filter(item -> item.getDepartment().equals(vehicle.getUnitLink().getUnit().getStation().getDepartment()))
-                .findFirst()
-                .orElse(null);
+        this.departmentLinks.stream()
+            .filter(item -> item.getDepartment().equals(vehicle.getUnitLink().getUnit().getStation().getDepartment()))
+            .findAny().flatMap(missionDepartmentLink -> missionDepartmentLink.getStationLinks().stream()
+                .filter(item -> item.getStation().equals(vehicle.getUnitLink().getUnit().getStation()))
+                .findAny()).flatMap(missionStationLink -> missionStationLink.getUnitLinks().stream()
+                    .filter(item -> item.getUnit().equals(vehicle.getUnitLink().getUnit()))
+                    .findAny()).ifPresent(missionUnitLink -> missionUnitLink.linkVehicle(vehicle));
 
-        if (missionDepartmentLink != null) {
-            MissionStationLink missionStationLink = missionDepartmentLink.getStationLinks().stream()
-                    .filter(item -> item.getStation().equals(vehicle.getUnitLink().getUnit().getStation()))
-                    .findFirst()
-                    .orElse(null);
-
-            if (missionStationLink != null) {
-                MissionUnitLink missionUnitLink = missionStationLink.getUnitLinks().stream()
-                        .filter(item -> item.getUnit().equals(vehicle.getUnitLink().getUnit()))
-                        .findFirst()
-                        .orElse(null);
-
-                if (missionUnitLink != null) {
-                    missionUnitLink.linkVehicle(vehicle);
-                }
-            }
-        }
     }
 
 }

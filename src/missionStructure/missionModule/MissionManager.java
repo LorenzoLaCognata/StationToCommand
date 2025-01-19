@@ -7,6 +7,7 @@ import utilsStructure.utilsModule.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MissionManager {
 
@@ -15,15 +16,21 @@ public class MissionManager {
     public MissionManager() {
     }
 
+    @Override
+    public String toString() {
+        return missions.stream()
+                .map(item -> "\t- " + item)
+                .collect(Collectors.joining("\n"));
+    }
+
     public List<Mission> getMissions() {
         return missions;
     }
 
-    public Mission getMission(MissionType missionType, Location location) {
+    public List<Mission> getMissions(MissionType missionType, Location location) {
         return missions.stream()
                 .filter(item -> item.getMissionType().equals(missionType) && item.getLocation().equals(location))
-                .findFirst()
-                .orElse(null);
+                .collect(Collectors.toList());
     }
 
     public void addMission(Mission mission) {

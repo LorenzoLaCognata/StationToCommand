@@ -93,12 +93,11 @@ public class Responder extends Person {
             ResponderResponderLink responderResponderLink = new ResponderResponderLink(responder, relationship);
             responderLinks.add(responderResponderLink);
         }
-        else {
+        else
             responderLinks.stream()
                 .filter(item -> item.getResponder().equals(responder))
-                .findFirst()
+                .findAny()
                 .ifPresent(item -> item.setRelationship(relationship));
-        }
     }
 
 }
