@@ -2,14 +2,15 @@ package responderStructure.responderModule;
 
 import experienceStructure.experienceModule.Experience;
 import linkStructure.organizationLinkModule.UnitLink;
-import linkStructure.responderLinkModule.ResponderLink;
 import locationStructure.locationModule.Location;
 import personStructure.personModule.Gender;
 import personStructure.personModule.Person;
 import rankStructure.rankModule.Rank;
+import responderStructure.responderLinkModule.ResponderResponderLink;
 import responderStructure.responderLinkModule.ResponderUnitLink;
 import unitStructure.unitModule.Unit;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Responder extends Person {
@@ -20,24 +21,24 @@ public class Responder extends Person {
     private Rank rank;
     // TODO: manage ranks 5+ that are not linked to a unit but to the entire department (e.g. create ad Admin unit?!)
     private UnitLink unitLink;
-    private final List<ResponderLink> responderLinks;
+    private final List<ResponderResponderLink> responderLinks;
 
-    public Responder(String firstName, String lastName, Gender gender, Location location, int id, boolean isPlayer, Experience experience, Rank rank, Unit unit, List<ResponderLink> responderLinks) {
+    public Responder(String firstName, String lastName, Gender gender, Location location, int id, boolean isPlayer, Experience experience, Rank rank, Unit unit) {
         super(firstName, lastName, gender, location);
         this.id = id;
         this.experience = experience;
         this.rank = rank;
         this.unitLink = new ResponderUnitLink(unit);
-        this.responderLinks = responderLinks;
+        this.responderLinks = new ArrayList<>();
     }
 
-    public Responder(Location location, int id, Experience experience, Rank rank, Unit unit, List<ResponderLink> responderLinks) {
+    public Responder(Location location, int id, Experience experience, Rank rank, Unit unit) {
         super(location);
         this.id = id;
         this.experience = experience;
         this.rank = rank;
         this.unitLink = new ResponderUnitLink(unit);
-        this.responderLinks = responderLinks;
+        this.responderLinks = new ArrayList<>();
     }
 
     @Override
@@ -70,6 +71,10 @@ public class Responder extends Person {
         return unitLink;
     }
 
+    public List<ResponderResponderLink> getResponderLinks() {
+        return responderLinks;
+    }
+
     public void setExperience(Experience experience) {
         this.experience = experience;
     }
@@ -82,8 +87,18 @@ public class Responder extends Person {
         this.unitLink = new ResponderUnitLink(unit);
     }
 
-    // TODO find if a link with that responder exists and update it, if not create it
     public void linkResponder(Responder responder, float relationship) {
+        if (responderLinks.stream()
+                .noneMatch(item -> item.getResponder().equals(responder))) {
+            ResponderResponderLink responderResponderLink = new ResponderResponderLink(responder, relationship);
+            responderLinks.add(responderResponderLink);
+        }
+        else {
+            responderLinks.stream()
+                .filter(item -> item.getResponder().equals(responder))
+                .findFirst()
+                .ifPresent(item -> item.setRelationship(relationship));
+        }
     }
 
 }

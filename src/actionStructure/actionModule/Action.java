@@ -3,7 +3,7 @@ package actionStructure.actionModule;
 import actionStructure.actionLinkModule.ActionResponderLink;
 import actionStructure.actionLinkModule.ActionTaskLink;
 import equipmentStructure.equipmentModule.Equipment;
-import linkStructure.responderLinkModule.ResponderLink;
+import linkStructure.personLinkModule.ResponderLink;
 import linkStructure.taskLinkModule.TaskLink;
 import personStructure.civilianModule.Civilian;
 import responderStructure.responderModule.Responder;

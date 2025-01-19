@@ -1,6 +1,6 @@
 package responderStructure.responderLinkModule;
 
-import linkStructure.responderLinkModule.ResponderLink;
+import linkStructure.personLinkModule.ResponderLink;
 import responderStructure.responderModule.Responder;
 
 public class ResponderResponderLink extends ResponderLink {

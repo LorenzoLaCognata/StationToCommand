@@ -1,6 +1,6 @@
 package trainingStructure.trainingLinkModule;
 
-import linkStructure.responderLinkModule.ResponderLink;
+import linkStructure.personLinkModule.ResponderLink;
 import responderStructure.responderModule.Responder;
 
 public class TrainingResponderLink extends ResponderLink {

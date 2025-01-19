@@ -1,4 +1,4 @@
-package linkStructure.responderLinkModule;
+package linkStructure.personLinkModule;
 
 import responderStructure.responderModule.Responder;
 

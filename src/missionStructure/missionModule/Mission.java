@@ -2,9 +2,11 @@ package missionStructure.missionModule;
 
 import departmentStructure.departmentModule.Department;
 import locationStructure.locationModule.Location;
+import missionLinkStructure.missionLinkModule.MissionCivilianLink;
 import missionLinkStructure.missionOrganizationModule.MissionDepartmentLink;
 import missionLinkStructure.missionOrganizationModule.MissionStationLink;
 import missionLinkStructure.missionOrganizationModule.MissionUnitLink;
+import personStructure.civilianModule.Civilian;
 import responderStructure.responderModule.Responder;
 import stationStructure.stationModule.Station;
 import unitStructure.unitModule.Unit;
@@ -18,16 +20,18 @@ public class Mission {
     private final MissionType missionType;
     private final Location location;
     private final List<MissionDepartmentLink> departmentLinks;
+    private final List<MissionCivilianLink> civilianLinks;
 
     public Mission(MissionType missionType, Location location) {
         this.missionType = missionType;
         this.location = location;
         this.departmentLinks = new ArrayList<>();
+        this.civilianLinks = new ArrayList<>();
     }
 
     @Override
     public String toString() {
-        return "[MISSION] " + this.missionType + " (" + this.location + ")";
+        return "[MISSION] " + this.missionType;
     }
 
     public MissionType getMissionType() {
@@ -40,6 +44,10 @@ public class Mission {
 
     public List<MissionDepartmentLink> getDepartmentLinks() {
         return departmentLinks;
+    }
+
+    public List<MissionCivilianLink> getCivilianLinks() {
+        return civilianLinks;
     }
 
     public void linkDepartment(Department department) {
@@ -78,6 +86,14 @@ public class Mission {
             }
         }
 
+    }
+
+    public void linkCivilian(Civilian civilian) {
+        if (civilianLinks.stream()
+                .noneMatch(item -> item.getCivilian().equals(civilian))) {
+            MissionCivilianLink missionCivilianLink = new MissionCivilianLink(civilian);
+            civilianLinks.add(missionCivilianLink);
+        }
     }
 
     public void linkResponder(Responder responder) {

@@ -8,7 +8,6 @@ import experienceStructure.experienceModule.Experience;
 import experienceStructure.experienceModule.ExperienceManager;
 import linkStructure.experienceLinkModule.ExperienceLink;
 import linkStructure.rankLinkModule.RankLink;
-import linkStructure.responderLinkModule.ResponderLink;
 import linkStructure.skillLinkModule.SkillLink;
 import locationStructure.locationModule.Location;
 import personStructure.personModule.Gender;
@@ -96,8 +95,7 @@ public class ResponderManager {
 							// TODO: distribute experience according to ranks
 							Experience experience = new Experience(1);
 							Location location = station.getLocation();
-							List<ResponderLink> responderLinks = new ArrayList<>();
-							Responder responder = new Responder(location, nextResponderId(), experience, rank, unit, responderLinks);
+							Responder responder = new Responder(location, nextResponderId(), experience, rank, unit);
 							addResponder(responder);
 						}
 					}
@@ -111,8 +109,12 @@ public class ResponderManager {
 		Rank playerRank = playerDepartment.getRankManager().getRank(1);
 		Experience playerExperience = new Experience(1);
 		Location playerLocation = playerStation.getLocation();
-		List<ResponderLink> playerResponderLinks = new ArrayList<>();
-		Responder player = new Responder("Giulia", "Carlà", Gender.FEMALE, playerLocation,  nextResponderId(), true, playerExperience, playerRank, playerUnit, playerResponderLinks);
+
+		Responder player = new Responder("Giulia", "Carlà", Gender.FEMALE, playerLocation,  nextResponderId(), true, playerExperience, playerRank, playerUnit);
+
+		Responder relatedResponder = getResponder(playerUnit);
+		player.linkResponder(relatedResponder, 0.2f);
+
 		addResponder(player);
 
 	}

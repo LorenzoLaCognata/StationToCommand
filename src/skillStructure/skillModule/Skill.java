@@ -2,7 +2,7 @@ package skillStructure.skillModule;
 
 import experienceStructure.experienceModule.Experience;
 import linkStructure.experienceLinkModule.ExperienceLink;
-import linkStructure.responderLinkModule.ResponderLink;
+import linkStructure.personLinkModule.ResponderLink;
 import linkStructure.skillLinkModule.SkillLink;
 import linkStructure.trainingLinkModule.TrainingLink;
 import responderStructure.responderModule.Responder;

@@ -8,6 +8,8 @@ import equipmentStructure.equipmentModule.EquipmentManager;
 import locationStructure.locationModule.LocationManager;
 import missionStructure.missionModule.Mission;
 import missionStructure.missionModule.MissionManager;
+import personStructure.civilianModule.Civilian;
+import personStructure.civilianModule.CivilianManager;
 import responderStructure.responderModule.Responder;
 import responderStructure.responderModule.ResponderManager;
 import stationStructure.stationModule.Station;
@@ -28,10 +30,8 @@ public class Game {
 	public final MissionManager missionManager;
 	public final VehicleManager vehicleManager;
 	public final EquipmentManager equipmentManager;
-	public final TaskManager taskManager;
-/*
 	public final CivilianManager civilianManager;
- */
+	public final TaskManager taskManager;
 
 	public Game() {
 		this.locationManager = new LocationManager();
@@ -40,11 +40,8 @@ public class Game {
 		this.missionManager = new MissionManager();
 		this.vehicleManager = new VehicleManager(this.departmentManager);
 		this.equipmentManager = new EquipmentManager(this.departmentManager);
-		this.taskManager = new TaskManager();
-/*
-		// TODO: initialize
 		this.civilianManager = new CivilianManager();
- */
+		this.taskManager = new TaskManager();
 
 		for (Department department : departmentManager.getDepartments()) {
 			System.out.println("\n" + department);
@@ -84,8 +81,15 @@ public class Game {
 		List<Task> sampleTasks = taskManager.generateTasks(sampleMission);
 
 		for (Task sampleTask : sampleTasks) {
-			System.out.println("Mission task: " + sampleTask);
+			System.out.println("\t- " + sampleTask);
 		}
+
+		Civilian civilian = new Civilian(sampleMission.getLocation());
+		civilianManager.addCivilian(civilian);
+
+		sampleMission.linkCivilian(civilian);
+
+		System.out.println("\t- " + sampleMission.getCivilianLinks().getFirst().getCivilian());
 
 		Department department = departmentManager.getDepartment(DepartmentType.FIRE_DEPARTMENT);
 		sampleMission.linkDepartment(department);

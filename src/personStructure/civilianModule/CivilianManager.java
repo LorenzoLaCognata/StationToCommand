@@ -8,13 +8,13 @@ public class CivilianManager {
     private final List<Civilian> civilians = new ArrayList<>();
 
     public CivilianManager() {
-        System.out.println("CivilianManager initializing");
-        System.out.println("CivilianManager initialized successfully");
     }
-	
-	public Civilian getCivilian(String name) {
-		// TODO
-		return civilians.get(0);
+
+	public Civilian getCivilian(String firstName, String lastName) {
+		return civilians.stream()
+				.filter(item -> item.getFirstName().equals(firstName) && item.getLastName().equals(lastName))
+				.findFirst()
+				.orElse(null);
 	}
 
 	public void addCivilian(Civilian civilian) {
