@@ -45,12 +45,7 @@ public class Responder extends Person {
 
     @Override
     public String toString() {
-        if (this.isPlayer) {
-            return "[PLAYER] " + String.format("%06d", id) + " " + getGender() + " " + getFirstName() + " " + getLastName() + " (" + rank + ")";
-        }
-        else {
-            return "[RESPONDER] " + String.format("%06d", id) + " " + getGender() + " " + getFirstName() + " " + getLastName() + " (" + rank + ")";
-        }
+        return String.format("%06d", id) + " " + getGender() + " " + getFirstName() + " " + getLastName();
     }
 
     public int getId() {

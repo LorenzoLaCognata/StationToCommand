@@ -1,6 +1,7 @@
 package stationStructure.stationModule;
 
 import departmentStructure.departmentModule.Department;
+import departmentStructure.departmentModule.DepartmentType;
 import locationStructure.locationModule.LocationManager;
 
 import java.util.ArrayList;
@@ -52,8 +53,9 @@ public class StationManager {
 	public void initStations(Department department, LocationManager locationManager) {
         addStation(new Station(department, nextStationNumber(), locationManager.generateLocation(), this));
 		addStation(new Station(department, nextStationNumber(), locationManager.generateLocation(), this));
-		addStation(new Station(department, nextStationNumber(), locationManager.generateLocation(), this));
+		if (!department.getDepartmentType().equals(DepartmentType.POLICE_DEPARTMENT)) {
+			addStation(new Station(department, nextStationNumber(), locationManager.generateLocation(), this));
+		}
 	}
-
 
 }

@@ -23,7 +23,7 @@ public class Station {
 
     @Override
     public String toString() {
-        return "[STATION] " + department.getDepartmentType() + " Station " + number;
+        return department.getDepartmentType() + " Station " + number;
     }
 
     public Department getDepartment() {

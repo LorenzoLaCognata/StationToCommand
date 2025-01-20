@@ -24,7 +24,7 @@ public class Department {
 
     @Override
     public String toString() {
-        return "[DEPARTMENT] " + departmentType + " Department";
+        return departmentType + " Department";
     }
 
     public DepartmentType getDepartmentType() {

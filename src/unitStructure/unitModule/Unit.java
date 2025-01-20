@@ -17,7 +17,7 @@ public abstract class Unit {
 
     @Override
     public String toString() {
-        return "[UNIT] " + unitType + " Unit " + number;
+        return unitType + " Unit " + number;
     }
 
     public Station getStation() {
