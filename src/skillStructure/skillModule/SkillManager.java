@@ -4,6 +4,7 @@ import experienceStructure.experienceModule.ExperienceManager;
 import linkStructure.experienceLinkModule.ExperienceLink;
 import linkStructure.skillLinkModule.SkillLink;
 import linkStructure.trainingLinkModule.TrainingLink;
+import responderStructure.responderModule.Responder;
 import skillStructure.skillRequirementModule.SkillSkillRequirement;
 import skillStructure.skillRequirementModule.SkillTrainingRequirement;
 import trainingStructure.trainingModule.TrainingManager;
@@ -34,6 +35,15 @@ public class SkillManager {
 				.filter(item -> item.getSkillType().equals(skillType))
 				.findAny()
 				.orElse(null);
+	}
+
+	public List<Skill> getSkillsByResponder(Responder responder) {
+		return skills.stream()
+				.filter(item ->
+					item.getResponderLinks().stream()
+						.anyMatch(link -> link.getResponder().equals(responder))
+				)
+				.collect(Collectors.toList());
 	}
 
 	public void addSkill(Skill skill) {

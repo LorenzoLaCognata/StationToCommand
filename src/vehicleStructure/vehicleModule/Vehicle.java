@@ -8,6 +8,8 @@ import vehicleStructure.vehicleLinkModule.VehicleUnitLink;
 public class Vehicle {
 
 	private final VehicleType vehicleType;
+	private float integrity = 1.0f;
+	private float condition = 1.0f;
 	private Location location;
 	private UnitLink unitLink;
 
@@ -19,7 +21,7 @@ public class Vehicle {
 
 	@Override
 	public String toString() {
-		return "[VEHICLE] " + this.vehicleType;
+		return vehicleType.toString();
 	}
 
 	public VehicleType getVehicleType() {
@@ -32,6 +34,22 @@ public class Vehicle {
 
 	public UnitLink getUnitLink() {
 		return unitLink;
+	}
+
+	public float getIntegrity() {
+		return integrity;
+	}
+
+	public void setIntegrity(float integrity) {
+		this.integrity = integrity;
+	}
+
+	public float getCondition() {
+		return condition;
+	}
+
+	public void setCondition(float condition) {
+		this.condition = condition;
 	}
 
 	public void linkUnit(Unit unit) {

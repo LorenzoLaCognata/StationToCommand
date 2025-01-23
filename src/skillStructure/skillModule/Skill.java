@@ -29,7 +29,7 @@ public class Skill {
 
 	@Override
 	public String toString() {
-		return "[SKILL] " + skillType + " (requires: " + experienceRequirement + ", " + skillRequirements + ", " + trainingRequirements + ")";
+		return skillType.toString();
 	}
 
 	public SkillType getSkillType() {

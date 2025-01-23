@@ -19,8 +19,10 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import responderStructure.responderModule.Responder;
+import skillStructure.skillModule.Skill;
 import stationStructure.stationModule.Station;
 import unitStructure.unitModule.Unit;
+import vehicleStructure.vehicleModule.Vehicle;
 
 public class Main extends Application {
 
@@ -57,35 +59,87 @@ public class Main extends Application {
 
             for (Department department : game.departmentManager.getDepartments()) {
                 Button departmentButton = new Button(department.toString());
+                Label departmentLabel = new Label("\t" + department.getStations().size() + " stations");
+                leftPanel.getChildren().addAll(departmentButton, departmentLabel);
                 departmentButton.setOnAction(_ -> {
                     leftPanel.getChildren().clear();
+                    Label stationsSeparator = new Label("----------------------\nStations");
+                    leftPanel.getChildren().addAll(departmentButton, stationsSeparator);
+
 
                     for (Station station : department.getStations()) {
                         Button stationButton = new Button(station.toString());
+                        Label stationLabel = new Label("\t" + station.getUnits().size() + " units");
+                        leftPanel.getChildren().addAll(stationButton, stationLabel);
                         stationButton.setOnAction(_ -> {
                             leftPanel.getChildren().clear();
+                            Label unitsSeparator = new Label("----------------------\nUnits");
+                            leftPanel.getChildren().addAll(departmentButton, stationButton, unitsSeparator);
 
                             for (Unit unit : station.getUnits()) {
                                 Button unitButton = new Button(unit.toString());
+                                Label unitLabel = new Label("\t" + game.responderManager.getResponders(unit).size() + " responders");
+                                leftPanel.getChildren().addAll(unitButton, unitLabel);
                                 unitButton.setOnAction(_ -> {
                                     leftPanel.getChildren().clear();
+                                    Label respondersSeparator = new Label("----------------------\nResponders");
+                                    leftPanel.getChildren().addAll(departmentButton, stationButton, unitButton, respondersSeparator);
 
                                     for (Responder responder : game.responderManager.getResponders(unit)) {
                                         Button responderButton = new Button(responder.toString());
-                                        Label responderLabel = new Label(responder.getRank().toString());
+                                        Label responderLabel = new Label("\t" + responder.getRank().toString());
                                         leftPanel.getChildren().addAll(responderButton, responderLabel);
+                                        responderButton.setOnAction(_ -> {
+                                            leftPanel.getChildren().clear();
+                                            Label skillsSeparator = new Label("----------------------\nSkills");
+                                            leftPanel.getChildren().addAll(departmentButton, stationButton, unitButton, responderButton, skillsSeparator);
+
+                                            for (Skill skill : game.skillManager.getSkillsByResponder(responder)) {
+                                                Button skillButton = new Button(skill.toString());
+                                                Label skillLabel = new Label("\t" + skill);
+                                                leftPanel.getChildren().addAll(skillButton, skillLabel);
+                                                skillButton.setOnAction(_ -> {
+                                                    leftPanel.getChildren().clear();
+                                                    Label separator = new Label("----------------------\n");
+                                                    leftPanel.getChildren().addAll(departmentButton, stationButton, unitButton, responderButton, skillButton, separator);
+                                                });
+                                            }
+                                        });
+                                    }
+
+                                    Label vehiclesSeparator = new Label("----------------------\nVehicles");
+                                    leftPanel.getChildren().addAll(vehiclesSeparator);
+
+                                    for (Vehicle vehicle : game.vehicleManager.getVehicles(unit)) {
+                                        Button vehicleButton = new Button(vehicle.toString());
+                                        Label vehicleLabel = new Label("\tIntegrity: " + String.format("%.0f%%", vehicle.getIntegrity() * 100) + " - Condition: " + String.format("%.0f%%", vehicle.getCondition() * 100));
+                                        leftPanel.getChildren().addAll(vehicleButton, vehicleLabel);
+                                        vehicleButton.setOnAction(_ -> {
+                                            leftPanel.getChildren().clear();
+                                            Label separator = new Label("----------------------\n");
+                                            leftPanel.getChildren().addAll(departmentButton, stationButton, unitButton, vehicleButton, separator);
+                                        });
                                     }
                                 });
-                                Label unitLabel = new Label(game.responderManager.getResponders(unit).size() + " responders");
-                                leftPanel.getChildren().addAll(unitButton, unitLabel);
                             }
+
+                            Label vehiclesSeparator = new Label("----------------------\nVehicles");
+                            leftPanel.getChildren().addAll(vehiclesSeparator);
+
+                            for (Vehicle vehicle : game.vehicleManager.getVehicles(station)) {
+                                Button vehicleButton = new Button(vehicle.toString());
+                                Label vehicleLabel = new Label("\tIntegrity: " + String.format("%.0f%%", vehicle.getIntegrity() * 100) + " - Condition: " + String.format("%.0f%%", vehicle.getCondition() * 100));
+                                leftPanel.getChildren().addAll(vehicleButton, vehicleLabel);
+                                vehicleButton.setOnAction(_ -> {
+                                    leftPanel.getChildren().clear();
+                                    Label separator = new Label("----------------------\n");
+                                    leftPanel.getChildren().addAll(departmentButton, stationButton, vehicleButton, separator);
+                                });
+                            }
+
                         });
-                        Label stationLabel = new Label(station.getUnits().size() + " units");
-                        leftPanel.getChildren().addAll(stationButton, stationLabel);
                     }
                 });
-                Label label = new Label(department.getStations().size() + " stations");
-                leftPanel.getChildren().addAll(departmentButton, label);
             }
 
         });

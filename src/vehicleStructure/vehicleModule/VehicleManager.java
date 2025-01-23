@@ -43,6 +43,12 @@ public class VehicleManager {
 				.collect(Collectors.toList());
 	}
 
+	public List<Vehicle> getVehicles(Station station) {
+		return vehicles.stream()
+				.filter(item -> item.getUnitLink().getUnit().getStation().equals(station))
+				.collect(Collectors.toList());
+	}
+
 	public void addVehicle(Vehicle Vehicle) {
 		this.vehicles.add(Vehicle);
 	}
