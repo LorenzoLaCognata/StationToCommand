@@ -16,6 +16,7 @@ public class Skill {
 	private final ExperienceLink experienceRequirement;
 	private final List<SkillLink> skillRequirements;
 	private final List<TrainingLink> trainingRequirements;
+	// TODO: move Responder-Skill links in Responder and not in Skill
 	private final List<ResponderLink> responderLinks;
 
 	public Skill(SkillType skillType, ExperienceLink experienceRequirement,
