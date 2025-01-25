@@ -1,11 +1,18 @@
 package stationStructure.stationModule;
 
 import departmentStructure.departmentModule.Department;
+import linkStructure.personLinkModule.ResponderLink;
+import linkStructure.skillLinkModule.SkillLink;
+import linkStructure.vehicleLinkModule.VehicleLink;
 import locationStructure.locationModule.Location;
+import responderStructure.responderModule.Responder;
+import unitStructure.unitLinkModule.UnitResponderLink;
 import unitStructure.unitModule.Unit;
 import unitStructure.unitModule.UnitManager;
+import vehicleStructure.vehicleModule.Vehicle;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Station {
 
@@ -44,6 +51,20 @@ public class Station {
 
     public List<Unit> getUnits() {
         return unitManager.getUnits();
+    }
+
+    public List<Responder> getResponders() {
+        return unitManager.getUnits().stream()
+                .flatMap(unit -> unit.getResponderLinks().stream())
+                .map(ResponderLink::getResponder)
+                .collect(Collectors.toList());
+    }
+
+    public List<Vehicle> getVehicles() {
+        return unitManager.getUnits().stream()
+                .flatMap(unit -> unit.getVehicleLinks().stream())
+                .map(VehicleLink::getVehicle)
+                .collect(Collectors.toList());
     }
 
 }

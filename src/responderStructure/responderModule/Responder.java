@@ -4,14 +4,17 @@ import experienceStructure.experienceModule.Experience;
 import linkStructure.organizationLinkModule.UnitLink;
 import linkStructure.personLinkModule.ResponderLink;
 import linkStructure.skillLinkModule.SkillLink;
+import linkStructure.trainingLinkModule.TrainingLink;
 import locationStructure.locationModule.Location;
 import personStructure.personModule.Gender;
 import personStructure.personModule.Person;
 import rankStructure.rankModule.Rank;
 import responderStructure.responderLinkModule.ResponderResponderLink;
 import responderStructure.responderLinkModule.ResponderSkillLink;
+import responderStructure.responderLinkModule.ResponderTrainingLink;
 import responderStructure.responderLinkModule.ResponderUnitLink;
 import skillStructure.skillModule.Skill;
+import trainingStructure.trainingModule.Training;
 import unitStructure.unitModule.Unit;
 
 import java.util.ArrayList;
@@ -27,6 +30,7 @@ public class Responder extends Person {
     // TODO: manage ranks 5+ that are not linked to a unit but to the entire department (e.g. create ad Admin unit?!)
     private UnitLink unitLink;
     private final List<ResponderSkillLink> skillLinks;
+    private final List<ResponderTrainingLink> trainingLinks;
     private final List<ResponderResponderLink> responderLinks;
 
     public Responder(String firstName, String lastName, Gender gender, Location location, int id, boolean isPlayer, Experience experience, Rank rank, Unit unit) {
@@ -38,6 +42,7 @@ public class Responder extends Person {
         this.unitLink = new ResponderUnitLink(unit);
         unit.linkResponder(this);
         this.skillLinks = new ArrayList<>();
+        this.trainingLinks = new ArrayList<>();
         this.responderLinks = new ArrayList<>();
     }
 
@@ -50,6 +55,7 @@ public class Responder extends Person {
         this.unitLink = new ResponderUnitLink(unit);
         unit.linkResponder(this);
         this.skillLinks = new ArrayList<>();
+        this.trainingLinks = new ArrayList<>();
         this.responderLinks = new ArrayList<>();
     }
 
@@ -118,11 +124,29 @@ public class Responder extends Person {
                 .collect(Collectors.toList());
     }
 
+    public List<ResponderTrainingLink> getTrainingLinks() {
+        return trainingLinks;
+    }
+
+    public List<Training> getTrainings() {
+        return trainingLinks.stream()
+                .map(TrainingLink::getTraining)
+                .collect(Collectors.toList());
+    }
+
     public void linkSkill(Skill skill) {
         if (skillLinks.stream()
                 .noneMatch(item -> item.getSkill().equals(skill))) {
             ResponderSkillLink responderSkillLink = new ResponderSkillLink(skill);
             skillLinks.add(responderSkillLink);
+        }
+    }
+
+    public void linkTraining(Training training) {
+        if (trainingLinks.stream()
+                .noneMatch(item -> item.getTraining().equals(training))) {
+            ResponderTrainingLink responderTrainingLink = new ResponderTrainingLink(training);
+            trainingLinks.add(responderTrainingLink);
         }
     }
 

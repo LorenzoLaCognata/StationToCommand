@@ -154,9 +154,9 @@ public class Game {
 		System.out.println(missionManager.getMissions().getFirst() + " assigned to " + missionManager.getMissions().getFirst().getDepartmentLinks().getFirst().getStationLinks().getFirst().getUnitLinks().getFirst().getVehicleLinks().getFirst().getVehicle());
 
 		Training training = trainingManager.getTraining(TrainingType.FIRST_AID);
-		training.linkResponder(responderManager.getPlayer());
+		responderManager.getPlayer().linkTraining(training);
 
-		System.out.println(training.getResponderLinks().getFirst().getResponder() + " completes " + training);
+		System.out.println(responderManager.getPlayer() + " completes " + responderManager.getPlayer().getTrainingLinks().getFirst().getTraining());
 
 		Skill skill = skillManager.getSkill(SkillType.SELF_DEFENSE);
 		responderManager.getPlayer().linkSkill(skill);

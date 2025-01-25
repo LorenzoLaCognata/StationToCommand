@@ -15,4 +15,8 @@ public abstract class TrainingLink {
         return "[TRAINING] " + training.getTrainingType().toString();
     }
 
+    public Training getTraining() {
+        return training;
+    }
+    
 }

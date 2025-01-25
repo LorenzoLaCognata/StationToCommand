@@ -17,6 +17,7 @@ public class Vehicle {
 		this.vehicleType = vehicleType;
 		this.location = unit.getStation().getLocation();
 		this.unitLink = new VehicleUnitLink(unit);
+		unit.linkVehicle(this);
     }
 
 	@Override
@@ -54,6 +55,7 @@ public class Vehicle {
 
 	public void linkUnit(Unit unit) {
 		this.unitLink = new VehicleUnitLink(unit);
+		unit.linkVehicle(this);
 	}
 
 	
