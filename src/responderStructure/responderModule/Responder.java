@@ -36,6 +36,7 @@ public class Responder extends Person {
         this.experience = experience;
         this.rank = rank;
         this.unitLink = new ResponderUnitLink(unit);
+        unit.linkResponder(this);
         this.skillLinks = new ArrayList<>();
         this.responderLinks = new ArrayList<>();
     }
@@ -47,6 +48,7 @@ public class Responder extends Person {
         this.experience = experience;
         this.rank = rank;
         this.unitLink = new ResponderUnitLink(unit);
+        unit.linkResponder(this);
         this.skillLinks = new ArrayList<>();
         this.responderLinks = new ArrayList<>();
     }
@@ -90,6 +92,7 @@ public class Responder extends Person {
 
     public void linkUnit(Unit unit) {
         this.unitLink = new ResponderUnitLink(unit);
+        unit.linkResponder(this);
     }
 
     public void linkResponder(Responder responder, float relationship) {

@@ -134,7 +134,7 @@ public class Main extends Application {
                 List<Control> newControls = new ArrayList<>(controls);
                 newControls.add(unitButton);
                 resetBreadcrumbs(pane, newControls);
-                unitView(pane, newControls, game.responderManager.getResponders(unit), game.vehicleManager.getVehicles(unit));
+                unitView(pane, newControls, unit.getResponders(), game.vehicleManager.getVehicles(unit));
             });
         }
     }
