@@ -159,9 +159,9 @@ public class Game {
 		System.out.println(training.getResponderLinks().getFirst().getResponder() + " completes " + training);
 
 		Skill skill = skillManager.getSkill(SkillType.SELF_DEFENSE);
-		skill.linkResponder(responderManager.getPlayer());
+		responderManager.getPlayer().linkSkill(skill);
 
-		System.out.println(skill.getResponderLinks().getFirst().getResponder() + " obtains " + skill);
+		System.out.println(responderManager.getPlayer() + " obtains " + responderManager.getPlayer().getSkillLinks().getFirst().getSkill());
 
 		Action action = new Action(ActionType.SETUP_PERIMETER, responderManager.getPlayer(),null,null,null,null);
 		actionManager.addAction(action);

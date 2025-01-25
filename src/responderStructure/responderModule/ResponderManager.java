@@ -10,6 +10,7 @@ import linkStructure.skillLinkModule.SkillLink;
 import locationStructure.locationModule.Location;
 import personStructure.personModule.Gender;
 import rankStructure.rankModule.Rank;
+import skillStructure.skillModule.Skill;
 import stationStructure.stationModule.Station;
 import unitStructure.unitModule.Unit;
 import unitStructure.unitTypeModule.FireUnitType;

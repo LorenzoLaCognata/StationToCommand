@@ -15,4 +15,8 @@ public abstract class SkillLink {
         return "[SKILL] " + skill.getSkillType().toString();
     }
 
+    public Skill getSkill() {
+        return skill;
+    }
+
 }

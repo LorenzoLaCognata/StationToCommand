@@ -2,16 +2,21 @@ package responderStructure.responderModule;
 
 import experienceStructure.experienceModule.Experience;
 import linkStructure.organizationLinkModule.UnitLink;
+import linkStructure.personLinkModule.ResponderLink;
+import linkStructure.skillLinkModule.SkillLink;
 import locationStructure.locationModule.Location;
 import personStructure.personModule.Gender;
 import personStructure.personModule.Person;
 import rankStructure.rankModule.Rank;
 import responderStructure.responderLinkModule.ResponderResponderLink;
+import responderStructure.responderLinkModule.ResponderSkillLink;
 import responderStructure.responderLinkModule.ResponderUnitLink;
+import skillStructure.skillModule.Skill;
 import unitStructure.unitModule.Unit;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Responder extends Person {
 
@@ -21,6 +26,7 @@ public class Responder extends Person {
     private Rank rank;
     // TODO: manage ranks 5+ that are not linked to a unit but to the entire department (e.g. create ad Admin unit?!)
     private UnitLink unitLink;
+    private final List<ResponderSkillLink> skillLinks;
     private final List<ResponderResponderLink> responderLinks;
 
     public Responder(String firstName, String lastName, Gender gender, Location location, int id, boolean isPlayer, Experience experience, Rank rank, Unit unit) {
@@ -30,6 +36,7 @@ public class Responder extends Person {
         this.experience = experience;
         this.rank = rank;
         this.unitLink = new ResponderUnitLink(unit);
+        this.skillLinks = new ArrayList<>();
         this.responderLinks = new ArrayList<>();
     }
 
@@ -40,6 +47,7 @@ public class Responder extends Person {
         this.experience = experience;
         this.rank = rank;
         this.unitLink = new ResponderUnitLink(unit);
+        this.skillLinks = new ArrayList<>();
         this.responderLinks = new ArrayList<>();
     }
 
@@ -95,6 +103,24 @@ public class Responder extends Person {
                 .filter(item -> item.getResponder().equals(responder))
                 .findAny()
                 .ifPresent(item -> item.setRelationship(relationship));
+    }
+
+    public List<ResponderSkillLink> getSkillLinks() {
+        return skillLinks;
+    }
+
+    public List<Skill> getSkills() {
+        return skillLinks.stream()
+                .map(SkillLink::getSkill)
+                .collect(Collectors.toList());
+    }
+
+    public void linkSkill(Skill skill) {
+        if (skillLinks.stream()
+                .noneMatch(item -> item.getSkill().equals(skill))) {
+            ResponderSkillLink responderSkillLink = new ResponderSkillLink(skill);
+            skillLinks.add(responderSkillLink);
+        }
     }
 
 }

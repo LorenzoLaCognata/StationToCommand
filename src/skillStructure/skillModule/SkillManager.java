@@ -37,15 +37,6 @@ public class SkillManager {
 				.orElse(null);
 	}
 
-	public List<Skill> getSkillsByResponder(Responder responder) {
-		return skills.stream()
-				.filter(item ->
-					item.getResponderLinks().stream()
-						.anyMatch(link -> link.getResponder().equals(responder))
-				)
-				.collect(Collectors.toList());
-	}
-
 	public void addSkill(Skill skill) {
 		this.skills.add(skill);
 	}

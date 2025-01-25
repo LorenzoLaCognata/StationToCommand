@@ -134,7 +134,7 @@ public class Main extends Application {
                 List<Control> newControls = new ArrayList<>(controls);
                 newControls.add(unitButton);
                 resetBreadcrumbs(pane, newControls);
-                unitView(pane, newControls, game.responderManager.getResponders(unit), game.vehicleManager.getVehicles(unit), game);
+                unitView(pane, newControls, game.responderManager.getResponders(unit), game.vehicleManager.getVehicles(unit));
             });
         }
     }
@@ -156,14 +156,12 @@ public class Main extends Application {
         }
     }
 
-    // TODO: change passing of entire Game object
-    private static void unitView(Pane pane, List<Control> controls, List<Responder> responders, List<Vehicle> vehicles, Game game) {
-        unitRespondersListView(pane, controls, responders, game);
+    private static void unitView(Pane pane, List<Control> controls, List<Responder> responders, List<Vehicle> vehicles) {
+        unitRespondersListView(pane, controls, responders);
         unitVehiclesListView(pane, controls, vehicles);
     }
 
-    // TODO: change passing of entire Game object
-    private static void unitRespondersListView(Pane pane, List<Control> controls, List<Responder> responders, Game game) {
+    private static void unitRespondersListView(Pane pane, List<Control> controls, List<Responder> responders) {
         Label respondersSeparator = new Label("----------------------\nResponders");
         pane.getChildren().addAll(respondersSeparator);
 
@@ -175,14 +173,13 @@ public class Main extends Application {
                 List<Control> newControls = new ArrayList<>(controls);
                 newControls.add(responderButton);
                 resetBreadcrumbs(pane, newControls);
-                responderView(pane, newControls, game, responder);
+                responderView(pane, newControls, responder);
             });
         }
     }
 
-    // TODO: change passing of entire Game object
-    private static void responderView(Pane pane, List<Control> controls, Game game, Responder responder) {
-        responderSkillsListView(pane, controls, game.skillManager.getSkillsByResponder(responder));
+    private static void responderView(Pane pane, List<Control> controls, Responder responder) {
+        responderSkillsListView(pane, controls, responder.getSkills());
     }
 
     private static void unitVehiclesListView(Pane pane, List<Control> controls, List<Vehicle> vehicles) {
