@@ -1,35 +1,27 @@
 package main;
 
-import departmentStructure.departmentModule.Department;
-import equipmentStructure.equipmentModule.Equipment;
-import gameStructure.gameModule.Game;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
-import javafx.scene.control.ToolBar;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import responderStructure.responderModule.Responder;
-import skillStructure.skillModule.Skill;
-import stationStructure.stationModule.Station;
-import trainingStructure.trainingModule.Training;
-import unitStructure.unitModule.Unit;
-import vehicleStructure.vehicleModule.Vehicle;
+import model.departmentStructure.departmentModule.Department;
+import model.equipmentStructure.equipmentModule.Equipment;
+import model.gameStructure.gameModule.Game;
+import model.responderStructure.responderModule.Responder;
+import model.skillStructure.skillModule.Skill;
+import model.stationStructure.stationModule.Station;
+import model.trainingStructure.trainingModule.Training;
+import model.unitStructure.unitModule.Unit;
+import model.vehicleStructure.vehicleModule.Vehicle;
+import view.userInterfaceStructure.userInterfaceModule.UserInterface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,54 +32,21 @@ public class Main extends Application {
         launch(args);
     }
 
+    private final Game game = new Game();
+    private UserInterface userInterface;
+
     @Override
     public void start(Stage primaryStage) {
 
-        Game game = new Game();
+        userInterface =  new UserInterface(this);
 
-        ToolBar topBar = new ToolBar();
-        VBox leftPanel = new VBox(10);
-        Pane centerArea = new Pane();
-        BorderPane root = new BorderPane();
-        Scene scene = new Scene(root, 800, 600);
+        Scene scene = new Scene(userInterface.getParentScene(), 800, 600);
 
-        root.setTop(topBar);
-        root.setLeft(leftPanel);
-        root.setCenter(centerArea);
         primaryStage.setTitle("Station To Command");
         primaryStage.setMaximized(true);
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setScene(scene);
         primaryStage.show();
-
-        Button exitButton = new Button("Quit");
-        exitButton.setOnAction(_ -> Platform.exit());
-
-        Button organizationButton = new Button("Organization");
-        topBar.getItems().addAll(organizationButton, exitButton);
-
-        organizationButton.setOnAction(_ -> {
-            List<Control> newControls = setBreadcrumbs(leftPanel);
-            organizationButtonAction(leftPanel, newControls, game);
-        });
-
-        topBar.setMinHeight(60);
-
-        leftPanel.setMinWidth(400);
-        leftPanel.setPadding(new Insets(10));
-        leftPanel.setStyle("-fx-background-color: #f0f0f0;");
-
-        centerArea.setStyle("-fx-background-color: #ffffff;");
-
-        ImageView mapView = new ImageView(new Image("file:C:\\Users\\vodev\\OneDrive\\Desktop\\map.jpg"));
-        mapView.fitWidthProperty().bind(centerArea.widthProperty());
-        mapView.fitHeightProperty().bind(centerArea.heightProperty());
-        mapView.setPreserveRatio(true);
-        centerArea.getChildren().add(mapView);
-
-        Circle station = new Circle(100, 100, 12, Color.BLUE);
-        Circle responder = new Circle(200, 200, 8, Color.RED);
-        centerArea.getChildren().addAll(station, responder);
 
     }
 
@@ -270,11 +229,6 @@ public class Main extends Application {
         pane.getChildren().addAll(separator);
     }
 
-    private void skillView(Pane pane) {
-        Label separator = new Label("----------------------\n");
-        pane.getChildren().addAll(separator);
-    }
-
     private void trainingView(Pane pane) {
         Label separator = new Label("----------------------\n");
         pane.getChildren().addAll(separator);
@@ -282,8 +236,11 @@ public class Main extends Application {
 
     // Button Actions
 
-    private void organizationButtonAction(VBox leftPanel, List<Control> controls, Game game) {
-        organizationView(leftPanel, controls, game);
+    // TODO: check if it's possible to remove the Pane parameter
+    // TODO: change after moving setBreadcrumbs to UserInterface
+    public void organizationButtonAction(Pane pane) {
+        List<Control> controls = setBreadcrumbs(pane);
+        organizationView(pane, controls, game);
     }
 
     private void departmentButtonAction(Pane pane, List<Control> controls, Department department) {
@@ -311,7 +268,7 @@ public class Main extends Application {
     }
 
     private void skillButtonAction(Pane pane) {
-        skillView(pane);
+        userInterface.getSkillView().skillView(pane);
     }
 
     private void trainingButtonAction(Pane pane) {
