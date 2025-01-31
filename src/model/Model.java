@@ -1,4 +1,4 @@
-package model.gameStructure.gameModule;
+package model;
 
 import model.actionStructure.actionModule.Action;
 import model.actionStructure.actionModule.ActionManager;
@@ -36,7 +36,7 @@ import model.vehicleStructure.vehicleModule.VehicleManager;
 
 import java.util.List;
 
-public class Game {
+public class Model {
 
 	public final LocationManager locationManager;
 	public final DepartmentManager departmentManager;
@@ -52,7 +52,7 @@ public class Game {
 	public final TaskManager taskManager;
 	public final ActionManager actionManager;
 
-	public Game() {
+	public Model() {
 		locationManager = new LocationManager();
 		watchManager = new WatchManager();
 		departmentManager = new DepartmentManager(locationManager);

@@ -1,11 +1,14 @@
-package view.organizationStructure.skillStructure.skillModule;
+package view.trainingStructure.trainingModule;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
-public class SkillView {
+public class TrainingView {
 
-    public void skillView(Pane pane) {
+    public TrainingView() {
+    }
+
+    public void show(Pane pane) {
         Label separator = new Label("----------------------\n");
         pane.getChildren().addAll(separator);
     }
