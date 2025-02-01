@@ -120,7 +120,7 @@ public class Responder extends Person {
     public List<Skill> getSkills() {
         return skillLinks.stream()
                 .map(SkillLink::getSkill)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public List<ResponderTrainingLink> getTrainingLinks() {
@@ -130,7 +130,7 @@ public class Responder extends Person {
     public List<Training> getTrainings() {
         return trainingLinks.stream()
                 .map(TrainingLink::getTraining)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public void linkSkill(Skill skill) {

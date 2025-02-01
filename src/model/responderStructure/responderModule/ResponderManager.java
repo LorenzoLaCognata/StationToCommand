@@ -42,7 +42,7 @@ public class ResponderManager {
 	public List<Responder> getResponders(String firstName, String lastName) {
 		return responders.stream()
 				.filter(item -> item.getFirstName().equals(firstName) && item.getLastName().equals(lastName))
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	public Responder getPlayer() {
@@ -55,7 +55,7 @@ public class ResponderManager {
 	public List<Responder> getResponders(Unit unit) {
 		return responders.stream()
 				.filter(item -> item.getUnitLink().getUnit().equals(unit))
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	public void addResponder(Responder responder) {

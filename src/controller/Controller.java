@@ -12,7 +12,7 @@ public class Controller {
         this.model = model;
         this.view = view;
         view.initialize(this);
-        view.generateTopBar(model.departmentManager.getDepartments());
+        view.generateTopBar(model.departmentManager.getDepartments(), model.missionManager.getMissions());
     }
 
 }

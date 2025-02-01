@@ -23,7 +23,7 @@ public class LocationManager {
 	public List<Location> getLocations(float latitude, float longitude) {
 		return locations.stream()
 				.filter(item -> item.latitude() == latitude && item.longitude() == longitude)
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	public void addLocation(Location location) {

@@ -107,7 +107,6 @@ public class Model {
 		}
 
 		Mission sampleMission = missionManager.generateMission(departmentManager, locationManager);
-		missionManager.addMission(sampleMission);
 
 		System.out.println(missionManager.getMissions().getFirst() + " generated");
 

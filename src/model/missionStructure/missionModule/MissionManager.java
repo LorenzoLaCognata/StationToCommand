@@ -30,7 +30,7 @@ public class MissionManager {
     public List<Mission> getMissions(MissionType missionType, Location location) {
         return missions.stream()
                 .filter(item -> item.getMissionType().equals(missionType) && item.getLocation().equals(location))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public void addMission(Mission mission) {

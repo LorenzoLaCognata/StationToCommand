@@ -34,19 +34,19 @@ public class VehicleManager {
 	public List<Vehicle> getVehicles(VehicleType vehicleType) {
 		return vehicles.stream()
 				.filter(item -> item.getVehicleType().equals(vehicleType))
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	public List<Vehicle> getVehicles(Unit unit) {
 		return vehicles.stream()
 				.filter(item -> item.getUnitLink().getUnit().equals(unit))
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	public List<Vehicle> getVehicles(Station station) {
 		return vehicles.stream()
 				.filter(item -> item.getUnitLink().getUnit().getStation().equals(station))
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	public void addVehicle(Vehicle Vehicle) {

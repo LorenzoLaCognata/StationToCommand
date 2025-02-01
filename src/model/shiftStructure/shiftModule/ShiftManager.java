@@ -29,19 +29,19 @@ public class ShiftManager {
 	public List<Shift> getShifts(Responder responder) {
 		return shifts.stream()
 				.filter(item -> item.responder().equals(responder))
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	public List<Shift> getShifts(Unit unit) {
 		return shifts.stream()
 				.filter(item -> item.unit().equals(unit))
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	public List<Shift> getShifts(Watch watch) {
 		return shifts.stream()
 				.filter(item -> item.watch().equals(watch))
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	public void addShift(Shift Shift) {

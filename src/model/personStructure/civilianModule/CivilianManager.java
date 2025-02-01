@@ -21,7 +21,7 @@ public class CivilianManager {
 	public List<Civilian> getCivilians(String firstName, String lastName) {
 		return civilians.stream()
 				.filter(item -> item.getFirstName().equals(firstName) && item.getLastName().equals(lastName))
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	public void addCivilian(Civilian civilian) {

@@ -55,14 +55,14 @@ public class Station {
         return unitManager.getUnits().stream()
                 .flatMap(unit -> unit.getResponderLinks().stream())
                 .map(ResponderLink::getResponder)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public List<Vehicle> getVehicles() {
         return unitManager.getUnits().stream()
                 .flatMap(unit -> unit.getVehicleLinks().stream())
                 .map(VehicleLink::getVehicle)
-                .collect(Collectors.toList());
+                .toList();
     }
 
 }

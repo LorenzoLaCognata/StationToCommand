@@ -14,25 +14,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import model.departmentStructure.departmentModule.Department;
-import view.departmentStructure.departmentListModule.DepartmentListView;
-import view.departmentStructure.departmentModule.DepartmentView;
-import view.equipmentStructure.equipmentListView.EquipmentListView;
-import view.equipmentStructure.equipmentModule.EquipmentView;
+import model.missionStructure.missionModule.Mission;
+import view.dispatchStructure.dispatchModule.DispatchView;
 import view.organizationStructure.organizationModule.OrganizationView;
-import view.responderStructure.responderListModule.ResponderListView;
-import view.responderStructure.responderModule.ResponderView;
-import view.skillStructure.skillListModule.SkillListView;
-import view.skillStructure.skillModule.SkillView;
-import view.stationStructure.stationListModule.StationListView;
-import view.stationStructure.stationModule.StationView;
-import view.trainingStructure.trainingListModule.TrainingListView;
-import view.trainingStructure.trainingModule.TrainingView;
-import view.unitStructure.unitListModule.UnitListView;
-import view.unitStructure.unitModule.UnitView;
 import view.utilsStructure.utilsModule.UtilsView;
-import view.vehicleStructure.vehicleListModule.VehicleListView;
-import view.vehicleStructure.vehicleModule.VehicleView;
 
+import java.net.DatagramSocket;
 import java.util.List;
 
 public class View {
@@ -40,6 +27,7 @@ public class View {
     private Controller controller;
     private UtilsView utilsView;
     private OrganizationView organizationView;
+    private DispatchView dispatchView;
     private final BorderPane parentScene = new BorderPane();
     private final ToolBar topBar = new ToolBar();
     private final VBox leftPanel = new VBox(10);
@@ -73,9 +61,10 @@ public class View {
         this.controller = controller;
         this.utilsView = new UtilsView();
         this.organizationView = new OrganizationView(utilsView);
+        this.dispatchView = new DispatchView(utilsView);
     }
 
-    public void generateTopBar(List<Department> departments) {
+    public void generateTopBar(List<Department> departments, List<Mission> missions) {
         Button organizationButton = new Button("Organization");
         organizationButton.setOnAction(_ -> {
             List<Control> controls = utilsView.setBreadcrumbs(leftPanel);
@@ -83,6 +72,14 @@ public class View {
         });
 
         topBar.getItems().addAll(organizationButton);
+
+        Button dispatchButton = new Button("Dispatch");
+        dispatchButton.setOnAction(_ -> {
+            List<Control> controls = utilsView.setBreadcrumbs(leftPanel);
+            dispatchView.show(leftPanel, controls, missions);
+        });
+
+        topBar.getItems().addAll(dispatchButton);
 
         Button exitButton = new Button("Quit");
         exitButton.setOnAction(_ -> Platform.exit());

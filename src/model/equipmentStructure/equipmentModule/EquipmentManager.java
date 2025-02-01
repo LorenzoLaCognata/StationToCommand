@@ -34,13 +34,13 @@ public class EquipmentManager {
 	public List<Equipment> getEquipments(EquipmentType equipmentType) {
 		return equipments.stream()
 				.filter(item -> item.getEquipmentType().equals(equipmentType))
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	public List<Equipment> getEquipments(Unit unit) {
 		return equipments.stream()
 				.filter(item -> item.getUnitLink().getUnit().equals(unit))
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	public void addEquipment(Equipment Equipment) {

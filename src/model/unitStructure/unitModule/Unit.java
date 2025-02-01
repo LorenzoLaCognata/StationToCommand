@@ -66,19 +66,19 @@ public abstract class Unit {
     public List<Responder> getResponders() {
         return responderLinks.stream()
                 .map(ResponderLink::getResponder)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public List<Vehicle> getVehicles() {
         return vehicleLinks.stream()
                 .map(VehicleLink::getVehicle)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public List<Equipment> getEquipments() {
         return equipmentLinks.stream()
                 .map(EquipmentLink::getEquipment)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public void linkResponder(Responder responder) {

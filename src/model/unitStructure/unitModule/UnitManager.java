@@ -43,7 +43,7 @@ public class UnitManager {
 	public List<Unit> getUnits(UnitType unitType) {
 		return units.stream()
 				.filter(item -> item.getUnitType().equals(unitType))
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	public void addUnit(DepartmentType departmentType, UnitType unitType, StationManager stationManager) {

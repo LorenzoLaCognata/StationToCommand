@@ -83,8 +83,33 @@ state Skill {
 state Shift #red{
   state " " as ShiftEntry <<entryPoint>>
 }
-'state Mission
+state Dispatch #red {
+  state " " as DispatchEntry <<entryPoint>>
+  state "Missions" as Missions #red {
+    state "Mission" as Mission1 #red
+    state "Mission" as Mission2 #red
+    state "Mission" as Mission3 #red
+  }
+}
 
+state Mission #red {
+  state " " as MissionEntry <<entryPoint>>
+  state "Units" as UnitsByMission #red {
+    state "Unit" as UnitByMission1 #red
+    state "Unit" as UnitByMission2 #red
+    state "Unit" as UnitByMission3 #red
+  }
+  state "Responders" as RespondersByMission #red {
+    state "Responder" as ResponderByMission1 #red
+    state "Responder" as ResponderByMission2 #red
+    state "Responder" as ResponderByMission3 #red
+  }
+  state "Vehicles" as VehiclesByMission #red {
+    state "Vehicle" as VehicleByMission1 #red
+    state "Vehicle" as VehicleByMission2 #red
+    state "Vehicle" as VehicleByMission3 #red
+  }
+}
 
 [*] --> OrganizationEntry
 
@@ -105,5 +130,15 @@ EquipmentsByUnit --> EquipmentEntry
 ShiftsByResponder --> ShiftEntry
 SkillsByResponder --> SkillEntry
 TrainingsByResponder --> TrainingEntry
+
+[*] -[#red]-> DispatchEntry
+
+Missions -[#red]-> MissionEntry
+
+UnitsByMission -[#red]-> UnitEntry
+
+RespondersByMission -[#red]-> ResponderEntry
+VehiclesByMission -[#red]-> VehicleEntry
+
 
 @enduml
