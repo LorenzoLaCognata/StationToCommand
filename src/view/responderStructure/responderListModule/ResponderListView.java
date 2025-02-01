@@ -15,9 +15,9 @@ public class ResponderListView {
     private final UtilsView utilsView;
     private final ResponderView responderView;
 
-    public ResponderListView(UtilsView utilsView, ResponderView responderView) {
+    public ResponderListView(UtilsView utilsView) {
         this.utilsView = utilsView;
-        this.responderView = responderView;
+        this.responderView = new ResponderView(utilsView);
     }
 
     public void show(Pane pane, List<Control> controls, List<Responder> responders) {

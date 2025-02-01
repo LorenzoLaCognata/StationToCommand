@@ -15,9 +15,9 @@ public class UnitListView {
     private final UtilsView utilsView;
     private final UnitView unitView;
 
-    public UnitListView(UtilsView utilsView, UnitView unitView) {
+    public UnitListView(UtilsView utilsView) {
         this.utilsView = utilsView;
-        this.unitView = unitView;
+        this.unitView = new UnitView(utilsView);
     }
 
     public void show(Pane pane, List<Control> controls, List<Unit> units) {

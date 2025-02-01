@@ -40,23 +40,6 @@ public class View {
     private Controller controller;
     private UtilsView utilsView;
     private OrganizationView organizationView;
-    private DepartmentView departmentView;
-    private DepartmentListView departmentListView;
-    private StationView stationView;
-    private StationListView stationListView;
-    private UnitView unitView;
-    private UnitListView unitListView;
-    private ResponderView responderView;
-    private ResponderListView responderListView;
-    private SkillView skillView;
-    private SkillListView skillListView;
-    private TrainingView trainingView;
-    private TrainingListView trainingListView;
-    private VehicleView vehicleView;
-    private VehicleListView vehicleListView;
-    private EquipmentView equipmentView;
-    private EquipmentListView equipmentListView;
-
     private final BorderPane parentScene = new BorderPane();
     private final ToolBar topBar = new ToolBar();
     private final VBox leftPanel = new VBox(10);
@@ -89,23 +72,7 @@ public class View {
     public void initialize(Controller controller) {
         this.controller = controller;
         this.utilsView = new UtilsView();
-        this.vehicleView = new VehicleView();
-        this.vehicleListView = new VehicleListView(utilsView, vehicleView);
-        this.equipmentView = new EquipmentView();
-        this.equipmentListView = new EquipmentListView(utilsView, equipmentView);
-        this.skillView = new SkillView();
-        this.skillListView = new SkillListView(utilsView, skillView);
-        this.trainingView = new TrainingView();
-        this.trainingListView = new TrainingListView(utilsView, trainingView);
-        this.responderView = new ResponderView(skillListView, trainingListView);
-        this.responderListView = new ResponderListView(utilsView, responderView);
-        this.unitView = new UnitView(responderListView, vehicleListView, equipmentListView);
-        this.unitListView = new UnitListView(utilsView, unitView);
-        this.stationView = new StationView(unitListView, responderListView, vehicleListView);
-        this.stationListView = new StationListView(utilsView, stationView);
-        this.departmentView = new DepartmentView(stationListView);
-        this.departmentListView = new DepartmentListView(utilsView, departmentView);
-        this.organizationView = new OrganizationView(departmentListView);
+        this.organizationView = new OrganizationView(utilsView);
     }
 
     public void generateTopBar(List<Department> departments) {
@@ -136,38 +103,6 @@ public class View {
 
     public Pane getCenterArea() {
         return centerArea;
-    }
-
-    public UtilsView getUtilsView() {
-        return utilsView;
-    }
-
-    public OrganizationView getOrganizationView() {
-        return organizationView;
-    }
-
-    public DepartmentView getDepartmentView() {
-        return departmentView;
-    }
-
-    public StationView getStationView() {
-        return stationView;
-    }
-
-    public SkillView getSkillView() {
-        return skillView;
-    }
-
-    public TrainingView getTrainingView() {
-        return trainingView;
-    }
-
-    public VehicleView getVehicleView() {
-        return vehicleView;
-    }
-
-    public EquipmentView getEquipmentView() {
-        return equipmentView;
     }
 
 }

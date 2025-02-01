@@ -15,9 +15,9 @@ public class EquipmentListView {
     private final UtilsView utilsView;
     private final EquipmentView equipmentView;
 
-    public EquipmentListView(UtilsView utilsView, EquipmentView equipmentView) {
+    public EquipmentListView(UtilsView utilsView) {
         this.utilsView = utilsView;
-        this.equipmentView = equipmentView;
+        this.equipmentView = new EquipmentView();
     }
 
     public void show(Pane pane, List<Control> controls, List<Equipment> equipments) {

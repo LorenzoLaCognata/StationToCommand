@@ -14,9 +14,9 @@ public class DepartmentListView {
     private final UtilsView utilsView;
     private final DepartmentView departmentView;
 
-    public DepartmentListView(UtilsView utilsView, DepartmentView departmentView) {
+    public DepartmentListView(UtilsView utilsView) {
         this.utilsView = utilsView;
-        this.departmentView = departmentView;
+        this.departmentView = new DepartmentView(utilsView);
     }
 
     public void show(Pane pane, List<Control> controls, List<Department> departments) {

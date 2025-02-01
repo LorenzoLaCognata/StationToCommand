@@ -15,9 +15,9 @@ public class VehicleListView {
     private final UtilsView utilsView;
     private final VehicleView vehicleView;
 
-    public VehicleListView(UtilsView utilsView, VehicleView vehicleView) {
+    public VehicleListView(UtilsView utilsView) {
         this.utilsView = utilsView;
-        this.vehicleView = vehicleView;
+        this.vehicleView = new VehicleView();
     }
 
     public void show(Pane pane, List<Control> controls, List<Vehicle> vehicles) {

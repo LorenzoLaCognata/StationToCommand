@@ -15,9 +15,9 @@ public class StationListView {
     private final UtilsView utilsView;
     private final StationView stationView;
 
-    public StationListView(UtilsView utilsView, StationView stationView) {
+    public StationListView(UtilsView utilsView) {
         this.utilsView = utilsView;
-        this.stationView = stationView;
+        this.stationView = new StationView(utilsView);
     }
 
     public void show(Pane pane, List<Control> controls, List<Station> stations) {

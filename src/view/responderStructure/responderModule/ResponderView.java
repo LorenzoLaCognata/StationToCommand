@@ -5,6 +5,7 @@ import javafx.scene.layout.Pane;
 import model.responderStructure.responderModule.Responder;
 import view.skillStructure.skillListModule.SkillListView;
 import view.trainingStructure.trainingListModule.TrainingListView;
+import view.utilsStructure.utilsModule.UtilsView;
 
 import java.util.List;
 
@@ -13,9 +14,9 @@ public class ResponderView {
     private final SkillListView skillListView;
     private final TrainingListView trainingListView;
 
-    public ResponderView(SkillListView skillListView, TrainingListView trainingListView) {
-        this.skillListView = skillListView;
-        this.trainingListView = trainingListView;
+    public ResponderView(UtilsView utilsView) {
+        this.skillListView = new SkillListView(utilsView);
+        this.trainingListView = new TrainingListView(utilsView);
     }
 
     public void show(Pane pane, List<Control> controls, Responder responder) {

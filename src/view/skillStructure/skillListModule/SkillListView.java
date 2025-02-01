@@ -15,9 +15,9 @@ public class SkillListView {
     private final UtilsView utilsView;
     private final SkillView skillView;
 
-    public SkillListView(UtilsView utilsView, SkillView skillView) {
+    public SkillListView(UtilsView utilsView) {
         this.utilsView = utilsView;
-        this.skillView = skillView;
+        this.skillView = new SkillView();
     }
 
     public void show(Pane pane, List<Control> controls, List<Skill> skills) {

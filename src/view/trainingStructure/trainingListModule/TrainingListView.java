@@ -15,9 +15,9 @@ public class TrainingListView {
     private final UtilsView utilsView;
     private final TrainingView trainingView;
 
-    public TrainingListView(UtilsView utilsView, TrainingView trainingView) {
+    public TrainingListView(UtilsView utilsView) {
         this.utilsView = utilsView;
-        this.trainingView = trainingView;
+        this.trainingView = new TrainingView();
     }
 
     public void show(Pane pane, List<Control> controls, List<Training> trainings) {

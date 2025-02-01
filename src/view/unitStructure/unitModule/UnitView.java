@@ -5,6 +5,7 @@ import javafx.scene.layout.Pane;
 import model.unitStructure.unitModule.Unit;
 import view.equipmentStructure.equipmentListView.EquipmentListView;
 import view.responderStructure.responderListModule.ResponderListView;
+import view.utilsStructure.utilsModule.UtilsView;
 import view.vehicleStructure.vehicleListModule.VehicleListView;
 
 import java.util.List;
@@ -15,10 +16,10 @@ public class UnitView {
     private final VehicleListView vehicleListView;
     private final EquipmentListView equipmentListView;
 
-    public UnitView(ResponderListView responderListView, VehicleListView vehicleListView, EquipmentListView equipmentListView) {
-        this.responderListView = responderListView;
-        this.vehicleListView = vehicleListView;
-        this.equipmentListView = equipmentListView;
+    public UnitView(UtilsView utilsView) {
+        this.responderListView = new ResponderListView(utilsView);
+        this.vehicleListView = new VehicleListView(utilsView);
+        this.equipmentListView = new EquipmentListView(utilsView);
     }
 
     public void show(Pane pane, List<Control> controls, Unit unit) {

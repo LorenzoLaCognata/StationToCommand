@@ -47,7 +47,7 @@ public class ResponderManager {
 
 	public Responder getPlayer() {
 		return responders.stream()
-				.filter(item -> item.isPlayer())
+				.filter(Responder::isPlayer)
 				.findAny()
 				.orElse(null);
 	}
@@ -84,9 +84,6 @@ public class ResponderManager {
 							case 2 -> 0.6f;
 							case 3 -> 0.9f;
 							case 4 -> 0.3f;
-							case 5 -> 0.0f;
-							case 6 -> 0.0f;
-							case 7 -> 0.0f;
 							default -> 0.0f;
 						};
 						if (Utils.randomGenerator.nextFloat() < randomLimit) {
