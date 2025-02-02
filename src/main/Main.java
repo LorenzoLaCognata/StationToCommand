@@ -20,15 +20,13 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-
-        Scene scene = new Scene(view.getParentScene(), 800, 600);
+        Scene scene = new Scene(view.getGridPane(), 800, 600);
 
         primaryStage.setTitle("Station To Command");
         primaryStage.setMaximized(true);
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setScene(scene);
         primaryStage.show();
-
     }
 
 }

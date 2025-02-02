@@ -8,6 +8,10 @@ import java.util.stream.Collectors;
 
 public class LocationManager {
 
+	public static float MIN_LATITUDE = 41.6445f;
+	public static float MAX_LATITUDE = 42.0230f;
+	public static float MIN_LONGITUDE = -87.9401f;
+	public static float MAX_LONGITUDE = -87.5237f;
     private final List<Location> locations = new ArrayList<>();
 
     public LocationManager() {
@@ -31,10 +35,6 @@ public class LocationManager {
 	}
 
 	public Location generateLocation() {
-        float MIN_LATITUDE = 41.6445f;
-		float MAX_LATITUDE = 42.0230f;
-		float MIN_LONGITUDE = -87.9401f;
-		float MAX_LONGITUDE = -87.5237f;
         float randomLatitude = Utils.randomGenerator.nextFloat(MIN_LATITUDE, MAX_LATITUDE);
 		float randomLongitude = Utils.randomGenerator.nextFloat(MIN_LONGITUDE, MAX_LONGITUDE);
 		Location location  = new Location(randomLatitude, randomLongitude);

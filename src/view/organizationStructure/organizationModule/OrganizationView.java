@@ -3,6 +3,7 @@ package view.organizationStructure.organizationModule;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import model.departmentStructure.departmentModule.Department;
+import model.stationStructure.stationModule.Station;
 import view.departmentStructure.departmentListModule.DepartmentListView;
 import view.utilsStructure.utilsModule.UtilsView;
 

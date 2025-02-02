@@ -1,9 +1,12 @@
 package view.missionStructure.missionListModule;
 
+import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import model.missionStructure.missionModule.Mission;
 import view.missionStructure.missionModule.MissionView;
 import view.utilsStructure.utilsModule.UtilsView;
@@ -18,20 +21,24 @@ public class MissionListView {
         this.utilsView = utilsView;
     }
 
-    public void show(Pane pane, List<Node> nodes, List<Mission> missions) {
+    public void show(Pane pane1, Pane pane2, List<Node> nodes1, List<Node> nodes2, List<Mission> missions) {
         Label separator = new Label("----------------------\nMissions");
-        pane.getChildren().addAll(separator);
+        pane1.getChildren().addAll(separator);
 
         for (Mission mission : missions) {
             Button button = new Button();
             button.setOnAction(_ -> {
-                List<Node> nextNodes = utilsView.resetAndAddToPane(pane, nodes, button);
+                List<Node> nextNodes1 = utilsView.resetAndAddToPane(pane1, nodes1, button);
                 MissionView missionView = new MissionView(utilsView, mission);
-                missionView.show(pane, nextNodes, mission);
+                missionView.show(pane1, nextNodes1, mission);
             });
             String text1 = mission.getMissionType().toString();
             String text2 = mission.getLocation().toString();
-            utilsView.addToSidebar(pane, button, text1, text2);
+            utilsView.addToSidebar(pane1, button, text1, text2);
+
+            Point2D point = utilsView.locationToPoint(mission.getLocation());
+            Circle circle = new Circle(point.getX(), point.getY(), 10, Color.RED);
+            utilsView.addToMap(pane2, circle);
         }
     }
 

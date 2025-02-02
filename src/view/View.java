@@ -8,9 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import model.departmentStructure.departmentModule.Department;
@@ -24,26 +22,52 @@ import java.util.List;
 
 public class View {
 
+    public static float SCENE_WIDTH;
+    public static float SCENE_HEIGHT;
+
     private Controller controller;
     private UtilsView utilsView;
     private OrganizationView organizationView;
     private DispatchView dispatchView;
-    private final BorderPane parentScene = new BorderPane();
-    private final ToolBar topBar = new ToolBar();
-    private final VBox leftPanel = new VBox(10);
-    private final Pane centerArea = new Pane();
+    private final GridPane gridPane = new GridPane();
+    private final ToolBar topPane = new ToolBar();
+    private final VBox leftPane = new VBox(10);
+    private final Pane centerPane = new Pane();
 
     public View() {
-        parentScene.setTop(topBar);
-        parentScene.setLeft(leftPanel);
-        parentScene.setCenter(centerArea);
-        topBar.setMinHeight(60);
+        ColumnConstraints leftCol = new ColumnConstraints();
+        leftCol.setPrefWidth(350);
 
-        leftPanel.setMinWidth(400);
-        leftPanel.setPadding(new Insets(10));
-        leftPanel.setStyle("-fx-background-color: #f0f0f0;");
+        ColumnConstraints centerCol = new ColumnConstraints();
+        centerCol.setHgrow(Priority.ALWAYS);
 
-        centerArea.setStyle("-fx-background-color: #ffffff;");
+        gridPane.getColumnConstraints().addAll(leftCol, centerCol);
+
+        RowConstraints topRow = new RowConstraints();
+        topRow.setPrefHeight(60);
+
+        RowConstraints centerRow = new RowConstraints();
+        centerRow.setVgrow(Priority.ALWAYS);
+
+        gridPane.getRowConstraints().addAll(topRow, centerRow);
+
+        gridPane.add(topPane, 0, 0, 2, 1); // Top spans both columns
+        gridPane.add(leftPane, 0, 1);
+        gridPane.add(centerPane, 1, 1);
+
+        GridPane.setHgrow(centerPane, Priority.ALWAYS);
+        GridPane.setVgrow(centerPane, Priority.ALWAYS);
+
+        leftPane.setPadding(new Insets(10));
+        leftPane.setStyle("-fx-background-color: #f0f0f0;");
+
+        centerPane.setStyle("-fx-background-color: #ffffff;");
+        centerPane.widthProperty().addListener((_, _, newValue) -> {
+            SCENE_WIDTH = newValue.floatValue();
+        });
+        centerPane.heightProperty().addListener((_, _, newValue) -> {
+            SCENE_HEIGHT = newValue.floatValue();
+        });
     }
 
     public void initialize(Controller controller) {
@@ -57,52 +81,50 @@ public class View {
 
         List<Node> mapNodes = new ArrayList<>();
         ImageView mapView = new ImageView(new Image("file:C:\\Users\\vodev\\OneDrive\\Desktop\\map.jpg"));
-        mapView.fitWidthProperty().bind(centerArea.widthProperty());
-        mapView.fitHeightProperty().bind(centerArea.heightProperty());
+        mapView.fitWidthProperty().bind(centerPane.widthProperty());
+        mapView.fitHeightProperty().bind(centerPane.heightProperty());
         mapView.setPreserveRatio(true);
         mapNodes.add(mapView);
 
-        Circle responder = new Circle(200, 200, 8, Color.RED);
-        mapNodes.add(responder);
-
-        centerArea.getChildren().addAll(mapNodes);
+        centerPane.getChildren().addAll(mapNodes);
 
         Button organizationButton = new Button("Organization");
         organizationButton.setOnAction(_ -> {
-            List<Node> sidebarNodes = utilsView.clearPane(leftPanel);
-            List<Node> nextMapNodes = utilsView.resetPane(centerArea, mapNodes);
-            organizationView.show(leftPanel, centerArea, sidebarNodes, nextMapNodes, departments);
+            List<Node> sidebarNodes = utilsView.clearPane(leftPane);
+            List<Node> nextMapNodes = utilsView.resetPane(centerPane, mapNodes);
+            organizationView.show(leftPane, centerPane, sidebarNodes, nextMapNodes, departments);
         });
 
-        topBar.getItems().addAll(organizationButton);
+        topPane.getItems().addAll(organizationButton);
 
         Button dispatchButton = new Button("Dispatch");
         dispatchButton.setOnAction(_ -> {
-            List<Node> nodes = utilsView.clearPane(leftPanel);
-            dispatchView.show(leftPanel, nodes, missions);
+            List<Node> sidebarNodes = utilsView.clearPane(leftPane);
+            List<Node> nextMapNodes = utilsView.resetPane(centerPane, mapNodes);
+            dispatchView.show(leftPane, centerPane, sidebarNodes, nextMapNodes, missions);
         });
 
-        topBar.getItems().addAll(dispatchButton);
+        topPane.getItems().addAll(dispatchButton);
 
         Button exitButton = new Button("Quit");
         exitButton.setOnAction(_ -> Platform.exit());
-        topBar.getItems().addAll(exitButton);
+        topPane.getItems().addAll(exitButton);
     }
 
-    public BorderPane getParentScene() {
-        return parentScene;
+    public GridPane getGridPane() {
+        return gridPane;
     }
 
-    public ToolBar getTopBar() {
-        return topBar;
+    public ToolBar getTopPane() {
+        return topPane;
     }
 
-    public VBox getLeftPanel() {
-        return leftPanel;
+    public VBox getLeftPane() {
+        return leftPane;
     }
 
-    public Pane getCenterArea() {
-        return centerArea;
+    public Pane getCenterPane() {
+        return centerPane;
     }
 
 }

@@ -109,6 +109,9 @@ public class Model {
 		}
 
 		Mission sampleMission = missionManager.generateMission(departmentManager, locationManager);
+		for (int i=0; i<4; i++) {
+			missionManager.generateMission(departmentManager, locationManager);
+		}
 
 		System.out.println(missionManager.getMissions().getFirst() + " generated");
 
@@ -175,7 +178,7 @@ public class Model {
 
 		System.out.println(responderManager.getPlayer() + " obtains " + responderManager.getPlayer().getSkillLinks().getFirst().getSkill());
 
-		Action action = new Action(ActionType.SETUP_PERIMETER, responderManager.getPlayer(),null,null,null,null);
+		Action action = new Action(ActionType.SETUP_PERIMETER, responderManager.getPlayer(), null, null, null, null);
 		actionManager.addAction(action);
 
 		System.out.println(actionManager.getActions().getFirst().getResponderLink().getResponder() + " performs " + actionManager.getActions().getFirst());

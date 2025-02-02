@@ -1,5 +1,6 @@
 package view.stationStructure.stationListModule;
 
+import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,8 +15,6 @@ import java.util.List;
 
 public class StationListView {
 
-    // TODO: temporary
-    private static int counter = 0;
     private final UtilsView utilsView;
     private final StationView stationView;
 
@@ -36,10 +35,10 @@ public class StationListView {
             });
             utilsView.addToSidebar(pane1, button, station.toString(), station.getUnits().size() + " units");
 
-            Circle circle = new Circle(100+counter, 100, 12, Color.BLUE);
+            Point2D point = utilsView.locationToPoint(station.getLocation());
+            Circle circle = new Circle(point.getX(), point.getY(), 12, Color.BLUE);
             utilsView.addToMap(pane2, circle);
         }
-        this.counter = this.counter + 25;
     }
 
 

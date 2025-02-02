@@ -1,11 +1,15 @@
 package view.utilsStructure.utilsModule;
 
+import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import model.locationStructure.locationModule.Location;
+import model.locationStructure.locationModule.LocationManager;
+import view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +52,16 @@ public class UtilsView {
 
     public void addToMap(Pane pane, Node node) {
         pane.getChildren().addAll(node);
+    }
+
+    double normalize(double value, double min, double max) {
+        return (value - min) / (max - min);
+    }
+
+    public Point2D locationToPoint(Location location) {
+        double x = normalize(location.longitude(), LocationManager.MIN_LONGITUDE, LocationManager.MAX_LONGITUDE) * View.SCENE_WIDTH;
+        double y = (1 - normalize(location.latitude(), LocationManager.MIN_LATITUDE, LocationManager.MAX_LATITUDE)) * View.SCENE_HEIGHT;
+        return new Point2D(x, y);
     }
 
 }

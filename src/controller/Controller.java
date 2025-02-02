@@ -13,6 +13,6 @@ public class Controller {
         this.view = view;
         view.initialize(this);
         view.generateUI(model.departmentManager.getDepartments(), model.missionManager.getMissions());
-        }
+    }
 
 }

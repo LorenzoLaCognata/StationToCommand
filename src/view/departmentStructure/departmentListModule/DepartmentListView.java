@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import model.departmentStructure.departmentModule.Department;
+import model.stationStructure.stationModule.Station;
 import view.departmentStructure.departmentModule.DepartmentView;
 import view.utilsStructure.utilsModule.UtilsView;
 
