@@ -1,7 +1,7 @@
 package view.unitStructure.unitListModule;
 
+import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import model.unitStructure.unitModule.Unit;
@@ -20,15 +20,15 @@ public class UnitListView {
         this.unitView = new UnitView(utilsView);
     }
 
-    public void show(Pane pane, List<Control> controls, List<Unit> units) {
+    public void show(Pane pane, List<Node> nodes, List<Unit> units) {
         Label unitsSeparator = new Label("----------------------\nUnits");
         pane.getChildren().addAll(unitsSeparator);
 
         for (Unit unit : units) {
             Button button = new Button();
             button.setOnAction(_ -> {
-                List<Control> newControls = utilsView.resetAndAddToPane(pane, controls, button);
-                unitView.show(pane, newControls, unit);
+                List<Node> nextNodes = utilsView.resetAndAddToPane(pane, nodes, button);
+                unitView.show(pane, nextNodes, unit);
             });
             utilsView.addToSidebar(pane, button, unit.toString(), unit.getResponders().size() + " responders");
         }

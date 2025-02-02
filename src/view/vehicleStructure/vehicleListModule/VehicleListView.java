@@ -1,7 +1,7 @@
 package view.vehicleStructure.vehicleListModule;
 
+import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import model.vehicleStructure.vehicleModule.Vehicle;
@@ -20,14 +20,14 @@ public class VehicleListView {
         this.vehicleView = new VehicleView();
     }
 
-    public void show(Pane pane, List<Control> controls, List<Vehicle> vehicles) {
+    public void show(Pane pane, List<Node> nodes, List<Vehicle> vehicles) {
         Label vehiclesSeparator = new Label("----------------------\nVehicles");
         pane.getChildren().addAll(vehiclesSeparator);
 
         for (Vehicle vehicle : vehicles) {
             Button button = new Button();
             button.setOnAction(_ -> {
-                utilsView.resetAndAddToPane(pane, controls, button);
+                utilsView.resetAndAddToPane(pane, nodes, button);
                 vehicleView.show(pane);
             });
             String integrity = String.format("%.0f%%", vehicle.getIntegrity() * 100);

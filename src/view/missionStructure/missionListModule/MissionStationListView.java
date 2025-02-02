@@ -1,7 +1,7 @@
 package view.missionStructure.missionListModule;
 
+import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import model.missionStructure.missionModule.Mission;
@@ -21,15 +21,15 @@ public class MissionStationListView {
         this.missionStationView = new MissionStationView(utilsView, mission);
     }
 
-    public void show(Pane pane, List<Control> controls, Mission mission, List<Station> stations) {
+    public void show(Pane pane, List<Node> nodes, Mission mission, List<Station> stations) {
         Label stationsSeparator = new Label("----------------------\nStations");
         pane.getChildren().addAll(stationsSeparator);
 
         for (Station station : stations) {
             Button button = new Button();
             button.setOnAction(_ -> {
-                List<Control> newControls = utilsView.resetAndAddToPane(pane, controls, button);
-                missionStationView.show(pane, newControls, mission, station);
+                List<Node> nextNodes = utilsView.resetAndAddToPane(pane, nodes, button);
+                missionStationView.show(pane, nextNodes, mission, station);
             });
             utilsView.addToSidebar(pane, button, station.toString(), "");
         }

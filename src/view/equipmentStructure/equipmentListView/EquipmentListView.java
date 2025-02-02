@@ -1,7 +1,7 @@
 package view.equipmentStructure.equipmentListView;
 
+import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import model.equipmentStructure.equipmentModule.Equipment;
@@ -20,14 +20,14 @@ public class EquipmentListView {
         this.equipmentView = new EquipmentView();
     }
 
-    public void show(Pane pane, List<Control> controls, List<Equipment> equipments) {
+    public void show(Pane pane, List<Node> nodes, List<Equipment> equipments) {
         Label equipmentsSeparator = new Label("----------------------\nEquipments");
         pane.getChildren().addAll(equipmentsSeparator);
 
         for (Equipment equipment : equipments) {
             Button button = new Button();
             button.setOnAction(_ -> {
-                utilsView.resetAndAddToPane(pane, controls, button);
+                utilsView.resetAndAddToPane(pane, nodes, button);
                 equipmentView.show(pane);
             });
             String integrity = String.format("%.0f%%", equipment.getIntegrity() * 100);

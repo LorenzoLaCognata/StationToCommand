@@ -1,7 +1,7 @@
 package view.stationStructure.stationListModule;
 
+import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -24,21 +24,20 @@ public class StationListView {
         this.stationView = new StationView(utilsView);
     }
 
-    public void show(Pane sidebar, Pane map, List<Control> sidebarNodes, List<Control> mapNodes, List<Station> stations) {
-        System.out.println("6: "+ map.getChildren().size());
+    public void show(Pane pane1, Pane pane2, List<Node> nodes1, List<Node> nodes2, List<Station> stations) {
         Label stationsSeparator = new Label("----------------------\nStations");
-        sidebar.getChildren().addAll(stationsSeparator);
+        pane1.getChildren().addAll(stationsSeparator);
 
         for (Station station : stations) {
             Button button = new Button();
             button.setOnAction(_ -> {
-                List<Control> nextSidebarNodes = utilsView.resetAndAddToPane(sidebar, sidebarNodes, button);
-                stationView.show(sidebar, nextSidebarNodes, station);
+                List<Node> nextNodes1 = utilsView.resetAndAddToPane(pane1, nodes1, button);
+                stationView.show(pane1, nextNodes1, station);
             });
-            utilsView.addToSidebar(sidebar, button, station.toString(), station.getUnits().size() + " units");
+            utilsView.addToSidebar(pane1, button, station.toString(), station.getUnits().size() + " units");
 
             Circle circle = new Circle(100+counter, 100, 12, Color.BLUE);
-            utilsView.addToMap(map, circle);
+            utilsView.addToMap(pane2, circle);
         }
         this.counter = this.counter + 25;
     }

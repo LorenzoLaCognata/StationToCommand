@@ -1,6 +1,6 @@
 package view.organizationStructure.organizationModule;
 
-import javafx.scene.control.Control;
+import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import model.departmentStructure.departmentModule.Department;
 import view.departmentStructure.departmentListModule.DepartmentListView;
@@ -16,9 +16,8 @@ public class OrganizationView {
         this.departmentListView = new DepartmentListView(utilsView);
     }
 
-    public void show(Pane sidebar, Pane map, List<Control> sidebarNodes, List<Control> mapNodes, List<Department> departments) {
-        System.out.println("3: "+ map.getChildren().size());
-        departmentListView.show(sidebar, map, sidebarNodes, mapNodes, departments);
+    public void show(Pane pane1, Pane pane2, List<Node> nodes1, List<Node> nodes2, List<Department> departments) {
+        departmentListView.show(pane1, pane2, nodes1, nodes2, departments);
     }
 
 }

@@ -1,7 +1,7 @@
 package view.skillStructure.skillListModule;
 
+import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import model.skillStructure.skillModule.Skill;
@@ -20,14 +20,14 @@ public class SkillListView {
         this.skillView = new SkillView();
     }
 
-    public void show(Pane pane, List<Control> controls, List<Skill> skills) {
+    public void show(Pane pane, List<Node> nodes, List<Skill> skills) {
         Label skillsSeparator = new Label("----------------------\nSkills");
         pane.getChildren().addAll(skillsSeparator);
 
         for (Skill skill : skills) {
             Button button = new Button();
             button.setOnAction(_ -> {
-                utilsView.resetAndAddToPane(pane, controls, button);
+                utilsView.resetAndAddToPane(pane, nodes, button);
                 skillView.show(pane);
             });
             utilsView.addToSidebar(pane, button, skill.toString(), "");

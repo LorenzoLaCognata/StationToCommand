@@ -1,7 +1,7 @@
 package view.responderStructure.responderListModule;
 
+import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import model.responderStructure.responderModule.Responder;
@@ -20,15 +20,15 @@ public class ResponderListView {
         this.responderView = new ResponderView(utilsView);
     }
 
-    public void show(Pane pane, List<Control> controls, List<Responder> responders) {
+    public void show(Pane pane, List<Node> nodes, List<Responder> responders) {
         Label respondersSeparator = new Label("----------------------\nResponders");
         pane.getChildren().addAll(respondersSeparator);
 
         for (Responder responder : responders) {
             Button button = new Button();
             button.setOnAction(_ -> {
-                List<Control> newControls = utilsView.resetAndAddToPane(pane, controls, button);
-                responderView.show(pane, newControls, responder);
+                List<Node> nextNodes = utilsView.resetAndAddToPane(pane, nodes, button);
+                responderView.show(pane, nextNodes, responder);
             });
             utilsView.addToSidebar(pane, button, responder.toString(), responder.getRank().toString());
         }

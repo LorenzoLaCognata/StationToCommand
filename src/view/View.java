@@ -5,7 +5,6 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Control;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -45,16 +44,6 @@ public class View {
         leftPanel.setStyle("-fx-background-color: #f0f0f0;");
 
         centerArea.setStyle("-fx-background-color: #ffffff;");
-
-        ImageView mapView = new ImageView(new Image("file:C:\\Users\\vodev\\OneDrive\\Desktop\\map.jpg"));
-        mapView.fitWidthProperty().bind(centerArea.widthProperty());
-        mapView.fitHeightProperty().bind(centerArea.heightProperty());
-        mapView.setPreserveRatio(true);
-        centerArea.getChildren().add(mapView);
-
-        Circle responder = new Circle(200, 200, 8, Color.RED);
-        centerArea.getChildren().addAll(responder);
-
     }
 
     public void initialize(Controller controller) {
@@ -64,26 +53,33 @@ public class View {
         this.dispatchView = new DispatchView(utilsView);
     }
 
-    public void generateTopBar(List<Department> departments, List<Mission> missions) {
+    public void generateUI(List<Department> departments, List<Mission> missions) {
+
+        List<Node> mapNodes = new ArrayList<>();
+        ImageView mapView = new ImageView(new Image("file:C:\\Users\\vodev\\OneDrive\\Desktop\\map.jpg"));
+        mapView.fitWidthProperty().bind(centerArea.widthProperty());
+        mapView.fitHeightProperty().bind(centerArea.heightProperty());
+        mapView.setPreserveRatio(true);
+        mapNodes.add(mapView);
+
+        Circle responder = new Circle(200, 200, 8, Color.RED);
+        mapNodes.add(responder);
+
+        centerArea.getChildren().addAll(mapNodes);
+
         Button organizationButton = new Button("Organization");
         organizationButton.setOnAction(_ -> {
-            List<Control> sidebarNodes = utilsView.clearPane(leftPanel);
-            List<Control> mapNodes = new ArrayList<>();
-            for (Node currentNode : centerArea.getChildren()){
-                // TODO: remove after changing data type from Control to Node
-                if (currentNode instanceof Control){
-                    mapNodes.add((Control) currentNode);
-                }
-            }
-            organizationView.show(leftPanel, centerArea, sidebarNodes, mapNodes, departments);
+            List<Node> sidebarNodes = utilsView.clearPane(leftPanel);
+            List<Node> nextMapNodes = utilsView.resetPane(centerArea, mapNodes);
+            organizationView.show(leftPanel, centerArea, sidebarNodes, nextMapNodes, departments);
         });
 
         topBar.getItems().addAll(organizationButton);
 
         Button dispatchButton = new Button("Dispatch");
         dispatchButton.setOnAction(_ -> {
-            List<Control> controls = utilsView.clearPane(leftPanel);
-            dispatchView.show(leftPanel, controls, missions);
+            List<Node> nodes = utilsView.clearPane(leftPanel);
+            dispatchView.show(leftPanel, nodes, missions);
         });
 
         topBar.getItems().addAll(dispatchButton);

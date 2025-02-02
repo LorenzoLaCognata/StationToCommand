@@ -3,7 +3,6 @@ package view.utilsStructure.utilsModule;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -16,22 +15,22 @@ public class UtilsView {
     public UtilsView() {
     }
 
-    public List<Control> resetAndAddToPane(Pane pane, List<Control> controls, Control newControl) {
+    public List<Node> resetAndAddToPane(Pane pane, List<Node> nodes, Node newNode) {
         pane.getChildren().clear();
-        pane.getChildren().addAll(controls);
-        pane.getChildren().add(newControl);
-        List<Control> newControls = new ArrayList<>(controls);
-        newControls.add(newControl);
-        return newControls;
+        pane.getChildren().addAll(nodes);
+        pane.getChildren().add(newNode);
+        List<Node> newNodeList = new ArrayList<>(nodes);
+        newNodeList.add(newNode);
+        return newNodeList;
     }
 
-    public List<Control> resetPane(Pane pane, List<Control> controls) {
+    public List<Node> resetPane(Pane pane, List<Node> nodes) {
         pane.getChildren().clear();
-        pane.getChildren().addAll(controls);
-        return controls;
+        pane.getChildren().addAll(nodes);
+        return nodes;
     }
 
-    public List<Control> clearPane(Pane pane) {
+    public List<Node> clearPane(Pane pane) {
         pane.getChildren().clear();
         return new ArrayList<>();
     }

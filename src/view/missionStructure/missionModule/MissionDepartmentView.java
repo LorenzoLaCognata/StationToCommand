@@ -1,6 +1,6 @@
 package view.missionStructure.missionModule;
 
-import javafx.scene.control.Control;
+import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import model.departmentStructure.departmentModule.Department;
 import model.linkStructure.organizationLinkModule.StationLink;
@@ -21,12 +21,12 @@ public class MissionDepartmentView {
         this.missionStationListView = new MissionStationListView(utilsView, mission);
     }
 
-    public void show(Pane pane, List<Control> controls, Mission mission, Department department) {
+    public void show(Pane pane, List<Node> nodes, Mission mission, Department department) {
         List<Station> stations = mission.getDepartmentLinks().stream()
                                     .flatMap(item -> item.getStationLinks().stream())
                                     .map(StationLink::getStation)
                                     .toList();
-        missionStationListView.show(pane, controls, mission, stations);
+        missionStationListView.show(pane, nodes, mission, stations);
     }
 
 }

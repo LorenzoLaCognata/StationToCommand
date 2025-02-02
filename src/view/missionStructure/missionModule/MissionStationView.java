@@ -1,6 +1,6 @@
 package view.missionStructure.missionModule;
 
-import javafx.scene.control.Control;
+import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import model.linkStructure.organizationLinkModule.UnitLink;
 import model.linkStructure.personLinkModule.ResponderLink;
@@ -29,27 +29,27 @@ public class MissionStationView {
         this.missionVehicleListView = new MissionVehicleListView(utilsView, mission);
     }
 
-    public void show(Pane pane, List<Control> controls, Mission mission, Station station) {
+    public void show(Pane pane, List<Node> nodes, Mission mission, Station station) {
         List<Unit> missionUnits = mission.getDepartmentLinks().stream()
                 .flatMap(item -> item.getStationLinks().stream())
                 .flatMap(item -> item.getUnitLinks().stream())
                 .map(UnitLink::getUnit)
                 .toList();;
-        missionUnitListView.show(pane, controls, mission, missionUnits);
+        missionUnitListView.show(pane, nodes, mission, missionUnits);
         List<Responder> missionResponders = mission.getDepartmentLinks().stream()
                 .flatMap(item -> item.getStationLinks().stream())
                 .flatMap(item -> item.getUnitLinks().stream())
                 .flatMap(item -> item.getResponderLinks().stream())
                 .map(ResponderLink::getResponder)
                 .toList();;
-        missionResponderListView.show(pane, controls, mission, missionResponders);
+        missionResponderListView.show(pane, nodes, mission, missionResponders);
         List<Vehicle> missionVehicles = mission.getDepartmentLinks().stream()
                 .flatMap(item -> item.getStationLinks().stream())
                 .flatMap(item -> item.getUnitLinks().stream())
                 .flatMap(item -> item.getVehicleLinks().stream())
                 .map(VehicleLink::getVehicle)
                 .toList();;
-        missionVehicleListView.show(pane, controls, mission, missionVehicles);
+        missionVehicleListView.show(pane, nodes, mission, missionVehicles);
     }
 
 }

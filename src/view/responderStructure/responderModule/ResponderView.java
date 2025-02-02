@@ -1,6 +1,6 @@
 package view.responderStructure.responderModule;
 
-import javafx.scene.control.Control;
+import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import model.responderStructure.responderModule.Responder;
 import view.skillStructure.skillListModule.SkillListView;
@@ -19,9 +19,9 @@ public class ResponderView {
         this.trainingListView = new TrainingListView(utilsView);
     }
 
-    public void show(Pane pane, List<Control> controls, Responder responder) {
-        skillListView.show(pane, controls, responder.getSkills());
-        trainingListView.show(pane, controls, responder.getTrainings());
+    public void show(Pane pane, List<Node> nodes, Responder responder) {
+        skillListView.show(pane, nodes, responder.getSkills());
+        trainingListView.show(pane, nodes, responder.getTrainings());
     }
 
 

@@ -1,7 +1,7 @@
 package view.trainingStructure.trainingListModule;
 
+import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import model.trainingStructure.trainingModule.Training;
@@ -20,14 +20,14 @@ public class TrainingListView {
         this.trainingView = new TrainingView();
     }
 
-    public void show(Pane pane, List<Control> controls, List<Training> trainings) {
+    public void show(Pane pane, List<Node> nodes, List<Training> trainings) {
         Label trainingsSeparator = new Label("----------------------\nTrainings");
         pane.getChildren().addAll(trainingsSeparator);
 
         for (Training training : trainings) {
             Button button = new Button();
             button.setOnAction(_ -> {
-                utilsView.resetAndAddToPane(pane, controls, button);
+                utilsView.resetAndAddToPane(pane, nodes, button);
                 trainingView.show(pane);
             });
             utilsView.addToSidebar(pane, button, training.toString(), "");

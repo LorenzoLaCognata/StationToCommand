@@ -1,6 +1,6 @@
 package view.stationStructure.stationModule;
 
-import javafx.scene.control.Control;
+import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import model.stationStructure.stationModule.Station;
 import view.responderStructure.responderListModule.ResponderListView;
@@ -22,10 +22,10 @@ public class StationView {
         this.vehicleListView = new VehicleListView(utilsView);
     }
 
-    public void show(Pane pane, List<Control> controls, Station station) {
-        unitListView.show(pane, controls, station.getUnits());
-        responderListView.show(pane, controls, station.getResponders());
-        vehicleListView.show(pane, controls, station.getVehicles());
+    public void show(Pane pane, List<Node> nodes, Station station) {
+        unitListView.show(pane, nodes, station.getUnits());
+        responderListView.show(pane, nodes, station.getResponders());
+        vehicleListView.show(pane, nodes, station.getVehicles());
     }
 
 }
