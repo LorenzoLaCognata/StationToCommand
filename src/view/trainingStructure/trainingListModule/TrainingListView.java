@@ -27,7 +27,7 @@ public class TrainingListView {
         for (Training training : trainings) {
             Button button = new Button();
             button.setOnAction(_ -> {
-                utilsView.setPane(pane, controls, button);
+                utilsView.resetAndAddToPane(pane, controls, button);
                 trainingView.show(pane);
             });
             utilsView.addToSidebar(pane, button, training.toString(), "");

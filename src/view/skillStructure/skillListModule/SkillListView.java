@@ -27,7 +27,7 @@ public class SkillListView {
         for (Skill skill : skills) {
             Button button = new Button();
             button.setOnAction(_ -> {
-                utilsView.setPane(pane, controls, button);
+                utilsView.resetAndAddToPane(pane, controls, button);
                 skillView.show(pane);
             });
             utilsView.addToSidebar(pane, button, skill.toString(), "");

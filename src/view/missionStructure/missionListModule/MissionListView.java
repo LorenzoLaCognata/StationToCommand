@@ -25,7 +25,7 @@ public class MissionListView {
         for (Mission mission : missions) {
             Button button = new Button();
             button.setOnAction(_ -> {
-                List<Control> newControls = utilsView.setPane(pane, controls, button);
+                List<Control> newControls = utilsView.resetAndAddToPane(pane, controls, button);
                 MissionView missionView = new MissionView(utilsView, mission);
                 missionView.show(pane, newControls, mission);
             });

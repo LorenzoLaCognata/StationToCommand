@@ -28,7 +28,7 @@ public class MissionStationListView {
         for (Station station : stations) {
             Button button = new Button();
             button.setOnAction(_ -> {
-                List<Control> newControls = utilsView.setPane(pane, controls, button);
+                List<Control> newControls = utilsView.resetAndAddToPane(pane, controls, button);
                 missionStationView.show(pane, newControls, mission, station);
             });
             utilsView.addToSidebar(pane, button, station.toString(), "");

@@ -32,7 +32,7 @@ public class StationListView {
         for (Station station : stations) {
             Button button = new Button();
             button.setOnAction(_ -> {
-                List<Control> nextSidebarNodes = utilsView.setPane(sidebar, sidebarNodes, button);
+                List<Control> nextSidebarNodes = utilsView.resetAndAddToPane(sidebar, sidebarNodes, button);
                 stationView.show(sidebar, nextSidebarNodes, station);
             });
             utilsView.addToSidebar(sidebar, button, station.toString(), station.getUnits().size() + " units");

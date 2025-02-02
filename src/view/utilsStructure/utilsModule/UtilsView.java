@@ -16,31 +16,24 @@ public class UtilsView {
     public UtilsView() {
     }
 
-    public List<Control> setPane(Pane pane, List<Control> controls, Control newControl) {
-        resetPane(pane, controls);
+    public List<Control> resetAndAddToPane(Pane pane, List<Control> controls, Control newControl) {
+        pane.getChildren().clear();
+        pane.getChildren().addAll(controls);
         pane.getChildren().add(newControl);
         List<Control> newControls = new ArrayList<>(controls);
         newControls.add(newControl);
         return newControls;
     }
 
-    public List<Control> setPane(Pane pane, List<Control> controls) {
-        resetPane(pane, controls);
+    public List<Control> resetPane(Pane pane, List<Control> controls) {
+        pane.getChildren().clear();
+        pane.getChildren().addAll(controls);
         return controls;
     }
 
-    public List<Control> setPane(Pane pane) {
-        resetPane(pane);
+    public List<Control> clearPane(Pane pane) {
+        pane.getChildren().clear();
         return new ArrayList<>();
-    }
-
-    public void resetPane(Pane pane, List<Control> controls) {
-        pane.getChildren().clear();
-        pane.getChildren().addAll(controls);
-    }
-
-    public void resetPane(Pane pane) {
-        pane.getChildren().clear();
     }
 
     public void addToSidebar(Pane pane, Button button, String text1, String text2) {

@@ -27,7 +27,7 @@ public class VehicleListView {
         for (Vehicle vehicle : vehicles) {
             Button button = new Button();
             button.setOnAction(_ -> {
-                utilsView.setPane(pane, controls, button);
+                utilsView.resetAndAddToPane(pane, controls, button);
                 vehicleView.show(pane);
             });
             String integrity = String.format("%.0f%%", vehicle.getIntegrity() * 100);

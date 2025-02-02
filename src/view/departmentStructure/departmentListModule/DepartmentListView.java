@@ -28,9 +28,9 @@ public class DepartmentListView {
         for (Department department : departments) {
             Button button = new Button();
             button.setOnAction(_ -> {
-                List<Control> nextSidebar = utilsView.setPane(sidebar, sidebarNodes, button);
+                List<Control> nextSidebar = utilsView.resetAndAddToPane(sidebar, sidebarNodes, button);
                 System.out.println("4a: "+ map.getChildren().size());
-                List<Control> nextMap = utilsView.setPane(map, mapNodes);
+                List<Control> nextMap = utilsView.resetPane(map, mapNodes);
                 System.out.println("4b: "+ map.getChildren().size());
                 departmentView.show(sidebar, map, nextSidebar, nextMap, department);
             });

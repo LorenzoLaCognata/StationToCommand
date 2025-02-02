@@ -67,7 +67,7 @@ public class View {
     public void generateTopBar(List<Department> departments, List<Mission> missions) {
         Button organizationButton = new Button("Organization");
         organizationButton.setOnAction(_ -> {
-            List<Control> sidebarNodes = utilsView.setPane(leftPanel);
+            List<Control> sidebarNodes = utilsView.clearPane(leftPanel);
             List<Control> mapNodes = new ArrayList<>();
             for (Node currentNode : centerArea.getChildren()){
                 // TODO: remove after changing data type from Control to Node
@@ -82,7 +82,7 @@ public class View {
 
         Button dispatchButton = new Button("Dispatch");
         dispatchButton.setOnAction(_ -> {
-            List<Control> controls = utilsView.setPane(leftPanel);
+            List<Control> controls = utilsView.clearPane(leftPanel);
             dispatchView.show(leftPanel, controls, missions);
         });
 

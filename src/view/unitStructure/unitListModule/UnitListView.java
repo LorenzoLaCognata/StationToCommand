@@ -27,7 +27,7 @@ public class UnitListView {
         for (Unit unit : units) {
             Button button = new Button();
             button.setOnAction(_ -> {
-                List<Control> newControls = utilsView.setPane(pane, controls, button);
+                List<Control> newControls = utilsView.resetAndAddToPane(pane, controls, button);
                 unitView.show(pane, newControls, unit);
             });
             utilsView.addToSidebar(pane, button, unit.toString(), unit.getResponders().size() + " responders");

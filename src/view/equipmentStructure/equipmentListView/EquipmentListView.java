@@ -27,7 +27,7 @@ public class EquipmentListView {
         for (Equipment equipment : equipments) {
             Button button = new Button();
             button.setOnAction(_ -> {
-                utilsView.setPane(pane, controls, button);
+                utilsView.resetAndAddToPane(pane, controls, button);
                 equipmentView.show(pane);
             });
             String integrity = String.format("%.0f%%", equipment.getIntegrity() * 100);

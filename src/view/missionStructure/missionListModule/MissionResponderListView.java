@@ -28,7 +28,7 @@ public class MissionResponderListView {
         for (Responder responder : responders) {
             Button button = new Button();
             button.setOnAction(_ -> {
-                List<Control> newControls = utilsView.setPane(pane, controls, button);
+                List<Control> newControls = utilsView.resetAndAddToPane(pane, controls, button);
                 missionResponderView.show(pane);
             });
             utilsView.addToSidebar(pane, button, responder.toString(), responder.getRank().toString());
