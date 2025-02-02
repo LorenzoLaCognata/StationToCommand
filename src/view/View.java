@@ -19,7 +19,6 @@ import view.dispatchStructure.dispatchModule.DispatchView;
 import view.organizationStructure.organizationModule.OrganizationView;
 import view.utilsStructure.utilsModule.UtilsView;
 
-import java.net.DatagramSocket;
 import java.util.List;
 
 public class View {

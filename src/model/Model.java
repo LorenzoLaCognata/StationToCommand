@@ -9,6 +9,8 @@ import model.departmentStructure.departmentModule.DepartmentType;
 import model.equipmentStructure.equipmentModule.Equipment;
 import model.equipmentStructure.equipmentModule.EquipmentManager;
 import model.experienceStructure.experienceModule.ExperienceManager;
+import model.linkStructure.organizationLinkModule.StationLink;
+import model.linkStructure.organizationLinkModule.UnitLink;
 import model.locationStructure.locationModule.LocationManager;
 import model.missionStructure.missionModule.Mission;
 import model.missionStructure.missionModule.MissionManager;
@@ -129,28 +131,39 @@ public class Model {
 		Station station = department.getStationManager().getStation(1);
 		sampleMission.linkStation(station);
 
-		Unit unit = station.getUnitManager().getUnits(FireUnitType.FIRE_TRUCK).getFirst();
-		sampleMission.linkUnit(unit);
+		sampleMission.linkUnit(station.getUnitManager().getUnits(FireUnitType.FIRE_ENGINE).getFirst());
+		sampleMission.linkUnit(station.getUnitManager().getUnits(FireUnitType.FIRE_TRUCK).getFirst());
 
 		sampleMission.linkObjective(new Objective(ObjectiveType.EVACUATE_CIVILIANS));
 
-		System.out.println(missionManager.getMissions().getFirst() + " has objective " + missionManager.getMissions().getFirst().getObjectiveLinks().getFirst().getObjective());
+		System.out.println(sampleMission + " has objective " + sampleMission.getObjectiveLinks().getFirst().getObjective());
 
-		System.out.println(missionManager.getMissions().getFirst() + " assigned to " + missionManager.getMissions().getFirst().getDepartmentLinks().getFirst().getStationLinks().getFirst().getUnitLinks().getFirst().getUnit());
+		List<Station> sampleMissionStations = sampleMission.getDepartmentLinks().stream()
+				.flatMap(item -> item.getStationLinks().stream())
+				.map(StationLink::getStation)
+				.toList();
 
-		Responder responder = responderManager.getResponders(unit).getFirst();
-		sampleMission.linkResponder(responder);
+		List<Unit> sampleMissionUnits = sampleMission.getDepartmentLinks().stream()
+				.flatMap(item -> item.getStationLinks().stream())
+				.flatMap(item -> item.getUnitLinks().stream())
+				.map(UnitLink::getUnit)
+				.toList();
 
-		System.out.println(missionManager.getMissions().getFirst() + " assigned to " + missionManager.getMissions().getFirst().getDepartmentLinks().getFirst().getStationLinks().getFirst().getUnitLinks().getFirst().getResponderLinks().getFirst().getResponder());
+		for (Unit missionUnit : sampleMissionUnits) {
 
-		sampleTasks.getFirst().linkResponder(responder);
+			for (Responder responder : missionUnit.getResponders()) {
+				sampleMission.linkResponder(responder);
+				System.out.println(sampleMission + " assigned to " + responder);
 
-		System.out.println(sampleTasks.getFirst() + " assigned to " + responder);
+				sampleTasks.getFirst().linkResponder(responder);
+				System.out.println(sampleTasks.getFirst() + " assigned to " + responder);
+			}
 
-		Vehicle vehicle = vehicleManager.getVehicles(unit).getFirst();
-		sampleMission.linkVehicle(vehicle);
+			Vehicle vehicle = vehicleManager.getVehicles(missionUnit).getFirst();
+			sampleMission.linkVehicle(vehicle);
+			System.out.println(sampleMission + " assigned to " + vehicle);
+		}
 
-		System.out.println(missionManager.getMissions().getFirst() + " assigned to " + missionManager.getMissions().getFirst().getDepartmentLinks().getFirst().getStationLinks().getFirst().getUnitLinks().getFirst().getVehicleLinks().getFirst().getVehicle());
 
 		Training training = trainingManager.getTraining(TrainingType.FIRST_AID);
 		responderManager.getPlayer().linkTraining(training);

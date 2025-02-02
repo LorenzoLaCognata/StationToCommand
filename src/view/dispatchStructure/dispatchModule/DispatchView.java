@@ -2,9 +2,7 @@ package view.dispatchStructure.dispatchModule;
 
 import javafx.scene.control.Control;
 import javafx.scene.layout.Pane;
-import model.departmentStructure.departmentModule.Department;
 import model.missionStructure.missionModule.Mission;
-import view.departmentStructure.departmentListModule.DepartmentListView;
 import view.missionStructure.missionListModule.MissionListView;
 import view.utilsStructure.utilsModule.UtilsView;
 

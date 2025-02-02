@@ -4,29 +4,25 @@ import javafx.scene.control.Control;
 import javafx.scene.layout.Pane;
 import model.departmentStructure.departmentModule.Department;
 import model.linkStructure.organizationLinkModule.DepartmentLink;
-import model.linkStructure.personLinkModule.ResponderLink;
 import model.missionStructure.missionModule.Mission;
-import view.departmentStructure.departmentListModule.DepartmentListView;
-import view.stationStructure.stationListModule.StationListView;
-import view.unitStructure.unitListModule.UnitListView;
+import view.missionStructure.missionListModule.MissionDepartmentListView;
 import view.utilsStructure.utilsModule.UtilsView;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class MissionView {
 
-    private final DepartmentListView departmentListView;
+    private final MissionDepartmentListView missionDepartmentListView;
 
-    public MissionView(UtilsView utilsView) {
-        this.departmentListView = new DepartmentListView(utilsView);
+    public MissionView(UtilsView utilsView, Mission mission) {
+        this.missionDepartmentListView = new MissionDepartmentListView(utilsView, mission);
     }
 
     public void show(Pane pane, List<Control> controls, Mission mission) {
         List<Department> departments = mission.getDepartmentLinks().stream()
                                             .map(DepartmentLink::getDepartment)
                                             .toList();
-        departmentListView.show(pane, controls, departments);
+        missionDepartmentListView.show(pane, controls, mission, departments);
     }
 
 }
