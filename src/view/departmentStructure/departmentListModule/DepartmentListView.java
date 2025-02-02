@@ -20,19 +20,23 @@ public class DepartmentListView {
         this.departmentView = new DepartmentView(utilsView);
     }
 
-    public void show(Pane pane, List<Control> controls, List<Department> departments) {
+    public void show(Pane sidebar, Pane map, List<Control> sidebarNodes, List<Control> mapNodes, List<Department> departments) {
+        System.out.println("4: "+ map.getChildren().size());
         Label stationsSeparator = new Label("----------------------\nDepartments");
-        pane.getChildren().addAll(stationsSeparator);
+        sidebar.getChildren().addAll(stationsSeparator);
 
         for (Department department : departments) {
             Button button = new Button();
             button.setOnAction(_ -> {
-                List<Control> newControls = utilsView.setBreadcrumbs(pane, controls, button);
-                departmentView.show(pane, newControls, department);
+                List<Control> nextSidebar = utilsView.setPane(sidebar, sidebarNodes, button);
+                System.out.println("4a: "+ map.getChildren().size());
+                List<Control> nextMap = utilsView.setPane(map, mapNodes);
+                System.out.println("4b: "+ map.getChildren().size());
+                departmentView.show(sidebar, map, nextSidebar, nextMap, department);
             });
             String text1 = department.getDepartmentType().toString() + " Department";
             String text2 = department.getStations().size() + " stations";
-            utilsView.addPaneEntry(pane, button, text1, text2);
+            utilsView.addToSidebar(sidebar, button, text1, text2);
         }
     }
 

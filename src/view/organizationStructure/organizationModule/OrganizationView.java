@@ -16,8 +16,9 @@ public class OrganizationView {
         this.departmentListView = new DepartmentListView(utilsView);
     }
 
-    public void show(Pane pane, List<Control> controls, List<Department> departments) {
-        departmentListView.show(pane, controls, departments);
+    public void show(Pane sidebar, Pane map, List<Control> sidebarNodes, List<Control> mapNodes, List<Department> departments) {
+        System.out.println("3: "+ map.getChildren().size());
+        departmentListView.show(sidebar, map, sidebarNodes, mapNodes, departments);
     }
 
 }

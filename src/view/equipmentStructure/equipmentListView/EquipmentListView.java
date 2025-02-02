@@ -27,12 +27,12 @@ public class EquipmentListView {
         for (Equipment equipment : equipments) {
             Button button = new Button();
             button.setOnAction(_ -> {
-                utilsView.setBreadcrumbs(pane, controls, button);
+                utilsView.setPane(pane, controls, button);
                 equipmentView.show(pane);
             });
             String integrity = String.format("%.0f%%", equipment.getIntegrity() * 100);
             String condition = String.format("%.0f%%", equipment.getCondition() * 100);
-            utilsView.addPaneEntry(pane, button, equipment.toString(), "Integrity: " + integrity + " - Condition: " + condition);
+            utilsView.addToSidebar(pane, button, equipment.toString(), "Integrity: " + integrity + " - Condition: " + condition);
         }
     }
 

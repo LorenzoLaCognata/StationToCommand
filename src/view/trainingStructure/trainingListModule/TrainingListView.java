@@ -27,10 +27,10 @@ public class TrainingListView {
         for (Training training : trainings) {
             Button button = new Button();
             button.setOnAction(_ -> {
-                utilsView.setBreadcrumbs(pane, controls, button);
+                utilsView.setPane(pane, controls, button);
                 trainingView.show(pane);
             });
-            utilsView.addPaneEntry(pane, button, training.toString(), "");
+            utilsView.addToSidebar(pane, button, training.toString(), "");
         }
     }
 

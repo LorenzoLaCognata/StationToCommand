@@ -16,8 +16,9 @@ public class DepartmentView {
         this.stationListView = new StationListView(utilsView);
     }
 
-    public void show(Pane pane, List<Control> controls, Department department) {
-        stationListView.show(pane, controls, department.getStations());
+    public void show(Pane sidebar, Pane map, List<Control> sidebarNodes, List<Control> mapNodes, Department department) {
+        System.out.println("5: "+ map.getChildren().size());
+        stationListView.show(sidebar, map, sidebarNodes, mapNodes, department.getStations());
     }
 
 }

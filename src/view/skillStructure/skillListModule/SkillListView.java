@@ -27,10 +27,10 @@ public class SkillListView {
         for (Skill skill : skills) {
             Button button = new Button();
             button.setOnAction(_ -> {
-                utilsView.setBreadcrumbs(pane, controls, button);
+                utilsView.setPane(pane, controls, button);
                 skillView.show(pane);
             });
-            utilsView.addPaneEntry(pane, button, skill.toString(), "");
+            utilsView.addToSidebar(pane, button, skill.toString(), "");
         }
     }
 

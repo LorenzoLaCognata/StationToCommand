@@ -27,10 +27,10 @@ public class ResponderListView {
         for (Responder responder : responders) {
             Button button = new Button();
             button.setOnAction(_ -> {
-                List<Control> newControls = utilsView.setBreadcrumbs(pane, controls, button);
+                List<Control> newControls = utilsView.setPane(pane, controls, button);
                 responderView.show(pane, newControls, responder);
             });
-            utilsView.addPaneEntry(pane, button, responder.toString(), responder.getRank().toString());
+            utilsView.addToSidebar(pane, button, responder.toString(), responder.getRank().toString());
         }
     }
 

@@ -28,12 +28,12 @@ public class MissionDepartmentListView {
         for (Department department : departments) {
             Button button = new Button();
             button.setOnAction(_ -> {
-                List<Control> newControls = utilsView.setBreadcrumbs(pane, controls, button);
+                List<Control> newControls = utilsView.setPane(pane, controls, button);
                 missionDepartmentView.show(pane, newControls, mission, department);
             });
             String text1 = department.getDepartmentType().toString() + " Department";
             String text2 = "";
-            utilsView.addPaneEntry(pane, button, text1, text2);
+            utilsView.addToSidebar(pane, button, text1, text2);
         }
     }
 

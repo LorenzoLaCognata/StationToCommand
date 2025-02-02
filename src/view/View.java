@@ -3,6 +3,7 @@ package view;
 import controller.Controller;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.ToolBar;
@@ -19,6 +20,7 @@ import view.dispatchStructure.dispatchModule.DispatchView;
 import view.organizationStructure.organizationModule.OrganizationView;
 import view.utilsStructure.utilsModule.UtilsView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class View {
@@ -50,9 +52,8 @@ public class View {
         mapView.setPreserveRatio(true);
         centerArea.getChildren().add(mapView);
 
-        Circle station = new Circle(100, 100, 12, Color.BLUE);
         Circle responder = new Circle(200, 200, 8, Color.RED);
-        centerArea.getChildren().addAll(station, responder);
+        centerArea.getChildren().addAll(responder);
 
     }
 
@@ -66,15 +67,22 @@ public class View {
     public void generateTopBar(List<Department> departments, List<Mission> missions) {
         Button organizationButton = new Button("Organization");
         organizationButton.setOnAction(_ -> {
-            List<Control> controls = utilsView.setBreadcrumbs(leftPanel);
-            organizationView.show(leftPanel, controls, departments);
+            List<Control> sidebarNodes = utilsView.setPane(leftPanel);
+            List<Control> mapNodes = new ArrayList<>();
+            for (Node currentNode : centerArea.getChildren()){
+                // TODO: remove after changing data type from Control to Node
+                if (currentNode instanceof Control){
+                    mapNodes.add((Control) currentNode);
+                }
+            }
+            organizationView.show(leftPanel, centerArea, sidebarNodes, mapNodes, departments);
         });
 
         topBar.getItems().addAll(organizationButton);
 
         Button dispatchButton = new Button("Dispatch");
         dispatchButton.setOnAction(_ -> {
-            List<Control> controls = utilsView.setBreadcrumbs(leftPanel);
+            List<Control> controls = utilsView.setPane(leftPanel);
             dispatchView.show(leftPanel, controls, missions);
         });
 

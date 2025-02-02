@@ -28,10 +28,10 @@ public class MissionUnitListView {
         for (Unit unit : units) {
             Button button = new Button();
             button.setOnAction(_ -> {
-                List<Control> newControls = utilsView.setBreadcrumbs(pane, controls, button);
+                List<Control> newControls = utilsView.setPane(pane, controls, button);
                 missionUnitView.show(pane, newControls, mission, unit);
             });
-            utilsView.addPaneEntry(pane, button, unit.toString(), "");
+            utilsView.addToSidebar(pane, button, unit.toString(), "");
         }
     }
 

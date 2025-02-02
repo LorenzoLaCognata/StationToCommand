@@ -27,12 +27,12 @@ public class VehicleListView {
         for (Vehicle vehicle : vehicles) {
             Button button = new Button();
             button.setOnAction(_ -> {
-                utilsView.setBreadcrumbs(pane, controls, button);
+                utilsView.setPane(pane, controls, button);
                 vehicleView.show(pane);
             });
             String integrity = String.format("%.0f%%", vehicle.getIntegrity() * 100);
             String condition = String.format("%.0f%%", vehicle.getCondition() * 100);
-            utilsView.addPaneEntry(pane, button, vehicle.toString(), "Integrity: " + integrity + " - Condition: " + condition);
+            utilsView.addToSidebar(pane, button, vehicle.toString(), "Integrity: " + integrity + " - Condition: " + condition);
         }
     }
 
