@@ -4,6 +4,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -38,6 +39,13 @@ public class MissionListView {
 
             Point2D point = utilsView.locationToPoint(mission.getLocation());
             Circle circle = new Circle(point.getX(), point.getY(), 10, Color.RED);
+            circle.setOnMouseClicked(_ -> {
+                System.out.println(text1 + " clicked!");
+            });
+
+            Tooltip tooltip = new Tooltip(text2);
+            Tooltip.install(circle, tooltip);
+
             utilsView.addToMap(pane2, circle);
         }
     }
