@@ -1,12 +1,9 @@
 package view.departmentStructure.departmentListModule;
 
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import model.departmentStructure.departmentModule.Department;
-import model.stationStructure.stationModule.Station;
 import view.departmentStructure.departmentModule.DepartmentView;
 import view.utilsStructure.utilsModule.UtilsView;
 
@@ -23,8 +20,16 @@ public class DepartmentListView {
     }
 
     public void show(Pane pane1, Pane pane2, List<Node> nodes1, List<Node> nodes2, List<Department> departments) {
-        Label stationsSeparator = new Label("----------------------\nDepartments");
-        pane1.getChildren().addAll(stationsSeparator);
+
+
+        Label header = new Label("Departments");
+        //pane1.getChildren().addAll(header);
+
+        TreeItem<Node> headerTreeItem = new TreeItem<>(header);
+
+        TreeView<Node> treeView = new TreeView<>();
+        treeView.setRoot(headerTreeItem);
+        pane1.getChildren().add(treeView);
 
         for (Department department : departments) {
             String text1 = department.getDepartmentType().toString() + " Department";
@@ -37,6 +42,9 @@ public class DepartmentListView {
             });
             Tooltip tooltip = new Tooltip(text2);
             button.setTooltip(tooltip);
+
+            TreeItem<Node> departmentTreeItem = new TreeItem<>(button);
+            headerTreeItem.getChildren().add(departmentTreeItem);
             utilsView.addToSidebar(pane1, button, text1, text2);
         }
     }
