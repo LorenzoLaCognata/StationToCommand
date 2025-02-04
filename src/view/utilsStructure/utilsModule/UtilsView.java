@@ -1,12 +1,21 @@
 package view.utilsStructure.utilsModule;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
+import javafx.scene.AccessibleAction;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import model.locationStructure.locationModule.Location;
 import model.locationStructure.locationModule.LocationManager;
 import view.View;
@@ -48,6 +57,60 @@ public class UtilsView {
         hBox.setAlignment(Pos.CENTER_LEFT);
         hBox.getChildren().addAll(button, label);
         pane.getChildren().addAll(hBox);
+    }
+
+    // TODO: remove the old method after all occurences are replaced
+    public Node addToSidebarNew(Pane pane, String text1, String text2, EventHandler<MouseEvent> eventHandler) {
+
+        Label label = new Label(text1);
+        label.setStyle("-fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 0;");
+
+        StackPane stackPane = new StackPane(label);
+        stackPane.setPrefSize(250, 35);
+        stackPane.setMinHeight(35);
+        stackPane.setMaxHeight(35);
+        stackPane.setStyle("""
+                -fx-background-color: #333;
+                -fx-padding: 5px 10px;
+                -fx-background-radius: 8px;
+            """);
+
+        stackPane.setOnMouseEntered(e -> stackPane.setStyle("""
+                -fx-background-color: #555;
+                -fx-padding: 5px 10px;
+                -fx-background-radius: 8px;
+            """));
+        stackPane.setOnMouseExited(e -> stackPane.setStyle("""
+                -fx-background-color: #333;
+                -fx-padding: 5px 10px;
+                -fx-background-radius: 8px;
+            """));
+        stackPane.setOnMousePressed(e -> stackPane.setStyle("""
+                -fx-background-color: #666;
+                -fx-padding: 5px 10px;
+                -fx-background-radius: 8px;
+            """));
+        stackPane.setOnMouseReleased(e -> stackPane.setStyle("""
+                -fx-background-color: #444;
+                -fx-padding: 5px 10px;
+                -fx-background-radius: 8px;
+            """));
+        stackPane.setOnMouseClicked(eventHandler);
+
+        ImageView icon = new ImageView(new Image("file:C:\\Users\\vodev\\OneDrive\\Desktop\\station.png"));
+        icon.setFitWidth(32);
+        icon.setFitHeight(32);
+
+        HBox content = new HBox(10, icon, label);
+        content.setAlignment(Pos.CENTER_LEFT);
+        content.setPadding(new Insets(5));
+
+        stackPane.getChildren().add(content);
+
+        pane.getChildren().addAll(stackPane);
+
+        return stackPane;
+
     }
 
     public void addToMap(Pane pane, Node node) {

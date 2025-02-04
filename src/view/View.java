@@ -58,8 +58,9 @@ public class View {
         GridPane.setHgrow(centerPane, Priority.ALWAYS);
         GridPane.setVgrow(centerPane, Priority.ALWAYS);
 
-        leftPane.setPadding(new Insets(10));
-        leftPane.setStyle("-fx-background-color: #f0f0f0;");
+        leftPane.setSpacing(15);
+        leftPane.setPadding(new Insets(15));
+        leftPane.setStyle("-fx-background-color: rgba(20, 20, 20, 0.9); -fx-border-radius: 10;");
 
         centerPane.setStyle("-fx-background-color: #ffffff;");
         centerPane.widthProperty().addListener((_, _, newValue) -> {
