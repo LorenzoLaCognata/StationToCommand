@@ -9,13 +9,11 @@ import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import model.departmentStructure.departmentModule.Department;
-import model.missionStructure.missionModule.Mission;
-import view.dispatchStructure.dispatchModule.DispatchView;
-import view.organizationStructure.organizationModule.OrganizationView;
-import view.utilsStructure.utilsModule.UtilsView;
+import model.departmentStructure.Department;
+import model.missionStructure.Mission;
+import view.mainStructure.DispatchView;
+import view.mainStructure.OrganizationView;
+import view.mainStructure.UtilsView;
 
 import java.util.ArrayList;
 import java.util.List;
