@@ -9,11 +9,13 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
+import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
+import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.stationStructure.Station;
 import stationtocommand.view.mainStructure.UtilsView;
 
@@ -31,7 +33,8 @@ public class StationListView {
         this.stationView = new StationView(utilsView);
     }
 
-    public void show(Pane pane1, Pane pane2, List<Node> nodes1, List<Node> nodes2, List<Station> stations) {
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, List<Node> nodes1, List<Node> nodes2, List<Station> stations) {
+
         Label header = new Label("Stations");
         header.setStyle("-fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 0;");
         pane1.getChildren().addAll(header);
@@ -40,7 +43,7 @@ public class StationListView {
             Button button = new Button();
             EventHandler<MouseEvent> eventHandler = event -> {
                 List<Node> nextNodes1 = utilsView.resetAndAddToPane(pane1, nodes1, button);
-                stationView.show(pane1, nextNodes1, station);
+                stationView.show(breadCrumbBar, pane1, nextNodes1, station);
             };
             // TODO: restore or delete
             //utilsView.addToSidebar(pane1, button, station.toString(), station.getUnits().size() + " units");

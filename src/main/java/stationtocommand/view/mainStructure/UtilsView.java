@@ -7,12 +7,14 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.locationStructure.Location;
 import stationtocommand.model.locationStructure.LocationManager;
 import stationtocommand.view.View;
@@ -108,6 +110,18 @@ public class UtilsView {
 
         return stackPane;
 
+    }
+
+    public void resetBreadCrumbBar(BreadCrumbBar<Object> breadCrumbBar) {
+        breadCrumbBar.setSelectedCrumb(null);
+    }
+
+    public void addBreadCrumb(BreadCrumbBar<Object> breadCrumbBar, Object object) {
+        TreeItem<Object> treeItem = new TreeItem<>(object);
+        if (breadCrumbBar.getSelectedCrumb() != null) {
+            breadCrumbBar.getSelectedCrumb().getChildren().add(treeItem);
+        }
+        breadCrumbBar.setSelectedCrumb(treeItem);
     }
 
     public void addToMap(Pane pane, Node node) {

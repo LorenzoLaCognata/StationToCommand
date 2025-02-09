@@ -4,12 +4,15 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TreeItem;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.view.mainStructure.UtilsView;
 
 import java.util.List;
+
 
 public class DepartmentListView {
 
@@ -21,7 +24,11 @@ public class DepartmentListView {
         this.departmentView = new DepartmentView(utilsView);
     }
 
-    public void show(Pane pane1, Pane pane2, List<Node> nodes1, List<Node> nodes2, List<Department> departments) {
+    public DepartmentView getDepartmentView() {
+        return departmentView;
+    }
+
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, List<Node> nodes1, List<Node> nodes2, List<Department> departments) {
 
         Label header = new Label("Departments");
         header.setStyle("-fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 0;");
@@ -32,11 +39,11 @@ public class DepartmentListView {
             String text2 = department.getStations().size() + " stations";
             // TODO: remove when this part is stable
             Button button = new Button();
-            EventHandler<MouseEvent> eventHandler = event -> {
+            EventHandler<MouseEvent> eventHandler = _ -> {
                 // TODO: change so that we don't add the button that does not exist as of now
                 List<Node> nextNodes1 = utilsView.resetAndAddToPane(pane1, nodes1, button);
                 List<Node> nextNodes2 = utilsView.resetPane(pane2, nodes2);
-                departmentView.show(pane1, pane2, nextNodes1, nextNodes2, department);
+                departmentView.show(breadCrumbBar, pane1, pane2, nextNodes1, nextNodes2, department);
 
             };
 

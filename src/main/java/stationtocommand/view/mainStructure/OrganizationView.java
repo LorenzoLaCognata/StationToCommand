@@ -1,7 +1,9 @@
 package stationtocommand.view.mainStructure;
 
 import javafx.scene.Node;
+import javafx.scene.control.TreeItem;
 import javafx.scene.layout.Pane;
+import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.view.departmentStructure.DepartmentListView;
 
@@ -15,8 +17,12 @@ public class OrganizationView {
         this.departmentListView = new DepartmentListView(utilsView);
     }
 
-    public void show(Pane pane1, Pane pane2, List<Node> nodes1, List<Node> nodes2, List<Department> departments) {
-        departmentListView.show(pane1, pane2, nodes1, nodes2, departments);
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, List<Node> nodes1, List<Node> nodes2, List<Department> departments) {
+        departmentListView.show(breadCrumbBar, pane1, pane2, nodes1, nodes2, departments);
+    }
+
+    public DepartmentListView getDepartmentListView() {
+        return departmentListView;
     }
 
 }

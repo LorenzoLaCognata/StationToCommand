@@ -11,17 +11,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.model.missionStructure.Mission;
+import stationtocommand.model.stationStructure.Station;
+import stationtocommand.model.unitStructure.Unit;
 import stationtocommand.view.mainStructure.DispatchView;
 import stationtocommand.view.mainStructure.OrganizationView;
 import stationtocommand.view.mainStructure.UtilsView;
-//import org.controlsfx.control.BreadCrumbBar;
+import org.controlsfx.control.BreadCrumbBar;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class View {
-
-  //  BreadCrumbBar<String> breadcrumbBar = new BreadCrumbBar<>();
 
     public static float SCENE_WIDTH;
     public static float SCENE_HEIGHT;
@@ -34,6 +34,7 @@ public class View {
     private final ToolBar topPane = new ToolBar();
     private final VBox leftPane = new VBox(10);
     private final Pane centerPane = new Pane();
+    BreadCrumbBar<Object> breadCrumbBar = new BreadCrumbBar<>();
 
     public View() {
         ColumnConstraints leftCol = new ColumnConstraints();
@@ -52,9 +53,14 @@ public class View {
 
         gridPane.getRowConstraints().addAll(topRow, centerRow);
 
-        gridPane.add(topPane, 0, 0, 2, 1); // Top spans both columns
-        gridPane.add(leftPane, 0, 1);
-        gridPane.add(centerPane, 1, 1);
+        RowConstraints rowConstraints = new RowConstraints();
+        rowConstraints.setPrefHeight(40);
+        gridPane.getRowConstraints().add(1, rowConstraints);
+
+        gridPane.add(topPane, 0, 0, 2, 1);
+        gridPane.add(breadCrumbBar, 0, 1);
+        gridPane.add(leftPane, 0, 2);
+        gridPane.add(centerPane, 1, 1, 1, 2);
 
         GridPane.setHgrow(centerPane, Priority.ALWAYS);
         GridPane.setVgrow(centerPane, Priority.ALWAYS);
@@ -64,12 +70,8 @@ public class View {
         leftPane.setStyle("-fx-background-color: rgba(20, 20, 20, 0.9); -fx-border-radius: 10;");
 
         centerPane.setStyle("-fx-background-color: #ffffff;");
-        centerPane.widthProperty().addListener((_, _, newValue) -> {
-            SCENE_WIDTH = newValue.floatValue();
-        });
-        centerPane.heightProperty().addListener((_, _, newValue) -> {
-            SCENE_HEIGHT = newValue.floatValue();
-        });
+        centerPane.widthProperty().addListener((_, _, newValue) -> SCENE_WIDTH = newValue.floatValue());
+        centerPane.heightProperty().addListener((_, _, newValue) -> SCENE_HEIGHT = newValue.floatValue());
     }
 
     public void initialize(Controller controller) {
@@ -94,7 +96,8 @@ public class View {
         organizationButton.setOnAction(_ -> {
             List<Node> sidebarNodes = utilsView.clearPane(leftPane);
             List<Node> nextMapNodes = utilsView.resetPane(centerPane, mapNodes);
-            organizationView.show(leftPane, centerPane, sidebarNodes, nextMapNodes, departments);
+            utilsView.resetBreadCrumbBar(breadCrumbBar);
+            organizationView.show(breadCrumbBar, leftPane, centerPane, sidebarNodes, nextMapNodes, departments);
         });
 
         topPane.getItems().addAll(organizationButton);
@@ -111,6 +114,21 @@ public class View {
         Button exitButton = new Button("Quit");
         exitButton.setOnAction(_ -> Platform.exit());
         topPane.getItems().addAll(exitButton);
+
+        breadCrumbBar.setOnCrumbAction(event -> {
+            Object selectedObject = event.getSelectedCrumb().getValue();
+
+            if (selectedObject instanceof Department) {
+                utilsView.clearPane(leftPane);
+                utilsView.clearPane(centerPane);
+                organizationView.getDepartmentListView().getDepartmentView().show(breadCrumbBar, leftPane, centerPane, new ArrayList<>(), new ArrayList<>(), (Department) selectedObject);
+            } else if (selectedObject instanceof Station) {
+                //stationView.show(breadCrumbBar, pane1, nextNodes1, station);
+            }
+        });
+
+        breadCrumbBar.setStyle("-fx-background-color: #222; -fx-padding: 5px;");
+
     }
 
     public GridPane getGridPane() {
