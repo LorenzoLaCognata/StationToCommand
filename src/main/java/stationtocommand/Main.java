@@ -1,11 +1,11 @@
 package stationtocommand;
 
-import stationtocommand.controller.Controller;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import stationtocommand.controller.Controller;
 import stationtocommand.model.Model;
 import stationtocommand.view.View;
 

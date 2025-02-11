@@ -1,9 +1,8 @@
 package stationtocommand.view.trainingStructure;
 
-import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.trainingStructure.Training;
 import stationtocommand.view.mainStructure.UtilsView;
 
@@ -16,20 +15,15 @@ public class TrainingListView {
 
     public TrainingListView(UtilsView utilsView) {
         this.utilsView = utilsView;
-        this.trainingView = new TrainingView();
+        this.trainingView = new TrainingView(utilsView);
     }
 
-    public void show(Pane pane, List<Node> nodes, List<Training> trainings) {
-        Label trainingsSeparator = new Label("----------------------\nTrainings");
-        pane.getChildren().addAll(trainingsSeparator);
-
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, List<Training> trainings) {
+        utilsView.addLabel(pane, "Trainings");
         for (Training training : trainings) {
-            Button button = new Button();
-            button.setOnAction(_ -> {
-                utilsView.resetAndAddToPane(pane, nodes, button);
-                trainingView.show(pane);
-            });
-            utilsView.addToSidebar(pane, button, training.toString(), "");
+            Button button = new Button(training.toString());
+            button.setOnAction(_ -> trainingView.show(breadCrumbBar, pane, training));
+            pane.getChildren().add(button);
         }
     }
 

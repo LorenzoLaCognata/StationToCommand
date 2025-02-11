@@ -8,10 +8,10 @@ import java.util.stream.Collectors;
 
 public class LocationManager {
 
-	public static float MIN_LATITUDE = 41.6445f;
-	public static float MAX_LATITUDE = 42.0230f;
-	public static float MIN_LONGITUDE = -87.9401f;
-	public static float MAX_LONGITUDE = -87.5237f;
+	public static final float MIN_LATITUDE = 41.6445f;
+	public static final float MAX_LATITUDE = 42.0230f;
+	public static final float MIN_LONGITUDE = -87.9401f;
+	public static final float MAX_LONGITUDE = -87.5237f;
     private final List<Location> locations = new ArrayList<>();
 
     public LocationManager() {

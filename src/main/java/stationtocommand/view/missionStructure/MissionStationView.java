@@ -31,21 +31,21 @@ public class MissionStationView {
                 .flatMap(item -> item.getStationLinks().stream())
                 .flatMap(item -> item.getUnitLinks().stream())
                 .map(UnitLink::getUnit)
-                .toList();;
+                .toList();
         missionUnitListView.show(pane, nodes, mission, missionUnits);
         List<Responder> missionResponders = mission.getDepartmentLinks().stream()
                 .flatMap(item -> item.getStationLinks().stream())
                 .flatMap(item -> item.getUnitLinks().stream())
                 .flatMap(item -> item.getResponderLinks().stream())
                 .map(ResponderLink::getResponder)
-                .toList();;
+                .toList();
         missionResponderListView.show(pane, nodes, mission, missionResponders);
         List<Vehicle> missionVehicles = mission.getDepartmentLinks().stream()
                 .flatMap(item -> item.getStationLinks().stream())
                 .flatMap(item -> item.getUnitLinks().stream())
                 .flatMap(item -> item.getVehicleLinks().stream())
                 .map(VehicleLink::getVehicle)
-                .toList();;
+                .toList();
         missionVehicleListView.show(pane, nodes, mission, missionVehicles);
     }
 

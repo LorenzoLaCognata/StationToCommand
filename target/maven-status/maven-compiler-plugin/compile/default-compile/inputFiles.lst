@@ -111,6 +111,7 @@ C:\Users\vodev\IdeaProjects\StationToCommand\src\main\java\stationtocommand\cont
 C:\Users\vodev\IdeaProjects\StationToCommand\src\main\java\stationtocommand\model\responderStructure\ResponderUnitLink.java
 C:\Users\vodev\IdeaProjects\StationToCommand\src\main\java\stationtocommand\view\equipmentStructure\EquipmentListView.java
 C:\Users\vodev\IdeaProjects\StationToCommand\src\main\java\stationtocommand\model\unitStructure\UnitLink.java
+C:\Users\vodev\IdeaProjects\StationToCommand\src\main\java\stationtocommand\view\mainStructure\TreeItemType.java
 C:\Users\vodev\IdeaProjects\StationToCommand\src\main\java\stationtocommand\model\stationStructure\Station.java
 C:\Users\vodev\IdeaProjects\StationToCommand\src\main\java\stationtocommand\view\trainingStructure\TrainingView.java
 C:\Users\vodev\IdeaProjects\StationToCommand\src\main\java\stationtocommand\view\departmentStructure\DepartmentView.java
@@ -123,6 +124,7 @@ C:\Users\vodev\IdeaProjects\StationToCommand\src\main\java\stationtocommand\view
 C:\Users\vodev\IdeaProjects\StationToCommand\src\main\java\stationtocommand\view\missionStructure\MissionResponderListView.java
 C:\Users\vodev\IdeaProjects\StationToCommand\src\main\java\stationtocommand\view\missionStructure\MissionVehicleListView.java
 C:\Users\vodev\IdeaProjects\StationToCommand\src\main\java\stationtocommand\model\vehicleStructure\Vehicle.java
+C:\Users\vodev\IdeaProjects\StationToCommand\src\main\java\stationtocommand\view\mainStructure\CustomTreeItem.java
 C:\Users\vodev\IdeaProjects\StationToCommand\src\main\java\stationtocommand\model\personStructure\CivilianManager.java
 C:\Users\vodev\IdeaProjects\StationToCommand\src\main\java\stationtocommand\model\unitStructure\MedicUnit.java
 C:\Users\vodev\IdeaProjects\StationToCommand\src\main\java\stationtocommand\model\watchStructure\Watch.java

@@ -1,9 +1,8 @@
 package stationtocommand.view.responderStructure;
 
-import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.responderStructure.Responder;
 import stationtocommand.view.mainStructure.UtilsView;
 
@@ -19,17 +18,16 @@ public class ResponderListView {
         this.responderView = new ResponderView(utilsView);
     }
 
-    public void show(Pane pane, List<Node> nodes, List<Responder> responders) {
-        Label respondersSeparator = new Label("----------------------\nResponders");
-        pane.getChildren().addAll(respondersSeparator);
+    public ResponderView getResponderView() {
+        return responderView;
+    }
 
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, List<Responder> responders) {
+        utilsView.addLabel(pane, "Responders");
         for (Responder responder : responders) {
-            Button button = new Button();
-            button.setOnAction(_ -> {
-                List<Node> nextNodes = utilsView.resetAndAddToPane(pane, nodes, button);
-                responderView.show(pane, nextNodes, responder);
-            });
-            utilsView.addToSidebar(pane, button, responder.toString(), responder.getRank().toString());
+            Button button = new Button(responder.toString());
+            button.setOnAction(_ -> responderView.show(breadCrumbBar, pane, responder));
+            pane.getChildren().add(button);
         }
     }
 

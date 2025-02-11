@@ -1,9 +1,8 @@
 package stationtocommand.view.equipmentStructure;
 
-import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.equipmentStructure.Equipment;
 import stationtocommand.view.mainStructure.UtilsView;
 
@@ -16,22 +15,19 @@ public class EquipmentListView {
 
     public EquipmentListView(UtilsView utilsView) {
         this.utilsView = utilsView;
-        this.equipmentView = new EquipmentView();
+        this.equipmentView = new EquipmentView(utilsView);
     }
 
-    public void show(Pane pane, List<Node> nodes, List<Equipment> equipments) {
-        Label equipmentsSeparator = new Label("----------------------\nEquipments");
-        pane.getChildren().addAll(equipmentsSeparator);
+    public EquipmentView getEquipmentView() {
+        return equipmentView;
+    }
 
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, List<Equipment> equipments) {
+        utilsView.addLabel(pane, "Equipment");
         for (Equipment equipment : equipments) {
-            Button button = new Button();
-            button.setOnAction(_ -> {
-                utilsView.resetAndAddToPane(pane, nodes, button);
-                equipmentView.show(pane);
-            });
-            String integrity = String.format("%.0f%%", equipment.getIntegrity() * 100);
-            String condition = String.format("%.0f%%", equipment.getCondition() * 100);
-            utilsView.addToSidebar(pane, button, equipment.toString(), "Integrity: " + integrity + " - Condition: " + condition);
+            Button button = new Button(equipment.toString());
+            button.setOnAction(_ -> equipmentView.show(breadCrumbBar, pane, equipment));
+            pane.getChildren().add(button);
         }
     }
 

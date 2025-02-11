@@ -1,20 +1,13 @@
 package stationtocommand.view.mainStructure;
 
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.locationStructure.Location;
 import stationtocommand.model.locationStructure.LocationManager;
@@ -59,133 +52,21 @@ public class UtilsView {
         pane.getChildren().addAll(hBox);
     }
 
-    // TODO: remove the old method after all occurences are replaced
-    public Node addToSidebarNew(Pane pane, String text1, String text2, EventHandler<MouseEvent> eventHandler) {
-
-        Label label = new Label(text1);
-        label.setStyle("-fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 0;");
-
-        StackPane stackPane = new StackPane(label);
-        stackPane.setPrefSize(250, 35);
-        stackPane.setMinHeight(35);
-        stackPane.setMaxHeight(35);
-        stackPane.setStyle("""
-                -fx-background-color: #333;
-                -fx-padding: 5px 10px;
-                -fx-background-radius: 8px;
-            """);
-
-        stackPane.setOnMouseEntered(e -> stackPane.setStyle("""
-                -fx-background-color: #555;
-                -fx-padding: 5px 10px;
-                -fx-background-radius: 8px;
-            """));
-        stackPane.setOnMouseExited(e -> stackPane.setStyle("""
-                -fx-background-color: #333;
-                -fx-padding: 5px 10px;
-                -fx-background-radius: 8px;
-            """));
-        stackPane.setOnMousePressed(e -> stackPane.setStyle("""
-                -fx-background-color: #666;
-                -fx-padding: 5px 10px;
-                -fx-background-radius: 8px;
-            """));
-        stackPane.setOnMouseReleased(e -> stackPane.setStyle("""
-                -fx-background-color: #444;
-                -fx-padding: 5px 10px;
-                -fx-background-radius: 8px;
-            """));
-        stackPane.setOnMouseClicked(eventHandler);
-
-        ImageView icon = new ImageView(new Image("file:C:\\Users\\vodev\\OneDrive\\Desktop\\station.png"));
-        icon.setFitWidth(32);
-        icon.setFitHeight(32);
-
-        HBox content = new HBox(10, icon, label);
-        content.setAlignment(Pos.CENTER_LEFT);
-        content.setPadding(new Insets(5));
-
-        stackPane.getChildren().add(content);
-
-        pane.getChildren().addAll(stackPane);
-
-        return stackPane;
-
-    }
-
-    private CustomTreeItem<String> getTreeItem(TreeItem<String> root, TreeItemType treeItemType, Object object) {
-        if (root instanceof CustomTreeItem<?> customItem) {
-            if (customItem.getType() == treeItemType) {
-                if (object == null || (customItem.getObject() != null && customItem.getObject().equals(object))) {
-                    return (CustomTreeItem<String>) customItem;
-                }
-            }
-        }
-
-        for (TreeItem<String> child : root.getChildren()) {
-            CustomTreeItem<String> result = getTreeItem(child, treeItemType, object);
-            if (result != null) {
-                return result;
-            }
-        }
-
-        return null;
-    }
-
-    /*
-    private TreeItem<String> getLastTreeItem(TreeItem<String> root) {
-        if (root == null || root.getChildren().isEmpty()) {
-            return root;
-        }
-        return getLastTreeItem(root.getChildren().getLast());
-    }
-    */
-
-    public void clearTreeView(Pane pane) {
-
-        // TODO: find a better way to manage this e.g. pass directly the TreeView as a parameter
-        TreeView<String> treeView = (TreeView) pane.getChildren().getFirst();
-        treeView.setRoot(null);
-    }
-
-    public void addTreeItem(Pane pane, String text1, TreeItemType treeItemType, Object object, TreeItemType parentTreeItemType, Object parentObject) {
-
-        TreeView<String> treeView = (TreeView) pane.getChildren().getFirst();
-        CustomTreeItem<String> treeItem = new CustomTreeItem<>(treeItemType, object, text1);
-
-        if (treeView.getRoot() != null) {
-            TreeItem<String> rootItem = treeView.getRoot();
-            if (parentObject != null) {
-                TreeItem<String> parentItem = getTreeItem(rootItem, parentTreeItemType, parentObject);
-                if (parentItem != null) {
-                    parentItem.getChildren().add(treeItem);
-                }
-            }
-            else {
-                TreeItem<String> parentItem = getTreeItem(rootItem, parentTreeItemType, null);
-                if (parentItem != null) {
-                    parentItem.getChildren().add(treeItem);
-                }
-            }
-        }
-
-        else if (parentTreeItemType == null) {
-            treeView.setRoot(treeItem);
-        }
-
-    }
-
-    public void clearTreeItemChildren(Pane pane, TreeItemType parentTreeItemType, Object parentObject) {
-
-        TreeView<String> treeView = (TreeView) pane.getChildren().getFirst();
-
-        if (treeView.getRoot() != null) {
-            TreeItem<String> rootItem = treeView.getRoot();
-            TreeItem<String> treeItem = getTreeItem(rootItem, parentTreeItemType, parentObject);
-            if (treeItem != null) {
-                treeItem.getChildren().clear();
-            }
-        }
+    public void addLabel(Pane pane, String text) {
+        Label label = new Label(text);
+        label.setStyle("""
+            -fx-text-fill: white;
+            -fx-font-size: 14px;
+            -fx-font-weight: bold;
+            -fx-padding: 5px 10px;
+            -fx-background-color: rgba(60, 60, 60, 0.9);
+            -fx-background-radius: 6px;
+            -fx-border-color: #888;
+            -fx-border-width: 1px;
+            -fx-border-radius: 6px;
+            -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 5, 0.3, 0, 0);
+        """);
+        pane.getChildren().add(label);
     }
 
     public void resetBreadCrumbBar(BreadCrumbBar<Object> breadCrumbBar) {

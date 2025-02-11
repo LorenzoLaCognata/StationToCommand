@@ -1,17 +1,12 @@
 package stationtocommand.view.stationStructure;
 
-import javafx.scene.Node;
-import javafx.scene.control.TreeItem;
 import javafx.scene.layout.Pane;
-import jdk.jshell.execution.Util;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.stationStructure.Station;
 import stationtocommand.view.mainStructure.UtilsView;
 import stationtocommand.view.responderStructure.ResponderListView;
 import stationtocommand.view.unitStructure.UnitListView;
 import stationtocommand.view.vehicleStructure.VehicleListView;
-
-import java.util.List;
 
 public class StationView {
 
@@ -27,11 +22,24 @@ public class StationView {
         this.vehicleListView = new VehicleListView(utilsView);
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, List<Node> nodes, Station station) {
+    public UnitListView getUnitListView() {
+        return unitListView;
+    }
+
+    public ResponderListView getResponderListView() {
+        return responderListView;
+    }
+
+    public VehicleListView getVehicleListView() {
+        return vehicleListView;
+    }
+
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, Station station) {
         utilsView.addBreadCrumb(breadCrumbBar, station);
-        unitListView.show(pane, nodes, station.getUnits());
-        responderListView.show(pane, nodes, station.getResponders());
-        vehicleListView.show(pane, nodes, station.getVehicles());
+        utilsView.clearPane(pane);
+        unitListView.show(breadCrumbBar, pane, station.getUnits());
+        responderListView.show(breadCrumbBar, pane, station.getResponders());
+        vehicleListView.show(breadCrumbBar, pane, station.getVehicles());
     }
 
 }

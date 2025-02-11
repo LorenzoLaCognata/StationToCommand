@@ -1,9 +1,8 @@
 package stationtocommand.view.unitStructure;
 
-import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.unitStructure.Unit;
 import stationtocommand.view.mainStructure.UtilsView;
 
@@ -19,17 +18,16 @@ public class UnitListView {
         this.unitView = new UnitView(utilsView);
     }
 
-    public void show(Pane pane, List<Node> nodes, List<Unit> units) {
-        Label unitsSeparator = new Label("----------------------\nUnits");
-        pane.getChildren().addAll(unitsSeparator);
+    public UnitView getUnitView() {
+        return unitView;
+    }
 
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, List<Unit> units) {
+        utilsView.addLabel(pane, "Units");
         for (Unit unit : units) {
-            Button button = new Button();
-            button.setOnAction(_ -> {
-                List<Node> nextNodes = utilsView.resetAndAddToPane(pane, nodes, button);
-                unitView.show(pane, nextNodes, unit);
-            });
-            utilsView.addToSidebar(pane, button, unit.toString(), unit.getResponders().size() + " responders");
+            Button button = new Button(unit.toString());
+            button.setOnAction(_ -> unitView.show(breadCrumbBar, pane, unit));
+            pane.getChildren().add(button);
         }
     }
 

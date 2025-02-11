@@ -1,16 +1,21 @@
 package stationtocommand.view.equipmentStructure;
 
-import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import org.controlsfx.control.BreadCrumbBar;
+import stationtocommand.model.equipmentStructure.Equipment;
+import stationtocommand.view.mainStructure.UtilsView;
 
 public class EquipmentView {
 
-    public EquipmentView() {
+    private final UtilsView utilsView;
+
+    public EquipmentView(UtilsView utilsView) {
+        this.utilsView = utilsView;
     }
 
-    public void show(Pane pane) {
-        Label separator = new Label("----------------------\n");
-        pane.getChildren().addAll(separator);
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, Equipment equipment) {
+        utilsView.addBreadCrumb(breadCrumbBar, equipment);
+        utilsView.clearPane(pane);
     }
 
 }

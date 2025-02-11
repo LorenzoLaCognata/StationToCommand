@@ -1,9 +1,8 @@
 package stationtocommand.view.skillStructure;
 
-import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.skillStructure.Skill;
 import stationtocommand.view.mainStructure.UtilsView;
 
@@ -16,23 +15,16 @@ public class SkillListView {
 
     public SkillListView(UtilsView utilsView) {
         this.utilsView = utilsView;
-        this.skillView = new SkillView();
+        this.skillView = new SkillView(utilsView);
     }
 
-    public void show(Pane pane, List<Node> nodes, List<Skill> skills) {
-        Label skillsSeparator = new Label("----------------------\nSkills");
-        pane.getChildren().addAll(skillsSeparator);
-
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, List<Skill> skills) {
+        utilsView.addLabel(pane, "Skills");
         for (Skill skill : skills) {
-            Button button = new Button();
-            button.setOnAction(_ -> {
-                utilsView.resetAndAddToPane(pane, nodes, button);
-                skillView.show(pane);
-            });
-            utilsView.addToSidebar(pane, button, skill.toString(), "");
+            Button button = new Button(skill.toString());
+            button.setOnAction(_ -> skillView.show(breadCrumbBar, pane, skill));
+            pane.getChildren().add(button);
         }
     }
-
-
 
 }

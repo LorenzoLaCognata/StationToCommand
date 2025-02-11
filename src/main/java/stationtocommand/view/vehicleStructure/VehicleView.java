@@ -1,16 +1,21 @@
 package stationtocommand.view.vehicleStructure;
 
-import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import org.controlsfx.control.BreadCrumbBar;
+import stationtocommand.model.vehicleStructure.Vehicle;
+import stationtocommand.view.mainStructure.UtilsView;
 
 public class VehicleView {
 
-    public VehicleView() {
+    private final UtilsView utilsView;
+
+    public VehicleView(UtilsView utilsView) {
+        this.utilsView = utilsView;
     }
 
-    public void show(Pane pane) {
-        Label separator = new Label("----------------------\n");
-        pane.getChildren().addAll(separator);
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, Vehicle vehicle) {
+        utilsView.addBreadCrumb(breadCrumbBar, vehicle);
+        utilsView.clearPane(pane);
     }
 
 }

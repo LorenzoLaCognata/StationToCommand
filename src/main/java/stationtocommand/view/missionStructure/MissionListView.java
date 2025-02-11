@@ -38,9 +38,7 @@ public class MissionListView {
 
             Point2D point = utilsView.locationToPoint(mission.getLocation());
             Circle circle = new Circle(point.getX(), point.getY(), 10, Color.RED);
-            circle.setOnMouseClicked(_ -> {
-                System.out.println(text1 + " clicked!");
-            });
+            circle.setOnMouseClicked(_ -> System.out.println(text1 + " clicked!"));
 
             Tooltip tooltip = new Tooltip(text2);
             Tooltip.install(circle, tooltip);

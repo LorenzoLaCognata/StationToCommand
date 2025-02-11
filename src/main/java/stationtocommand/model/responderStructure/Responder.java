@@ -55,7 +55,7 @@ public class Responder extends Person {
 
     @Override
     public String toString() {
-        return String.format("%06d", id) + " " + getGender() + " " + getFirstName() + " " + getLastName();
+        return getGender() + " " + getFirstName() + " " + getLastName();
     }
 
     public int getId() {

@@ -1,3 +1,4 @@
+stationtocommand\view\mainStructure\TreeItemType.class
 stationtocommand\model\actionStructure\ActionVehicleLink.class
 stationtocommand\model\equipmentStructure\FireEquipmentType.class
 stationtocommand\view\missionStructure\MissionResponderView.class

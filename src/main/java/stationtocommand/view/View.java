@@ -1,8 +1,5 @@
 package stationtocommand.view;
 
-import javafx.scene.control.TreeCell;
-import javafx.scene.control.TreeView;
-import stationtocommand.controller.Controller;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -11,11 +8,18 @@ import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import stationtocommand.model.departmentStructure.Department;
-import stationtocommand.model.missionStructure.Mission;
-import stationtocommand.model.stationStructure.Station;
-import stationtocommand.view.mainStructure.*;
 import org.controlsfx.control.BreadCrumbBar;
+import stationtocommand.controller.Controller;
+import stationtocommand.model.departmentStructure.Department;
+import stationtocommand.model.equipmentStructure.Equipment;
+import stationtocommand.model.missionStructure.Mission;
+import stationtocommand.model.responderStructure.Responder;
+import stationtocommand.model.stationStructure.Station;
+import stationtocommand.model.unitStructure.Unit;
+import stationtocommand.model.vehicleStructure.Vehicle;
+import stationtocommand.view.mainStructure.DispatchView;
+import stationtocommand.view.mainStructure.OrganizationView;
+import stationtocommand.view.mainStructure.UtilsView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,10 +35,9 @@ public class View {
     private DispatchView dispatchView;
     private final GridPane gridPane = new GridPane();
     private final ToolBar topPane = new ToolBar();
-    private final VBox leftPane = new VBox(10);
-    private final TreeView<String> leftTreeView = new TreeView<>();
+    private final VBox leftPane = new VBox(5);
     private final Pane centerPane = new Pane();
-    BreadCrumbBar<Object> breadCrumbBar = new BreadCrumbBar<>();
+    private final BreadCrumbBar<Object> breadCrumbBar = new BreadCrumbBar<>();
 
     public View() {
         leftPane.setSpacing(15);
@@ -62,13 +65,13 @@ public class View {
     public void generateUI(List<Department> departments, List<Mission> missions) {
 
         ColumnConstraints firstCol = new ColumnConstraints();
-        firstCol.setMinWidth(350);
-        firstCol.setMaxWidth(350);
+        firstCol.setMinWidth(400);
+        firstCol.setMaxWidth(400);
 
         ColumnConstraints secondCol = new ColumnConstraints();
         // TODO: change width to grow dynamically, fixed as it was causing issues
-        secondCol.setMinWidth(1150);
-        secondCol.setMaxWidth(1150);
+        secondCol.setMinWidth(1100);
+        secondCol.setMaxWidth(1100);
 
         gridPane.getColumnConstraints().addAll(firstCol, secondCol);
 
@@ -87,8 +90,6 @@ public class View {
 
         gridPane.getRowConstraints().addAll(firstRow, secondRow, thirdRow);
 
-        leftPane.getChildren().add(leftTreeView);
-
         List<Node> mapNodes = new ArrayList<>();
         ImageView mapView = new ImageView(new Image("file:C:\\Users\\vodev\\OneDrive\\Desktop\\map.jpg"));
         mapView.fitWidthProperty().bind(centerPane.widthProperty());
@@ -100,13 +101,10 @@ public class View {
 
         Button organizationButton = new Button("Organization");
         organizationButton.setOnAction(_ -> {
-            // TODO: delete or restore
-            //List<Node> sidebarNodes = utilsView.clearPane(leftPane);
-            List<Node> sidebarNodes = utilsView.resetPane(leftPane, List.of(leftTreeView));
-            List<Node> nextMapNodes = utilsView.resetPane(centerPane, mapNodes);
+            utilsView.clearPane(leftPane);
+            utilsView.resetPane(centerPane, mapNodes);
             utilsView.resetBreadCrumbBar(breadCrumbBar);
-            utilsView.clearTreeView(leftPane);
-            organizationView.show(breadCrumbBar, leftPane, centerPane, sidebarNodes, nextMapNodes, departments);
+            organizationView.show(breadCrumbBar, leftPane, centerPane, departments);
         });
 
         topPane.getItems().addAll(organizationButton);
@@ -116,7 +114,6 @@ public class View {
             List<Node> sidebarNodes = utilsView.clearPane(leftPane);
             List<Node> nextMapNodes = utilsView.resetPane(centerPane, mapNodes);
             utilsView.resetBreadCrumbBar(breadCrumbBar);
-            utilsView.clearTreeView(leftPane);
             dispatchView.show(leftPane, centerPane, sidebarNodes, nextMapNodes, missions);
         });
 
@@ -130,61 +127,38 @@ public class View {
             Object selectedObject = event.getSelectedCrumb().getValue();
 
             if (selectedObject instanceof Department) {
-                List<Node> sidebarNodes = utilsView.clearPane(leftPane);
-                List<Node> nextMapNodes = utilsView.resetPane(centerPane, mapNodes);
+                utilsView.resetPane(centerPane, mapNodes);
                 utilsView.resetBreadCrumbBar(breadCrumbBar);
-                organizationView.getDepartmentListView().getDepartmentView().show(breadCrumbBar, leftPane, centerPane, sidebarNodes, nextMapNodes, (Department) selectedObject);
-            } else if (selectedObject instanceof Station) {
-                List<Node> sidebarNodes = utilsView.clearPane(leftPane);
-                utilsView.resetBreadCrumbBar(breadCrumbBar);
-                organizationView.getDepartmentListView().getDepartmentView().getStationListView().getStationView().show(breadCrumbBar, leftPane, sidebarNodes, (Station) selectedObject);
+                organizationView.getDepartmentListView().getDepartmentView().show(breadCrumbBar, leftPane, centerPane, (Department) selectedObject);
+            }
+            else if (selectedObject instanceof Station) {
+                utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
+                organizationView.getDepartmentListView().getDepartmentView().getStationListView().getStationView().show(breadCrumbBar, leftPane, (Station) selectedObject);
+            }
+            else if (selectedObject instanceof Unit) {
+                utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
+                organizationView.getDepartmentListView().getDepartmentView().getStationListView().getStationView().getUnitListView().getUnitView().show(breadCrumbBar, leftPane, (Unit) selectedObject);
+            }
+            else if (selectedObject instanceof Responder) {
+                utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
+                organizationView.getDepartmentListView().getDepartmentView().getStationListView().getStationView().getUnitListView().getUnitView().getResponderListView().getResponderView().show(breadCrumbBar, leftPane, (Responder) selectedObject);
+            }
+            else if (selectedObject instanceof Vehicle) {
+                utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
+                organizationView.getDepartmentListView().getDepartmentView().getStationListView().getStationView().getUnitListView().getUnitView().getVehicleListView().getVehicleView().show(breadCrumbBar, leftPane, (Vehicle) selectedObject);
+            }
+            else if (selectedObject instanceof Equipment) {
+                utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
+                organizationView.getDepartmentListView().getDepartmentView().getStationListView().getStationView().getUnitListView().getUnitView().getEquipmentListView().getEquipmentView().show(breadCrumbBar, leftPane, (Equipment) selectedObject);
             }
         });
 
         breadCrumbBar.setStyle("-fx-background-color: #222; -fx-padding: 5px;");
 
-        // TODO: review if this part is useful at all or not
-        leftTreeView.setCellFactory(tv -> new TreeCell<>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                setText(empty ? null : item);
-
-                setOnMouseClicked(event -> {
-                    if (!isEmpty() && getTreeItem() instanceof CustomTreeItem<?>) {
-                        CustomTreeItem<String> customItem = (CustomTreeItem<String>) getTreeItem();
-
-                        switch (customItem.getType()) {
-                            case DEPARTMENT_ITEM -> {
-                                List<Node> sidebarNodes = new ArrayList<>();
-                                List<Node> nextMapNodes = utilsView.resetPane(centerPane, mapNodes);
-                                utilsView.resetBreadCrumbBar(breadCrumbBar);
-                                utilsView.clearTreeItemChildren(leftPane, TreeItemType.DEPARTMENT_ITEM, customItem.getObject());
-                                organizationView.getDepartmentListView().getDepartmentView().show(breadCrumbBar, leftPane, centerPane, sidebarNodes, nextMapNodes, (Department) customItem.getObject());
-                            }
-                            case STATION_ITEM -> System.out.println("Station clicked: " + customItem.getValue());
-                        }
-                    }
-                });
-            }
-        });
-
     }
 
     public GridPane getGridPane() {
         return gridPane;
-    }
-
-    public ToolBar getTopPane() {
-        return topPane;
-    }
-
-    public VBox getLeftPane() {
-        return leftPane;
-    }
-
-    public Pane getCenterPane() {
-        return centerPane;
     }
 
 }
