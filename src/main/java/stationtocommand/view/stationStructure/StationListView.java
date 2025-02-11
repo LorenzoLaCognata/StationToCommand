@@ -6,10 +6,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
-import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -17,8 +14,10 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.stationStructure.Station;
+import stationtocommand.view.mainStructure.TreeItemType;
 import stationtocommand.view.mainStructure.UtilsView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StationListView {
@@ -33,21 +32,22 @@ public class StationListView {
         this.stationView = new StationView(utilsView);
     }
 
+    public StationView getStationView() {
+        return stationView;
+    }
+
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, List<Node> nodes1, List<Node> nodes2, List<Station> stations) {
 
-        Label header = new Label("Stations");
-        header.setStyle("-fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 0;");
-        pane1.getChildren().addAll(header);
-
         for (Station station : stations) {
-            Button button = new Button();
+            String text1 = station.toString();
+            String text2 = station.getUnits().size() + " units";
             EventHandler<MouseEvent> eventHandler = event -> {
-                List<Node> nextNodes1 = utilsView.resetAndAddToPane(pane1, nodes1, button);
+                //List<Node> nextNodes1 = utilsView.resetAndAddToPane(pane1, nodes1, button);
+                List<Node> nextNodes1 = new ArrayList<>();
                 stationView.show(breadCrumbBar, pane1, nextNodes1, station);
             };
-            // TODO: restore or delete
-            //utilsView.addToSidebar(pane1, button, station.toString(), station.getUnits().size() + " units");
-            utilsView.addToSidebarNew(pane1, station.toString(), station.getUnits().size() + " units", eventHandler);
+
+            utilsView.addTreeItem(pane1, text1, TreeItemType.STATION_ITEM, station, TreeItemType.STATION_HEADER, station.getDepartment());
 
             Point2D point = utilsView.locationToPoint(station.getLocation());
 

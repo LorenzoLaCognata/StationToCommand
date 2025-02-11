@@ -11,13 +11,16 @@ import java.util.List;
 
 public class OrganizationView {
 
+    private final UtilsView utilsView;
     private final DepartmentListView departmentListView;
 
     public OrganizationView(UtilsView utilsView) {
+        this.utilsView = utilsView;
         this.departmentListView = new DepartmentListView(utilsView);
     }
 
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, List<Node> nodes1, List<Node> nodes2, List<Department> departments) {
+        utilsView.addTreeItem(pane1, "Departments", TreeItemType.DEPARTMENT_HEADER, null, null, null);
         departmentListView.show(breadCrumbBar, pane1, pane2, nodes1, nodes2, departments);
     }
 
