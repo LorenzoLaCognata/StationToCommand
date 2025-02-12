@@ -36,8 +36,10 @@ public class View {
     private final GridPane gridPane = new GridPane();
     private final ToolBar topPane = new ToolBar();
     private final VBox leftPane = new VBox(5);
-    private final Pane centerPane = new Pane();
     private final BreadCrumbBar<Object> breadCrumbBar = new BreadCrumbBar<>();
+    private final StackPane centerPane = new StackPane();
+    private final Pane mapBackgroundLayer = new Pane();
+    private final Pane mapElementsLayer = new Pane();
 
     public View() {
         leftPane.setSpacing(15);
@@ -47,6 +49,7 @@ public class View {
         centerPane.setStyle("-fx-background-color: #ffffff;");
         centerPane.widthProperty().addListener((_, _, newValue) -> SCENE_WIDTH = newValue.floatValue());
         centerPane.heightProperty().addListener((_, _, newValue) -> SCENE_HEIGHT = newValue.floatValue());
+        centerPane.getChildren().addAll(mapBackgroundLayer, mapElementsLayer);
 
         gridPane.add(topPane, 0, 0, 2, 1);
         gridPane.add(breadCrumbBar, 0, 1);
@@ -90,21 +93,18 @@ public class View {
 
         gridPane.getRowConstraints().addAll(firstRow, secondRow, thirdRow);
 
-        List<Node> mapNodes = new ArrayList<>();
         ImageView mapView = new ImageView(new Image("file:C:\\Users\\vodev\\OneDrive\\Desktop\\map.jpg"));
         mapView.fitWidthProperty().bind(centerPane.widthProperty());
         mapView.fitHeightProperty().bind(centerPane.heightProperty());
         mapView.setPreserveRatio(true);
-        mapNodes.add(mapView);
-
-        centerPane.getChildren().addAll(mapNodes);
+        mapBackgroundLayer.getChildren().add(mapView);
 
         Button organizationButton = new Button("Organization");
         organizationButton.setOnAction(_ -> {
             utilsView.clearPane(leftPane);
-            utilsView.resetPane(centerPane, mapNodes);
+            utilsView.clearPane(mapElementsLayer);
             utilsView.resetBreadCrumbBar(breadCrumbBar);
-            organizationView.show(breadCrumbBar, leftPane, centerPane, departments);
+            organizationView.show(breadCrumbBar, leftPane, mapElementsLayer, departments);
         });
 
         topPane.getItems().addAll(organizationButton);
@@ -112,9 +112,9 @@ public class View {
         Button dispatchButton = new Button("Dispatch");
         dispatchButton.setOnAction(_ -> {
             List<Node> sidebarNodes = utilsView.clearPane(leftPane);
-            List<Node> nextMapNodes = utilsView.resetPane(centerPane, mapNodes);
+            List<Node> nextMapNodes = utilsView.clearPane(mapElementsLayer);
             utilsView.resetBreadCrumbBar(breadCrumbBar);
-            dispatchView.show(leftPane, centerPane, sidebarNodes, nextMapNodes, missions);
+            dispatchView.show(leftPane, mapElementsLayer, sidebarNodes, nextMapNodes, missions);
         });
 
         topPane.getItems().addAll(dispatchButton);
@@ -127,13 +127,13 @@ public class View {
             Object selectedObject = event.getSelectedCrumb().getValue();
 
             if (selectedObject instanceof Department) {
-                utilsView.resetPane(centerPane, mapNodes);
+                utilsView.clearPane(mapElementsLayer);
                 utilsView.resetBreadCrumbBar(breadCrumbBar);
-                organizationView.getDepartmentListView().getDepartmentView().show(breadCrumbBar, leftPane, centerPane, (Department) selectedObject);
+                organizationView.getDepartmentListView().getDepartmentView().show(breadCrumbBar, leftPane, mapElementsLayer, (Department) selectedObject);
             }
             else if (selectedObject instanceof Station) {
                 utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
-                organizationView.getDepartmentListView().getDepartmentView().getStationListView().getStationView().show(breadCrumbBar, leftPane, (Station) selectedObject);
+                organizationView.getDepartmentListView().getDepartmentView().getStationListView().getStationView().show(breadCrumbBar, leftPane, centerPane, (Station) selectedObject);
             }
             else if (selectedObject instanceof Unit) {
                 utilsView.addBreadCrumb(breadCrumbBar, selectedObject);

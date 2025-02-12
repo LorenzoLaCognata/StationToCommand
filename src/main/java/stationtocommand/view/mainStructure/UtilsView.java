@@ -1,22 +1,30 @@
 package stationtocommand.view.mainStructure;
 
+import javafx.animation.Animation;
+import javafx.animation.FadeTransition;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.util.Duration;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.locationStructure.Location;
 import stationtocommand.model.locationStructure.LocationManager;
+import stationtocommand.model.stationStructure.Station;
 import stationtocommand.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class UtilsView {
+
 
     public UtilsView() {
     }
@@ -93,6 +101,28 @@ public class UtilsView {
         double x = normalize(location.longitude(), LocationManager.MIN_LONGITUDE, LocationManager.MAX_LONGITUDE) * View.SCENE_WIDTH;
         double y = (1 - normalize(location.latitude(), LocationManager.MIN_LATITUDE, LocationManager.MAX_LATITUDE)) * View.SCENE_HEIGHT;
         return new Point2D(x, y);
+    }
+
+    public ImageView stationIcon(String iconPath) {
+
+        ImageView stationIcon = new ImageView(new Image(iconPath));
+        stationIcon.setFitWidth(40);
+        stationIcon.setFitHeight(40);
+        stationIcon.setOpacity(0.85);
+        stationIcon.setStyle("-fx-effect: dropshadow(gaussian, yellow, 15, 0.7, 0, 0);");
+
+        return stationIcon;
+    }
+
+    public FadeTransition stationIconTransition(ImageView stationIcon) {
+
+        FadeTransition flash = new FadeTransition(Duration.seconds(0.5), stationIcon);
+        flash.setFromValue(1.0);
+        flash.setToValue(0.5);
+        flash.setCycleCount(Animation.INDEFINITE);
+        flash.setAutoReverse(true);
+
+        return flash;
     }
 
 }
