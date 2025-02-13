@@ -51,12 +51,10 @@ public class StationView {
     }
 
     public void showMap(Pane pane, Station station) {
-
         Point2D point = utilsView.locationToPoint(station.getLocation());
         ImageView stationIcon = utilsView.stationIcon("file:C:\\Users\\vodev\\OneDrive\\Desktop\\station.png");
         FadeTransition fadeTransition = utilsView.stationIconTransition(stationIcon);
         Group group = mapElementsGroup(stationIcon, point, fadeTransition);
-
         utilsView.addToMap(pane, group);
     }
 

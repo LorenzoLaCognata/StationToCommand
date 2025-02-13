@@ -16,6 +16,11 @@ public class MissionStationLink extends StationLink {
     unitLinks = new ArrayList<>();
   }
 
+  @Override
+  public String toString() {
+    return this.getStation().toString();
+  }
+
   public List<MissionUnitLink> getUnitLinks() {
     return unitLinks;
   }

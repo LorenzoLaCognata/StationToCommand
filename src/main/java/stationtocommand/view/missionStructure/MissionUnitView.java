@@ -2,6 +2,9 @@ package stationtocommand.view.missionStructure;
 
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
+import org.controlsfx.control.BreadCrumbBar;
+import stationtocommand.model.missionLinkStructure.MissionStationLink;
+import stationtocommand.model.missionLinkStructure.MissionUnitLink;
 import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.model.responderStructure.Responder;
 import stationtocommand.model.responderStructure.ResponderLink;
@@ -14,16 +17,18 @@ import java.util.List;
 
 public class MissionUnitView {
 
-    private final MissionResponderListView missionResponderListView;
-    private final MissionVehicleListView missionVehicleListView;
+    private UtilsView utilsView;
+    //private final MissionResponderListView missionResponderListView;
+    //private final MissionVehicleListView missionVehicleListView;
 
-    public MissionUnitView(UtilsView utilsView, Mission mission) {
-        this.missionResponderListView = new MissionResponderListView(utilsView, mission);
-        this.missionVehicleListView = new MissionVehicleListView(utilsView, mission);
+    public MissionUnitView(UtilsView utilsView) {
+        this.utilsView = utilsView;
+        //        this.missionResponderListView = new MissionResponderListView(utilsView, mission);
+  //      this.missionVehicleListView = new MissionVehicleListView(utilsView, mission);
     }
 
-    public void show(Pane pane, List<Node> nodes, Mission mission, Unit unit) {
-        List<Responder> missionResponders = mission.getDepartmentLinks().stream()
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, MissionUnitLink missionUnitLink) {
+/*        List<Responder> missionResponders = mission.getDepartmentLinks().stream()
                 .flatMap(item -> item.getStationLinks().stream())
                 .flatMap(item -> item.getUnitLinks().stream())
                 .filter(item -> item.getUnit().equals(unit))
@@ -39,6 +44,6 @@ public class MissionUnitView {
                 .map(VehicleLink::getVehicle)
                 .toList();
         missionVehicleListView.show(pane, nodes, mission, missionVehicles);
-    }
+*/    }
 
 }

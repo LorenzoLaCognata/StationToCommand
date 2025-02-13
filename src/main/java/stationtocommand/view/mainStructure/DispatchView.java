@@ -2,6 +2,7 @@ package stationtocommand.view.mainStructure;
 
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
+import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.view.missionStructure.MissionListView;
 
@@ -15,8 +16,12 @@ public class DispatchView {
         this.missionListView = new MissionListView(utilsView);
     }
 
-    public void show(Pane pane1, Pane pane2, List<Node> nodes1, List<Node> nodes2, List<Mission> missions) {
-        missionListView.show(pane1, pane2, nodes1, nodes2, missions);
+    public MissionListView getMissionListView() {
+        return missionListView;
+    }
+
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, List<Mission> missions) {
+        missionListView.show(breadCrumbBar, pane1, pane2, missions);
     }
 
 }

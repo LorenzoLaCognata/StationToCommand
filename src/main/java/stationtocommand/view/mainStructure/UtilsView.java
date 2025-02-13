@@ -4,7 +4,6 @@ import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -17,7 +16,6 @@ import javafx.util.Duration;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.locationStructure.Location;
 import stationtocommand.model.locationStructure.LocationManager;
-import stationtocommand.model.stationStructure.Station;
 import stationtocommand.view.View;
 
 import java.util.ArrayList;
@@ -36,12 +34,6 @@ public class UtilsView {
         List<Node> newNodeList = new ArrayList<>(nodes);
         newNodeList.add(newNode);
         return newNodeList;
-    }
-
-    public List<Node> resetPane(Pane pane, List<Node> nodes) {
-        pane.getChildren().clear();
-        pane.getChildren().addAll(nodes);
-        return nodes;
     }
 
     public List<Node> clearPane(Pane pane) {

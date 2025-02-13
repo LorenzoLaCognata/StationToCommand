@@ -4,6 +4,10 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import org.controlsfx.control.BreadCrumbBar;
+import stationtocommand.model.missionLinkStructure.MissionStationLink;
+import stationtocommand.model.missionLinkStructure.MissionUnitLink;
+import stationtocommand.model.missionLinkStructure.MissionVehicleLink;
 import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.model.vehicleStructure.Vehicle;
 import stationtocommand.view.mainStructure.UtilsView;
@@ -15,25 +19,22 @@ public class MissionVehicleListView {
     private final UtilsView utilsView;
     private final MissionVehicleView missionVehicleView;
 
-    public MissionVehicleListView(UtilsView utilsView, Mission mission) {
+    public MissionVehicleListView(UtilsView utilsView) {
         this.utilsView = utilsView;
         this.missionVehicleView = new MissionVehicleView();
     }
 
-    public void show(Pane pane, List<Node> nodes, Mission mission, List<Vehicle> vehicles) {
-        Label vehiclesSeparator = new Label("----------------------\nVehicles");
-        pane.getChildren().addAll(vehiclesSeparator);
+    public MissionVehicleView getMissionVehicleView() {
+        return missionVehicleView;
+    }
 
-        for (Vehicle vehicle : vehicles) {
-            Button button = new Button();
-            button.setOnAction(_ -> {
-                utilsView.resetAndAddToPane(pane, nodes, button);
-                missionVehicleView.show(pane);
-            });
-            String integrity = String.format("%.0f%%", vehicle.getIntegrity() * 100);
-            String condition = String.format("%.0f%%", vehicle.getCondition() * 100);
-            utilsView.addToSidebar(pane, button, vehicle.toString(), "Integrity: " + integrity + " - Condition: " + condition);
-        }
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, MissionStationLink missionStationLink) {
+        utilsView.addLabel(pane, "Vehicles");
+/*        for (MissionVehicleLink missionVehicleLink : missionStationLink()) {
+            Button button = new Button(missionVehicleLink.getVehicle().toString());
+            button.setOnAction(_ -> missionVehicleView.show());
+            pane.getChildren().add(button);
+        }*/
     }
 
 }

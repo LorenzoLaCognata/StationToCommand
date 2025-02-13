@@ -23,6 +23,7 @@ public class DepartmentView {
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, Department department) {
         utilsView.addBreadCrumb(breadCrumbBar, department);
         utilsView.clearPane(pane1);
+        utilsView.clearPane(pane2);
         stationListView.show(breadCrumbBar, pane1, pane2, department.getStations());
     }
 

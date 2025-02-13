@@ -4,6 +4,10 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import org.controlsfx.control.BreadCrumbBar;
+import stationtocommand.model.missionLinkStructure.MissionResponderLink;
+import stationtocommand.model.missionLinkStructure.MissionStationLink;
+import stationtocommand.model.missionLinkStructure.MissionUnitLink;
 import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.model.responderStructure.Responder;
 import stationtocommand.view.mainStructure.UtilsView;
@@ -15,23 +19,22 @@ public class MissionResponderListView {
     private final UtilsView utilsView;
     private final MissionResponderView missionResponderView;
 
-    public MissionResponderListView(UtilsView utilsView, Mission mission) {
+    public MissionResponderListView(UtilsView utilsView) {
         this.utilsView = utilsView;
         this.missionResponderView = new MissionResponderView();
     }
 
-    public void show(Pane pane, List<Node> nodes, Mission mission, List<Responder> responders) {
-        Label respondersSeparator = new Label("----------------------\nResponders");
-        pane.getChildren().addAll(respondersSeparator);
+    public MissionResponderView getMissionResponderView() {
+        return missionResponderView;
+    }
 
-        for (Responder responder : responders) {
-            Button button = new Button();
-            button.setOnAction(_ -> {
-                List<Node> nextNodes = utilsView.resetAndAddToPane(pane, nodes, button);
-                missionResponderView.show(pane);
-            });
-            utilsView.addToSidebar(pane, button, responder.toString(), responder.getRank().toString());
-        }
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, MissionStationLink missionStationLink) {
+        utilsView.addLabel(pane, "Responders");
+/*        for (MissionResponderLink missionResponderLink : missionStationLink) {
+            Button button = new Button(missionResponderLink.getResponder().toString());
+            button.setOnAction(_ -> missionResponderView.show());
+            pane.getChildren().add(button);
+        }*/
     }
 
 }

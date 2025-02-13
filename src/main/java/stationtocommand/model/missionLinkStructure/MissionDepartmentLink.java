@@ -2,6 +2,7 @@ package stationtocommand.model.missionLinkStructure;
 
 import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.model.departmentStructure.DepartmentLink;
+import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.model.stationStructure.Station;
 
 import java.util.ArrayList;
@@ -9,11 +10,22 @@ import java.util.List;
 
 public class MissionDepartmentLink extends DepartmentLink {
 
+  private final Mission mission;
   private final List<MissionStationLink> stationLinks;
   
-  public MissionDepartmentLink(Department department) {
+  public MissionDepartmentLink(Mission mission, Department department) {
     super(department);
-    stationLinks = new ArrayList<>();
+    this.mission = mission;
+    this.stationLinks = new ArrayList<>();
+  }
+
+  @Override
+  public String toString() {
+    return this.getDepartment().toString();
+  }
+
+  public Mission getMission() {
+    return mission;
   }
 
   public List<MissionStationLink> getStationLinks() {

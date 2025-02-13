@@ -2,6 +2,8 @@ package stationtocommand.view.missionStructure;
 
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
+import org.controlsfx.control.BreadCrumbBar;
+import stationtocommand.model.missionLinkStructure.MissionStationLink;
 import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.model.responderStructure.Responder;
 import stationtocommand.model.responderStructure.ResponderLink;
@@ -13,40 +15,40 @@ import stationtocommand.model.vehicleStructure.VehicleLink;
 import stationtocommand.view.mainStructure.UtilsView;
 
 import java.util.List;
+import java.util.Objects;
 
 public class MissionStationView {
 
+    private final UtilsView utilsView;
     private final MissionUnitListView missionUnitListView;
     private final MissionResponderListView missionResponderListView;
     private final MissionVehicleListView missionVehicleListView;
 
-    public MissionStationView(UtilsView utilsView, Mission mission) {
-        this.missionUnitListView = new MissionUnitListView(utilsView, mission);
-        this.missionResponderListView = new MissionResponderListView(utilsView, mission);
-        this.missionVehicleListView = new MissionVehicleListView(utilsView, mission);
+    public MissionStationView(UtilsView utilsView) {
+        this.utilsView = utilsView;
+        this.missionUnitListView = new MissionUnitListView(utilsView);
+        this.missionResponderListView = new MissionResponderListView(utilsView);
+        this.missionVehicleListView = new MissionVehicleListView(utilsView);
     }
 
-    public void show(Pane pane, List<Node> nodes, Mission mission, Station station) {
-        List<Unit> missionUnits = mission.getDepartmentLinks().stream()
-                .flatMap(item -> item.getStationLinks().stream())
-                .flatMap(item -> item.getUnitLinks().stream())
-                .map(UnitLink::getUnit)
-                .toList();
-        missionUnitListView.show(pane, nodes, mission, missionUnits);
-        List<Responder> missionResponders = mission.getDepartmentLinks().stream()
-                .flatMap(item -> item.getStationLinks().stream())
-                .flatMap(item -> item.getUnitLinks().stream())
-                .flatMap(item -> item.getResponderLinks().stream())
-                .map(ResponderLink::getResponder)
-                .toList();
-        missionResponderListView.show(pane, nodes, mission, missionResponders);
-        List<Vehicle> missionVehicles = mission.getDepartmentLinks().stream()
-                .flatMap(item -> item.getStationLinks().stream())
-                .flatMap(item -> item.getUnitLinks().stream())
-                .flatMap(item -> item.getVehicleLinks().stream())
-                .map(VehicleLink::getVehicle)
-                .toList();
-        missionVehicleListView.show(pane, nodes, mission, missionVehicles);
+    public MissionUnitListView getMissionUnitListView() {
+        return missionUnitListView;
+    }
+
+    public MissionResponderListView getMissionResponderListView() {
+        return missionResponderListView;
+    }
+
+    public MissionVehicleListView getMissionVehicleListView() {
+        return missionVehicleListView;
+    }
+
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, MissionStationLink missionStationLink) {
+        utilsView.addBreadCrumb(breadCrumbBar, missionStationLink);
+        utilsView.clearPane(pane);
+        missionUnitListView.show(breadCrumbBar, pane, missionStationLink);
+        missionResponderListView.show(breadCrumbBar, pane, missionStationLink);
+        missionVehicleListView.show(breadCrumbBar, pane, missionStationLink);
     }
 
 }

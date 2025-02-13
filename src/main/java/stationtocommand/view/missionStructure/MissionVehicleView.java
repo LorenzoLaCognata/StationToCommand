@@ -8,9 +8,7 @@ public class MissionVehicleView {
     public MissionVehicleView() {
     }
 
-    public void show(Pane pane) {
-        Label separator = new Label("----------------------\n");
-        pane.getChildren().addAll(separator);
+    public void show() {
     }
 
 }

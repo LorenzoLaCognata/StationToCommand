@@ -33,7 +33,7 @@ public class Mission {
 
     @Override
     public String toString() {
-        return "[MISSION] " + this.missionType;
+        return this.missionType.toString();
     }
 
     public MissionType getMissionType() {
@@ -59,7 +59,7 @@ public class Mission {
     public void linkDepartment(Department department) {
         if (departmentLinks.stream()
                 .noneMatch(item -> item.getDepartment().equals(department))) {
-            MissionDepartmentLink missionDepartmentLink = new MissionDepartmentLink(department);
+            MissionDepartmentLink missionDepartmentLink = new MissionDepartmentLink(this, department);
             departmentLinks.add(missionDepartmentLink);
         }
     }
