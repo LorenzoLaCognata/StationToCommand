@@ -52,9 +52,17 @@ public class StationView {
 
     public void showMap(Pane pane, Station station) {
         Point2D point = utilsView.locationToPoint(station.getLocation());
-        ImageView stationIcon = utilsView.stationIcon("file:C:\\Users\\vodev\\OneDrive\\Desktop\\station.png");
-        FadeTransition fadeTransition = utilsView.stationIconTransition(stationIcon);
-        Group group = mapElementsGroup(stationIcon, point, fadeTransition);
+
+        String iconPath;
+        switch (station.getDepartment().getDepartmentType()) {
+            case FIRE_DEPARTMENT -> iconPath = "/images/fireStation.png";
+            case POLICE_DEPARTMENT -> iconPath = "/images/policeStation.png";
+            case MEDIC_DEPARTMENT -> iconPath = "/images/medicStation.png";
+            default -> iconPath = "/images/blank.png";
+        }
+        ImageView imageView = utilsView.stationIcon(iconPath);
+        FadeTransition fadeTransition = utilsView.stationIconTransition(imageView);
+        Group group = mapElementsGroup(imageView, point, fadeTransition);
         utilsView.addToMap(pane, group);
     }
 

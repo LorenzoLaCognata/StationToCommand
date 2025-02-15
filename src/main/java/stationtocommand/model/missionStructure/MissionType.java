@@ -14,7 +14,7 @@ public enum MissionType {
   MEDICAL_EMERGENCY("Medical Emergency", 0.0f),
   TRAUMA_RESPONSE("Trauma Response", 0.0f),
   CARDIAC_ARREST("Cardiac Arrest", 0.0f),
-  POISONING_OR_OVERDOSE("Poisoning or Overdose", 0.0f),
+  POISONING_OVERDOSE("Poisoning/Overdose", 0.0f),
   MATERNITY_EMERGENCY("Maternity Emergency", 0.0f);
 
   private final String name;

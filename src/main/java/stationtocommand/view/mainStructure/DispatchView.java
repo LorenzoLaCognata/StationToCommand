@@ -1,6 +1,5 @@
 package stationtocommand.view.mainStructure;
 
-import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.missionStructure.Mission;

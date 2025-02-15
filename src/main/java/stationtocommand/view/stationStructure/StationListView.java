@@ -1,20 +1,11 @@
 package stationtocommand.view.stationStructure;
 
-import javafx.animation.Animation;
-import javafx.animation.FadeTransition;
-import javafx.geometry.Point2D;
-import javafx.scene.Group;
 import javafx.scene.control.Button;
-import javafx.scene.control.Tooltip;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.util.Duration;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.stationStructure.Station;
 import stationtocommand.view.mainStructure.UtilsView;
 
-import java.awt.image.ImagingOpException;
 import java.util.List;
 
 public class StationListView {

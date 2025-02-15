@@ -1,21 +1,11 @@
 package stationtocommand.view.missionStructure;
 
-import javafx.animation.FadeTransition;
 import javafx.geometry.Point2D;
-import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import org.controlsfx.control.BreadCrumbBar;
-import stationtocommand.model.departmentStructure.Department;
-import stationtocommand.model.departmentStructure.DepartmentLink;
 import stationtocommand.model.missionStructure.Mission;
-import stationtocommand.model.stationStructure.Station;
 import stationtocommand.view.mainStructure.UtilsView;
-
-import java.util.List;
 
 public class MissionView {
 
@@ -39,10 +29,29 @@ public class MissionView {
         missionDepartmentListView.show(breadCrumbBar, pane1, mission);
     }
 
-    public void showMap(Pane pane2, Mission mission) {
+    public void showMap(Pane pane, Mission mission) {
         Point2D point = utilsView.locationToPoint(mission.getLocation());
-        Circle circle = new Circle(point.getX(), point.getY(), 10, Color.RED);
-        utilsView.addToMap(pane2, circle);
+        String iconPath;
+        switch (mission.getMissionType()) {
+            case STRUCTURE_FIRE -> iconPath = "/images/fireMission.png";
+            case VEHICLE_FIRE -> iconPath = "/images/fireMission.png";
+            case WATER_RESCUE -> iconPath = "/images/rescueMission.png";
+            case COLLAPSE_RESCUE -> iconPath = "/images/rescueMission.png";
+            case ANIMAL_RESCUE -> iconPath = "/images/rescueMission.png";
+            case TRAFFIC_INCIDENT -> iconPath = "/images/rescueMission.png";
+            case BURGLARY_IN_PROGRESS -> iconPath = "/images/policeMission.png";
+            case DOMESTIC_DISTURBANCE -> iconPath = "/images/policeMission.png";
+            case SUSPECT_APPREHENSION -> iconPath = "/images/policeMission.png";
+            case CROWD_CONTROL -> iconPath = "/images/policeMission.png";
+            case MEDICAL_EMERGENCY -> iconPath = "/images/medicMission.png";
+            case TRAUMA_RESPONSE -> iconPath = "/images/medicMission.png";
+            case CARDIAC_ARREST -> iconPath = "/images/medicMission.png";
+            case POISONING_OVERDOSE -> iconPath = "/images/medicMission.png";
+            case MATERNITY_EMERGENCY -> iconPath = "/images/medicMission.png";
+            default -> iconPath = "/images/blank.png";
+        }
+        ImageView imageView = utilsView.stationIcon(iconPath);
+        utilsView.addImageToMap(pane, imageView, point);
     }
 
 }

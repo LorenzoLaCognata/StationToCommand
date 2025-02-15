@@ -1,18 +1,11 @@
 package stationtocommand.view.missionStructure;
 
-import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.missionLinkStructure.MissionStationLink;
 import stationtocommand.model.missionLinkStructure.MissionUnitLink;
-import stationtocommand.model.missionStructure.Mission;
-import stationtocommand.model.unitStructure.Unit;
 import stationtocommand.view.mainStructure.UtilsView;
-
-import java.util.List;
-import java.util.Objects;
 
 public class MissionUnitListView {
 

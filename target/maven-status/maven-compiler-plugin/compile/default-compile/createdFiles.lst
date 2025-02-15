@@ -39,6 +39,7 @@ stationtocommand\model\personStructure\CivilianLink.class
 stationtocommand\model\responderStructure\ResponderUnitLink.class
 stationtocommand\model\departmentStructure\Department.class
 stationtocommand\model\Model.class
+stationtocommand\view\missionStructure\MissionView$1.class
 stationtocommand\model\taskStructure\Task.class
 stationtocommand\view\missionStructure\MissionVehicleListView.class
 stationtocommand\view\trainingStructure\TrainingListView.class
@@ -129,6 +130,7 @@ stationtocommand\view\unitStructure\UnitView.class
 stationtocommand\view\skillStructure\SkillView.class
 stationtocommand\model\missionLinkStructure\MissionCivilianLink.class
 stationtocommand\model\trainingStructure\TrainingTrainingRequirement.class
+stationtocommand\view\stationStructure\StationView$1.class
 stationtocommand\model\departmentStructure\DepartmentManager.class
 stationtocommand\model\unitTypeStructure\UnitType.class
 stationtocommand\view\unitStructure\UnitListView.class

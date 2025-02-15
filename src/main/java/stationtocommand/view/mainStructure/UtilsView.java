@@ -4,6 +4,7 @@ import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -20,6 +21,7 @@ import stationtocommand.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class UtilsView {
 
@@ -96,13 +98,10 @@ public class UtilsView {
     }
 
     public ImageView stationIcon(String iconPath) {
-
-        ImageView stationIcon = new ImageView(new Image(iconPath));
+        ImageView stationIcon = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(iconPath)).toExternalForm()));
         stationIcon.setFitWidth(40);
         stationIcon.setFitHeight(40);
-        stationIcon.setOpacity(0.85);
         stationIcon.setStyle("-fx-effect: dropshadow(gaussian, yellow, 15, 0.7, 0, 0);");
-
         return stationIcon;
     }
 
@@ -115,6 +114,23 @@ public class UtilsView {
         flash.setAutoReverse(true);
 
         return flash;
+    }
+
+    public ImageView missionIcon(String iconPath) {
+        ImageView missionIcon = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(iconPath)).toExternalForm()));
+        missionIcon.setFitWidth(40);
+        missionIcon.setFitHeight(40);
+        missionIcon.setOpacity(0.85);
+        missionIcon.setStyle("-fx-effect: dropshadow(gaussian, yellow, 15, 0.7, 0, 0);");
+        return missionIcon;
+    }
+
+    public void addImageToMap(Pane pane, ImageView imageView, Point2D point) {
+        Group group = new Group();
+        group.getChildren().add(imageView);
+        group.setLayoutX(point.getX());
+        group.setLayoutY(point.getY());
+        addToMap(pane, group);
     }
 
 }

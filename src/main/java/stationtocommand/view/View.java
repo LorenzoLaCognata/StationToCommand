@@ -2,7 +2,6 @@ package stationtocommand.view;
 
 import javafx.application.Platform;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
@@ -22,8 +21,8 @@ import stationtocommand.view.mainStructure.DispatchView;
 import stationtocommand.view.mainStructure.OrganizationView;
 import stationtocommand.view.mainStructure.UtilsView;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class View {
 
@@ -94,9 +93,10 @@ public class View {
 
         gridPane.getRowConstraints().addAll(firstRow, secondRow, thirdRow);
 
-        ImageView mapView = new ImageView(new Image("file:C:\\Users\\vodev\\OneDrive\\Desktop\\map.jpg"));
+        ImageView mapView = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/backgroundMap.jpg")).toExternalForm()));
         mapView.fitWidthProperty().bind(centerPane.widthProperty());
         mapView.fitHeightProperty().bind(centerPane.heightProperty());
+        mapView.setOpacity(0.85);
         mapView.setPreserveRatio(true);
         mapBackgroundLayer.getChildren().add(mapView);
 

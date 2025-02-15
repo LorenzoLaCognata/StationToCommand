@@ -1,18 +1,8 @@
 package stationtocommand.view.missionStructure;
 
-import javafx.animation.FadeTransition;
-import javafx.geometry.Point2D;
-import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import org.controlsfx.control.BreadCrumbBar;
-import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.view.mainStructure.UtilsView;
 
