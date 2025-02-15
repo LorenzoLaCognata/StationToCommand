@@ -86,7 +86,7 @@ public class Model {
 
 					for (Responder responder : responderManager.getResponders()) {
 						if (responder.getUnitLink().getUnit().equals(unit)) {
-							// TODO: temporary
+							// TODO: temporary random movement to visualize responders differently on map
 							float randomLatitude = Utils.randomGenerator.nextFloat(LocationManager.MIN_LATITUDE, LocationManager.MAX_LATITUDE);
 							float randomLongitude = Utils.randomGenerator.nextFloat(LocationManager.MIN_LONGITUDE, LocationManager.MAX_LONGITUDE);
 							Location location  = new Location(randomLatitude, randomLongitude);

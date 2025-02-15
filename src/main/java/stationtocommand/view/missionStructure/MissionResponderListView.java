@@ -37,11 +37,19 @@ public class MissionResponderListView {
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, MissionUnitLink missionUnitLink) {
         utilsView.addLabel(pane1, "Responders");
         for (MissionResponderLink missionResponderLink : missionUnitLink.getResponderLinks()) {
-            Button button = new Button(missionResponderLink.getResponder().toString());
-            button.setOnAction(_ -> missionResponderView.show(breadCrumbBar, pane1, pane2, missionResponderLink));
-            pane1.getChildren().add(button);
-            missionResponderView.showMap(pane2, missionResponderLink);
+            showSidebar(breadCrumbBar, pane1, pane2, missionResponderLink);
+            showMap(pane2, missionResponderLink);
         }
+    }
+
+    public void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, MissionResponderLink missionResponderLink) {
+        Button button = new Button(missionResponderLink.getResponder().toString());
+        button.setOnAction(_ -> missionResponderView.show(breadCrumbBar, pane1, pane2, missionResponderLink));
+        pane1.getChildren().add(button);
+    }
+
+    public void showMap(Pane pane, MissionResponderLink missionResponderLink) {
+        missionResponderView.showMap(pane, missionResponderLink);
     }
 
 }

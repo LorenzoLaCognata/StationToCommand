@@ -22,6 +22,7 @@ public class MissionDepartmentView {
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, MissionDepartmentLink missionDepartmentLink) {
         utilsView.addBreadCrumb(breadCrumbBar, missionDepartmentLink);
         utilsView.clearPane(pane1);
+        utilsView.clearPane(pane2);
         missionStationListView.show(breadCrumbBar, pane1, pane2, missionDepartmentLink);
     }
 

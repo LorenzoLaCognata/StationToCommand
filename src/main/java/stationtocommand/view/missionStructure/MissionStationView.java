@@ -1,8 +1,11 @@
 package stationtocommand.view.missionStructure;
 
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
+import stationtocommand.model.missionLinkStructure.MissionResponderLink;
 import stationtocommand.model.missionLinkStructure.MissionStationLink;
+import stationtocommand.model.missionLinkStructure.MissionUnitLink;
 import stationtocommand.view.mainStructure.UtilsView;
 
 public class MissionStationView {
@@ -34,9 +37,15 @@ public class MissionStationView {
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, MissionStationLink missionStationLink) {
         utilsView.addBreadCrumb(breadCrumbBar, missionStationLink);
         utilsView.clearPane(pane1);
+        utilsView.clearPane(pane2);
         missionUnitListView.show(breadCrumbBar, pane1, pane2, missionStationLink);
         missionResponderListView.show(breadCrumbBar, pane1, pane2, missionStationLink);
         missionVehicleListView.show(breadCrumbBar, pane1, missionStationLink);
+        for (MissionUnitLink missionUnitLink : missionStationLink.getUnitLinks()) {
+            for (MissionResponderLink missionResponderLink : missionUnitLink.getResponderLinks()) {
+                missionResponderListView.showMap(pane2, missionResponderLink);
+            }
+        }
     }
 
 }

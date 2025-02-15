@@ -19,6 +19,7 @@ public class MissionResponderView {
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, MissionResponderLink missionResponderLink) {
         utilsView.addBreadCrumb(breadCrumbBar, missionResponderLink);
         utilsView.clearPane(pane1);
+        utilsView.clearPane(pane2);
         showMap(pane2, missionResponderLink);
     }
 
