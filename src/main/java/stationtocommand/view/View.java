@@ -53,9 +53,9 @@ public class View {
         centerPane.getChildren().addAll(mapBackgroundLayer, mapElementsLayer);
 
         gridPane.add(topPane, 0, 0, 2, 1);
-        gridPane.add(breadCrumbBar, 0, 1);
+        gridPane.add(breadCrumbBar, 0, 1, 2, 1);
         gridPane.add(leftPane, 0, 2);
-        gridPane.add(centerPane, 1, 1, 1, 2);
+        gridPane.add(centerPane, 1, 2);
 
     }
 
@@ -170,11 +170,11 @@ public class View {
             }
             else if (selectedObject instanceof MissionResponderLink) {
                 utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
-                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().getMissionResponderListView().getMissionResponderView().show();
+                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().getMissionResponderListView().getMissionResponderView().show(breadCrumbBar, leftPane, (MissionResponderLink) selectedObject);
             }
             else if (selectedObject instanceof MissionVehicleLink) {
                 utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
-                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().getMissionVehicleListView().getMissionVehicleView().show();
+                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().getMissionVehicleListView().getMissionVehicleView().show(breadCrumbBar, leftPane, (MissionVehicleLink) selectedObject);
             }
         });
 

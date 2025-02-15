@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
+import stationtocommand.model.missionLinkStructure.MissionResponderLink;
 import stationtocommand.model.missionLinkStructure.MissionStationLink;
 import stationtocommand.model.missionLinkStructure.MissionUnitLink;
 import stationtocommand.model.missionLinkStructure.MissionVehicleLink;
@@ -21,7 +22,7 @@ public class MissionVehicleListView {
 
     public MissionVehicleListView(UtilsView utilsView) {
         this.utilsView = utilsView;
-        this.missionVehicleView = new MissionVehicleView();
+        this.missionVehicleView = new MissionVehicleView(utilsView);
     }
 
     public MissionVehicleView getMissionVehicleView() {
@@ -30,11 +31,22 @@ public class MissionVehicleListView {
 
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, MissionStationLink missionStationLink) {
         utilsView.addLabel(pane, "Vehicles");
-/*        for (MissionVehicleLink missionVehicleLink : missionStationLink()) {
+        for (MissionUnitLink missionUnitLink : missionStationLink.getUnitLinks()) {
+            for (MissionVehicleLink missionVehicleLink : missionUnitLink.getVehicleLinks()) {
+                Button button = new Button(missionVehicleLink.getVehicle().toString());
+                button.setOnAction(_ -> missionVehicleView.show(breadCrumbBar, pane, missionVehicleLink));
+                pane.getChildren().add(button);
+            }
+        }
+    }
+
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, MissionUnitLink missionUnitLink) {
+        utilsView.addLabel(pane, "Vehicles");
+        for (MissionVehicleLink missionVehicleLink : missionUnitLink.getVehicleLinks()) {
             Button button = new Button(missionVehicleLink.getVehicle().toString());
-            button.setOnAction(_ -> missionVehicleView.show());
+            button.setOnAction(_ -> missionVehicleView.show(breadCrumbBar, pane, missionVehicleLink));
             pane.getChildren().add(button);
-        }*/
+        }
     }
 
 }

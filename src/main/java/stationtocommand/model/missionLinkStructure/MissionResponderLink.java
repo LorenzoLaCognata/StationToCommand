@@ -9,4 +9,9 @@ public class MissionResponderLink extends ResponderLink {
     super(responder);
   }
 
+  @Override
+  public String toString() {
+    return this.getResponder().toString();
+  }
+
 }

@@ -9,4 +9,9 @@ public class MissionVehicleLink extends VehicleLink {
     super(vehicle);
   }
 
+  @Override
+  public String toString() {
+    return this.getVehicle().toString();
+  }
+
 }

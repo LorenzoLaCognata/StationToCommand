@@ -21,7 +21,7 @@ public class MissionResponderListView {
 
     public MissionResponderListView(UtilsView utilsView) {
         this.utilsView = utilsView;
-        this.missionResponderView = new MissionResponderView();
+        this.missionResponderView = new MissionResponderView(utilsView);
     }
 
     public MissionResponderView getMissionResponderView() {
@@ -30,11 +30,22 @@ public class MissionResponderListView {
 
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, MissionStationLink missionStationLink) {
         utilsView.addLabel(pane, "Responders");
-/*        for (MissionResponderLink missionResponderLink : missionStationLink) {
+        for (MissionUnitLink missionUnitLink : missionStationLink.getUnitLinks()) {
+            for (MissionResponderLink missionResponderLink : missionUnitLink.getResponderLinks()) {
+                Button button = new Button(missionResponderLink.getResponder().toString());
+                button.setOnAction(_ -> missionResponderView.show(breadCrumbBar, pane, missionResponderLink));
+                pane.getChildren().add(button);
+            }
+        }
+    }
+
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, MissionUnitLink missionUnitLink) {
+        utilsView.addLabel(pane, "Responders");
+        for (MissionResponderLink missionResponderLink : missionUnitLink.getResponderLinks()) {
             Button button = new Button(missionResponderLink.getResponder().toString());
-            button.setOnAction(_ -> missionResponderView.show());
+            button.setOnAction(_ -> missionResponderView.show(breadCrumbBar, pane, missionResponderLink));
             pane.getChildren().add(button);
-        }*/
+        }
     }
 
 }

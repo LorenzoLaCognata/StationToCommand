@@ -19,6 +19,11 @@ public class MissionUnitLink extends UnitLink {
     vehicleLinks = new ArrayList<>();
   }
 
+  @Override
+  public String toString() {
+    return this.getUnit().toString();
+  }
+
   public List<MissionResponderLink> getResponderLinks() {
     return responderLinks;
   }
