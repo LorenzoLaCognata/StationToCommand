@@ -9,6 +9,7 @@ import stationtocommand.model.departmentStructure.DepartmentType;
 import stationtocommand.model.equipmentStructure.Equipment;
 import stationtocommand.model.equipmentStructure.EquipmentManager;
 import stationtocommand.model.experienceStructure.ExperienceManager;
+import stationtocommand.model.locationStructure.Location;
 import stationtocommand.model.locationStructure.LocationManager;
 import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.model.missionStructure.MissionManager;
@@ -32,6 +33,7 @@ import stationtocommand.model.trainingStructure.TrainingType;
 import stationtocommand.model.unitStructure.Unit;
 import stationtocommand.model.unitStructure.UnitLink;
 import stationtocommand.model.unitTypeStructure.FireUnitType;
+import stationtocommand.model.utilsStructure.Utils;
 import stationtocommand.model.vehicleStructure.Vehicle;
 import stationtocommand.model.vehicleStructure.VehicleManager;
 import stationtocommand.model.watchStructure.WatchManager;
@@ -84,19 +86,11 @@ public class Model {
 
 					for (Responder responder : responderManager.getResponders()) {
 						if (responder.getUnitLink().getUnit().equals(unit)) {
+							float randomLatitude = Utils.randomGenerator.nextFloat(LocationManager.MIN_LATITUDE, LocationManager.MAX_LATITUDE);
+							float randomLongitude = Utils.randomGenerator.nextFloat(LocationManager.MIN_LONGITUDE, LocationManager.MAX_LONGITUDE);
+							Location location  = new Location(randomLatitude, randomLongitude);
+							responder.setLocation(location);
 							System.out.println("\t\t\t\t\t\t- " + responder);
-						}
-					}
-
-					for (Vehicle vehicle : vehicleManager.getVehicles()) {
-						if (vehicle.getUnitLink().getUnit().equals(unit)) {
-							System.out.println("\t\t\t\t\t\t- " + vehicle);
-						}
-					}
-
-					for (Equipment equipment : equipmentManager.getEquipments()) {
-						if (equipment.getUnitLink().getUnit().equals(unit)) {
-							System.out.println("\t\t\t\t\t\t- " + equipment);
 						}
 					}
 
@@ -112,8 +106,6 @@ public class Model {
 		for (int i=0; i<4; i++) {
 			missionManager.generateMission(departmentManager, locationManager);
 		}
-
-		System.out.println(missionManager.getMissions().getFirst() + " generated");
 
 		List<Task> sampleTasks = taskManager.generateTasks(sampleMission);
 

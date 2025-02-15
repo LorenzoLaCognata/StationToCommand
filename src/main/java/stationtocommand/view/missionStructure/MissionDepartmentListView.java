@@ -21,12 +21,12 @@ public class MissionDepartmentListView {
         return missionDepartmentView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, Mission mission) {
-        utilsView.addLabel(pane, "Stations");
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, Mission mission) {
+        utilsView.addLabel(pane1, "Stations");
         for (MissionDepartmentLink missionDepartmentLink : mission.getDepartmentLinks()) {
             Button button = new Button(missionDepartmentLink.getDepartment().getDepartmentType().toString() + " Department");
-            button.setOnAction(_ -> missionDepartmentView.show(breadCrumbBar, pane, missionDepartmentLink));
-            pane.getChildren().add(button);
+            button.setOnAction(_ -> missionDepartmentView.show(breadCrumbBar, pane1, pane2, missionDepartmentLink));
+            pane1.getChildren().add(button);
         }
     }
 

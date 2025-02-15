@@ -116,7 +116,7 @@ public class UtilsView {
         return flash;
     }
 
-    public ImageView missionIcon(String iconPath) {
+    public ImageView generateIcon(String iconPath) {
         ImageView missionIcon = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(iconPath)).toExternalForm()));
         missionIcon.setFitWidth(40);
         missionIcon.setFitHeight(40);

@@ -19,10 +19,10 @@ public class MissionDepartmentView {
         return missionStationListView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, MissionDepartmentLink missionDepartmentLink) {
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, MissionDepartmentLink missionDepartmentLink) {
         utilsView.addBreadCrumb(breadCrumbBar, missionDepartmentLink);
-        utilsView.clearPane(pane);
-        missionStationListView.show(breadCrumbBar, pane, missionDepartmentLink);
+        utilsView.clearPane(pane1);
+        missionStationListView.show(breadCrumbBar, pane1, pane2, missionDepartmentLink);
     }
 
 }

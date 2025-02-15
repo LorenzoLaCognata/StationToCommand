@@ -6,6 +6,7 @@ import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.missionLinkStructure.MissionResponderLink;
 import stationtocommand.model.missionLinkStructure.MissionStationLink;
 import stationtocommand.model.missionLinkStructure.MissionUnitLink;
+import stationtocommand.model.stationStructure.Station;
 import stationtocommand.view.mainStructure.UtilsView;
 
 public class MissionResponderListView {
@@ -22,23 +23,24 @@ public class MissionResponderListView {
         return missionResponderView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, MissionStationLink missionStationLink) {
-        utilsView.addLabel(pane, "Responders");
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, MissionStationLink missionStationLink) {
+        utilsView.addLabel(pane1, "Responders");
         for (MissionUnitLink missionUnitLink : missionStationLink.getUnitLinks()) {
             for (MissionResponderLink missionResponderLink : missionUnitLink.getResponderLinks()) {
                 Button button = new Button(missionResponderLink.getResponder().toString());
-                button.setOnAction(_ -> missionResponderView.show(breadCrumbBar, pane, missionResponderLink));
-                pane.getChildren().add(button);
+                button.setOnAction(_ -> missionResponderView.show(breadCrumbBar, pane1, pane2, missionResponderLink));
+                pane1.getChildren().add(button);
             }
         }
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, MissionUnitLink missionUnitLink) {
-        utilsView.addLabel(pane, "Responders");
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, MissionUnitLink missionUnitLink) {
+        utilsView.addLabel(pane1, "Responders");
         for (MissionResponderLink missionResponderLink : missionUnitLink.getResponderLinks()) {
             Button button = new Button(missionResponderLink.getResponder().toString());
-            button.setOnAction(_ -> missionResponderView.show(breadCrumbBar, pane, missionResponderLink));
-            pane.getChildren().add(button);
+            button.setOnAction(_ -> missionResponderView.show(breadCrumbBar, pane1, pane2, missionResponderLink));
+            pane1.getChildren().add(button);
+            missionResponderView.showMap(pane2, missionResponderLink);
         }
     }
 

@@ -158,19 +158,19 @@ public class View {
             }
             else if (selectedObject instanceof MissionDepartmentLink) {
                 utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
-                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().show(breadCrumbBar, leftPane, (MissionDepartmentLink) selectedObject);
+                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().show(breadCrumbBar, leftPane, mapElementsLayer, (MissionDepartmentLink) selectedObject);
             }
             else if (selectedObject instanceof MissionStationLink) {
                 utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
-                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().show(breadCrumbBar, leftPane, (MissionStationLink) selectedObject);
+                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().show(breadCrumbBar, leftPane, mapElementsLayer, (MissionStationLink) selectedObject);
             }
             else if (selectedObject instanceof MissionUnitLink) {
                 utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
-                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().getMissionUnitListView().getMissionUnitView().show(breadCrumbBar, leftPane, (MissionUnitLink) selectedObject);
+                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().getMissionUnitListView().getMissionUnitView().show(breadCrumbBar, leftPane, mapElementsLayer, (MissionUnitLink) selectedObject);
             }
             else if (selectedObject instanceof MissionResponderLink) {
                 utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
-                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().getMissionResponderListView().getMissionResponderView().show(breadCrumbBar, leftPane, (MissionResponderLink) selectedObject);
+                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().getMissionResponderListView().getMissionResponderView().show(breadCrumbBar, leftPane, mapElementsLayer, (MissionResponderLink) selectedObject);
             }
             else if (selectedObject instanceof MissionVehicleLink) {
                 utilsView.addBreadCrumb(breadCrumbBar, selectedObject);

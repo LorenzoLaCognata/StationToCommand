@@ -26,7 +26,7 @@ public class MissionView {
         utilsView.clearPane(pane1);
         utilsView.clearPane(pane2);
         showMap(pane2, mission);
-        missionDepartmentListView.show(breadCrumbBar, pane1, mission);
+        missionDepartmentListView.show(breadCrumbBar, pane1, pane2, mission);
     }
 
     public void showMap(Pane pane, Mission mission) {

@@ -21,12 +21,12 @@ public class MissionUnitListView {
         return missionUnitView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, MissionStationLink missionStationLink) {
-        utilsView.addLabel(pane, "Units");
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, MissionStationLink missionStationLink) {
+        utilsView.addLabel(pane1, "Units");
         for (MissionUnitLink missionUnitLink : missionStationLink.getUnitLinks()) {
             Button button = new Button(missionUnitLink.getUnit().toString());
-            button.setOnAction(_ -> missionUnitView.show(breadCrumbBar, pane, missionUnitLink));
-            pane.getChildren().add(button);
+            button.setOnAction(_ -> missionUnitView.show(breadCrumbBar, pane1, pane2, missionUnitLink));
+            pane1.getChildren().add(button);
         }
     }
 

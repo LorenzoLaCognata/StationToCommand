@@ -31,12 +31,12 @@ public class MissionStationView {
         return missionVehicleListView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, MissionStationLink missionStationLink) {
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, MissionStationLink missionStationLink) {
         utilsView.addBreadCrumb(breadCrumbBar, missionStationLink);
-        utilsView.clearPane(pane);
-        missionUnitListView.show(breadCrumbBar, pane, missionStationLink);
-        missionResponderListView.show(breadCrumbBar, pane, missionStationLink);
-        missionVehicleListView.show(breadCrumbBar, pane, missionStationLink);
+        utilsView.clearPane(pane1);
+        missionUnitListView.show(breadCrumbBar, pane1, pane2, missionStationLink);
+        missionResponderListView.show(breadCrumbBar, pane1, pane2, missionStationLink);
+        missionVehicleListView.show(breadCrumbBar, pane1, missionStationLink);
     }
 
 }

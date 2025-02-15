@@ -17,10 +17,10 @@ public class MissionUnitView {
         this.missionVehicleListView = new MissionVehicleListView(utilsView);
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, MissionUnitLink missionUnitLink) {
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, MissionUnitLink missionUnitLink) {
         utilsView.addBreadCrumb(breadCrumbBar, missionUnitLink);
-        utilsView.clearPane(pane);
-        missionResponderListView.show(breadCrumbBar, pane, missionUnitLink);
-        missionVehicleListView.show(breadCrumbBar, pane, missionUnitLink);    }
+        utilsView.clearPane(pane1);
+        missionResponderListView.show(breadCrumbBar, pane1, pane2, missionUnitLink);
+        missionVehicleListView.show(breadCrumbBar, pane1, missionUnitLink);    }
 
 }
