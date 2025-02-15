@@ -120,9 +120,12 @@ public class View {
         dispatchButton.setOnAction(_ -> dispatchButtonHandler(dispatchButton, missions));
         topPane.getItems().addAll(dispatchButton);
 
-        Button exitButton = new Button("Quit");
-        exitButton.setOnAction(_ -> Platform.exit());
-        topPane.getItems().addAll(exitButton);
+        Button quitButton = new Button("Quit");
+        quitButton.setOnAction(_ -> {
+            controller.getGameClock().stop();
+            Platform.exit();
+        });
+        topPane.getItems().addAll(quitButton);
 
         breadCrumbBar.setOnCrumbAction(event -> {
             Object selectedObject = event.getSelectedCrumb().getValue();

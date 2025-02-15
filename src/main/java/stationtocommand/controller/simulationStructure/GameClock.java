@@ -16,7 +16,6 @@ public class GameClock {
     private double timeScale = 1.0;
     private boolean running = false;
 
-    private final PriorityQueue<ScheduledEvent> eventQueue = new PriorityQueue<>();
     private ScheduledExecutorService scheduler;
 
     public GameClock(long startTime) {
@@ -27,11 +26,10 @@ public class GameClock {
         if (!running) {
             lastRealTime = System.currentTimeMillis();
             running = true;
-            scheduleEventChecker();
         }
     }
 
-    public void pause() {
+    public void stop() {
         if (running) {
             updateSimulationTime();
             running = false;
@@ -42,10 +40,6 @@ public class GameClock {
     public void setTimeScale(double newScale) {
         updateSimulationTime();
         this.timeScale = newScale;
-    }
-
-    public void scheduleEvent(long eventTime, Runnable eventAction) {
-        eventQueue.add(new ScheduledEvent(eventTime, eventAction));
     }
 
     public long getCurrentSimulationTime() {
@@ -67,13 +61,4 @@ public class GameClock {
         return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
     }
 
-    private void scheduleEventChecker() {
-        scheduler = Executors.newSingleThreadScheduledExecutor();
-        scheduler.scheduleAtFixedRate(() -> {
-            long currentSimTime = getCurrentSimulationTime();
-            while (!eventQueue.isEmpty() && eventQueue.peek().getEventTime() <= currentSimTime) {
-                Objects.requireNonNull(eventQueue.poll()).execute();
-            }
-        }, 0, 100, TimeUnit.MILLISECONDS);
-    }
 }

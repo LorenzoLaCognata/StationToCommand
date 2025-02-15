@@ -6,7 +6,6 @@ import stationtocommand.model.actionStructure.ActionType;
 import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.model.departmentStructure.DepartmentManager;
 import stationtocommand.model.departmentStructure.DepartmentType;
-import stationtocommand.model.equipmentStructure.Equipment;
 import stationtocommand.model.equipmentStructure.EquipmentManager;
 import stationtocommand.model.experienceStructure.ExperienceManager;
 import stationtocommand.model.locationStructure.Location;
@@ -24,7 +23,6 @@ import stationtocommand.model.skillStructure.Skill;
 import stationtocommand.model.skillStructure.SkillManager;
 import stationtocommand.model.skillStructure.SkillType;
 import stationtocommand.model.stationStructure.Station;
-import stationtocommand.model.stationStructure.StationLink;
 import stationtocommand.model.taskStructure.Task;
 import stationtocommand.model.taskStructure.TaskManager;
 import stationtocommand.model.trainingStructure.Training;
@@ -61,7 +59,7 @@ public class Model {
 		watchManager = new WatchManager();
 		departmentManager = new DepartmentManager(locationManager);
 		responderManager = new ResponderManager(departmentManager);
-		missionManager = new MissionManager();
+		missionManager = new MissionManager(departmentManager);
 		vehicleManager = new VehicleManager(departmentManager);
 		equipmentManager = new EquipmentManager(departmentManager);
 		civilianManager = new CivilianManager();
@@ -130,11 +128,6 @@ public class Model {
 		sampleMission.linkObjective(new Objective(ObjectiveType.EVACUATE_CIVILIANS));
 
 		System.out.println(sampleMission + " has objective " + sampleMission.getObjectiveLinks().getFirst().getObjective());
-
-		List<Station> sampleMissionStations = sampleMission.getDepartmentLinks().stream()
-				.flatMap(item -> item.getStationLinks().stream())
-				.map(StationLink::getStation)
-				.toList();
 
 		List<Unit> sampleMissionUnits = sampleMission.getDepartmentLinks().stream()
 				.flatMap(item -> item.getStationLinks().stream())
