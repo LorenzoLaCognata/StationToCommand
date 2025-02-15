@@ -104,9 +104,6 @@ public class Model {
 		}
 
 		Mission sampleMission = missionManager.generateMission(departmentManager, locationManager);
-		for (int i=0; i<4; i++) {
-			missionManager.generateMission(departmentManager, locationManager);
-		}
 
 		List<Task> sampleTasks = taskManager.generateTasks(sampleMission);
 

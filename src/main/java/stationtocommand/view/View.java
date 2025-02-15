@@ -37,6 +37,8 @@ public class View {
     private final ToolBar topPane = new ToolBar();
     private final VBox leftPane = new VBox(5);
     private final BreadCrumbBar<Object> breadCrumbBar = new BreadCrumbBar<>();
+    private final Button organizationButton = new Button("Organization");
+    private final Button dispatchButton = new Button("Dispatch");
     private final StackPane centerPane = new StackPane();
     private final Pane mapBackgroundLayer = new Pane();
     private final Pane mapElementsLayer = new Pane();
@@ -56,6 +58,18 @@ public class View {
         gridPane.add(leftPane, 0, 2);
         gridPane.add(centerPane, 1, 2);
 
+    }
+
+    public BreadCrumbBar<Object> getBreadCrumbBar() {
+        return breadCrumbBar;
+    }
+
+    public Button getOrganizationButton() {
+        return organizationButton;
+    }
+
+    public Button getDispatchButton() {
+        return dispatchButton;
     }
 
     public void initialize(Controller controller) {
@@ -100,24 +114,10 @@ public class View {
         mapView.setPreserveRatio(true);
         mapBackgroundLayer.getChildren().add(mapView);
 
-        Button organizationButton = new Button("Organization");
-        organizationButton.setOnAction(_ -> {
-            utilsView.clearPane(leftPane);
-            utilsView.clearPane(mapElementsLayer);
-            utilsView.resetBreadCrumbBar(breadCrumbBar);
-            organizationView.show(breadCrumbBar, leftPane, mapElementsLayer, departments);
-        });
-
+        organizationButton.setOnAction(_ -> organizationButtonHandler(organizationButton, departments));
         topPane.getItems().addAll(organizationButton);
 
-        Button dispatchButton = new Button("Dispatch");
-        dispatchButton.setOnAction(_ -> {
-            utilsView.clearPane(leftPane);
-            utilsView.clearPane(mapElementsLayer);
-            utilsView.resetBreadCrumbBar(breadCrumbBar);
-            dispatchView.show(breadCrumbBar, leftPane, mapElementsLayer, missions);
-        });
-
+        dispatchButton.setOnAction(_ -> dispatchButtonHandler(dispatchButton, missions));
         topPane.getItems().addAll(dispatchButton);
 
         Button exitButton = new Button("Quit");
@@ -127,7 +127,15 @@ public class View {
         breadCrumbBar.setOnCrumbAction(event -> {
             Object selectedObject = event.getSelectedCrumb().getValue();
 
-            if (selectedObject instanceof Department) {
+            if (selectedObject instanceof Button button) {
+                switch (button.getText()) {
+                    case "Organization":
+                        organizationButtonHandler(organizationButton, departments);
+                    case "Dispatch":
+                        dispatchButtonHandler(dispatchButton, missions);
+                }
+            }
+            else if (selectedObject instanceof Department) {
                 utilsView.clearPane(mapElementsLayer);
                 utilsView.resetBreadCrumbBar(breadCrumbBar);
                 organizationView.getDepartmentListView().getDepartmentView().show(breadCrumbBar, leftPane, mapElementsLayer, (Department) selectedObject);
@@ -180,6 +188,22 @@ public class View {
 
         breadCrumbBar.setStyle("-fx-background-color: #222; -fx-padding: 5px;");
 
+    }
+
+    public void organizationButtonHandler(Button button, List<Department> departments) {
+        utilsView.clearPane(leftPane);
+        utilsView.clearPane(mapElementsLayer);
+        utilsView.resetBreadCrumbBar(breadCrumbBar);
+        utilsView.addBreadCrumb(breadCrumbBar, button.getText());
+        organizationView.show(breadCrumbBar, leftPane, mapElementsLayer, departments);
+    }
+
+    public void dispatchButtonHandler(Button button, List<Mission> missions) {
+        utilsView.clearPane(leftPane);
+        utilsView.clearPane(mapElementsLayer);
+        utilsView.resetBreadCrumbBar(breadCrumbBar);
+        utilsView.addBreadCrumb(breadCrumbBar, button.getText());
+        dispatchView.show(breadCrumbBar, leftPane, mapElementsLayer, missions);
     }
 
     public GridPane getGridPane() {
