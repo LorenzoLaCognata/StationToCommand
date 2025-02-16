@@ -48,27 +48,33 @@ public class MissionManager {
     }
 
     public void dispatchMission(Mission mission) {
-        List<DepartmentType> departmentTypes = new ArrayList<>();
-        switch (mission.getMissionType()) {
-            case STRUCTURE_FIRE, VEHICLE_FIRE, WATER_RESCUE, ANIMAL_RESCUE -> departmentTypes.add(DepartmentType.FIRE_DEPARTMENT);
-            case BURGLARY_IN_PROGRESS, DOMESTIC_DISTURBANCE, SUSPECT_APPREHENSION, CROWD_CONTROL -> departmentTypes.add(DepartmentType.POLICE_DEPARTMENT);
-            case MEDICAL_EMERGENCY, TRAUMA_RESPONSE, CARDIAC_ARREST, MATERNITY_EMERGENCY -> departmentTypes.add(DepartmentType.MEDIC_DEPARTMENT);
-            case COLLAPSE_RESCUE -> {
-                departmentTypes.add(DepartmentType.FIRE_DEPARTMENT);
-                departmentTypes.add(DepartmentType.MEDIC_DEPARTMENT);
-            }
-            case TRAFFIC_INCIDENT -> {
-                departmentTypes.add(DepartmentType.FIRE_DEPARTMENT);
-                departmentTypes.add(DepartmentType.POLICE_DEPARTMENT);
-            }
-            case POISONING_OVERDOSE -> {
-                departmentTypes.add(DepartmentType.POLICE_DEPARTMENT);
-                departmentTypes.add(DepartmentType.MEDIC_DEPARTMENT);
-            }
-        }
 
-        for (DepartmentType departmentType : departmentTypes) {
-            mission.linkDepartment(departmentManager.getDepartment(departmentType));
+        if (mission.getDepartmentLinks().isEmpty()) {
+            List<DepartmentType> departmentTypes = new ArrayList<>();
+            switch (mission.getMissionType()) {
+                case STRUCTURE_FIRE, VEHICLE_FIRE, WATER_RESCUE, ANIMAL_RESCUE ->
+                        departmentTypes.add(DepartmentType.FIRE_DEPARTMENT);
+                case BURGLARY_IN_PROGRESS, DOMESTIC_DISTURBANCE, SUSPECT_APPREHENSION, CROWD_CONTROL ->
+                        departmentTypes.add(DepartmentType.POLICE_DEPARTMENT);
+                case MEDICAL_EMERGENCY, TRAUMA_RESPONSE, CARDIAC_ARREST, MATERNITY_EMERGENCY ->
+                        departmentTypes.add(DepartmentType.MEDIC_DEPARTMENT);
+                case COLLAPSE_RESCUE -> {
+                    departmentTypes.add(DepartmentType.FIRE_DEPARTMENT);
+                    departmentTypes.add(DepartmentType.MEDIC_DEPARTMENT);
+                }
+                case TRAFFIC_INCIDENT -> {
+                    departmentTypes.add(DepartmentType.FIRE_DEPARTMENT);
+                    departmentTypes.add(DepartmentType.POLICE_DEPARTMENT);
+                }
+                case POISONING_OVERDOSE -> {
+                    departmentTypes.add(DepartmentType.POLICE_DEPARTMENT);
+                    departmentTypes.add(DepartmentType.MEDIC_DEPARTMENT);
+                }
+            }
+
+            for (DepartmentType departmentType : departmentTypes) {
+                mission.linkDepartment(departmentManager.getDepartment(departmentType));
+            }
         }
     }
 

@@ -23,7 +23,7 @@ public class MissionVehicleListView {
     }
 
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, MissionStationLink missionStationLink) {
-        utilsView.addLabel(pane, "Vehicles");
+        utilsView.addHeadingLabel(pane, "Vehicles");
         for (MissionUnitLink missionUnitLink : missionStationLink.getUnitLinks()) {
             for (MissionVehicleLink missionVehicleLink : missionUnitLink.getVehicleLinks()) {
                 Button button = new Button(missionVehicleLink.getVehicle().toString());
@@ -34,7 +34,7 @@ public class MissionVehicleListView {
     }
 
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, MissionUnitLink missionUnitLink) {
-        utilsView.addLabel(pane, "Vehicles");
+        utilsView.addHeadingLabel(pane, "Vehicles");
         for (MissionVehicleLink missionVehicleLink : missionUnitLink.getVehicleLinks()) {
             Button button = new Button(missionVehicleLink.getVehicle().toString());
             button.setOnAction(_ -> missionVehicleView.show(breadCrumbBar, pane, missionVehicleLink));

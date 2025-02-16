@@ -6,7 +6,6 @@ import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.missionLinkStructure.MissionResponderLink;
 import stationtocommand.model.missionLinkStructure.MissionStationLink;
 import stationtocommand.model.missionLinkStructure.MissionUnitLink;
-import stationtocommand.model.stationStructure.Station;
 import stationtocommand.view.mainStructure.UtilsView;
 
 public class MissionResponderListView {
@@ -24,7 +23,7 @@ public class MissionResponderListView {
     }
 
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, MissionStationLink missionStationLink) {
-        utilsView.addLabel(pane1, "Responders");
+        utilsView.addHeadingLabel(pane1, "Responders");
         for (MissionUnitLink missionUnitLink : missionStationLink.getUnitLinks()) {
             for (MissionResponderLink missionResponderLink : missionUnitLink.getResponderLinks()) {
                 Button button = new Button(missionResponderLink.getResponder().toString());
@@ -35,7 +34,7 @@ public class MissionResponderListView {
     }
 
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, MissionUnitLink missionUnitLink) {
-        utilsView.addLabel(pane1, "Responders");
+        utilsView.addHeadingLabel(pane1, "Responders");
         for (MissionResponderLink missionResponderLink : missionUnitLink.getResponderLinks()) {
             showSidebar(breadCrumbBar, pane1, pane2, missionResponderLink);
             showMap(pane2, missionResponderLink);

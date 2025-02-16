@@ -23,7 +23,7 @@ public class ResponderListView {
     }
 
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, List<Responder> responders) {
-        utilsView.addLabel(pane, "Responders");
+        utilsView.addHeadingLabel(pane, "Responders");
         for (Responder responder : responders) {
             Button button = new Button(responder.toString());
             button.setOnAction(_ -> responderView.show(breadCrumbBar, pane, responder));

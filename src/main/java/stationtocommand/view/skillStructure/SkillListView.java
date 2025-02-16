@@ -19,7 +19,7 @@ public class SkillListView {
     }
 
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, List<Skill> skills) {
-        utilsView.addLabel(pane, "Skills");
+        utilsView.addHeadingLabel(pane, "Skills");
         for (Skill skill : skills) {
             Button button = new Button(skill.toString());
             button.setOnAction(_ -> skillView.show(breadCrumbBar, pane, skill));

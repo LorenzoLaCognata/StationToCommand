@@ -23,7 +23,7 @@ public class EquipmentListView {
     }
 
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, List<Equipment> equipments) {
-        utilsView.addLabel(pane, "Equipment");
+        utilsView.addHeadingLabel(pane, "Equipment");
         for (Equipment equipment : equipments) {
             Button button = new Button(equipment.toString());
             button.setOnAction(_ -> equipmentView.show(breadCrumbBar, pane, equipment));

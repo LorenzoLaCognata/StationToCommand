@@ -3,11 +3,7 @@ package stationtocommand.controller.simulationStructure;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Objects;
-import java.util.PriorityQueue;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class GameClock {
     private final long simulationStartTime;
@@ -16,24 +12,22 @@ public class GameClock {
     private double timeScale = 1.0;
     private boolean running = false;
 
-    private ScheduledExecutorService scheduler;
-
     public GameClock(long startTime) {
         this.simulationStartTime = startTime;
     }
 
-    public void start() {
+    public void startGameClock() {
         if (!running) {
             lastRealTime = System.currentTimeMillis();
             running = true;
         }
     }
 
-    public void stop() {
+    public void stopGameClock(ScheduledExecutorService schedulerService) {
         if (running) {
             updateSimulationTime();
             running = false;
-            if (scheduler != null) scheduler.shutdown();
+            if (schedulerService != null) schedulerService.shutdown();
         }
     }
 
@@ -47,7 +41,7 @@ public class GameClock {
         return simulationStartTime + accumulatedSimTime;
     }
 
-    private void updateSimulationTime() {
+    public void updateSimulationTime() {
         if (running) {
             long now = System.currentTimeMillis();
             accumulatedSimTime += (long) ((now - lastRealTime) * timeScale);
@@ -55,8 +49,7 @@ public class GameClock {
         }
     }
 
-    public LocalDateTime getCurrentSimulationDateTime() {
-        long currentSimulationTime = getCurrentSimulationTime();
+    public LocalDateTime getSimulationDateTime(long currentSimulationTime) {
         Instant instant = Instant.ofEpochMilli(currentSimulationTime);
         return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
     }

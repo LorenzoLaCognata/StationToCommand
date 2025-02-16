@@ -25,7 +25,7 @@ public class StationListView {
     }
 
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, List<Station> stations) {
-        utilsView.addLabel(pane1, "Stations");
+        utilsView.addHeadingLabel(pane1, "Stations");
         for (Station station : stations) {
             showSidebar(breadCrumbBar, pane1, pane2, station);
             stationView.showMap(pane2, station);

@@ -23,7 +23,7 @@ public class UnitListView {
     }
 
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, List<Unit> units) {
-        utilsView.addLabel(pane, "Units");
+        utilsView.addHeadingLabel(pane, "Units");
         for (Unit unit : units) {
             Button button = new Button(unit.toString());
             button.setOnAction(_ -> unitView.show(breadCrumbBar, pane, unit));

@@ -5,7 +5,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.missionLinkStructure.MissionResponderLink;
-import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.view.mainStructure.UtilsView;
 
 public class MissionResponderView {

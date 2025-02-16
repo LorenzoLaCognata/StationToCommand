@@ -1,6 +1,5 @@
 package stationtocommand.view.missionStructure;
 
-import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.missionLinkStructure.MissionResponderLink;

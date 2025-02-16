@@ -54,7 +54,7 @@ public class UtilsView {
         pane.getChildren().addAll(hBox);
     }
 
-    public void addLabel(Pane pane, String text) {
+    public void addHeadingLabel(Pane pane, String text) {
         Label label = new Label(text);
         label.setStyle("""
             -fx-text-fill: white;
@@ -67,6 +67,17 @@ public class UtilsView {
             -fx-border-width: 1px;
             -fx-border-radius: 6px;
             -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 5, 0.3, 0, 0);
+        """);
+        pane.getChildren().add(label);
+    }
+
+    public void addLabel(Pane pane, String text) {
+        Label label = new Label(text);
+        label.setStyle("""
+            -fx-text-fill: white;
+            -fx-font-size: 12px;
+            -fx-padding: 5px 10px;
+            -fx-background-color: rgba(60, 60, 60, 0.9);
         """);
         pane.getChildren().add(label);
     }

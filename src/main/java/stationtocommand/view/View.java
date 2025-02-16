@@ -122,7 +122,7 @@ public class View {
 
         Button quitButton = new Button("Quit");
         quitButton.setOnAction(_ -> {
-            controller.getGameClock().stop();
+            controller.getScheduler().stopGameClock();
             Platform.exit();
         });
         topPane.getItems().addAll(quitButton);
@@ -134,8 +134,10 @@ public class View {
                 switch (button.getText()) {
                     case "Organization":
                         organizationButtonHandler(organizationButton, departments);
+                        gridPane.requestLayout();
                     case "Dispatch":
                         dispatchButtonHandler(dispatchButton, missions);
+                        gridPane.requestLayout();
                 }
             }
             else if (selectedObject instanceof Department) {
