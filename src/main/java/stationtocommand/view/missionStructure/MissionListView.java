@@ -6,6 +6,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.missionLinkStructure.MissionDepartmentLink;
+import stationtocommand.model.missionLinkStructure.MissionStationLink;
 import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.view.mainStructure.UtilsView;
 
@@ -38,23 +39,32 @@ public class MissionListView {
         Button button = new Button(mission.toString());
         button.setOnAction(_ -> missionView.show(breadCrumbBar, pane1, pane2, mission));
 
+        // TODO: replace label with department icons
+        //ImageView icon = new ImageView("icon.png"); // Example icon
+        HBox hBox = new HBox(10);
+        hBox.getChildren().add(button);
+
         if (mission.getDepartmentLinks().isEmpty()) {
             pane1.getChildren().add(button);
         }
         else {
-            String string = "";
             for (int i=0; i<mission.getDepartmentLinks().size(); i++) {
-                if (i > 0) {
-                    string = string + ", ";
-                }
                 MissionDepartmentLink missionDepartmentLink = mission.getDepartmentLinks().get(i);
-                string = string + missionDepartmentLink.getDepartment();
+                String string = "";
+                if (missionDepartmentLink.getStationLinks().isEmpty()) {
+                    string = string + missionDepartmentLink.getDepartment();
+                }
+                else {
+                    for (int j = 0; j < missionDepartmentLink.getStationLinks().size(); j++) {
+                        MissionStationLink missionStationLink = missionDepartmentLink.getStationLinks().get(j);
+                        if (j > 0) {
+                            string = string + ", ";
+                        }
+                        string = string + missionStationLink.getStation();
+                    }
+                }
+                utilsView.addLabel(hBox, string);
             }
-            // TODO: replace label with department icons
-            //ImageView icon = new ImageView("icon.png"); // Example icon
-            HBox hBox = new HBox(10);
-            hBox.getChildren().add(button);
-            utilsView.addLabel(hBox, string);
             pane1.getChildren().add(hBox);
         }
 

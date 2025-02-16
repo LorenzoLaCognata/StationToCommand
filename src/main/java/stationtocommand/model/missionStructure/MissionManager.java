@@ -4,6 +4,8 @@ import stationtocommand.model.departmentStructure.DepartmentManager;
 import stationtocommand.model.departmentStructure.DepartmentType;
 import stationtocommand.model.locationStructure.Location;
 import stationtocommand.model.locationStructure.LocationManager;
+import stationtocommand.model.missionLinkStructure.MissionDepartmentLink;
+import stationtocommand.model.stationStructure.Station;
 import stationtocommand.model.utilsStructure.Utils;
 
 import java.util.ArrayList;
@@ -40,14 +42,14 @@ public class MissionManager {
         this.missions.add(mission);
     }
 
-    public Mission generateMission(DepartmentManager departmentManager, LocationManager locationManager) {
+    public Mission generateMission(LocationManager locationManager) {
         MissionType randomMissionType = Utils.getRandomEnumValue(MissionType.class);
         Mission mission = new Mission(randomMissionType, locationManager.generateLocation());
         addMission(mission);
         return mission;
     }
 
-    public void dispatchMission(Mission mission) {
+    public void dispatchMissionToDepartment(Mission mission) {
 
         if (mission.getDepartmentLinks().isEmpty()) {
             List<DepartmentType> departmentTypes = new ArrayList<>();
@@ -75,6 +77,15 @@ public class MissionManager {
             for (DepartmentType departmentType : departmentTypes) {
                 mission.linkDepartment(departmentManager.getDepartment(departmentType));
             }
+        }
+    }
+
+    public void dispatchMissionToStation(MissionDepartmentLink missionDepartmentLink) {
+
+        if (missionDepartmentLink.getStationLinks().isEmpty()) {
+            // TODO: select appropriately a station to dispatch the mission to
+            Station station = missionDepartmentLink.getDepartment().getStations().getFirst();
+            missionDepartmentLink.linkStation(station);
         }
     }
 

@@ -88,7 +88,7 @@ public class Controller {
             }
         }
 
-        Mission sampleMission = model.getMissionManager().generateMission(model.getDepartmentManager(), model.getLocationManager());
+        Mission sampleMission = model.getMissionManager().generateMission(model.getLocationManager());
 
         List<Task> sampleTasks = model.getTaskManager().generateTasks(sampleMission);
 

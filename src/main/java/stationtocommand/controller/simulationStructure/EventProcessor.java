@@ -1,16 +1,17 @@
 package stationtocommand.controller.simulationStructure;
 
 import javafx.application.Platform;
-import javafx.scene.control.Button;
 import stationtocommand.controller.Controller;
+import stationtocommand.model.missionLinkStructure.MissionDepartmentLink;
 import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.model.utilsStructure.Utils;
 
 public class EventProcessor {
 
     // TODO: final value should be 30s
-    //public final int DISPATCH_DELAY = 30000;
-    public final int DISPATCH_DELAY = 10000;
+    public final int DISPATCH_DEPARTMENT_DELAY = 10000;
+    public final int DISPATCH_STATION_DELAY = 2000;
+    public final int DISPATCH_UNIT_DELAY = 1000;
 
     private final EventQueue eventQueue;
     private final Controller controller;
@@ -42,33 +43,31 @@ public class EventProcessor {
                 eventQueue.scheduleEvent(nextEventTime, nextEventType, null);
                 break;
             case MISSION_GENERATION:
-                Mission missionGenerated = controller.getModel().getMissionManager().generateMission(controller.getModel().getDepartmentManager(), controller.getModel().getLocationManager());
-                Platform.runLater(() -> {
-                    if (controller.getView().getBreadCrumbBar().getSelectedCrumb() != null && controller.getView().getBreadCrumbBar().getSelectedCrumb().getValue().equals(controller.getView().getDispatchButton().getText())) {
-                        controller.getView().dispatchButtonHandler(controller.getView().getDispatchButton(), controller.getModel().getMissionManager().getMissions());
-                        controller.getView().getGridPane().requestLayout();
-                    }
-                });
-                nextEventTime = event.eventTime() + DISPATCH_DELAY;
+                Mission missionGenerated = controller.getModel().getMissionManager().generateMission(controller.getModel().getLocationManager());
+                missionGenerationRefreshView();
+                nextEventTime = event.eventTime() + DISPATCH_DEPARTMENT_DELAY;
                 nextEventType = ScheduledEventType.MISSION_DISPATCH_DEPARTMENT;
                 nextEventObject = missionGenerated;
                 eventQueue.scheduleEvent(nextEventTime, nextEventType, nextEventObject);
                 break;
             case MISSION_DISPATCH_DEPARTMENT:
-                Mission missionDispatched = (Mission) event.eventObject();
-                if (missionDispatched != null) {
-                    controller.getModel().getMissionManager().dispatchMission(missionDispatched);
-                    Platform.runLater(() -> {
-                        if (controller.getView().getBreadCrumbBar().getSelectedCrumb() != null) {
-                            if (controller.getView().getBreadCrumbBar().getSelectedCrumb().getValue().equals(controller.getView().getDispatchButton().getText())) {
-                                controller.getView().dispatchButtonHandler(controller.getView().getDispatchButton(), controller.getModel().getMissionManager().getMissions());
-                                controller.getView().getGridPane().requestLayout();
-                            } else if (controller.getView().getBreadCrumbBar().getSelectedCrumb().getValue().equals(missionDispatched)) {
-                                // TODO: trigger refresh of show sidebar etc. also when other pages are selected...
-                                controller.getView().getGridPane().requestLayout();
-                            }
-                        }
-                    });
+                Mission missionDispatchedDepartment = (Mission) event.eventObject();
+                if (missionDispatchedDepartment != null) {
+                    controller.getModel().getMissionManager().dispatchMissionToDepartment(missionDispatchedDepartment);
+                    missionDispatchDepartmentRefreshView(missionDispatchedDepartment);
+                }
+                nextEventTime = event.eventTime() + DISPATCH_STATION_DELAY;
+                nextEventType = ScheduledEventType.MISSION_DISPATCH_STATION;
+                nextEventObject = event.eventObject();
+                eventQueue.scheduleEvent(nextEventTime, nextEventType, nextEventObject);
+                break;
+            case MISSION_DISPATCH_STATION:
+                Mission missionDispatchedStation = (Mission) event.eventObject();
+                if (missionDispatchedStation != null) {
+                    for (MissionDepartmentLink missionDepartmentLink : missionDispatchedStation.getDepartmentLinks()) {
+                        controller.getModel().getMissionManager().dispatchMissionToStation(missionDepartmentLink);
+                        // TODO: add refresh of view
+                    }
                 }
                 break;
             default:
@@ -83,6 +82,29 @@ public class EventProcessor {
                 System.out.println("\tNext event => " + controller.getScheduler().getSimulationDateTime(nextEventTime) + ": " + nextEventType);
             }
         }
+    }
+
+    private void missionGenerationRefreshView() {
+        Platform.runLater(() -> {
+            if (controller.getView().getBreadCrumbBar().getSelectedCrumb() != null && controller.getView().getBreadCrumbBar().getSelectedCrumb().getValue().equals(controller.getView().getDispatchButton().getText())) {
+                controller.getView().dispatchButtonHandler(controller.getView().getDispatchButton(), controller.getModel().getMissionManager().getMissions());
+                controller.getView().getGridPane().requestLayout();
+            }
+        });
+    }
+
+    private void missionDispatchDepartmentRefreshView(Mission missionDispatched) {
+        Platform.runLater(() -> {
+            if (controller.getView().getBreadCrumbBar().getSelectedCrumb() != null) {
+                if (controller.getView().getBreadCrumbBar().getSelectedCrumb().getValue().equals(controller.getView().getDispatchButton().getText())) {
+                    controller.getView().dispatchButtonHandler(controller.getView().getDispatchButton(), controller.getModel().getMissionManager().getMissions());
+                    controller.getView().getGridPane().requestLayout();
+                } else if (controller.getView().getBreadCrumbBar().getSelectedCrumb().getValue().equals(missionDispatched)) {
+                    // TODO: trigger refresh of show sidebar etc. also when other pages are selected...
+                    controller.getView().getGridPane().requestLayout();
+                }
+            }
+        });
     }
 
 }
