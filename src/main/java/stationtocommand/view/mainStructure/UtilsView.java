@@ -88,10 +88,13 @@ public class UtilsView {
 
     public void addBreadCrumb(BreadCrumbBar<Object> breadCrumbBar, Object object) {
         TreeItem<Object> treeItem = new TreeItem<>(object);
-        if (breadCrumbBar.getSelectedCrumb() != null) {
-            breadCrumbBar.getSelectedCrumb().getChildren().add(treeItem);
+        if (breadCrumbBar.getSelectedCrumb() == null) {
+            breadCrumbBar.setSelectedCrumb(treeItem);
         }
-        breadCrumbBar.setSelectedCrumb(treeItem);
+        else if (breadCrumbBar.getSelectedCrumb().getValue() != object) {
+            breadCrumbBar.getSelectedCrumb().getChildren().add(treeItem);
+            breadCrumbBar.setSelectedCrumb(treeItem);
+        }
     }
 
     public void addToMap(Pane pane, Node node) {

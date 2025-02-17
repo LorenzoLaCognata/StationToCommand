@@ -5,7 +5,9 @@ import stationtocommand.model.departmentStructure.DepartmentType;
 import stationtocommand.model.locationStructure.Location;
 import stationtocommand.model.locationStructure.LocationManager;
 import stationtocommand.model.missionLinkStructure.MissionDepartmentLink;
+import stationtocommand.model.missionLinkStructure.MissionStationLink;
 import stationtocommand.model.stationStructure.Station;
+import stationtocommand.model.unitStructure.Unit;
 import stationtocommand.model.utilsStructure.Utils;
 
 import java.util.ArrayList;
@@ -84,8 +86,19 @@ public class MissionManager {
 
         if (missionDepartmentLink.getStationLinks().isEmpty()) {
             // TODO: select appropriately a station to dispatch the mission to
-            Station station = missionDepartmentLink.getDepartment().getStations().getFirst();
+            int randomStation = Utils.randomGenerator.nextInt(missionDepartmentLink.getDepartment().getStations().size());
+            Station station = missionDepartmentLink.getDepartment().getStations().get(randomStation);
             missionDepartmentLink.linkStation(station);
+        }
+    }
+
+    public void dispatchMissionToUnit(MissionStationLink missionStationLink) {
+
+        if (missionStationLink.getUnitLinks().isEmpty()) {
+            // TODO: select appropriately a unit to dispatch the mission to
+            int randomUnit = Utils.randomGenerator.nextInt(missionStationLink.getStation().getUnits().size());
+            Unit unit = missionStationLink.getStation().getUnits().get(randomUnit);
+            missionStationLink.linkUnit(unit);
         }
     }
 

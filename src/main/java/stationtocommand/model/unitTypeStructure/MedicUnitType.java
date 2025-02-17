@@ -1,8 +1,8 @@
 package stationtocommand.model.unitTypeStructure;
 
 public enum MedicUnitType implements UnitType {
-  BLS_UNIT("Basic Life Support"),
-  ALS_UNIT("Advanced Life Support");
+  PRIMARY_CARE_UNIT("Primary Care"),
+  CRITICAL_CARE_UNIT("Critical Care");
 
   private final String name;
 

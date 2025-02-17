@@ -71,8 +71,8 @@ public class UnitManager {
 			addUnit(departmentType, PoliceUnitType.HOMICIDE_UNIT, stationManager);
 		}
 		else if (departmentType.equals(DepartmentType.MEDIC_DEPARTMENT)) {
-			addUnit(departmentType, MedicUnitType.BLS_UNIT, stationManager);
-			addUnit(departmentType, MedicUnitType.ALS_UNIT, stationManager);
+			addUnit(departmentType, MedicUnitType.PRIMARY_CARE_UNIT, stationManager);
+			addUnit(departmentType, MedicUnitType.CRITICAL_CARE_UNIT, stationManager);
 		}
 	}
 

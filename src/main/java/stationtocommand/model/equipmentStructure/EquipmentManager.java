@@ -75,12 +75,12 @@ public class EquipmentManager {
 							addEquipment(new Equipment(PoliceEquipmentType.HANDCUFFS, unit));
                             addEquipment(new Equipment(PoliceEquipmentType.EVIDENCE_KIT, unit));
                         }
-                        case MedicUnitType.BLS_UNIT -> {
+                        case MedicUnitType.PRIMARY_CARE_UNIT -> {
                             addEquipment(new Equipment(MedicEquipmentType.FIRST_AID_KIT, unit));
                             addEquipment(new Equipment(MedicEquipmentType.OXYGEN_MASK, unit));
                             addEquipment(new Equipment(MedicEquipmentType.STRETCHER, unit));
                         }
-                        case MedicUnitType.ALS_UNIT -> {
+                        case MedicUnitType.CRITICAL_CARE_UNIT -> {
                             addEquipment(new Equipment(MedicEquipmentType.INTUBATION_KIT, unit));
                             addEquipment(new Equipment(MedicEquipmentType.VENTILATOR, unit));
                             addEquipment(new Equipment(MedicEquipmentType.DEFIBRILLATOR, unit));

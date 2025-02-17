@@ -3,6 +3,7 @@ package stationtocommand.view.missionStructure;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.missionLinkStructure.MissionDepartmentLink;
+import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.UtilsView;
 
 public class MissionDepartmentView {
@@ -20,6 +21,7 @@ public class MissionDepartmentView {
     }
 
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, MissionDepartmentLink missionDepartmentLink) {
+        View.viewRunnable = () -> show(breadCrumbBar, pane1, pane2, missionDepartmentLink);
         utilsView.addBreadCrumb(breadCrumbBar, missionDepartmentLink);
         utilsView.clearPane(pane1);
         utilsView.clearPane(pane2);

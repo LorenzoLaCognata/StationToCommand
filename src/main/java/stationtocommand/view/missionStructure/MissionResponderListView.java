@@ -6,6 +6,7 @@ import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.missionLinkStructure.MissionResponderLink;
 import stationtocommand.model.missionLinkStructure.MissionStationLink;
 import stationtocommand.model.missionLinkStructure.MissionUnitLink;
+import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.UtilsView;
 
 public class MissionResponderListView {

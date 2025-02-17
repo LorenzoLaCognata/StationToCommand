@@ -53,8 +53,12 @@ public class StationManager {
 	public void initStations(Department department, LocationManager locationManager) {
         addStation(new Station(department, nextStationNumber(), locationManager.generateLocation(), this));
 		addStation(new Station(department, nextStationNumber(), locationManager.generateLocation(), this));
+		addStation(new Station(department, nextStationNumber(), locationManager.generateLocation(), this));
 		if (!department.getDepartmentType().equals(DepartmentType.POLICE_DEPARTMENT)) {
 			addStation(new Station(department, nextStationNumber(), locationManager.generateLocation(), this));
+			if (!department.getDepartmentType().equals(DepartmentType.MEDIC_DEPARTMENT)) {
+				addStation(new Station(department, nextStationNumber(), locationManager.generateLocation(), this));
+			}
 		}
 	}
 

@@ -65,8 +65,8 @@ public class VehicleManager {
 						case PoliceUnitType.PATROL_UNIT, PoliceUnitType.HOMICIDE_UNIT, PoliceUnitType.NARCOTICS_UNIT, PoliceUnitType.VICE_UNIT ->
 								addVehicle(new Vehicle(PoliceVehicleType.SEDAN, unit));
 						case PoliceUnitType.DETECTIVE_UNIT -> addVehicle(new Vehicle(PoliceVehicleType.SUV, unit));
-                        case MedicUnitType.BLS_UNIT -> addVehicle(new Vehicle(MedicVehicleType.BLS_AMBULANCE, unit));
-						case MedicUnitType.ALS_UNIT -> addVehicle(new Vehicle(MedicVehicleType.ALS_AMBULANCE, unit));
+                        case MedicUnitType.PRIMARY_CARE_UNIT -> addVehicle(new Vehicle(MedicVehicleType.BLS_AMBULANCE, unit));
+						case MedicUnitType.CRITICAL_CARE_UNIT -> addVehicle(new Vehicle(MedicVehicleType.ALS_AMBULANCE, unit));
                         default -> {}
                     }
 				}

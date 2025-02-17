@@ -1,5 +1,8 @@
 package stationtocommand.view;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -7,6 +10,7 @@ import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.util.Duration;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.controller.Controller;
 import stationtocommand.model.departmentStructure.Department;
@@ -42,6 +46,9 @@ public class View {
     private final StackPane centerPane = new StackPane();
     private final Pane mapBackgroundLayer = new Pane();
     private final Pane mapElementsLayer = new Pane();
+    private final Timeline userInterfaceUpdater = new Timeline(new KeyFrame(Duration.seconds(1), _ -> refreshUserInterface()));
+
+    public static Runnable viewRunnable;
 
     public View() {
         leftPane.setSpacing(15);
@@ -64,8 +71,8 @@ public class View {
         return breadCrumbBar;
     }
 
-    public Button getOrganizationButton() {
-        return organizationButton;
+    public GridPane getGridPane() {
+        return gridPane;
     }
 
     public Button getDispatchButton() {
@@ -79,7 +86,7 @@ public class View {
         this.dispatchView = new DispatchView(utilsView);
     }
 
-    public void generateUI(List<Department> departments, List<Mission> missions) {
+    public void generateHomePage(List<Department> departments, List<Mission> missions) {
 
         ColumnConstraints firstCol = new ColumnConstraints();
         firstCol.setMinWidth(400);
@@ -114,10 +121,10 @@ public class View {
         mapView.setPreserveRatio(true);
         mapBackgroundLayer.getChildren().add(mapView);
 
-        organizationButton.setOnAction(_ -> organizationButtonHandler(organizationButton, departments));
+        organizationButton.setOnAction(_ -> organizationButtonHandler(organizationButton.getText(), departments));
         topPane.getItems().addAll(organizationButton);
 
-        dispatchButton.setOnAction(_ -> dispatchButtonHandler(dispatchButton, missions));
+        dispatchButton.setOnAction(_ -> dispatchButtonHandler(dispatchButton.getText(), missions));
         topPane.getItems().addAll(dispatchButton);
 
         Button quitButton = new Button("Quit");
@@ -127,17 +134,24 @@ public class View {
         });
         topPane.getItems().addAll(quitButton);
 
+        breadCrumbBar.setStyle("-fx-background-color: #222; -fx-padding: 5px;");
+        breadCrumbActions(departments, missions);
+
+        userInterfaceUpdater.setCycleCount(Animation.INDEFINITE);
+        userInterfaceUpdater.play();
+
+    }
+
+    private void breadCrumbActions(List<Department> departments, List<Mission> missions) {
         breadCrumbBar.setOnCrumbAction(event -> {
             Object selectedObject = event.getSelectedCrumb().getValue();
 
-            if (selectedObject instanceof Button button) {
-                switch (button.getText()) {
+            if (selectedObject instanceof String string) {
+                switch (string) {
                     case "Organization":
-                        organizationButtonHandler(organizationButton, departments);
-                        gridPane.requestLayout();
+                        organizationButtonHandler(organizationButton.getText(), departments);
                     case "Dispatch":
-                        dispatchButtonHandler(dispatchButton, missions);
-                        gridPane.requestLayout();
+                        dispatchButtonHandler(dispatchButton.getText(), missions);
                 }
             }
             else if (selectedObject instanceof Department) {
@@ -190,29 +204,30 @@ public class View {
                 dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().getMissionVehicleListView().getMissionVehicleView().show(breadCrumbBar, leftPane, (MissionVehicleLink) selectedObject);
             }
         });
-
-        breadCrumbBar.setStyle("-fx-background-color: #222; -fx-padding: 5px;");
-
     }
 
-    public void organizationButtonHandler(Button button, List<Department> departments) {
+    public void organizationButtonHandler(String buttonText, List<Department> departments) {
+        viewRunnable = () -> organizationButtonHandler(buttonText, departments);
         utilsView.clearPane(leftPane);
         utilsView.clearPane(mapElementsLayer);
         utilsView.resetBreadCrumbBar(breadCrumbBar);
-        utilsView.addBreadCrumb(breadCrumbBar, button.getText());
+        utilsView.addBreadCrumb(breadCrumbBar, buttonText);
         organizationView.show(breadCrumbBar, leftPane, mapElementsLayer, departments);
     }
 
-    public void dispatchButtonHandler(Button button, List<Mission> missions) {
+    public void dispatchButtonHandler(String buttonText, List<Mission> missions) {
+        viewRunnable = () -> dispatchButtonHandler(buttonText, missions);
         utilsView.clearPane(leftPane);
         utilsView.clearPane(mapElementsLayer);
         utilsView.resetBreadCrumbBar(breadCrumbBar);
-        utilsView.addBreadCrumb(breadCrumbBar, button.getText());
+        utilsView.addBreadCrumb(breadCrumbBar, buttonText);
         dispatchView.show(breadCrumbBar, leftPane, mapElementsLayer, missions);
     }
 
-    public GridPane getGridPane() {
-        return gridPane;
+    public void refreshUserInterface() {
+        if (viewRunnable != null) {
+            viewRunnable.run();
+        }
     }
 
 }

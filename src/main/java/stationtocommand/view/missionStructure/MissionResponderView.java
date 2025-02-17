@@ -5,6 +5,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.missionLinkStructure.MissionResponderLink;
+import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.UtilsView;
 
 public class MissionResponderView {
@@ -16,6 +17,7 @@ public class MissionResponderView {
     }
 
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, MissionResponderLink missionResponderLink) {
+        View.viewRunnable = () -> show(breadCrumbBar, pane1, pane2, missionResponderLink);
         utilsView.addBreadCrumb(breadCrumbBar, missionResponderLink);
         utilsView.clearPane(pane1);
         utilsView.clearPane(pane2);

@@ -3,6 +3,7 @@ package stationtocommand.view.responderStructure;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.responderStructure.Responder;
+import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.UtilsView;
 import stationtocommand.view.skillStructure.SkillListView;
 import stationtocommand.view.trainingStructure.TrainingListView;
@@ -28,6 +29,7 @@ public class ResponderView {
     }
 
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, Responder responder) {
+        View.viewRunnable = () -> show(breadCrumbBar, pane, responder);
         utilsView.addBreadCrumb(breadCrumbBar, responder);
         utilsView.clearPane(pane);
         skillListView.show(breadCrumbBar, pane, responder.getSkills());

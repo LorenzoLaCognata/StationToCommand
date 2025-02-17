@@ -40,7 +40,7 @@ public class Controller {
         this.model = model;
         this.view = view;
         view.initialize(this);
-        view.generateUI(model.getDepartmentManager().getDepartments(), model.getMissionManager().getMissions());
+        view.generateHomePage(model.getDepartmentManager().getDepartments(), model.getMissionManager().getMissions());
         scheduler.scheduleEventChecker();
         modelSampleInitialization();
         missionGenerator();

@@ -5,6 +5,7 @@ import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.missionLinkStructure.MissionResponderLink;
 import stationtocommand.model.missionLinkStructure.MissionStationLink;
 import stationtocommand.model.missionLinkStructure.MissionUnitLink;
+import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.UtilsView;
 
 public class MissionStationView {
@@ -34,6 +35,7 @@ public class MissionStationView {
     }
 
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, MissionStationLink missionStationLink) {
+        View.viewRunnable = () -> show(breadCrumbBar, pane1, pane2, missionStationLink);
         utilsView.addBreadCrumb(breadCrumbBar, missionStationLink);
         utilsView.clearPane(pane1);
         utilsView.clearPane(pane2);

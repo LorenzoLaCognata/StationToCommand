@@ -5,6 +5,7 @@ import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.model.stationStructure.Station;
+import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.UtilsView;
 
 import java.util.List;

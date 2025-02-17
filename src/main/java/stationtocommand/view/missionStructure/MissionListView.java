@@ -1,16 +1,17 @@
 package stationtocommand.view.missionStructure;
 
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.missionLinkStructure.MissionDepartmentLink;
 import stationtocommand.model.missionLinkStructure.MissionStationLink;
+import stationtocommand.model.missionLinkStructure.MissionUnitLink;
 import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.view.mainStructure.UtilsView;
 
 import java.util.List;
+import stationtocommand.view.View;
 
 public class MissionListView {
 
@@ -49,18 +50,29 @@ public class MissionListView {
         }
         else {
             for (int i=0; i<mission.getDepartmentLinks().size(); i++) {
-                MissionDepartmentLink missionDepartmentLink = mission.getDepartmentLinks().get(i);
                 String string = "";
+                MissionDepartmentLink missionDepartmentLink = mission.getDepartmentLinks().get(i);
                 if (missionDepartmentLink.getStationLinks().isEmpty()) {
                     string = string + missionDepartmentLink.getDepartment();
                 }
                 else {
                     for (int j = 0; j < missionDepartmentLink.getStationLinks().size(); j++) {
                         MissionStationLink missionStationLink = missionDepartmentLink.getStationLinks().get(j);
-                        if (j > 0) {
-                            string = string + ", ";
+                        if (missionStationLink.getUnitLinks().isEmpty()) {
+                            if (j > 0) {
+                                string = string + ", ";
+                            }
+                            string = string + missionStationLink.getStation();
                         }
-                        string = string + missionStationLink.getStation();
+                        else {
+                            for (int k = 0; k < missionStationLink.getUnitLinks().size(); k++) {
+                                MissionUnitLink missionUnitLink = missionStationLink.getUnitLinks().get(k);
+                                if (k > 0) {
+                                    string = string + ", ";
+                                }
+                                string = string + missionUnitLink.getUnit();
+                            }
+                        }
                     }
                 }
                 utilsView.addLabel(hBox, string);

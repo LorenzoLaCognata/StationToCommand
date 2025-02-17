@@ -7,6 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.stationStructure.Station;
+import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.UtilsView;
 import stationtocommand.view.responderStructure.ResponderListView;
 import stationtocommand.view.unitStructure.UnitListView;
@@ -41,6 +42,7 @@ public class StationView {
     }
 
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, Station station) {
+        View.viewRunnable = () -> show(breadCrumbBar, pane1, pane2, station);
         utilsView.addBreadCrumb(breadCrumbBar, station);
         utilsView.clearPane(pane1);
         utilsView.clearPane(pane2);
