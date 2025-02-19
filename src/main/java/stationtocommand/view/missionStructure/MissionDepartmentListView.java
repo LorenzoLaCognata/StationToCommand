@@ -5,7 +5,6 @@ import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.missionLinkStructure.MissionDepartmentLink;
 import stationtocommand.model.missionStructure.Mission;
-import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.UtilsView;
 
 public class MissionDepartmentListView {

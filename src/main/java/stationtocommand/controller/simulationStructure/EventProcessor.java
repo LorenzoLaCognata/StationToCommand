@@ -1,6 +1,5 @@
 package stationtocommand.controller.simulationStructure;
 
-import javafx.application.Platform;
 import stationtocommand.controller.Controller;
 import stationtocommand.model.missionLinkStructure.MissionDepartmentLink;
 import stationtocommand.model.missionLinkStructure.MissionStationLink;
@@ -38,7 +37,7 @@ public class EventProcessor {
 
         switch (event.eventType()) {
             case MISSION_QUEUEING:
-                int interval = Utils.randomGenerator.nextInt(0,1000000);
+                int interval = Utils.randomGenerator.nextInt(0,86400000);
                 nextEventTime = System.currentTimeMillis() + interval;
                 nextEventType = ScheduledEventType.MISSION_GENERATION;
                 eventQueue.scheduleEvent(nextEventTime, nextEventType, null);

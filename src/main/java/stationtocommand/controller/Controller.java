@@ -41,7 +41,7 @@ public class Controller {
         this.view = view;
         view.initialize(this);
         view.generateHomePage(model.getDepartmentManager().getDepartments(), model.getMissionManager().getMissions());
-        scheduler.scheduleEventChecker();
+        scheduler.scheduleEventChecker(view.getGameClockLabel(), view.getUtilsView().getDateFormat());
         modelSampleInitialization();
         missionGenerator();
     }

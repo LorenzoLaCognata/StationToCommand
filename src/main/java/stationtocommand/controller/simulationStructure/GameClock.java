@@ -9,7 +9,7 @@ public class GameClock {
     private final long simulationStartTime;
     private long lastRealTime;
     private long accumulatedSimTime;
-    private double timeScale = 1.0;
+    private double timeScale = 30.0;
     private boolean running = false;
 
     public GameClock(long startTime) {

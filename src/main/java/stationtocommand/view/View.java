@@ -6,6 +6,7 @@ import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -43,6 +44,10 @@ public class View {
     private final BreadCrumbBar<Object> breadCrumbBar = new BreadCrumbBar<>();
     private final Button organizationButton = new Button("Organization");
     private final Button dispatchButton = new Button("Dispatch");
+    private final Label gameClockLabel = new Label();
+    private final Button speed1Button = new Button(">");
+    private final Button speed2Button = new Button(">>");
+    private final Button speed3Button = new Button(">>>>");
     private final StackPane centerPane = new StackPane();
     private final Pane mapBackgroundLayer = new Pane();
     private final Pane mapElementsLayer = new Pane();
@@ -77,6 +82,14 @@ public class View {
 
     public Button getDispatchButton() {
         return dispatchButton;
+    }
+
+    public Label getGameClockLabel() {
+        return gameClockLabel;
+    }
+
+    public UtilsView getUtilsView() {
+        return utilsView;
     }
 
     public void initialize(Controller controller) {
@@ -134,6 +147,13 @@ public class View {
         });
         topPane.getItems().addAll(quitButton);
 
+        topPane.getItems().add(gameClockLabel);
+
+        speed1Button.setOnAction(_ -> controller.getScheduler().setTimeScale(30.0));
+        speed2Button.setOnAction(_ -> controller.getScheduler().setTimeScale(300.0));
+        speed3Button.setOnAction(_ -> controller.getScheduler().setTimeScale(900.0));
+        topPane.getItems().addAll(speed1Button, speed2Button, speed3Button);
+
         breadCrumbBar.setStyle("-fx-background-color: #222; -fx-padding: 5px;");
         breadCrumbActions(departments, missions);
 
@@ -150,8 +170,10 @@ public class View {
                 switch (string) {
                     case "Organization":
                         organizationButtonHandler(organizationButton.getText(), departments);
+                        break;
                     case "Dispatch":
                         dispatchButtonHandler(dispatchButton.getText(), missions);
+                        break;
                 }
             }
             else if (selectedObject instanceof Department) {

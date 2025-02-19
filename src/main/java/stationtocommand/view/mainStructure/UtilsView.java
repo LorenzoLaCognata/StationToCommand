@@ -19,12 +19,14 @@ import stationtocommand.model.locationStructure.Location;
 import stationtocommand.model.locationStructure.LocationManager;
 import stationtocommand.view.View;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class UtilsView {
 
+    private final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("E dd-MM-yyyy HH:mm");
 
     public UtilsView() {
     }
@@ -36,6 +38,10 @@ public class UtilsView {
         List<Node> newNodeList = new ArrayList<>(nodes);
         newNodeList.add(newNode);
         return newNodeList;
+    }
+
+    public DateTimeFormatter getDateFormat() {
+        return dateFormat;
     }
 
     public List<Node> clearPane(Pane pane) {

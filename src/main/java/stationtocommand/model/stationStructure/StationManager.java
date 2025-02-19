@@ -51,14 +51,17 @@ public class StationManager {
 	}
 
 	public void initStations(Department department, LocationManager locationManager) {
-        addStation(new Station(department, nextStationNumber(), locationManager.generateLocation(), this));
-		addStation(new Station(department, nextStationNumber(), locationManager.generateLocation(), this));
-		addStation(new Station(department, nextStationNumber(), locationManager.generateLocation(), this));
-		if (!department.getDepartmentType().equals(DepartmentType.POLICE_DEPARTMENT)) {
+
+		int stationCount = 0;
+
+		switch (department.getDepartmentType()) {
+			case FIRE_DEPARTMENT -> stationCount = 16;
+			case POLICE_DEPARTMENT -> stationCount = 6;
+			case MEDIC_DEPARTMENT -> stationCount = 12;
+		}
+
+		for (int i=0; i<stationCount; i++) {
 			addStation(new Station(department, nextStationNumber(), locationManager.generateLocation(), this));
-			if (!department.getDepartmentType().equals(DepartmentType.MEDIC_DEPARTMENT)) {
-				addStation(new Station(department, nextStationNumber(), locationManager.generateLocation(), this));
-			}
 		}
 	}
 

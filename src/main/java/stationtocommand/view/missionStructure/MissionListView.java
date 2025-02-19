@@ -11,7 +11,6 @@ import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.view.mainStructure.UtilsView;
 
 import java.util.List;
-import stationtocommand.view.View;
 
 public class MissionListView {
 

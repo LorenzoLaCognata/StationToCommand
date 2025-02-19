@@ -1,8 +1,12 @@
 package stationtocommand.controller.simulationStructure;
 
+import javafx.application.Platform;
+import javafx.scene.control.Label;
 import stationtocommand.controller.Controller;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -25,10 +29,14 @@ public class Scheduler {
         return schedulerService;
     }
 
-    public void scheduleEventChecker() {
+    public void scheduleEventChecker(Label gameClockLabel, DateTimeFormatter dateFormat) {
         schedulerService.scheduleAtFixedRate(() -> {
             long currentSimTime = gameClock.getCurrentSimulationTime();
-            while (!eventQueue.getEventQueue().isEmpty() && eventQueue.getEventQueue().peek().eventTime() <= currentSimTime) {
+            Platform.runLater(() -> {
+                gameClockLabel.setText(getSimulationDateTime(gameClock.getCurrentSimulationTime()).format(dateFormat));
+                gameClockLabel.requestLayout();
+            });
+            while (!eventQueue.getEventQueue().isEmpty() && Objects.requireNonNull(eventQueue.getEventQueue().peek()).eventTime() <= currentSimTime) {
                 ScheduledEvent event = eventQueue.getEventQueue().poll();
                 if (event != null) {eventProcessor.processEvent(event);}
             }
@@ -45,6 +53,10 @@ public class Scheduler {
 
     public void stopGameClock() {
         gameClock.stopGameClock(schedulerService);
+    }
+
+    public void setTimeScale(double newScale) {
+        gameClock.setTimeScale(newScale);
     }
 
     public long getCurrentSimulationTime() {
