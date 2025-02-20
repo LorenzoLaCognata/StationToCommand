@@ -10,7 +10,11 @@ import java.util.stream.Collectors;
 
 public class StationManager {
 
-    private final List<Station> stations = new ArrayList<>();
+	public static final int FIRE_STATIONS_COUNT = 16;
+	public static final int POLICE_STATIONS_COUNT = 6;
+	public static final int MEDIC_STATIONS_COUNT = 12;
+
+	private final List<Station> stations = new ArrayList<>();
 	private int stationNumberCounter = 0;
 	private int unitNumberCounter = 0;
 
@@ -55,9 +59,9 @@ public class StationManager {
 		int stationCount = 0;
 
 		switch (department.getDepartmentType()) {
-			case FIRE_DEPARTMENT -> stationCount = 16;
-			case POLICE_DEPARTMENT -> stationCount = 6;
-			case MEDIC_DEPARTMENT -> stationCount = 12;
+			case FIRE_DEPARTMENT -> stationCount = FIRE_STATIONS_COUNT;
+			case POLICE_DEPARTMENT -> stationCount = POLICE_STATIONS_COUNT;
+			case MEDIC_DEPARTMENT -> stationCount = MEDIC_STATIONS_COUNT;
 		}
 
 		for (int i=0; i<stationCount; i++) {

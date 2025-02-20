@@ -79,13 +79,35 @@ public class ResponderManager {
 				for (Unit unit : station.getUnits()) {
 					for (int level = 4; level >= 1; level--) {
 
-						float randomLimit = switch (level) {
-							case 1 -> 1.0f;
-							case 2 -> 0.6f;
-							case 3 -> 0.9f;
-							case 4 -> 0.3f;
-							default -> 0.0f;
-						};
+						float randomLimit = 0.0f;
+
+						switch (department.getDepartmentType()) {
+							case FIRE_DEPARTMENT -> {
+								switch (level) {
+									case 1 -> randomLimit = 1.0f;
+									case 2 -> randomLimit = 0.6f;
+									case 3 -> randomLimit = 0.8f;
+									case 4 -> randomLimit = 0.4f;
+								}
+							}
+							case POLICE_DEPARTMENT -> {
+								switch (level) {
+									case 1 -> randomLimit = 0.8f;
+									case 2 -> randomLimit = 0.4f;
+									case 3 -> randomLimit = 0.6f;
+									case 4 -> randomLimit = 0.2f;
+								}
+							}
+							case MEDIC_DEPARTMENT -> {
+								switch (level) {
+									case 1 -> randomLimit = 0.6f;
+									case 2 -> randomLimit = 0.2f;
+									case 3 -> randomLimit = 0.4f;
+									case 4 -> randomLimit = 0.1f;
+								}
+							}
+						}
+
 						if (Utils.randomGenerator.nextFloat() < randomLimit) {
 							Rank rank = department.getRankManager().getRank(level);
 							// TODO: distribute experience according to ranks

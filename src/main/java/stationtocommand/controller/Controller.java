@@ -109,8 +109,12 @@ public class Controller {
         Station station = department.getStationManager().getStation(1);
         sampleMission.linkStation(station);
 
-        sampleMission.linkUnit(station.getUnitManager().getUnits(FireUnitType.FIRE_ENGINE).getFirst());
-        sampleMission.linkUnit(station.getUnitManager().getUnits(FireUnitType.FIRE_TRUCK).getFirst());
+        if (!station.getUnitManager().getUnits(FireUnitType.FIRE_ENGINE).isEmpty()) {
+            sampleMission.linkUnit(station.getUnitManager().getUnits(FireUnitType.FIRE_ENGINE).getFirst());
+        }
+        if (!station.getUnitManager().getUnits(FireUnitType.FIRE_TRUCK).isEmpty()) {
+            sampleMission.linkUnit(station.getUnitManager().getUnits(FireUnitType.FIRE_TRUCK).getFirst());
+        }
 
         sampleMission.linkObjective(new Objective(ObjectiveType.EVACUATE_CIVILIANS));
 
