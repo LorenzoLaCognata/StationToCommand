@@ -1,5 +1,6 @@
 package stationtocommand.model.missionLinkStructure;
 
+import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.model.stationStructure.Station;
 import stationtocommand.model.stationStructure.StationLink;
 import stationtocommand.model.unitStructure.Unit;
@@ -9,16 +10,22 @@ import java.util.List;
 
 public class MissionStationLink extends StationLink {
 
+  private final Mission mission;
   private final List<MissionUnitLink> unitLinks;
 
-  public MissionStationLink(Station station) {
+  public MissionStationLink(Mission mission, Station station) {
     super(station);
+    this.mission = mission;
     unitLinks = new ArrayList<>();
   }
 
   @Override
   public String toString() {
     return this.getStation().toString();
+  }
+
+  public Mission getMission() {
+    return mission;
   }
 
   public List<MissionUnitLink> getUnitLinks() {

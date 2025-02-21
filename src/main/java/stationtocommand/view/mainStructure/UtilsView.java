@@ -117,11 +117,11 @@ public class UtilsView {
         return new Point2D(x, y);
     }
 
-    public ImageView stationIcon(String iconPath) {
+    public ImageView stationIcon(String iconPath, String color) {
         ImageView stationIcon = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(iconPath)).toExternalForm()));
         stationIcon.setFitWidth(40);
         stationIcon.setFitHeight(40);
-        stationIcon.setStyle("-fx-effect: dropshadow(gaussian, yellow, 15, 0.7, 0, 0);");
+        stationIcon.setStyle("-fx-effect: dropshadow(gaussian, " + color + ", 15, 0.7, 0, 0);");
         return stationIcon;
     }
 

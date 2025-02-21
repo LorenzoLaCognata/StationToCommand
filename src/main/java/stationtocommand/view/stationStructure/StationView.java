@@ -62,7 +62,14 @@ public class StationView {
             case MEDIC_DEPARTMENT -> iconPath = "/images/medicStation.png";
             default -> iconPath = "/images/blank.png";
         }
-        ImageView imageView = utilsView.stationIcon(iconPath);
+        String color;
+        switch (station.getDepartment().getDepartmentType()) {
+            case FIRE_DEPARTMENT -> color = "red";
+            case POLICE_DEPARTMENT -> color = "blue";
+            case MEDIC_DEPARTMENT -> color = "green";
+            default -> color = "white";
+        }
+        ImageView imageView = utilsView.stationIcon(iconPath, color);
         FadeTransition fadeTransition = utilsView.stationIconTransition(imageView);
         Group group = mapElementsGroup(imageView, point, fadeTransition);
         utilsView.addToMap(pane, group);

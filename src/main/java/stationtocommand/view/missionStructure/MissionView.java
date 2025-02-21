@@ -35,24 +35,17 @@ public class MissionView {
         Point2D point = utilsView.locationToPoint(mission.getLocation());
         String iconPath;
         switch (mission.getMissionType()) {
-            case STRUCTURE_FIRE -> iconPath = "/images/fireMission.png";
-            case VEHICLE_FIRE -> iconPath = "/images/fireMission.png";
-            case WATER_RESCUE -> iconPath = "/images/rescueMission.png";
-            case COLLAPSE_RESCUE -> iconPath = "/images/rescueMission.png";
-            case ANIMAL_RESCUE -> iconPath = "/images/rescueMission.png";
+            case STRUCTURE_FIRE, VEHICLE_FIRE -> iconPath = "/images/fireMission.png";
+            case WATER_RESCUE, COLLAPSE_RESCUE -> iconPath = "/images/rescueMission.png";
             case TRAFFIC_INCIDENT -> iconPath = "/images/rescueMission.png";
-            case BURGLARY_IN_PROGRESS -> iconPath = "/images/policeMission.png";
-            case DOMESTIC_DISTURBANCE -> iconPath = "/images/policeMission.png";
-            case SUSPECT_APPREHENSION -> iconPath = "/images/policeMission.png";
+            case BURGLARY_IN_PROGRESS, ASSAULT, DOMESTIC_DISTURBANCE -> iconPath = "/images/policeMission.png";
+            case HOMICIDE, DRUG_CRIME, VICE_CRIME -> iconPath = "/images/policeMission.png";
             case CROWD_CONTROL -> iconPath = "/images/policeMission.png";
-            case MEDICAL_EMERGENCY -> iconPath = "/images/medicMission.png";
-            case TRAUMA_RESPONSE -> iconPath = "/images/medicMission.png";
-            case CARDIAC_ARREST -> iconPath = "/images/medicMission.png";
-            case POISONING_OVERDOSE -> iconPath = "/images/medicMission.png";
-            case MATERNITY_EMERGENCY -> iconPath = "/images/medicMission.png";
+            case MEDICAL_EMERGENCY, TRAUMA_RESPONSE -> iconPath = "/images/medicMission.png";
+            case CARDIAC_ARREST, POISONING_OVERDOSE -> iconPath = "/images/medicMission.png";
             default -> iconPath = "/images/blank.png";
         }
-        ImageView imageView = utilsView.stationIcon(iconPath);
+        ImageView imageView = utilsView.stationIcon(iconPath, "red");
         utilsView.addImageToMap(pane, imageView, point);
     }
 

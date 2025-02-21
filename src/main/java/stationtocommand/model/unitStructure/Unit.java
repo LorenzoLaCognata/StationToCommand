@@ -32,7 +32,7 @@ public abstract class Unit {
 
     @Override
     public String toString() {
-        return unitType + " Unit " + number;
+        return unitType + " #" + number;
     }
 
     public Station getStation() {
