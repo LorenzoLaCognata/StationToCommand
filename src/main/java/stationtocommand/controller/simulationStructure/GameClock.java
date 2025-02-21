@@ -31,6 +31,10 @@ public class GameClock {
         }
     }
 
+    public double getTimeScale() {
+        return timeScale;
+    }
+
     public void setTimeScale(double newScale) {
         updateSimulationTime();
         this.timeScale = newScale;

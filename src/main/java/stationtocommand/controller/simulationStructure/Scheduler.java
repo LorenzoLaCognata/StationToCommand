@@ -55,6 +55,10 @@ public class Scheduler {
         gameClock.stopGameClock(schedulerService);
     }
 
+    public double getTimeScale() {
+        return gameClock.getTimeScale();
+    }
+
     public void setTimeScale(double newScale) {
         gameClock.setTimeScale(newScale);
     }

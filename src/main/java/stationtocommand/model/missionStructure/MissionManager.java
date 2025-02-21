@@ -61,27 +61,7 @@ public class MissionManager {
     public void dispatchMissionToDepartment(Mission mission) {
 
         if (mission.getDepartmentLinks().isEmpty()) {
-            List<DepartmentType> departmentTypes = new ArrayList<>();
-            switch (mission.getMissionType()) {
-                case STRUCTURE_FIRE, VEHICLE_FIRE, WATER_RESCUE ->
-                        departmentTypes.add(DepartmentType.FIRE_DEPARTMENT);
-                case BURGLARY, ASSAULT, DISTURBANCE, HOMICIDE, DRUG_CRIME, VICE_CRIME, CROWD_CONTROL ->
-                        departmentTypes.add(DepartmentType.POLICE_DEPARTMENT);
-                case MEDICAL_EMERGENCY, TRAUMA_RESPONSE, CARDIAC_ARREST ->
-                        departmentTypes.add(DepartmentType.MEDIC_DEPARTMENT);
-                case COLLAPSE_RESCUE -> {
-                    departmentTypes.add(DepartmentType.FIRE_DEPARTMENT);
-                    departmentTypes.add(DepartmentType.MEDIC_DEPARTMENT);
-                }
-                case TRAFFIC_INCIDENT -> {
-                    departmentTypes.add(DepartmentType.FIRE_DEPARTMENT);
-                    departmentTypes.add(DepartmentType.POLICE_DEPARTMENT);
-                }
-                case POISONING_OVERDOSE -> {
-                    departmentTypes.add(DepartmentType.POLICE_DEPARTMENT);
-                    departmentTypes.add(DepartmentType.MEDIC_DEPARTMENT);
-                }
-            }
+            List<DepartmentType> departmentTypes = requiredDepartmentTypes(mission.getMissionType());
 
             for (DepartmentType departmentType : departmentTypes) {
                 mission.linkDepartment(departmentManager.getDepartment(departmentType));
@@ -89,7 +69,34 @@ public class MissionManager {
         }
     }
 
-    private static List<UnitType> requiredUnitTypes(MissionType missionType, DepartmentType departmentType) {
+    public List<DepartmentType> requiredDepartmentTypes(MissionType missionType) {
+
+        List<DepartmentType> requiredDepartmentTypes = new ArrayList<>();
+
+        switch (missionType) {
+            case STRUCTURE_FIRE, VEHICLE_FIRE, WATER_RESCUE -> requiredDepartmentTypes.add(DepartmentType.FIRE_DEPARTMENT);
+            case BURGLARY, ASSAULT, DISTURBANCE, CROWD_CONTROL, HOMICIDE, DRUG_CRIME, VICE_CRIME ->
+                    requiredDepartmentTypes.add(DepartmentType.POLICE_DEPARTMENT);
+            case MEDICAL_EMERGENCY, TRAUMA_RESPONSE, CARDIAC_ARREST -> requiredDepartmentTypes.add(DepartmentType.MEDIC_DEPARTMENT);
+            case COLLAPSE_RESCUE -> {
+                requiredDepartmentTypes.add(DepartmentType.FIRE_DEPARTMENT);
+                requiredDepartmentTypes.add(DepartmentType.MEDIC_DEPARTMENT);
+            }
+            case POISONING_OVERDOSE -> {
+                requiredDepartmentTypes.add(DepartmentType.POLICE_DEPARTMENT);
+                requiredDepartmentTypes.add(DepartmentType.MEDIC_DEPARTMENT);
+            }
+            case TRAFFIC_INCIDENT -> {
+                requiredDepartmentTypes.add(DepartmentType.FIRE_DEPARTMENT);
+                requiredDepartmentTypes.add(DepartmentType.POLICE_DEPARTMENT);
+                requiredDepartmentTypes.add(DepartmentType.MEDIC_DEPARTMENT);
+            }
+        }
+
+        return requiredDepartmentTypes;
+    }
+
+    public List<UnitType> requiredUnitTypes(MissionType missionType, DepartmentType departmentType) {
 
         List<UnitType> requiredUnitTypes = new ArrayList<>();
 
@@ -136,7 +143,7 @@ public class MissionManager {
             }
             case MEDIC_DEPARTMENT -> {
                 switch (missionType) {
-                    case MEDICAL_EMERGENCY, TRAUMA_RESPONSE -> requiredUnitTypes.add(MedicUnitType.PRIMARY_CARE_UNIT);
+                    case MEDICAL_EMERGENCY, TRAUMA_RESPONSE, TRAFFIC_INCIDENT -> requiredUnitTypes.add(MedicUnitType.PRIMARY_CARE_UNIT);
                     case CARDIAC_ARREST, COLLAPSE_RESCUE, POISONING_OVERDOSE -> requiredUnitTypes.add(MedicUnitType.CRITICAL_CARE_UNIT);
                 }
             }
