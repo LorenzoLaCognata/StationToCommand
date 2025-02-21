@@ -32,6 +32,13 @@ public class MissionDepartmentLink extends DepartmentLink {
     return stationLinks;
   }
 
+  public MissionStationLink getStationLink(Station station) {
+      return stationLinks.stream()
+            .filter(item -> item.getStation().equals(station))
+            .findAny()
+            .orElse(null);
+  }
+
   public void linkStation(Station station) {
     if (stationLinks.stream()
             .noneMatch(item -> item.getStation().equals(station))) {

@@ -38,7 +38,7 @@ public class MissionView {
             case STRUCTURE_FIRE, VEHICLE_FIRE -> iconPath = "/images/fireMission.png";
             case WATER_RESCUE, COLLAPSE_RESCUE -> iconPath = "/images/rescueMission.png";
             case TRAFFIC_INCIDENT -> iconPath = "/images/rescueMission.png";
-            case BURGLARY_IN_PROGRESS, ASSAULT, DOMESTIC_DISTURBANCE -> iconPath = "/images/policeMission.png";
+            case BURGLARY, ASSAULT, DISTURBANCE -> iconPath = "/images/policeMission.png";
             case HOMICIDE, DRUG_CRIME, VICE_CRIME -> iconPath = "/images/policeMission.png";
             case CROWD_CONTROL -> iconPath = "/images/policeMission.png";
             case MEDICAL_EMERGENCY, TRAUMA_RESPONSE -> iconPath = "/images/medicMission.png";

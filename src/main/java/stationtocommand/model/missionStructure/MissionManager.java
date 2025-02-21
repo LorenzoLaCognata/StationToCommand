@@ -1,5 +1,6 @@
 package stationtocommand.model.missionStructure;
 
+import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.model.departmentStructure.DepartmentManager;
 import stationtocommand.model.departmentStructure.DepartmentType;
 import stationtocommand.model.locationStructure.Location;
@@ -7,7 +8,9 @@ import stationtocommand.model.locationStructure.LocationManager;
 import stationtocommand.model.missionLinkStructure.MissionDepartmentLink;
 import stationtocommand.model.missionLinkStructure.MissionStationLink;
 import stationtocommand.model.stationStructure.Station;
+import stationtocommand.model.stationStructure.StationManager;
 import stationtocommand.model.unitStructure.Unit;
+import stationtocommand.model.unitStructure.UnitManager;
 import stationtocommand.model.unitTypeStructure.FireUnitType;
 import stationtocommand.model.unitTypeStructure.MedicUnitType;
 import stationtocommand.model.unitTypeStructure.PoliceUnitType;
@@ -62,7 +65,7 @@ public class MissionManager {
             switch (mission.getMissionType()) {
                 case STRUCTURE_FIRE, VEHICLE_FIRE, WATER_RESCUE ->
                         departmentTypes.add(DepartmentType.FIRE_DEPARTMENT);
-                case BURGLARY_IN_PROGRESS, ASSAULT, DOMESTIC_DISTURBANCE, HOMICIDE, DRUG_CRIME, VICE_CRIME, CROWD_CONTROL ->
+                case BURGLARY, ASSAULT, DISTURBANCE, HOMICIDE, DRUG_CRIME, VICE_CRIME, CROWD_CONTROL ->
                         departmentTypes.add(DepartmentType.POLICE_DEPARTMENT);
                 case MEDICAL_EMERGENCY, TRAUMA_RESPONSE, CARDIAC_ARREST ->
                         departmentTypes.add(DepartmentType.MEDIC_DEPARTMENT);
@@ -84,46 +87,6 @@ public class MissionManager {
                 mission.linkDepartment(departmentManager.getDepartment(departmentType));
             }
         }
-    }
-
-    public void dispatchMissionToStation(MissionDepartmentLink missionDepartmentLink) {
-
-        if (missionDepartmentLink.getStationLinks().isEmpty()) {
-
-            MissionType missionType = missionDepartmentLink.getMission().getMissionType();
-            DepartmentType departmentType = missionDepartmentLink.getDepartment().getDepartmentType();
-            List<Station> stations = missionDepartmentLink.getDepartment().getStations();
-
-            List<UnitType> unitTypes = requiredUnitTypes(missionType, departmentType);
-
-            List<Station> stationsMatchingAllUnitTypes = stations.stream()
-                .filter(station -> unitTypes.stream()
-                    .allMatch(type -> station.getUnits()
-                            .stream().anyMatch(unit -> unit.getUnitType().equals(type))))
-                .toList();
-
-            if (!stationsMatchingAllUnitTypes.isEmpty()) {
-                // TODO: select the closest/appropriate station to dispatch the mission to
-                int randomStation = Utils.randomGenerator.nextInt(stationsMatchingAllUnitTypes.size());
-                Station station = stationsMatchingAllUnitTypes.get(randomStation);
-                missionDepartmentLink.linkStation(station);
-            }
-            else {
-                for (UnitType unitType : unitTypes) {
-                    List<Station> stationsMatchingSingleUnitType = stations.stream()
-                        .filter(station -> station.getUnits()
-                                .stream().anyMatch(unit -> unit.getUnitType().equals(unitType)))
-                        .toList();
-                    if (!stationsMatchingSingleUnitType.isEmpty()) {
-                        // TODO: select the closest/appropriate station to dispatch the mission to
-                        int randomStation = Utils.randomGenerator.nextInt(stationsMatchingSingleUnitType.size());
-                        Station station = stationsMatchingSingleUnitType.get(randomStation);
-                        missionDepartmentLink.linkStation(station);
-                    }
-                }
-            }
-        }
-
     }
 
     private static List<UnitType> requiredUnitTypes(MissionType missionType, DepartmentType departmentType) {
@@ -152,11 +115,11 @@ public class MissionManager {
             }
             case POLICE_DEPARTMENT -> {
                 switch (missionType) {
-                    case BURGLARY_IN_PROGRESS, ASSAULT -> {
+                    case BURGLARY, ASSAULT -> {
                         requiredUnitTypes.add(PoliceUnitType.PATROL_UNIT);
                         requiredUnitTypes.add(PoliceUnitType.DETECTIVE_UNIT);
                     }
-                    case DOMESTIC_DISTURBANCE, CROWD_CONTROL, TRAFFIC_INCIDENT  -> requiredUnitTypes.add(PoliceUnitType.PATROL_UNIT);
+                    case DISTURBANCE, CROWD_CONTROL, TRAFFIC_INCIDENT  -> requiredUnitTypes.add(PoliceUnitType.PATROL_UNIT);
                     case HOMICIDE -> {
                         requiredUnitTypes.add(PoliceUnitType.PATROL_UNIT);
                         requiredUnitTypes.add(PoliceUnitType.HOMICIDE_UNIT);
@@ -181,21 +144,58 @@ public class MissionManager {
         return requiredUnitTypes;
     }
 
-    public void dispatchMissionToUnit(MissionStationLink missionStationLink) {
+    public void dispatchMissionToUnit(MissionDepartmentLink missionDepartmentLink) {
 
-        if (missionStationLink.getUnitLinks().isEmpty()) {
+        if (missionDepartmentLink.getStationLinks().isEmpty()) {
+            Mission mission = missionDepartmentLink.getMission();
+            MissionType missionType = mission.getMissionType();
 
-            MissionType missionType = missionStationLink.getMission().getMissionType();
-            DepartmentType departmentType = missionStationLink.getStation().getDepartment().getDepartmentType();
+            Department department = missionDepartmentLink.getDepartment();
+            DepartmentType departmentType = department.getDepartmentType();
 
             List<UnitType> unitTypes = requiredUnitTypes(missionType, departmentType);
 
-            for (UnitType unitType : unitTypes) {
-                Unit unit = missionStationLink.getStation().getUnitManager().getUnits(unitType).getFirst();
-                missionStationLink.linkUnit(unit);
+            StationManager stationManager = department.getStationManager();
+            List<Station> stationsMatchingAllUnitTypes = stationManager.stationsMatchingAllUnitTypes(unitTypes);
+
+            if (!stationsMatchingAllUnitTypes.isEmpty()) {
+                // TODO: select the closest/appropriate station to dispatch the mission to
+                int randomStation = Utils.randomGenerator.nextInt(stationsMatchingAllUnitTypes.size());
+                Station station = stationsMatchingAllUnitTypes.get(randomStation);
+                missionDepartmentLink.linkStation(station);
+
+                MissionStationLink missionStationLink = missionDepartmentLink.getStationLink(station);
+                UnitManager unitManager = station.getUnitManager();
+
+                for (UnitType unitType : unitTypes) {
+                    Unit unit = unitManager.getUnits(unitType).getFirst();
+                    if (unit != null) {
+                        missionStationLink.linkUnit(unit);
+                    }
+                }
             }
 
+            else {
+                for (UnitType unitType : unitTypes) {
+                    List<Station> stationsMatchingUnitType = stationManager.stationsMatchingUnitType(unitType);
+                    if (!stationsMatchingUnitType.isEmpty()) {
+                        // TODO: select the closest/appropriate station to dispatch the mission to
+                        int randomStation = Utils.randomGenerator.nextInt(stationsMatchingUnitType.size());
+                        Station station = stationsMatchingUnitType.get(randomStation);
+                        missionDepartmentLink.linkStation(station);
+
+                        MissionStationLink missionStationLink = missionDepartmentLink.getStationLink(station);
+
+                        Unit unit = station.getUnitManager().getUnits(unitType).getFirst();
+                        if (unit != null) {
+                            missionStationLink.linkUnit(unit);
+                        }
+
+                    }
+                }
+            }
         }
+
     }
 
 }

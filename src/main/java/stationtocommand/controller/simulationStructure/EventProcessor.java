@@ -2,16 +2,14 @@ package stationtocommand.controller.simulationStructure;
 
 import stationtocommand.controller.Controller;
 import stationtocommand.model.missionLinkStructure.MissionDepartmentLink;
-import stationtocommand.model.missionLinkStructure.MissionStationLink;
 import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.model.utilsStructure.Utils;
 
 public class EventProcessor {
 
     // TODO: final value should be 30s
-    public final int DISPATCH_DEPARTMENT_DELAY = 10000;
-    public final int DISPATCH_STATION_DELAY = 2000;
-    public final int DISPATCH_UNIT_DELAY = 1000;
+    public final int DISPATCH_DEPARTMENT_DELAY = 5000;
+    public final int DISPATCH_UNIT_DELAY = 2000;
 
     private final EventQueue eventQueue;
     private final Controller controller;
@@ -54,18 +52,6 @@ public class EventProcessor {
                 if (missionDispatchedDepartment != null) {
                     controller.getModel().getMissionManager().dispatchMissionToDepartment(missionDispatchedDepartment);
                 }
-                nextEventTime = event.eventTime() + DISPATCH_STATION_DELAY;
-                nextEventType = ScheduledEventType.MISSION_DISPATCH_STATION;
-                nextEventObject = event.eventObject();
-                eventQueue.scheduleEvent(nextEventTime, nextEventType, nextEventObject);
-                break;
-            case MISSION_DISPATCH_STATION:
-                Mission missionDispatchedStation = (Mission) event.eventObject();
-                if (missionDispatchedStation != null) {
-                    for (MissionDepartmentLink missionDepartmentLink : missionDispatchedStation.getDepartmentLinks()) {
-                        controller.getModel().getMissionManager().dispatchMissionToStation(missionDepartmentLink);
-                    }
-                }
                 nextEventTime = event.eventTime() + DISPATCH_UNIT_DELAY;
                 nextEventType = ScheduledEventType.MISSION_DISPATCH_UNIT;
                 nextEventObject = event.eventObject();
@@ -75,9 +61,7 @@ public class EventProcessor {
                 Mission missionDispatchedUnit = (Mission) event.eventObject();
                 if (missionDispatchedUnit != null) {
                     for (MissionDepartmentLink missionDepartmentLink : missionDispatchedUnit.getDepartmentLinks()) {
-                        for (MissionStationLink missionStationLink : missionDepartmentLink.getStationLinks()) {
-                            controller.getModel().getMissionManager().dispatchMissionToUnit(missionStationLink);
-                        }
+                        controller.getModel().getMissionManager().dispatchMissionToUnit(missionDepartmentLink);
                     }
                 }
                 break;
