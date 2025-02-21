@@ -57,20 +57,20 @@ public class StationView {
 
         String iconPath;
         switch (station.getDepartment().getDepartmentType()) {
-            case FIRE_DEPARTMENT -> iconPath = "/images/fireStation.png";
-            case POLICE_DEPARTMENT -> iconPath = "/images/policeStation.png";
-            case MEDIC_DEPARTMENT -> iconPath = "/images/medicStation.png";
+            case FIRE_DEPARTMENT -> iconPath = "/images/fireDepartment.png";
+            case POLICE_DEPARTMENT -> iconPath = "/images/policeDepartment.png";
+            case MEDIC_DEPARTMENT -> iconPath = "/images/medicDepartment.png";
             default -> iconPath = "/images/blank.png";
         }
         String color;
         switch (station.getDepartment().getDepartmentType()) {
-            case FIRE_DEPARTMENT -> color = "red";
-            case POLICE_DEPARTMENT -> color = "blue";
-            case MEDIC_DEPARTMENT -> color = "green";
+            case FIRE_DEPARTMENT -> color = "#dc212a";
+            case POLICE_DEPARTMENT -> color = "#03132d";
+            case MEDIC_DEPARTMENT -> color = "#840705";
             default -> color = "white";
         }
-        ImageView imageView = utilsView.stationIcon(iconPath, color);
-        FadeTransition fadeTransition = utilsView.stationIconTransition(imageView);
+        ImageView imageView = utilsView.departmentIcon(iconPath, color);
+        FadeTransition fadeTransition = utilsView.departmentIconTransition(imageView);
         Group group = mapElementsGroup(imageView, point, fadeTransition);
         utilsView.addToMap(pane, group);
     }

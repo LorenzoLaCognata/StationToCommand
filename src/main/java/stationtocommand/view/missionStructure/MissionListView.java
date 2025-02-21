@@ -45,6 +45,7 @@ public class MissionListView {
         hBox.getChildren().add(button);
 
         if (mission.getDepartmentLinks().isEmpty()) {
+            // TODO: to double check, should I add it to hbox instead?
             pane1.getChildren().add(button);
         }
         else {

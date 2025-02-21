@@ -117,15 +117,22 @@ public class UtilsView {
         return new Point2D(x, y);
     }
 
-    public ImageView stationIcon(String iconPath, String color) {
+    public ImageView departmentIcon(String iconPath, String color) {
         ImageView stationIcon = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(iconPath)).toExternalForm()));
         stationIcon.setFitWidth(40);
         stationIcon.setFitHeight(40);
-        stationIcon.setStyle("-fx-effect: dropshadow(gaussian, " + color + ", 15, 0.7, 0, 0);");
+        stationIcon.setStyle("-fx-effect: dropshadow(gaussian, " + color + ", 20, 0.3, 0, 0);");
         return stationIcon;
     }
 
-    public FadeTransition stationIconTransition(ImageView stationIcon) {
+    public ImageView departmentSmallIcon(String iconPath, String color) {
+        ImageView stationIcon = departmentIcon(iconPath, color);
+        stationIcon.setFitWidth(30);
+        stationIcon.setFitHeight(30);
+        return stationIcon;
+    }
+
+    public FadeTransition departmentIconTransition(ImageView stationIcon) {
 
         FadeTransition flash = new FadeTransition(Duration.seconds(0.5), stationIcon);
         flash.setFromValue(1.0);

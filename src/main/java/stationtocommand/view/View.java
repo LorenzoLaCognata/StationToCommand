@@ -130,7 +130,7 @@ public class View {
         ImageView mapView = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/backgroundMap.jpg")).toExternalForm()));
         mapView.fitWidthProperty().bind(centerPane.widthProperty());
         mapView.fitHeightProperty().bind(centerPane.heightProperty());
-        mapView.setOpacity(0.85);
+        mapView.setOpacity(0.70);
         mapView.setPreserveRatio(true);
         mapBackgroundLayer.getChildren().add(mapView);
 
