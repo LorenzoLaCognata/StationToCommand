@@ -11,9 +11,9 @@ import java.util.stream.Collectors;
 
 public class StationManager {
 
-	public static final int FIRE_STATIONS_COUNT = 16;
-	public static final int POLICE_STATIONS_COUNT = 6;
-	public static final int MEDIC_STATIONS_COUNT = 12;
+	public static final int FIRE_STATIONS_COUNT = 8;
+	public static final int POLICE_STATIONS_COUNT = 4;
+	public static final int MEDIC_STATIONS_COUNT = 6;
 
 	private final List<Station> stations = new ArrayList<>();
 	private int stationNumberCounter = 0;

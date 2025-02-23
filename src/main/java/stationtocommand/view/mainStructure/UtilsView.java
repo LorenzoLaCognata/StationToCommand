@@ -124,8 +124,8 @@ public class UtilsView {
 
     public ImageView mediumIcon(String iconPath) {
         ImageView imageView = basicIcon(iconPath);
-        imageView.setFitWidth(40);
-        imageView.setFitHeight(40);
+        imageView.setFitWidth(48);
+        imageView.setFitHeight(48);
         return imageView;
     }
 
@@ -137,8 +137,8 @@ public class UtilsView {
 
     public ImageView smallIcon(String iconPath) {
         ImageView imageView = basicIcon(iconPath);
-        imageView.setFitWidth(30);
-        imageView.setFitHeight(30);
+        imageView.setFitWidth(32);
+        imageView.setFitHeight(32);
         return imageView;
     }
 
@@ -174,6 +174,17 @@ public class UtilsView {
         group.setLayoutX(point.getX());
         group.setLayoutY(point.getY());
         addToMap(pane, group);
+    }
+
+    public String stationIconPath(Department department) {
+        String iconPath;
+        switch (department.getDepartmentType()) {
+            case FIRE_DEPARTMENT -> iconPath = "/images/fireStation.png";
+            case POLICE_DEPARTMENT -> iconPath = "/images/policeStation.png";
+            case MEDIC_DEPARTMENT -> iconPath = "/images/medicStation.png";
+            default -> iconPath = "/images/blank.png";
+        }
+        return iconPath;
     }
 
     public String departmentIconPath(Department department) {
