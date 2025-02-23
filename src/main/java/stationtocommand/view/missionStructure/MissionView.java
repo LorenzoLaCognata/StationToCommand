@@ -45,7 +45,7 @@ public class MissionView {
             case CARDIAC_ARREST, POISONING_OVERDOSE -> iconPath = "/images/medicMission.png";
             default -> iconPath = "/images/blank.png";
         }
-        ImageView imageView = utilsView.departmentIcon(iconPath, "red");
+        ImageView imageView = utilsView.mediumShadowIcon(iconPath, "red");
         utilsView.addImageToMap(pane, imageView, point);
     }
 

@@ -4,6 +4,7 @@ import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.model.stationStructure.Station;
 import stationtocommand.model.stationStructure.StationLink;
 import stationtocommand.model.unitStructure.Unit;
+import stationtocommand.model.unitStructure.UnitStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,7 @@ public class MissionStationLink extends StationLink {
 
   public void linkUnit(Unit unit) {
     if (unitLinks.stream()
-            .noneMatch(item -> item.getUnit().equals(unit))) {
+          .noneMatch(item -> item.getUnit().equals(unit))) {
       MissionUnitLink missionUnitLink = new MissionUnitLink(unit);
       unitLinks.add(missionUnitLink);
     }

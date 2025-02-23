@@ -90,14 +90,6 @@ public class EventProcessor {
                 throw new IllegalArgumentException("Unknown event type: " + event.eventType());
         }
 
-        if (nextEventTime != 0) {
-            if (nextEventObject != null) {
-                System.out.println("\tNext event => " + controller.getScheduler().getSimulationDateTime(nextEventTime) + ": " + nextEventType + " - " + nextEventObject);
-            }
-            else {
-                System.out.println("\tNext event => " + controller.getScheduler().getSimulationDateTime(nextEventTime) + ": " + nextEventType);
-            }
-        }
     }
 
 }

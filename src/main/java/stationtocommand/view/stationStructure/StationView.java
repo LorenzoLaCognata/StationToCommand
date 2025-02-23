@@ -54,22 +54,7 @@ public class StationView {
 
     public void showMap(Pane pane, Station station) {
         Point2D point = utilsView.locationToPoint(station.getLocation());
-
-        String iconPath;
-        switch (station.getDepartment().getDepartmentType()) {
-            case FIRE_DEPARTMENT -> iconPath = "/images/fireDepartment.png";
-            case POLICE_DEPARTMENT -> iconPath = "/images/policeDepartment.png";
-            case MEDIC_DEPARTMENT -> iconPath = "/images/medicDepartment.png";
-            default -> iconPath = "/images/blank.png";
-        }
-        String color;
-        switch (station.getDepartment().getDepartmentType()) {
-            case FIRE_DEPARTMENT -> color = "#dc212a";
-            case POLICE_DEPARTMENT -> color = "#03132d";
-            case MEDIC_DEPARTMENT -> color = "#840705";
-            default -> color = "white";
-        }
-        ImageView imageView = utilsView.departmentIcon(iconPath, color);
+        ImageView imageView = utilsView.smallShadowIcon(utilsView.departmentIconPath(station.getDepartment()), utilsView.departmentIconColor(station.getDepartment()));
         FadeTransition fadeTransition = utilsView.departmentIconTransition(imageView);
         Group group = mapElementsGroup(imageView, point, fadeTransition);
         utilsView.addToMap(pane, group);

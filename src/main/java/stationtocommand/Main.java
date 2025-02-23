@@ -24,7 +24,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        Scene scene = new Scene(view.getGridPane(), 800, 600);
+        Scene scene = new Scene(view.getGridPane(), 1920, 1080);
 
         primaryStage.setTitle("Station To Command");
         primaryStage.setMaximized(true);

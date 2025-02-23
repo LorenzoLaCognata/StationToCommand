@@ -60,6 +60,12 @@ public class UnitManager {
 				.toList();
 	}
 
+	public List<Unit> getAvailableUnits(UnitType unitType) {
+		return getUnits(unitType).stream()
+				.filter(item -> item.getUnitStatus().equals(UnitStatus.AVAILABLE))
+				.toList();
+	}
+
 	public void addUnit(DepartmentType departmentType, UnitType unitType, StationManager stationManager) {
 		if (departmentType == DepartmentType.FIRE_DEPARTMENT) {
 			this.units.add(new FireUnit(station, unitType, stationManager.nextUnitNumber()));

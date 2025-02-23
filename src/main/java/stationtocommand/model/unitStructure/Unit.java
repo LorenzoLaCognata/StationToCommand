@@ -16,6 +16,7 @@ public abstract class Unit {
 
     private final Station station;
     private final UnitType unitType;
+    private UnitStatus unitStatus;
     private final int number;
     private final List<UnitResponderLink> responderLinks;
     private final List<UnitVehicleLink> vehicleLinks;
@@ -24,6 +25,7 @@ public abstract class Unit {
     public Unit(Station station, UnitType unitType, int number) {
         this.station = station;
         this.unitType = unitType;
+        this.unitStatus = UnitStatus.AVAILABLE;
 		this.number = number;
         this.responderLinks = new ArrayList<>();
         this.vehicleLinks = new ArrayList<>();
@@ -43,6 +45,10 @@ public abstract class Unit {
         return unitType;
     }
 
+    public UnitStatus getUnitStatus() {
+        return unitStatus;
+    }
+
     public int getNumber() {
         return number;
     }
@@ -57,6 +63,10 @@ public abstract class Unit {
 
     public List<UnitEquipmentLink> getEquipmentLinks() {
         return equipmentLinks;
+    }
+
+    public void setUnitStatus(UnitStatus unitStatus) {
+        this.unitStatus = unitStatus;
     }
 
     public List<Responder> getResponders() {

@@ -2,6 +2,7 @@ package stationtocommand.model.stationStructure;
 
 import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.model.locationStructure.LocationManager;
+import stationtocommand.model.unitStructure.UnitStatus;
 import stationtocommand.model.unitTypeStructure.UnitType;
 
 import java.util.ArrayList;
@@ -55,8 +56,22 @@ public class StationManager {
 	public List<Station> stationsMatchingUnitType(UnitType unitType) {
 		return stations.stream()
 				.filter(station -> station.getUnits()
-						.stream().anyMatch(unit -> unit.getUnitType().equals(unitType)))
+					.stream().anyMatch(unit -> unit.getUnitType().equals(unitType)))
 				.toList();
+	}
+
+	public List<Station> availableStationsMatchingAllUnitTypes(List<UnitType> unitTypes) {
+		return stationsMatchingAllUnitTypes(unitTypes).stream()
+			.filter(station -> station.getUnits().stream()
+				.anyMatch(unit -> unit.getUnitStatus().equals(UnitStatus.AVAILABLE)))
+			.toList();
+	}
+
+	public List<Station> availableStationsMatchingUnitType(UnitType unitType) {
+		return stationsMatchingUnitType(unitType).stream()
+			.filter(station -> station.getUnits().stream()
+				.anyMatch(unit -> unit.getUnitStatus().equals(UnitStatus.AVAILABLE)))
+			.toList();
 	}
 
 	public int nextStationNumber() {

@@ -40,21 +40,7 @@ public class DepartmentListView {
 
         HBox hBox = new HBox(10);
 
-        String iconPath;
-        switch (department.getDepartmentType()) {
-            case FIRE_DEPARTMENT -> iconPath = "/images/fireDepartment.png";
-            case POLICE_DEPARTMENT -> iconPath = "/images/policeDepartment.png";
-            case MEDIC_DEPARTMENT -> iconPath = "/images/medicDepartment.png";
-            default -> iconPath = "/images/blank.png";
-        }
-        String color;
-        switch (department.getDepartmentType()) {
-            case FIRE_DEPARTMENT -> color = "#dc212a";
-            case POLICE_DEPARTMENT -> color = "#03132d";
-            case MEDIC_DEPARTMENT -> color = "#840705";
-            default -> color = "white";
-        }
-        ImageView imageView = utilsView.departmentSmallIcon(iconPath, color);
+        ImageView imageView = utilsView.smallIcon(utilsView.departmentIconPath(department));
         hBox.getChildren().add(imageView);
 
         Button button = new Button(department.getDepartmentType().toString() + " Department");

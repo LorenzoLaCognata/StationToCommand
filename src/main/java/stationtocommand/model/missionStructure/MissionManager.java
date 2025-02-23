@@ -11,6 +11,7 @@ import stationtocommand.model.stationStructure.Station;
 import stationtocommand.model.stationStructure.StationManager;
 import stationtocommand.model.unitStructure.Unit;
 import stationtocommand.model.unitStructure.UnitManager;
+import stationtocommand.model.unitStructure.UnitStatus;
 import stationtocommand.model.unitTypeStructure.FireUnitType;
 import stationtocommand.model.unitTypeStructure.MedicUnitType;
 import stationtocommand.model.unitTypeStructure.PoliceUnitType;
@@ -51,14 +52,20 @@ public class MissionManager {
         this.missions.add(mission);
     }
 
-    public Mission generateMission(LocationManager locationManager) {
-        MissionType randomMissionType = Utils.getRandomEnumValue(MissionType.class);
-        Mission mission = new Mission(randomMissionType, locationManager.generateLocation());
+    public Mission generateMission(LocationManager locationManager, MissionType missionType) {
+        Mission mission = new Mission(missionType, locationManager.generateLocation());
         addMission(mission);
         return mission;
     }
 
+    public Mission generateMission(LocationManager locationManager) {
+        MissionType randomMissionType = Utils.getRandomEnumValue(MissionType.class);
+        return generateMission(locationManager, randomMissionType);
+    }
+
     public void dispatchMissionToDepartment(Mission mission) {
+
+        System.out.println("Start dispatch to department for " + mission);
 
         if (mission.getDepartmentLinks().isEmpty()) {
             List<DepartmentType> departmentTypes = requiredDepartmentTypes(mission.getMissionType());
@@ -67,30 +74,101 @@ public class MissionManager {
                 mission.linkDepartment(departmentManager.getDepartment(departmentType));
             }
         }
+
+        System.out.println("Finish dispatch to department for " + mission);
+
+    }
+
+    public void dispatchMissionToUnit(MissionDepartmentLink missionDepartmentLink) {
+
+        System.out.println("Start dispatch to unit for " + missionDepartmentLink.getMission());
+
+        if (missionDepartmentLink.getStationLinks().isEmpty()) {
+
+            System.out.println("a " + missionDepartmentLink.getStationLinks().size());
+            Mission mission = missionDepartmentLink.getMission();
+            MissionType missionType = mission.getMissionType();
+
+            Department department = missionDepartmentLink.getDepartment();
+            DepartmentType departmentType = department.getDepartmentType();
+
+            List<UnitType> unitTypes = requiredUnitTypes(missionType, departmentType);
+
+            StationManager stationManager = department.getStationManager();
+            List<Station> stationsMatchingAllUnitTypes = stationManager.availableStationsMatchingAllUnitTypes(unitTypes);
+
+            if (!stationsMatchingAllUnitTypes.isEmpty()) {
+
+                System.out.println("b " + stationsMatchingAllUnitTypes.size());
+                // TODO: select the closest/appropriate station to dispatch the mission to
+                int randomStation = Utils.randomGenerator.nextInt(stationsMatchingAllUnitTypes.size());
+                System.out.println("randomStation = " + randomStation);
+                Station station = stationsMatchingAllUnitTypes.get(randomStation);
+                missionDepartmentLink.linkStation(station);
+
+                MissionStationLink missionStationLink = missionDepartmentLink.getStationLink(station);
+                UnitManager unitManager = station.getUnitManager();
+
+                for (UnitType unitType : unitTypes) {
+
+                    System.out.println("c " + unitType);
+                    List<Unit> units = unitManager.getAvailableUnits(unitType);
+
+                    if (!units.isEmpty()) {
+                        Unit unit = units.getFirst();
+                        unit.setUnitStatus(UnitStatus.DISPATCHED);
+                        missionStationLink.getMission().linkUnit(unit);
+                        System.out.println("Mission " + mission + " dispatched to " + unit + " which has now status " + unit.getUnitStatus());
+                    }
+                }
+            }
+
+            else {
+
+                System.out.println("d");
+                for (UnitType unitType : unitTypes) {
+                    List<Station> stationsMatchingUnitType = stationManager.availableStationsMatchingUnitType(unitType);
+                    if (!stationsMatchingUnitType.isEmpty()) {
+
+                        System.out.println("e");
+                        // TODO: select the closest/appropriate station to dispatch the mission to
+                        int randomStation = Utils.randomGenerator.nextInt(stationsMatchingUnitType.size());
+                        Station station = stationsMatchingUnitType.get(randomStation);
+                        missionDepartmentLink.linkStation(station);
+
+                        MissionStationLink missionStationLink = missionDepartmentLink.getStationLink(station);
+                        List<Unit> units = station.getUnitManager().getAvailableUnits(unitType);
+
+                        if (!units.isEmpty()) {
+                            Unit unit = units.getFirst();
+                            unit.setUnitStatus(UnitStatus.DISPATCHED);
+                            missionStationLink.getMission().linkUnit(unit);
+                            System.out.println("Mission " + mission + " dispatched to " + unit + " which has now status " + unit.getUnitStatus());
+                        }
+
+                    }
+                }
+            }
+        }
+
+        System.out.println("Finish dispatch to unit for " + missionDepartmentLink.getMission());
+
     }
 
     public List<DepartmentType> requiredDepartmentTypes(MissionType missionType) {
 
         List<DepartmentType> requiredDepartmentTypes = new ArrayList<>();
 
-        switch (missionType) {
-            case STRUCTURE_FIRE, VEHICLE_FIRE, WATER_RESCUE -> requiredDepartmentTypes.add(DepartmentType.FIRE_DEPARTMENT);
-            case BURGLARY, ASSAULT, DISTURBANCE, CROWD_CONTROL, HOMICIDE, DRUG_CRIME, VICE_CRIME ->
-                    requiredDepartmentTypes.add(DepartmentType.POLICE_DEPARTMENT);
-            case MEDICAL_EMERGENCY, TRAUMA_RESPONSE, CARDIAC_ARREST -> requiredDepartmentTypes.add(DepartmentType.MEDIC_DEPARTMENT);
-            case COLLAPSE_RESCUE -> {
-                requiredDepartmentTypes.add(DepartmentType.FIRE_DEPARTMENT);
-                requiredDepartmentTypes.add(DepartmentType.MEDIC_DEPARTMENT);
-            }
-            case POISONING_OVERDOSE -> {
-                requiredDepartmentTypes.add(DepartmentType.POLICE_DEPARTMENT);
-                requiredDepartmentTypes.add(DepartmentType.MEDIC_DEPARTMENT);
-            }
-            case TRAFFIC_INCIDENT -> {
-                requiredDepartmentTypes.add(DepartmentType.FIRE_DEPARTMENT);
-                requiredDepartmentTypes.add(DepartmentType.POLICE_DEPARTMENT);
-                requiredDepartmentTypes.add(DepartmentType.MEDIC_DEPARTMENT);
-            }
+        if (!requiredUnitTypes(missionType, DepartmentType.FIRE_DEPARTMENT).isEmpty()) {
+            requiredDepartmentTypes.add(DepartmentType.FIRE_DEPARTMENT);
+        }
+
+        if (!requiredUnitTypes(missionType, DepartmentType.POLICE_DEPARTMENT).isEmpty()) {
+            requiredDepartmentTypes.add(DepartmentType.POLICE_DEPARTMENT);
+        }
+
+        if (!requiredUnitTypes(missionType, DepartmentType.MEDIC_DEPARTMENT).isEmpty()) {
+            requiredDepartmentTypes.add(DepartmentType.MEDIC_DEPARTMENT);
         }
 
         return requiredDepartmentTypes;
@@ -149,60 +227,6 @@ public class MissionManager {
             }
         }
         return requiredUnitTypes;
-    }
-
-    public void dispatchMissionToUnit(MissionDepartmentLink missionDepartmentLink) {
-
-        if (missionDepartmentLink.getStationLinks().isEmpty()) {
-            Mission mission = missionDepartmentLink.getMission();
-            MissionType missionType = mission.getMissionType();
-
-            Department department = missionDepartmentLink.getDepartment();
-            DepartmentType departmentType = department.getDepartmentType();
-
-            List<UnitType> unitTypes = requiredUnitTypes(missionType, departmentType);
-
-            StationManager stationManager = department.getStationManager();
-            List<Station> stationsMatchingAllUnitTypes = stationManager.stationsMatchingAllUnitTypes(unitTypes);
-
-            if (!stationsMatchingAllUnitTypes.isEmpty()) {
-                // TODO: select the closest/appropriate station to dispatch the mission to
-                int randomStation = Utils.randomGenerator.nextInt(stationsMatchingAllUnitTypes.size());
-                Station station = stationsMatchingAllUnitTypes.get(randomStation);
-                missionDepartmentLink.linkStation(station);
-
-                MissionStationLink missionStationLink = missionDepartmentLink.getStationLink(station);
-                UnitManager unitManager = station.getUnitManager();
-
-                for (UnitType unitType : unitTypes) {
-                    Unit unit = unitManager.getUnits(unitType).getFirst();
-                    if (unit != null) {
-                        missionStationLink.linkUnit(unit);
-                    }
-                }
-            }
-
-            else {
-                for (UnitType unitType : unitTypes) {
-                    List<Station> stationsMatchingUnitType = stationManager.stationsMatchingUnitType(unitType);
-                    if (!stationsMatchingUnitType.isEmpty()) {
-                        // TODO: select the closest/appropriate station to dispatch the mission to
-                        int randomStation = Utils.randomGenerator.nextInt(stationsMatchingUnitType.size());
-                        Station station = stationsMatchingUnitType.get(randomStation);
-                        missionDepartmentLink.linkStation(station);
-
-                        MissionStationLink missionStationLink = missionDepartmentLink.getStationLink(station);
-
-                        Unit unit = station.getUnitManager().getUnits(unitType).getFirst();
-                        if (unit != null) {
-                            missionStationLink.linkUnit(unit);
-                        }
-
-                    }
-                }
-            }
-        }
-
     }
 
 }

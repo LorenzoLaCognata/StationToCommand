@@ -15,6 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import org.controlsfx.control.BreadCrumbBar;
+import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.model.locationStructure.Location;
 import stationtocommand.model.locationStructure.LocationManager;
 import stationtocommand.view.View;
@@ -112,24 +113,39 @@ public class UtilsView {
     }
 
     public Point2D locationToPoint(Location location) {
-        double x = normalize(location.longitude(), LocationManager.MIN_LONGITUDE, LocationManager.MAX_LONGITUDE) * View.SCENE_WIDTH;
-        double y = (1 - normalize(location.latitude(), LocationManager.MIN_LATITUDE, LocationManager.MAX_LATITUDE)) * View.SCENE_HEIGHT;
+        double x = normalize(location.longitude(), LocationManager.MIN_LONGITUDE, LocationManager.MAX_LONGITUDE) * View.MAP_WIDTH;
+        double y = (1 - normalize(location.latitude(), LocationManager.MIN_LATITUDE, LocationManager.MAX_LATITUDE)) * View.MAP_HEIGHT;
         return new Point2D(x, y);
     }
 
-    public ImageView departmentIcon(String iconPath, String color) {
-        ImageView stationIcon = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(iconPath)).toExternalForm()));
-        stationIcon.setFitWidth(40);
-        stationIcon.setFitHeight(40);
-        stationIcon.setStyle("-fx-effect: dropshadow(gaussian, " + color + ", 20, 0.3, 0, 0);");
-        return stationIcon;
+    public ImageView basicIcon(String iconPath) {
+        return new ImageView(new Image(Objects.requireNonNull(getClass().getResource(iconPath)).toExternalForm()));
     }
 
-    public ImageView departmentSmallIcon(String iconPath, String color) {
-        ImageView stationIcon = departmentIcon(iconPath, color);
-        stationIcon.setFitWidth(30);
-        stationIcon.setFitHeight(30);
-        return stationIcon;
+    public ImageView mediumIcon(String iconPath) {
+        ImageView imageView = basicIcon(iconPath);
+        imageView.setFitWidth(40);
+        imageView.setFitHeight(40);
+        return imageView;
+    }
+
+    public ImageView mediumShadowIcon(String iconPath, String color) {
+        ImageView imageView = mediumIcon(iconPath);
+        imageView.setStyle("-fx-effect: dropshadow(gaussian, " + color + ", 20, 0.3, 0, 0);");
+        return imageView;
+    }
+
+    public ImageView smallIcon(String iconPath) {
+        ImageView imageView = basicIcon(iconPath);
+        imageView.setFitWidth(30);
+        imageView.setFitHeight(30);
+        return imageView;
+    }
+
+    public ImageView smallShadowIcon(String iconPath, String color) {
+        ImageView imageView = smallIcon(iconPath);
+        imageView.setStyle("-fx-effect: dropshadow(gaussian, " + color + ", 20, 0.3, 0, 0);");
+        return imageView;
     }
 
     public FadeTransition departmentIconTransition(ImageView stationIcon) {
@@ -158,6 +174,28 @@ public class UtilsView {
         group.setLayoutX(point.getX());
         group.setLayoutY(point.getY());
         addToMap(pane, group);
+    }
+
+    public String departmentIconPath(Department department) {
+        String iconPath;
+        switch (department.getDepartmentType()) {
+            case FIRE_DEPARTMENT -> iconPath = "/images/fireDepartment.png";
+            case POLICE_DEPARTMENT -> iconPath = "/images/policeDepartment.png";
+            case MEDIC_DEPARTMENT -> iconPath = "/images/medicDepartment.png";
+            default -> iconPath = "/images/blank.png";
+        }
+        return iconPath;
+    }
+
+    public String departmentIconColor(Department department) {
+        String iconColor;
+        switch (department.getDepartmentType()) {
+            case FIRE_DEPARTMENT -> iconColor = "#dc212a";
+            case POLICE_DEPARTMENT -> iconColor = "#03132d";
+            case MEDIC_DEPARTMENT -> iconColor = "#840705";
+            default -> iconColor = "white";
+        }
+        return iconColor;
     }
 
 }

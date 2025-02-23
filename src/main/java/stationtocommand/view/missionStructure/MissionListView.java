@@ -1,6 +1,7 @@
 package stationtocommand.view.missionStructure;
 
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
@@ -36,50 +37,28 @@ public class MissionListView {
 
     private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, Mission mission) {
 
+        HBox hBox = new HBox(10);
+        pane1.getChildren().add(hBox);
+
         Button button = new Button(mission.toString());
         button.setOnAction(_ -> missionView.show(breadCrumbBar, pane1, pane2, mission));
-
         // TODO: replace label with department icons
-        //ImageView icon = new ImageView("icon.png"); // Example icon
-        HBox hBox = new HBox(10);
         hBox.getChildren().add(button);
 
-        if (mission.getDepartmentLinks().isEmpty()) {
-            // TODO: to double check, should I add it to hbox instead?
-            pane1.getChildren().add(button);
-        }
-        else {
-            for (int i=0; i<mission.getDepartmentLinks().size(); i++) {
-                String string = "";
-                MissionDepartmentLink missionDepartmentLink = mission.getDepartmentLinks().get(i);
-                if (missionDepartmentLink.getStationLinks().isEmpty()) {
-                    string = string + missionDepartmentLink.getDepartment();
-                }
-                else {
-                    for (int j = 0; j < missionDepartmentLink.getStationLinks().size(); j++) {
-                        MissionStationLink missionStationLink = missionDepartmentLink.getStationLinks().get(j);
-                        if (missionStationLink.getUnitLinks().isEmpty()) {
-                            if (j > 0) {
-                                string = string + ", ";
-                            }
-                            string = string + missionStationLink.getStation();
-                        }
-                        else {
-                            for (int k = 0; k < missionStationLink.getUnitLinks().size(); k++) {
-                                MissionUnitLink missionUnitLink = missionStationLink.getUnitLinks().get(k);
-                                if (k > 0) {
-                                    string = string + ", ";
-                                }
-                                string = string + missionUnitLink.getUnit();
-                            }
+        if (!mission.getDepartmentLinks().isEmpty()) {
+            for (MissionDepartmentLink missionDepartmentLink : mission.getDepartmentLinks()) {
+                ImageView imageView = utilsView.smallIcon(utilsView.departmentIconPath(missionDepartmentLink.getDepartment()));
+                hBox.getChildren().add(imageView);
+
+                for (MissionStationLink missionStationLink : missionDepartmentLink.getStationLinks()) {
+                    if (!missionStationLink.getUnitLinks().isEmpty()) {
+                        for (MissionUnitLink missionUnitLink : missionStationLink.getUnitLinks()) {
+                            utilsView.addLabel(hBox, missionUnitLink.getUnit().toString());
                         }
                     }
                 }
-                utilsView.addLabel(hBox, string);
             }
-            pane1.getChildren().add(hBox);
         }
-
     }
 
 }

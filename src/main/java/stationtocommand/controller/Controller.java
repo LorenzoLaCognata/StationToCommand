@@ -10,6 +10,7 @@ import stationtocommand.model.departmentStructure.DepartmentType;
 import stationtocommand.model.locationStructure.Location;
 import stationtocommand.model.locationStructure.LocationManager;
 import stationtocommand.model.missionStructure.Mission;
+import stationtocommand.model.missionStructure.MissionType;
 import stationtocommand.model.objectiveStructure.Objective;
 import stationtocommand.model.objectiveStructure.ObjectiveType;
 import stationtocommand.model.personStructure.Civilian;
@@ -23,6 +24,7 @@ import stationtocommand.model.trainingStructure.Training;
 import stationtocommand.model.trainingStructure.TrainingType;
 import stationtocommand.model.unitStructure.Unit;
 import stationtocommand.model.unitStructure.UnitLink;
+import stationtocommand.model.unitStructure.UnitStatus;
 import stationtocommand.model.unitTypeStructure.FireUnitType;
 import stationtocommand.model.utilsStructure.Utils;
 import stationtocommand.model.vehicleStructure.Vehicle;
@@ -88,7 +90,7 @@ public class Controller {
             }
         }
 
-        Mission sampleMission = model.getMissionManager().generateMission(model.getLocationManager());
+        Mission sampleMission = model.getMissionManager().generateMission(model.getLocationManager(), MissionType.VEHICLE_FIRE);
 
         List<Task> sampleTasks = model.getTaskManager().generateTasks(sampleMission);
 
@@ -110,10 +112,9 @@ public class Controller {
         sampleMission.linkStation(station);
 
         if (!station.getUnitManager().getUnits(FireUnitType.FIRE_ENGINE).isEmpty()) {
-            sampleMission.linkUnit(station.getUnitManager().getUnits(FireUnitType.FIRE_ENGINE).getFirst());
-        }
-        if (!station.getUnitManager().getUnits(FireUnitType.FIRE_TRUCK).isEmpty()) {
-            sampleMission.linkUnit(station.getUnitManager().getUnits(FireUnitType.FIRE_TRUCK).getFirst());
+            Unit unit = station.getUnitManager().getUnits(FireUnitType.FIRE_ENGINE).getFirst();
+            unit.setUnitStatus(UnitStatus.DISPATCHED);
+            sampleMission.linkUnit(unit);
         }
 
         sampleMission.linkObjective(new Objective(ObjectiveType.EVACUATE_CIVILIANS));
@@ -163,7 +164,6 @@ public class Controller {
         for (int i=0; i<100; i++) {
             scheduler.scheduleEvent(System.currentTimeMillis(), ScheduledEventType.MISSION_QUEUEING, null);
         }
-        scheduler.startGameClock();
     }
 
     public Scheduler getScheduler() {
