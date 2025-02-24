@@ -47,7 +47,7 @@ public class MissionListView {
 
         if (!mission.getDepartmentLinks().isEmpty()) {
             for (MissionDepartmentLink missionDepartmentLink : mission.getDepartmentLinks()) {
-                ImageView imageView = utilsView.smallIcon(utilsView.departmentIconPath(missionDepartmentLink.getDepartment()));
+                ImageView imageView = utilsView.smallIcon(utilsView.departmentIconPath(missionDepartmentLink.getDepartment().getDepartmentType()));
                 hBox.getChildren().add(imageView);
 
                 for (MissionStationLink missionStationLink : missionDepartmentLink.getStationLinks()) {

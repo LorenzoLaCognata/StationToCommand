@@ -16,8 +16,15 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.departmentStructure.Department;
+import stationtocommand.model.departmentStructure.DepartmentType;
 import stationtocommand.model.locationStructure.Location;
 import stationtocommand.model.locationStructure.LocationManager;
+import stationtocommand.model.stationStructure.Station;
+import stationtocommand.model.unitStructure.Unit;
+import stationtocommand.model.unitTypeStructure.FireUnitType;
+import stationtocommand.model.unitTypeStructure.MedicUnitType;
+import stationtocommand.model.unitTypeStructure.PoliceUnitType;
+import stationtocommand.model.unitTypeStructure.UnitType;
 import stationtocommand.view.View;
 
 import java.time.format.DateTimeFormatter;
@@ -176,23 +183,41 @@ public class UtilsView {
         addToMap(pane, group);
     }
 
-    public String stationIconPath(Department department) {
+    public String unitIconPath(UnitType unitType) {
         String iconPath;
-        switch (department.getDepartmentType()) {
-            case FIRE_DEPARTMENT -> iconPath = "/images/fireStation.png";
-            case POLICE_DEPARTMENT -> iconPath = "/images/policeStation.png";
-            case MEDIC_DEPARTMENT -> iconPath = "/images/medicStation.png";
+        switch (unitType) {
+            case FireUnitType.FIRE_ENGINE -> iconPath = "/images/unit/fireEngine.png";
+            case FireUnitType.FIRE_TRUCK -> iconPath = "/images/unit/fireTruck.png";
+            case FireUnitType.RESCUE_SQUAD -> iconPath = "/images/unit/rescueSquad.png";
+            case PoliceUnitType.PATROL_UNIT -> iconPath = "/images/unit/patrolUnit.png";
+            case PoliceUnitType.DETECTIVE_UNIT -> iconPath = "/images/unit/detectiveUnit.png";
+            case PoliceUnitType.HOMICIDE_UNIT -> iconPath = "/images/unit/homicideUnit.png";
+            case PoliceUnitType.NARCOTICS_UNIT -> iconPath = "/images/unit/narcoticsUnit.png";
+            case PoliceUnitType.VICE_UNIT -> iconPath = "/images/unit/viceUnit.png";
+            case MedicUnitType.PRIMARY_CARE_UNIT -> iconPath = "/images/unit/primaryCare.png";
+            case MedicUnitType.CRITICAL_CARE_UNIT -> iconPath = "/images/unit/criticalCare.png";
             default -> iconPath = "/images/blank.png";
         }
         return iconPath;
     }
 
-    public String departmentIconPath(Department department) {
+    public String stationIconPath(DepartmentType departmentType) {
         String iconPath;
-        switch (department.getDepartmentType()) {
-            case FIRE_DEPARTMENT -> iconPath = "/images/fireDepartment.png";
-            case POLICE_DEPARTMENT -> iconPath = "/images/policeDepartment.png";
-            case MEDIC_DEPARTMENT -> iconPath = "/images/medicDepartment.png";
+        switch (departmentType) {
+            case FIRE_DEPARTMENT -> iconPath = "/images/station/fireStation.png";
+            case POLICE_DEPARTMENT -> iconPath = "/images/station/policeStation.png";
+            case MEDIC_DEPARTMENT -> iconPath = "/images/station/medicStation.png";
+            default -> iconPath = "/images/blank.png";
+        }
+        return iconPath;
+    }
+
+    public String departmentIconPath(DepartmentType departmentType) {
+        String iconPath;
+        switch (departmentType) {
+            case FIRE_DEPARTMENT -> iconPath = "/images/department/fireDepartment.png";
+            case POLICE_DEPARTMENT -> iconPath = "/images/department/policeDepartment.png";
+            case MEDIC_DEPARTMENT -> iconPath = "/images/department/medicDepartment.png";
             default -> iconPath = "/images/blank.png";
         }
         return iconPath;

@@ -24,10 +24,14 @@ public class ResponderListView {
 
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, List<Responder> responders) {
         utilsView.addHeadingLabel(pane, "Responders");
-        for (Responder responder : responders) {
-            Button button = new Button(responder.toString());
-            button.setOnAction(_ -> responderView.show(breadCrumbBar, pane, responder));
-            pane.getChildren().add(button);
+
+        // TODO: review different approach to avoid showing too many responders
+        if (responders.size()<20) {
+            for (Responder responder : responders) {
+                Button button = new Button(responder.toString());
+                button.setOnAction(_ -> responderView.show(breadCrumbBar, pane, responder));
+                pane.getChildren().add(button);
+            }
         }
     }
 

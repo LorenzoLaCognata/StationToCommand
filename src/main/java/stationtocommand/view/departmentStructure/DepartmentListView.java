@@ -37,10 +37,9 @@ public class DepartmentListView {
     }
 
     private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, Department department) {
-
         HBox hBox = new HBox(10);
 
-        ImageView imageView = utilsView.smallIcon(utilsView.departmentIconPath(department));
+        ImageView imageView = utilsView.smallIcon(utilsView.departmentIconPath(department.getDepartmentType()));
         hBox.getChildren().add(imageView);
 
         Button button = new Button(department.getDepartmentType().toString() + " Department");
@@ -48,7 +47,6 @@ public class DepartmentListView {
         hBox.getChildren().add(button);
 
         pane1.getChildren().add(hBox);
-
     }
 
 }
