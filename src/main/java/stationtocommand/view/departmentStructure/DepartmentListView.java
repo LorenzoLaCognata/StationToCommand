@@ -27,7 +27,7 @@ public class DepartmentListView {
     }
 
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, List<Department> departments) {
-        utilsView.addHeadingLabel(pane1, "Departments");
+        utilsView.addHeadingLabelToPane(pane1, "Departments");
         for (Department department : departments) {
             showSidebar(breadCrumbBar, pane1, pane2, department);
             for (Station station : department.getStations()) {

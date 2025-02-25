@@ -46,7 +46,7 @@ public class MissionView {
             default -> iconPath = "/images/blank.png";
         }
         ImageView imageView = utilsView.mediumShadowIcon(iconPath, "red");
-        utilsView.addImageToMap(pane, imageView, point);
+        utilsView.addNodeToPane(pane, imageView, point);
     }
 
 }

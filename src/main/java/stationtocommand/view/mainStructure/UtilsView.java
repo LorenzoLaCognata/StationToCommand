@@ -4,7 +4,6 @@ import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -19,8 +18,7 @@ import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.model.departmentStructure.DepartmentType;
 import stationtocommand.model.locationStructure.Location;
 import stationtocommand.model.locationStructure.LocationManager;
-import stationtocommand.model.stationStructure.Station;
-import stationtocommand.model.unitStructure.Unit;
+import stationtocommand.model.unitStructure.UnitStatus;
 import stationtocommand.model.unitTypeStructure.FireUnitType;
 import stationtocommand.model.unitTypeStructure.MedicUnitType;
 import stationtocommand.model.unitTypeStructure.PoliceUnitType;
@@ -68,7 +66,7 @@ public class UtilsView {
         pane.getChildren().addAll(hBox);
     }
 
-    public void addHeadingLabel(Pane pane, String text) {
+    public void addHeadingLabelToPane(Pane pane, String text) {
         Label label = new Label(text);
         label.setStyle("""
             -fx-text-fill: white;
@@ -85,7 +83,19 @@ public class UtilsView {
         pane.getChildren().add(label);
     }
 
-    public void addLabel(Pane pane, String text) {
+    public void addHeading2LabelToPane(Pane pane, String text) {
+        Label label = new Label(text);
+        label.setStyle("""
+            -fx-text-fill: white;
+            -fx-font-size: 20px;
+            -fx-font-weight: bold;
+            -fx-padding: 10px 15px;
+            -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 5, 0.3, 0, 0);
+        """);
+        pane.getChildren().add(label);
+    }
+
+    public void addLabelToPane(Pane pane, String text) {
         Label label = new Label(text);
         label.setStyle("""
             -fx-text-fill: white;
@@ -111,7 +121,13 @@ public class UtilsView {
         }
     }
 
-    public void addToMap(Pane pane, Node node) {
+    public void addNodeToPane(Pane pane, Node node, Point2D point) {
+        node.setLayoutX(point.getX());
+        node.setLayoutY(point.getY());
+        addNodeToPane(pane, node);
+    }
+
+    public void addNodeToPane(Pane pane, Node node) {
         pane.getChildren().addAll(node);
     }
 
@@ -155,8 +171,7 @@ public class UtilsView {
         return imageView;
     }
 
-    public FadeTransition departmentIconTransition(ImageView stationIcon) {
-
+    public FadeTransition iconTransition(ImageView stationIcon) {
         FadeTransition flash = new FadeTransition(Duration.seconds(0.5), stationIcon);
         flash.setFromValue(1.0);
         flash.setToValue(0.5);
@@ -164,23 +179,6 @@ public class UtilsView {
         flash.setAutoReverse(true);
 
         return flash;
-    }
-
-    public ImageView generateIcon(String iconPath) {
-        ImageView missionIcon = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(iconPath)).toExternalForm()));
-        missionIcon.setFitWidth(40);
-        missionIcon.setFitHeight(40);
-        missionIcon.setOpacity(0.85);
-        missionIcon.setStyle("-fx-effect: dropshadow(gaussian, yellow, 15, 0.7, 0, 0);");
-        return missionIcon;
-    }
-
-    public void addImageToMap(Pane pane, ImageView imageView, Point2D point) {
-        Group group = new Group();
-        group.getChildren().add(imageView);
-        group.setLayoutX(point.getX());
-        group.setLayoutY(point.getY());
-        addToMap(pane, group);
     }
 
     public String unitIconPath(UnitType unitType) {
@@ -196,6 +194,19 @@ public class UtilsView {
             case PoliceUnitType.VICE_UNIT -> iconPath = "/images/unit/viceUnit.png";
             case MedicUnitType.PRIMARY_CARE_UNIT -> iconPath = "/images/unit/primaryCare.png";
             case MedicUnitType.CRITICAL_CARE_UNIT -> iconPath = "/images/unit/criticalCare.png";
+            default -> iconPath = "/images/blank.png";
+        }
+        return iconPath;
+    }
+
+    public String statusIconPath(UnitStatus unitStatus) {
+        String iconPath;
+        switch (unitStatus) {
+            case UnitStatus.AVAILABLE -> iconPath = "/images/status/availableStatus.png";
+            case UnitStatus.DISPATCHED -> iconPath = "/images/status/dispatchedStatus.png";
+            case UnitStatus.ON_SCENE -> iconPath = "/images/status/onSceneStatus.png";
+            case UnitStatus.RETURNING -> iconPath = "/images/status/returningStatus.png";
+            case UnitStatus.UNAVAILABLE -> iconPath = "/images/status/unavailableStatus.png";
             default -> iconPath = "/images/blank.png";
         }
         return iconPath;

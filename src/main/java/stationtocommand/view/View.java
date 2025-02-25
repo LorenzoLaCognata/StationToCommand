@@ -95,8 +95,8 @@ public class View {
 
         VBox vbox = new VBox(5);
         Responder responder = controller.getModel().getResponderManager().getPlayer();
-        utilsView.addLabel(vbox, responder.toString());
-        utilsView.addLabel(vbox, responder.getRank().toString());
+        utilsView.addLabelToPane(vbox, responder.toString());
+        utilsView.addLabelToPane(vbox, responder.getRank().toString());
         hud.getChildren().add(vbox);
 
         Button speed0Button = new Button("⏸");

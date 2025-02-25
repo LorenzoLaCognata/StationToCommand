@@ -5,9 +5,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
+import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.model.departmentStructure.DepartmentType;
 import stationtocommand.model.stationStructure.Station;
-import stationtocommand.model.unitStructure.Unit;
 import stationtocommand.model.unitTypeStructure.FireUnitType;
 import stationtocommand.model.unitTypeStructure.MedicUnitType;
 import stationtocommand.model.unitTypeStructure.PoliceUnitType;
@@ -16,8 +16,6 @@ import stationtocommand.view.mainStructure.UtilsView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class StationListView {
 
@@ -35,8 +33,14 @@ public class StationListView {
         return stationView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, List<Station> stations) {
-        utilsView.addHeadingLabel(pane1, "Stations");
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, Department department, List<Station> stations) {
+        HBox hBox = new HBox(10);
+        ImageView imageView = utilsView.mediumIcon(utilsView.departmentIconPath(department.getDepartmentType()));
+        utilsView.addNodeToPane(hBox, imageView);
+        utilsView.addHeading2LabelToPane(hBox, department.toString());
+        utilsView.addNodeToPane(pane1, hBox);
+
+        utilsView.addHeadingLabelToPane(pane1, "Stations");
         for (Station station : stations) {
             showSidebar(breadCrumbBar, pane1, pane2, station);
             stationView.showMap(pane2, station);

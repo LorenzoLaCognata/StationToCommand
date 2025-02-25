@@ -25,7 +25,7 @@ public class UnitListView {
     }
 
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, List<Unit> units) {
-        utilsView.addHeadingLabel(pane, "Units");
+        utilsView.addHeadingLabelToPane(pane, "Units");
         for (Unit unit : units) {
             HBox hBox = new HBox(10);
 
@@ -35,6 +35,9 @@ public class UnitListView {
             Button button = new Button(unit.toString());
             button.setOnAction(_ -> unitView.show(breadCrumbBar, pane, unit));
             hBox.getChildren().add(button);
+
+            ImageView statusImageView = utilsView.smallIcon(utilsView.statusIconPath(unit.getUnitStatus()));
+            hBox.getChildren().add(statusImageView);
 
             pane.getChildren().add(hBox);
         }

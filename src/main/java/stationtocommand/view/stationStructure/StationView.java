@@ -55,9 +55,7 @@ public class StationView {
     public void showMap(Pane pane, Station station) {
         Point2D point = utilsView.locationToPoint(station.getLocation());
         ImageView imageView = utilsView.smallShadowIcon(utilsView.stationIconPath(station.getDepartment().getDepartmentType()), utilsView.departmentIconColor(station.getDepartment()));
-        FadeTransition fadeTransition = utilsView.departmentIconTransition(imageView);
-        Group group = mapElementsGroup(imageView, point, fadeTransition);
-        utilsView.addToMap(pane, group);
+        utilsView.addNodeToPane(pane, imageView, point);
     }
 
     private Group mapElementsGroup(ImageView stationIcon, Point2D point, FadeTransition flash) {

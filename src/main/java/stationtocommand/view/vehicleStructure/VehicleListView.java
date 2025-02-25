@@ -23,7 +23,7 @@ public class VehicleListView {
     }
 
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, List<Vehicle> vehicles) {
-        utilsView.addHeadingLabel(pane, "Vehicles");
+        utilsView.addHeadingLabelToPane(pane, "Vehicles");
         for (Vehicle vehicle : vehicles) {
             Button button = new Button(vehicle.toString());
             button.setOnAction(_ -> vehicleView.show(breadCrumbBar, pane, vehicle));

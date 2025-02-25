@@ -32,8 +32,13 @@ public class MissionResponderView {
             case FEMALE -> iconPath = "/images/femaleResponder.png";
             default -> iconPath = "/images/blank.png";
         }
-        ImageView imageView = utilsView.generateIcon(iconPath);
-        utilsView.addImageToMap(pane, imageView, point);
+        String color = "";
+        switch (missionResponderLink.getResponder().getGender()) {
+            case MALE -> color = "blue";
+            case FEMALE -> color = "red";
+        }
+        ImageView imageView = utilsView.mediumShadowIcon(iconPath, color);
+        utilsView.addNodeToPane(pane, imageView, point);
     }
 
 }

@@ -26,7 +26,7 @@ public class DepartmentView {
         utilsView.addBreadCrumb(breadCrumbBar, department);
         utilsView.clearPane(pane1);
         utilsView.clearPane(pane2);
-        stationListView.show(breadCrumbBar, pane1, pane2, department.getStations());
+        stationListView.show(breadCrumbBar, pane1, pane2, department, department.getStations());
     }
 
 }
