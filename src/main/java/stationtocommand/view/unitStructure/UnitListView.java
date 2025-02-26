@@ -25,22 +25,35 @@ public class UnitListView {
     }
 
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, List<Unit> units) {
-        utilsView.addHeadingLabelToPane(pane, "Units");
+        utilsView.addSectionTitleLabel(pane, "Units");
         for (Unit unit : units) {
-            HBox hBox = new HBox(10);
-
-            ImageView imageView = utilsView.smallIcon(utilsView.unitIconPath(unit.getUnitType()));
-            hBox.getChildren().add(imageView);
-
-            Button button = new Button(unit.toString());
-            button.setOnAction(_ -> unitView.show(breadCrumbBar, pane, unit));
-            hBox.getChildren().add(button);
-
-            ImageView statusImageView = utilsView.smallIcon(utilsView.statusIconPath(unit.getUnitStatus()));
-            hBox.getChildren().add(statusImageView);
-
-            pane.getChildren().add(hBox);
+            showSidebar(breadCrumbBar, pane, unit);
         }
+    }
+
+    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane pane, Unit unit) {
+        HBox hBox = new HBox(10);
+        pane.getChildren().add(hBox);
+
+        showUnitIcon(unit, hBox);
+        showUnitButton(breadCrumbBar, pane, unit, hBox);
+        showUnitStatus(unit, hBox);
+    }
+
+    private void showUnitStatus(Unit unit, HBox hBox) {
+        ImageView statusImageView = utilsView.smallIcon(utilsView.unitStatusIconPath(unit.getUnitStatus()));
+        hBox.getChildren().add(statusImageView);
+    }
+
+    private void showUnitButton(BreadCrumbBar<Object> breadCrumbBar, Pane pane, Unit unit, HBox hBox) {
+        Button button = new Button(unit.toString());
+        button.setOnAction(_ -> unitView.show(breadCrumbBar, pane, unit));
+        hBox.getChildren().add(button);
+    }
+
+    private void showUnitIcon(Unit unit, HBox hBox) {
+        ImageView imageView = utilsView.smallIcon(utilsView.unitIconPath(unit.getUnitType()));
+        hBox.getChildren().add(imageView);
     }
 
 }

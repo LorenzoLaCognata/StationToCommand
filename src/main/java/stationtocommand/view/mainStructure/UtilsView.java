@@ -23,6 +23,10 @@ import stationtocommand.model.unitTypeStructure.FireUnitType;
 import stationtocommand.model.unitTypeStructure.MedicUnitType;
 import stationtocommand.model.unitTypeStructure.PoliceUnitType;
 import stationtocommand.model.unitTypeStructure.UnitType;
+import stationtocommand.model.vehicleStructure.VehicleType;
+import stationtocommand.model.vehicleStructure.FireVehicleType;
+import stationtocommand.model.vehicleStructure.PoliceVehicleType;
+import stationtocommand.model.vehicleStructure.MedicVehicleType;
 import stationtocommand.view.View;
 
 import java.time.format.DateTimeFormatter;
@@ -66,43 +70,49 @@ public class UtilsView {
         pane.getChildren().addAll(hBox);
     }
 
-    public void addHeadingLabelToPane(Pane pane, String text) {
+    public void addMainTitleLabel(Pane pane, String text) {
         Label label = new Label(text);
         label.setStyle("""
-            -fx-text-fill: white;
-            -fx-font-size: 14px;
-            -fx-font-weight: bold;
-            -fx-padding: 5px 10px;
-            -fx-background-color: rgba(60, 60, 60, 0.9);
-            -fx-background-radius: 6px;
-            -fx-border-color: #888;
-            -fx-border-width: 1px;
-            -fx-border-radius: 6px;
-            -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 5, 0.3, 0, 0);
-        """);
+        -fx-text-fill: white;
+        -fx-font-size: 18px;
+        -fx-font-weight: bold;
+        -fx-padding: 10px 15px;
+        -fx-background-color: rgba(50, 50, 50, 0.9);
+        -fx-background-radius: 6px;
+        -fx-border-color: #777;
+        -fx-border-width: 1px;
+        -fx-border-radius: 6px;
+        -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 5, 0.3, 0, 0);
+    """);
         pane.getChildren().add(label);
     }
 
-    public void addHeading2LabelToPane(Pane pane, String text) {
+    public void addSectionTitleLabel(Pane pane, String text) {
         Label label = new Label(text);
         label.setStyle("""
-            -fx-text-fill: white;
-            -fx-font-size: 20px;
-            -fx-font-weight: bold;
-            -fx-padding: 10px 15px;
-            -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 5, 0.3, 0, 0);
-        """);
+        -fx-text-fill: white;
+        -fx-font-size: 14px;
+        -fx-font-weight: bold;
+        -fx-padding: 7px 12px;
+        -fx-background-color: rgba(60, 60, 60, 0.9);
+        -fx-background-radius: 6px;
+        -fx-border-color: #777;
+        -fx-border-width: 1px;
+        -fx-border-radius: 6px;
+        -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 5, 0.3, 0, 0);
+    """);
         pane.getChildren().add(label);
     }
 
-    public void addLabelToPane(Pane pane, String text) {
+    public void addBodyLabel(Pane pane, String text) {
         Label label = new Label(text);
         label.setStyle("""
-            -fx-text-fill: white;
-            -fx-font-size: 12px;
-            -fx-padding: 5px 10px;
-            -fx-background-color: rgba(60, 60, 60, 0.9);
-        """);
+        -fx-text-fill: white;
+        -fx-font-size: 13px;
+        -fx-padding: 5px 10px;
+        -fx-background-color: rgba(60, 60, 60, 0.9);
+        -fx-background-radius: 4px;
+    """);
         pane.getChildren().add(label);
     }
 
@@ -181,6 +191,17 @@ public class UtilsView {
         return flash;
     }
 
+    public String vehicleIconPath(VehicleType vehicleType) {
+        String iconPath;
+        switch (vehicleType) {
+            case FireVehicleType.PUMPER -> iconPath = "/images/unit/pumperFireTruck.png";
+            case FireVehicleType.TOWER -> iconPath = "/images/unit/towerLadderTruck.png";
+            case FireVehicleType.RESCUE -> iconPath = "/images/unit/rescueTruck.png";
+            default -> iconPath = "/images/blank.png";
+        }
+        return iconPath;
+    }
+
     public String unitIconPath(UnitType unitType) {
         String iconPath;
         switch (unitType) {
@@ -199,7 +220,7 @@ public class UtilsView {
         return iconPath;
     }
 
-    public String statusIconPath(UnitStatus unitStatus) {
+    public String unitStatusIconPath(UnitStatus unitStatus) {
         String iconPath;
         switch (unitStatus) {
             case UnitStatus.AVAILABLE -> iconPath = "/images/status/availableStatus.png";

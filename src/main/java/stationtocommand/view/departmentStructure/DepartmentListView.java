@@ -27,7 +27,7 @@ public class DepartmentListView {
     }
 
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, List<Department> departments) {
-        utilsView.addHeadingLabelToPane(pane1, "Departments");
+        utilsView.addSectionTitleLabel(pane1, "Departments");
         for (Department department : departments) {
             showSidebar(breadCrumbBar, pane1, pane2, department);
             for (Station station : department.getStations()) {
@@ -38,15 +38,21 @@ public class DepartmentListView {
 
     private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, Department department) {
         HBox hBox = new HBox(10);
+        pane1.getChildren().add(hBox);
 
-        ImageView imageView = utilsView.smallIcon(utilsView.departmentIconPath(department.getDepartmentType()));
-        hBox.getChildren().add(imageView);
+        showDepartmentIcon(department, hBox);
+        showDepartmentButton(breadCrumbBar, pane1, pane2, department, hBox);
+    }
 
+    private void showDepartmentButton(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, Department department, HBox hBox) {
         Button button = new Button(department.getDepartmentType().toString() + " Department");
         button.setOnAction(_ -> departmentView.show(breadCrumbBar, pane1, pane2, department));
         hBox.getChildren().add(button);
+    }
 
-        pane1.getChildren().add(hBox);
+    private void showDepartmentIcon(Department department, HBox hBox) {
+        ImageView imageView = utilsView.smallIcon(utilsView.departmentIconPath(department.getDepartmentType()));
+        hBox.getChildren().add(imageView);
     }
 
 }

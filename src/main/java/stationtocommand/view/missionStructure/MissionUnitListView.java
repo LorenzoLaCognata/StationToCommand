@@ -22,7 +22,7 @@ public class MissionUnitListView {
     }
 
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, MissionStationLink missionStationLink) {
-        utilsView.addHeadingLabelToPane(pane1, "Units");
+        utilsView.addSectionTitleLabel(pane1, "Units");
         for (MissionUnitLink missionUnitLink : missionStationLink.getUnitLinks()) {
             Button button = new Button(missionUnitLink.getUnit().toString());
             button.setOnAction(_ -> missionUnitView.show(breadCrumbBar, pane1, pane2, missionUnitLink));

@@ -1,9 +1,8 @@
 package stationtocommand.view.stationStructure;
 
-import javafx.animation.FadeTransition;
 import javafx.geometry.Point2D;
-import javafx.scene.Group;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.stationStructure.Station;
@@ -46,35 +45,29 @@ public class StationView {
         utilsView.addBreadCrumb(breadCrumbBar, station);
         utilsView.clearPane(pane1);
         utilsView.clearPane(pane2);
+        showSidebar(breadCrumbBar, pane1, station);
         showMap(pane2, station);
+    }
+
+    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Station station) {
+        showStationDetails(pane1, station);
         unitListView.show(breadCrumbBar, pane1, station.getUnits());
         responderListView.show(breadCrumbBar, pane1, station.getResponders());
         vehicleListView.show(breadCrumbBar, pane1, station.getVehicles());
+    }
+
+    private void showStationDetails(Pane pane1, Station station) {
+        HBox hBox = new HBox(10);
+        ImageView imageView = utilsView.mediumIcon(utilsView.stationIconPath(station.getDepartment().getDepartmentType()));
+        utilsView.addNodeToPane(hBox, imageView);
+        utilsView.addMainTitleLabel(hBox, station.toString());
+        utilsView.addNodeToPane(pane1, hBox);
     }
 
     public void showMap(Pane pane, Station station) {
         Point2D point = utilsView.locationToPoint(station.getLocation());
         ImageView imageView = utilsView.smallShadowIcon(utilsView.stationIconPath(station.getDepartment().getDepartmentType()), utilsView.departmentIconColor(station.getDepartment()));
         utilsView.addNodeToPane(pane, imageView, point);
-    }
-
-    private Group mapElementsGroup(ImageView stationIcon, Point2D point, FadeTransition flash) {
-        // TODO: to improve station icon management
-        Group group = new Group();
-        group.getChildren().add(stationIcon);
-        group.setLayoutX(point.getX());
-        group.setLayoutY(point.getY());
-
-        group.setOnMouseClicked(_ -> {
-            isSelected = !isSelected;
-            if (!isSelected) {
-                flash.play();
-            }
-            else {
-                flash.stop();
-            }
-        });
-        return group;
     }
 
 }

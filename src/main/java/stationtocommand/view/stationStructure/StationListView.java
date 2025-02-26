@@ -5,7 +5,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
-import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.model.departmentStructure.DepartmentType;
 import stationtocommand.model.stationStructure.Station;
 import stationtocommand.model.unitTypeStructure.FireUnitType;
@@ -33,14 +32,8 @@ public class StationListView {
         return stationView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, Department department, List<Station> stations) {
-        HBox hBox = new HBox(10);
-        ImageView imageView = utilsView.mediumIcon(utilsView.departmentIconPath(department.getDepartmentType()));
-        utilsView.addNodeToPane(hBox, imageView);
-        utilsView.addHeading2LabelToPane(hBox, department.toString());
-        utilsView.addNodeToPane(pane1, hBox);
-
-        utilsView.addHeadingLabelToPane(pane1, "Stations");
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, List<Station> stations) {
+        utilsView.addSectionTitleLabel(pane1, "Stations");
         for (Station station : stations) {
             showSidebar(breadCrumbBar, pane1, pane2, station);
             stationView.showMap(pane2, station);
@@ -49,14 +42,25 @@ public class StationListView {
 
     private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, Station station) {
         HBox hBox = new HBox(10);
+        pane1.getChildren().add(hBox);
 
-        ImageView imageView = utilsView.smallIcon(utilsView.stationIconPath(station.getDepartment().getDepartmentType()));
-        hBox.getChildren().add(imageView);
+        showStationIcon(station, hBox);
+        showStationButton(breadCrumbBar, pane1, pane2, station, hBox);
+        showStationUnitTypes(station, hBox);
+    }
 
+    private void showStationButton(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, Station station, HBox hBox) {
         Button button = new Button(station.toString());
         button.setOnAction(_ -> stationView.show(breadCrumbBar, pane1, pane2, station));
         hBox.getChildren().add(button);
+    }
 
+    private void showStationIcon(Station station, HBox hBox) {
+        ImageView imageView = utilsView.smallIcon(utilsView.stationIconPath(station.getDepartment().getDepartmentType()));
+        hBox.getChildren().add(imageView);
+    }
+
+    private void showStationUnitTypes(Station station, HBox hBox) {
         List<UnitType> unitTypes;
 
         switch (station.getDepartment().getDepartmentType()) {
@@ -73,8 +77,6 @@ public class StationListView {
             }
             hBox.getChildren().add(unitImageView);
         }
-
-        pane1.getChildren().add(hBox);
     }
 
 }

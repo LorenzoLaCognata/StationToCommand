@@ -28,7 +28,7 @@ public class MissionListView {
     }
 
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, List<Mission> missions) {
-        utilsView.addHeadingLabelToPane(pane1, "Missions");
+        utilsView.addSectionTitleLabel(pane1, "Missions");
         for (Mission mission : missions) {
             showSidebar(breadCrumbBar, pane1, pane2, mission);
             missionView.showMap(pane2, mission);
@@ -53,7 +53,7 @@ public class MissionListView {
                 for (MissionStationLink missionStationLink : missionDepartmentLink.getStationLinks()) {
                     if (!missionStationLink.getUnitLinks().isEmpty()) {
                         for (MissionUnitLink missionUnitLink : missionStationLink.getUnitLinks()) {
-                            utilsView.addLabelToPane(hBox, missionUnitLink.getUnit().toString());
+                            utilsView.addBodyLabel(hBox, missionUnitLink.getUnit().toString());
                         }
                     }
                 }

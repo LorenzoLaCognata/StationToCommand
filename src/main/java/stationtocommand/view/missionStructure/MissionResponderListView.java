@@ -23,7 +23,7 @@ public class MissionResponderListView {
     }
 
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, MissionStationLink missionStationLink) {
-        utilsView.addHeadingLabelToPane(pane1, "Responders");
+        utilsView.addSectionTitleLabel(pane1, "Responders");
         for (MissionUnitLink missionUnitLink : missionStationLink.getUnitLinks()) {
             for (MissionResponderLink missionResponderLink : missionUnitLink.getResponderLinks()) {
                 Button button = new Button(missionResponderLink.getResponder().toString());
@@ -34,7 +34,7 @@ public class MissionResponderListView {
     }
 
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, MissionUnitLink missionUnitLink) {
-        utilsView.addHeadingLabelToPane(pane1, "Responders");
+        utilsView.addSectionTitleLabel(pane1, "Responders");
         for (MissionResponderLink missionResponderLink : missionUnitLink.getResponderLinks()) {
             showSidebar(breadCrumbBar, pane1, pane2, missionResponderLink);
             showMap(pane2, missionResponderLink);

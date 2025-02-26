@@ -23,7 +23,7 @@ public class ResponderListView {
     }
 
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, List<Responder> responders) {
-        utilsView.addHeadingLabelToPane(pane, "Responders");
+        utilsView.addSectionTitleLabel(pane, "Responders");
 
         // TODO: review different approach to avoid showing too many responders
         if (responders.size()<20) {

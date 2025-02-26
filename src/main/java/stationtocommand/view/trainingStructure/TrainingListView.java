@@ -19,7 +19,7 @@ public class TrainingListView {
     }
 
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, List<Training> trainings) {
-        utilsView.addHeadingLabelToPane(pane, "Trainings");
+        utilsView.addSectionTitleLabel(pane, "Trainings");
         for (Training training : trainings) {
             Button button = new Button(training.toString());
             button.setOnAction(_ -> trainingView.show(breadCrumbBar, pane, training));

@@ -1,5 +1,7 @@
 package stationtocommand.view.departmentStructure;
 
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.departmentStructure.Department;
@@ -26,7 +28,16 @@ public class DepartmentView {
         utilsView.addBreadCrumb(breadCrumbBar, department);
         utilsView.clearPane(pane1);
         utilsView.clearPane(pane2);
-        stationListView.show(breadCrumbBar, pane1, pane2, department, department.getStations());
+        showDepartmentDetails(pane1, department);
+        stationListView.show(breadCrumbBar, pane1, pane2, department.getStations());
+    }
+
+    private void showDepartmentDetails(Pane pane1, Department department) {
+        HBox hBox = new HBox(10);
+        ImageView imageView = utilsView.mediumIcon(utilsView.departmentIconPath(department.getDepartmentType()));
+        utilsView.addNodeToPane(hBox, imageView);
+        utilsView.addMainTitleLabel(hBox, department.toString());
+        utilsView.addNodeToPane(pane1, hBox);
     }
 
 }
