@@ -49,15 +49,15 @@ public class StationListView {
         showStationUnitTypes(station, hBox);
     }
 
+    private void showStationIcon(Station station, HBox hBox) {
+        ImageView imageView = utilsView.smallIcon(utilsView.stationIconPath(station.getDepartment().getDepartmentType()));
+        hBox.getChildren().add(imageView);
+    }
+
     private void showStationButton(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, Station station, HBox hBox) {
         Button button = new Button(station.toString());
         button.setOnAction(_ -> stationView.show(breadCrumbBar, pane1, pane2, station));
         hBox.getChildren().add(button);
-    }
-
-    private void showStationIcon(Station station, HBox hBox) {
-        ImageView imageView = utilsView.smallIcon(utilsView.stationIconPath(station.getDepartment().getDepartmentType()));
-        hBox.getChildren().add(imageView);
     }
 
     private void showStationUnitTypes(Station station, HBox hBox) {

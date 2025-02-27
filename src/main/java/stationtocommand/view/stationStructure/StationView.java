@@ -49,11 +49,11 @@ public class StationView {
         showMap(pane2, station);
     }
 
-    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Station station) {
-        showStationDetails(pane1, station);
-        unitListView.show(breadCrumbBar, pane1, station.getUnits());
-        responderListView.show(breadCrumbBar, pane1, station.getResponders());
-        vehicleListView.show(breadCrumbBar, pane1, station.getVehicles());
+    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane pane, Station station) {
+        showStationDetails(pane, station);
+        unitListView.show(breadCrumbBar, pane, station.getUnits());
+        responderListView.show(breadCrumbBar, pane, station.getResponders());
+        vehicleListView.show(breadCrumbBar, pane, station.getVehicles());
     }
 
     private void showStationDetails(Pane pane1, Station station) {

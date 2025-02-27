@@ -40,9 +40,9 @@ public class UnitListView {
         showUnitStatus(unit, hBox);
     }
 
-    private void showUnitStatus(Unit unit, HBox hBox) {
-        ImageView statusImageView = utilsView.smallIcon(utilsView.unitStatusIconPath(unit.getUnitStatus()));
-        hBox.getChildren().add(statusImageView);
+    private void showUnitIcon(Unit unit, HBox hBox) {
+        ImageView imageView = utilsView.smallIcon(utilsView.unitIconPath(unit.getUnitType()));
+        hBox.getChildren().add(imageView);
     }
 
     private void showUnitButton(BreadCrumbBar<Object> breadCrumbBar, Pane pane, Unit unit, HBox hBox) {
@@ -51,9 +51,9 @@ public class UnitListView {
         hBox.getChildren().add(button);
     }
 
-    private void showUnitIcon(Unit unit, HBox hBox) {
-        ImageView imageView = utilsView.smallIcon(utilsView.unitIconPath(unit.getUnitType()));
-        hBox.getChildren().add(imageView);
+    private void showUnitStatus(Unit unit, HBox hBox) {
+        ImageView statusImageView = utilsView.smallIcon(utilsView.unitStatusIconPath(unit.getUnitStatus()));
+        hBox.getChildren().add(statusImageView);
     }
 
 }

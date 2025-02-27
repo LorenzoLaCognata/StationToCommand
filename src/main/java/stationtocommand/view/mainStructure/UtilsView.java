@@ -16,8 +16,11 @@ import javafx.util.Duration;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.model.departmentStructure.DepartmentType;
+import stationtocommand.model.equipmentStructure.EquipmentType;
 import stationtocommand.model.locationStructure.Location;
 import stationtocommand.model.locationStructure.LocationManager;
+import stationtocommand.model.missionStructure.MissionType;
+import stationtocommand.model.responderStructure.Responder;
 import stationtocommand.model.unitStructure.UnitStatus;
 import stationtocommand.model.unitTypeStructure.FireUnitType;
 import stationtocommand.model.unitTypeStructure.MedicUnitType;
@@ -25,8 +28,7 @@ import stationtocommand.model.unitTypeStructure.PoliceUnitType;
 import stationtocommand.model.unitTypeStructure.UnitType;
 import stationtocommand.model.vehicleStructure.VehicleType;
 import stationtocommand.model.vehicleStructure.FireVehicleType;
-import stationtocommand.model.vehicleStructure.PoliceVehicleType;
-import stationtocommand.model.vehicleStructure.MedicVehicleType;
+import stationtocommand.model.equipmentStructure.FireEquipmentType;
 import stationtocommand.view.View;
 
 import java.time.format.DateTimeFormatter;
@@ -194,11 +196,80 @@ public class UtilsView {
     public String vehicleIconPath(VehicleType vehicleType) {
         String iconPath;
         switch (vehicleType) {
-            case FireVehicleType.PUMPER -> iconPath = "/images/unit/pumperFireTruck.png";
-            case FireVehicleType.TOWER -> iconPath = "/images/unit/towerLadderTruck.png";
-            case FireVehicleType.RESCUE -> iconPath = "/images/unit/rescueTruck.png";
+            case FireVehicleType.PUMPER -> iconPath = "/images/vehicle/pumperFireTruck.png";
+            case FireVehicleType.TOWER -> iconPath = "/images/vehicle/towerLadderTruck.png";
+            case FireVehicleType.RESCUE -> iconPath = "/images/vehicle/rescueTruck.png";
             default -> iconPath = "/images/blank.png";
         }
+        return iconPath;
+    }
+
+    public String missionIconPath(MissionType missionType) {
+        String iconPath;
+        switch (missionType) {
+            case STRUCTURE_FIRE -> iconPath = "/images/mission/structureFire.png";
+            // TODO: replace with final icons
+            case VEHICLE_FIRE -> iconPath = "/images/fireMission.png";
+            case WATER_RESCUE, COLLAPSE_RESCUE -> iconPath = "/images/rescueMission.png";
+            case TRAFFIC_INCIDENT -> iconPath = "/images/rescueMission.png";
+            case BURGLARY, ASSAULT, DISTURBANCE -> iconPath = "/images/policeMission.png";
+            case HOMICIDE, DRUG_CRIME, VICE_CRIME -> iconPath = "/images/policeMission.png";
+            case CROWD_CONTROL -> iconPath = "/images/policeMission.png";
+            case MEDICAL_EMERGENCY, TRAUMA_RESPONSE -> iconPath = "/images/medicMission.png";
+            case CARDIAC_ARREST, POISONING_OVERDOSE -> iconPath = "/images/medicMission.png";
+
+            default -> iconPath = "/images/blank.png";
+        }
+        return iconPath;
+    }
+
+    public String equipmentIconPath(EquipmentType equipmentType) {
+        String iconPath;
+        switch (equipmentType) {
+            case FireEquipmentType.HOSE -> iconPath = "/images/equipment/fireHose.png";
+            default -> iconPath = "/images/blank.png";
+        }
+        return iconPath;
+    }
+
+    public String responderIconPath(Responder responder) {
+        String iconPath;
+        int hash = Math.abs((responder.getFirstName() + responder.getLastName()).hashCode() % 10) + 1;
+
+        switch (responder.getGender()) {
+            case MALE -> {
+                switch (hash) {
+                    case 1 -> iconPath = "/images/responder/male01.png";
+                    case 2 -> iconPath = "/images/responder/male02.png";
+                    case 3 -> iconPath = "/images/responder/male03.png";
+                    case 4 -> iconPath = "/images/responder/male04.png";
+                    case 5 -> iconPath = "/images/responder/male05.png";
+                    case 6 -> iconPath = "/images/responder/male06.png";
+                    case 7 -> iconPath = "/images/responder/male07.png";
+                    case 8 -> iconPath = "/images/responder/male08.png";
+                    case 9 -> iconPath = "/images/responder/male09.png";
+                    case 10 -> iconPath = "/images/responder/male10.png";
+                    default -> iconPath = "/images/blank.png";
+                }
+            }
+            case FEMALE -> {
+                switch (hash) {
+                    case 1 -> iconPath = "/images/responder/female01.png";
+                    case 2 -> iconPath = "/images/responder/female02.png";
+                    case 3 -> iconPath = "/images/responder/female03.png";
+                    case 4 -> iconPath = "/images/responder/female04.png";
+                    case 5 -> iconPath = "/images/responder/female05.png";
+                    case 6 -> iconPath = "/images/responder/female06.png";
+                    case 7 -> iconPath = "/images/responder/female07.png";
+                    case 8 -> iconPath = "/images/responder/female08.png";
+                    case 9 -> iconPath = "/images/responder/female09.png";
+                    case 10 -> iconPath = "/images/responder/female10.png";
+                    default -> iconPath = "/images/blank.png";
+                }
+            }
+            default -> iconPath = "/images/blank.png";
+        }
+
         return iconPath;
     }
 

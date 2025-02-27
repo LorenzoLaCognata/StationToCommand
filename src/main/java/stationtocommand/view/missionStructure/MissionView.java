@@ -2,8 +2,10 @@ package stationtocommand.view.missionStructure;
 
 import javafx.geometry.Point2D;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
+import stationtocommand.model.equipmentStructure.Equipment;
 import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.UtilsView;
@@ -27,26 +29,27 @@ public class MissionView {
         utilsView.addBreadCrumb(breadCrumbBar, mission);
         utilsView.clearPane(pane1);
         utilsView.clearPane(pane2);
-        missionDepartmentListView.show(breadCrumbBar, pane1, pane2, mission);
+        showSidebar(breadCrumbBar, pane1, pane2, mission);
         showMap(pane2, mission);
+    }
+
+    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, Mission mission) {
+        showMissionDetails(pane1, mission);
+        missionDepartmentListView.show(breadCrumbBar, pane1, pane2, mission);
     }
 
     public void showMap(Pane pane, Mission mission) {
         Point2D point = utilsView.locationToPoint(mission.getLocation());
-        String iconPath;
-        switch (mission.getMissionType()) {
-            case STRUCTURE_FIRE, VEHICLE_FIRE -> iconPath = "/images/fireMission.png";
-            case WATER_RESCUE, COLLAPSE_RESCUE -> iconPath = "/images/rescueMission.png";
-            case TRAFFIC_INCIDENT -> iconPath = "/images/rescueMission.png";
-            case BURGLARY, ASSAULT, DISTURBANCE -> iconPath = "/images/policeMission.png";
-            case HOMICIDE, DRUG_CRIME, VICE_CRIME -> iconPath = "/images/policeMission.png";
-            case CROWD_CONTROL -> iconPath = "/images/policeMission.png";
-            case MEDICAL_EMERGENCY, TRAUMA_RESPONSE -> iconPath = "/images/medicMission.png";
-            case CARDIAC_ARREST, POISONING_OVERDOSE -> iconPath = "/images/medicMission.png";
-            default -> iconPath = "/images/blank.png";
-        }
-        ImageView imageView = utilsView.mediumShadowIcon(iconPath, "red");
+        ImageView imageView = utilsView.mediumShadowIcon(utilsView.missionIconPath(mission.getMissionType()), "red");
         utilsView.addNodeToPane(pane, imageView, point);
+    }
+
+    private void showMissionDetails(Pane pane, Mission mission) {
+        HBox hBox = new HBox(10);
+        ImageView imageView = utilsView.mediumIcon(utilsView.missionIconPath(mission.getMissionType()));
+        utilsView.addNodeToPane(hBox, imageView);
+        utilsView.addMainTitleLabel(hBox, mission.toString());
+        utilsView.addNodeToPane(pane, hBox);
     }
 
 }

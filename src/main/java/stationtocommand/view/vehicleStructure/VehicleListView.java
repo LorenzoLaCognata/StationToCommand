@@ -1,11 +1,20 @@
 package stationtocommand.view.vehicleStructure;
 
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
+import stationtocommand.model.departmentStructure.DepartmentType;
+import stationtocommand.model.stationStructure.Station;
+import stationtocommand.model.unitTypeStructure.FireUnitType;
+import stationtocommand.model.unitTypeStructure.MedicUnitType;
+import stationtocommand.model.unitTypeStructure.PoliceUnitType;
+import stationtocommand.model.unitTypeStructure.UnitType;
 import stationtocommand.model.vehicleStructure.Vehicle;
 import stationtocommand.view.mainStructure.UtilsView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class VehicleListView {
@@ -25,10 +34,27 @@ public class VehicleListView {
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, List<Vehicle> vehicles) {
         utilsView.addSectionTitleLabel(pane, "Vehicles");
         for (Vehicle vehicle : vehicles) {
-            Button button = new Button(vehicle.toString());
-            button.setOnAction(_ -> vehicleView.show(breadCrumbBar, pane, vehicle));
-            pane.getChildren().add(button);
+            showSidebar(breadCrumbBar, pane, vehicle);
         }
+    }
+
+    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane pane, Vehicle vehicle) {
+        HBox hBox = new HBox(10);
+        pane.getChildren().add(hBox);
+
+        showVehicleIcon(vehicle, hBox);
+        showVehicleButton(breadCrumbBar, pane, vehicle, hBox);
+    }
+
+    private void showVehicleIcon(Vehicle vehicle, HBox hBox) {
+        ImageView imageView = utilsView.smallIcon(utilsView.vehicleIconPath(vehicle.getVehicleType()));
+        hBox.getChildren().add(imageView);
+    }
+
+    private void showVehicleButton(BreadCrumbBar<Object> breadCrumbBar, Pane pane, Vehicle vehicle, HBox hBox) {
+        Button button = new Button(vehicle.toString());
+        button.setOnAction(_ -> vehicleView.show(breadCrumbBar, pane, vehicle));
+        hBox.getChildren().add(button);
     }
 
 }

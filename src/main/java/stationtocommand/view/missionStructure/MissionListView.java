@@ -5,10 +5,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
+import stationtocommand.model.equipmentStructure.Equipment;
 import stationtocommand.model.missionLinkStructure.MissionDepartmentLink;
 import stationtocommand.model.missionLinkStructure.MissionStationLink;
 import stationtocommand.model.missionLinkStructure.MissionUnitLink;
 import stationtocommand.model.missionStructure.Mission;
+import stationtocommand.model.missionStructure.MissionType;
 import stationtocommand.view.mainStructure.UtilsView;
 
 import java.util.List;
@@ -36,15 +38,26 @@ public class MissionListView {
     }
 
     private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, Mission mission) {
-
         HBox hBox = new HBox(10);
         pane1.getChildren().add(hBox);
 
+        showMissionIcon(mission, hBox);
+        showMissionButton(breadCrumbBar, pane1, pane2, mission, hBox);
+        showMissionDepartments(mission, hBox);
+    }
+
+    private void showMissionIcon(Mission mission, HBox hBox) {
+        ImageView imageView = utilsView.smallIcon(utilsView.missionIconPath(mission.getMissionType()));
+        hBox.getChildren().add(imageView);
+    }
+
+    private void showMissionButton(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, Mission mission, HBox hBox) {
         Button button = new Button(mission.toString());
         button.setOnAction(_ -> missionView.show(breadCrumbBar, pane1, pane2, mission));
-        // TODO: replace label with department icons
         hBox.getChildren().add(button);
+    }
 
+    private void showMissionDepartments(Mission mission, HBox hBox) {
         if (!mission.getDepartmentLinks().isEmpty()) {
             for (MissionDepartmentLink missionDepartmentLink : mission.getDepartmentLinks()) {
                 ImageView imageView = utilsView.smallIcon(utilsView.departmentIconPath(missionDepartmentLink.getDepartment().getDepartmentType()));
