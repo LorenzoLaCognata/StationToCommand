@@ -1,12 +1,11 @@
 package stationtocommand.controller.simulationStructure;
 
+import javafx.scene.media.AudioClip;
 import stationtocommand.controller.Controller;
 import stationtocommand.model.departmentStructure.DepartmentType;
 import stationtocommand.model.missionLinkStructure.MissionDepartmentLink;
 import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.model.utilsStructure.Utils;
-
-import javafx.scene.media.AudioClip;
 
 import java.util.List;
 import java.util.Objects;

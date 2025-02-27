@@ -65,8 +65,6 @@ public class MissionManager {
 
     public void dispatchMissionToDepartment(Mission mission) {
 
-        System.out.println("Start dispatch to department for " + mission);
-
         if (mission.getDepartmentLinks().isEmpty()) {
             List<DepartmentType> departmentTypes = requiredDepartmentTypes(mission.getMissionType());
 
@@ -75,17 +73,12 @@ public class MissionManager {
             }
         }
 
-        System.out.println("Finish dispatch to department for " + mission);
-
     }
 
     public void dispatchMissionToUnit(MissionDepartmentLink missionDepartmentLink) {
 
-        System.out.println("Start dispatch to unit for " + missionDepartmentLink.getMission());
-
         if (missionDepartmentLink.getStationLinks().isEmpty()) {
 
-            System.out.println("a " + missionDepartmentLink.getStationLinks().size());
             Mission mission = missionDepartmentLink.getMission();
             MissionType missionType = mission.getMissionType();
 
@@ -99,10 +92,8 @@ public class MissionManager {
 
             if (!stationsMatchingAllUnitTypes.isEmpty()) {
 
-                System.out.println("b " + stationsMatchingAllUnitTypes.size());
                 // TODO: select the closest/appropriate station to dispatch the mission to
                 int randomStation = Utils.randomGenerator.nextInt(stationsMatchingAllUnitTypes.size());
-                System.out.println("randomStation = " + randomStation);
                 Station station = stationsMatchingAllUnitTypes.get(randomStation);
                 missionDepartmentLink.linkStation(station);
 
@@ -111,26 +102,22 @@ public class MissionManager {
 
                 for (UnitType unitType : unitTypes) {
 
-                    System.out.println("c " + unitType);
                     List<Unit> units = unitManager.getAvailableUnits(unitType);
 
                     if (!units.isEmpty()) {
                         Unit unit = units.getFirst();
                         unit.setUnitStatus(UnitStatus.DISPATCHED);
                         missionStationLink.getMission().linkUnit(unit);
-                        System.out.println("Mission " + mission + " dispatched to " + unit + " which has now status " + unit.getUnitStatus());
                     }
                 }
             }
 
             else {
 
-                System.out.println("d");
                 for (UnitType unitType : unitTypes) {
                     List<Station> stationsMatchingUnitType = stationManager.availableStationsMatchingUnitType(unitType);
                     if (!stationsMatchingUnitType.isEmpty()) {
 
-                        System.out.println("e");
                         // TODO: select the closest/appropriate station to dispatch the mission to
                         int randomStation = Utils.randomGenerator.nextInt(stationsMatchingUnitType.size());
                         Station station = stationsMatchingUnitType.get(randomStation);
@@ -143,15 +130,12 @@ public class MissionManager {
                             Unit unit = units.getFirst();
                             unit.setUnitStatus(UnitStatus.DISPATCHED);
                             missionStationLink.getMission().linkUnit(unit);
-                            System.out.println("Mission " + mission + " dispatched to " + unit + " which has now status " + unit.getUnitStatus());
                         }
 
                     }
                 }
             }
         }
-
-        System.out.println("Finish dispatch to unit for " + missionDepartmentLink.getMission());
 
     }
 

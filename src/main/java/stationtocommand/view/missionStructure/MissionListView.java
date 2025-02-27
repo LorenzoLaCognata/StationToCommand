@@ -5,12 +5,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
-import stationtocommand.model.equipmentStructure.Equipment;
 import stationtocommand.model.missionLinkStructure.MissionDepartmentLink;
 import stationtocommand.model.missionLinkStructure.MissionStationLink;
 import stationtocommand.model.missionLinkStructure.MissionUnitLink;
 import stationtocommand.model.missionStructure.Mission;
-import stationtocommand.model.missionStructure.MissionType;
 import stationtocommand.view.mainStructure.UtilsView;
 
 import java.util.List;

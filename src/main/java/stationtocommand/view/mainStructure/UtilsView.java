@@ -17,6 +17,7 @@ import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.model.departmentStructure.DepartmentType;
 import stationtocommand.model.equipmentStructure.EquipmentType;
+import stationtocommand.model.equipmentStructure.FireEquipmentType;
 import stationtocommand.model.locationStructure.Location;
 import stationtocommand.model.locationStructure.LocationManager;
 import stationtocommand.model.missionStructure.MissionType;
@@ -26,9 +27,8 @@ import stationtocommand.model.unitTypeStructure.FireUnitType;
 import stationtocommand.model.unitTypeStructure.MedicUnitType;
 import stationtocommand.model.unitTypeStructure.PoliceUnitType;
 import stationtocommand.model.unitTypeStructure.UnitType;
-import stationtocommand.model.vehicleStructure.VehicleType;
 import stationtocommand.model.vehicleStructure.FireVehicleType;
-import stationtocommand.model.equipmentStructure.FireEquipmentType;
+import stationtocommand.model.vehicleStructure.VehicleType;
 import stationtocommand.view.View;
 
 import java.time.format.DateTimeFormatter;

@@ -5,16 +5,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
-import stationtocommand.model.departmentStructure.DepartmentType;
-import stationtocommand.model.stationStructure.Station;
-import stationtocommand.model.unitTypeStructure.FireUnitType;
-import stationtocommand.model.unitTypeStructure.MedicUnitType;
-import stationtocommand.model.unitTypeStructure.PoliceUnitType;
-import stationtocommand.model.unitTypeStructure.UnitType;
 import stationtocommand.model.vehicleStructure.Vehicle;
 import stationtocommand.view.mainStructure.UtilsView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class VehicleListView {
