@@ -1,5 +1,7 @@
 package stationtocommand.view.missionStructure;
 
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.missionLinkStructure.MissionResponderLink;
@@ -39,6 +41,11 @@ public class MissionStationView {
         utilsView.addBreadCrumb(breadCrumbBar, missionStationLink);
         utilsView.clearPane(pane1);
         utilsView.clearPane(pane2);
+        showSidebar(breadCrumbBar, pane1, pane2, missionStationLink);
+    }
+
+    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, MissionStationLink missionStationLink) {
+        showMissionStationDetails(pane1, missionStationLink);
         missionUnitListView.show(breadCrumbBar, pane1, pane2, missionStationLink);
         missionResponderListView.show(breadCrumbBar, pane1, pane2, missionStationLink);
         missionVehicleListView.show(breadCrumbBar, pane1, missionStationLink);
@@ -47,6 +54,14 @@ public class MissionStationView {
                 missionResponderListView.showMap(pane2, missionResponderLink);
             }
         }
+    }
+
+    private void showMissionStationDetails(Pane pane, MissionStationLink missionStationLink) {
+        HBox hBox = new HBox(10);
+        ImageView imageView = utilsView.mediumIcon(utilsView.missionIconPath(missionStationLink.getMission().getMissionType()));
+        utilsView.addNodeToPane(hBox, imageView);
+        utilsView.addMainTitleLabel(hBox, missionStationLink.getMission().toString());
+        utilsView.addNodeToPane(pane, hBox);
     }
 
 }

@@ -44,15 +44,16 @@ public class DepartmentListView {
         showDepartmentButton(breadCrumbBar, pane1, pane2, department, hBox);
     }
 
+    private void showDepartmentIcon(Department department, HBox hBox) {
+        ImageView imageView = utilsView.smallIcon(utilsView.departmentIconPath(department.getDepartmentType()));
+        hBox.getChildren().add(imageView);
+    }
+
     private void showDepartmentButton(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, Department department, HBox hBox) {
         Button button = new Button(department.getDepartmentType().toString() + " Department");
         button.setOnAction(_ -> departmentView.show(breadCrumbBar, pane1, pane2, department));
         hBox.getChildren().add(button);
     }
 
-    private void showDepartmentIcon(Department department, HBox hBox) {
-        ImageView imageView = utilsView.smallIcon(utilsView.departmentIconPath(department.getDepartmentType()));
-        hBox.getChildren().add(imageView);
-    }
 
 }

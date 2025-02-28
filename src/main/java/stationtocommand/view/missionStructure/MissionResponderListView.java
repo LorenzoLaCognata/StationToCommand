@@ -1,6 +1,8 @@
 package stationtocommand.view.missionStructure;
 
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.missionLinkStructure.MissionResponderLink;
@@ -26,9 +28,7 @@ public class MissionResponderListView {
         utilsView.addSectionTitleLabel(pane1, "Responders");
         for (MissionUnitLink missionUnitLink : missionStationLink.getUnitLinks()) {
             for (MissionResponderLink missionResponderLink : missionUnitLink.getResponderLinks()) {
-                Button button = new Button(missionResponderLink.getResponder().toString());
-                button.setOnAction(_ -> missionResponderView.show(breadCrumbBar, pane1, pane2, missionResponderLink));
-                pane1.getChildren().add(button);
+                showSidebar(breadCrumbBar, pane1, pane2, missionResponderLink);
             }
         }
     }
@@ -42,9 +42,22 @@ public class MissionResponderListView {
     }
 
     public void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, MissionResponderLink missionResponderLink) {
+        HBox hBox = new HBox(10);
+        pane1.getChildren().add(hBox);
+
+        showMissionResponderIcon(missionResponderLink, hBox);
+        showMissionResponderButton(breadCrumbBar, pane1, pane2, missionResponderLink, hBox);
+    }
+
+    private void showMissionResponderIcon(MissionResponderLink missionResponderLink, HBox hBox) {
+        ImageView imageView = utilsView.smallIcon(utilsView.responderIconPath(missionResponderLink.getResponder()));
+        hBox.getChildren().add(imageView);
+    }
+
+    private void showMissionResponderButton(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, MissionResponderLink missionResponderLink, HBox hBox) {
         Button button = new Button(missionResponderLink.getResponder().toString());
         button.setOnAction(_ -> missionResponderView.show(breadCrumbBar, pane1, pane2, missionResponderLink));
-        pane1.getChildren().add(button);
+        hBox.getChildren().add(button);
     }
 
     public void showMap(Pane pane, MissionResponderLink missionResponderLink) {
