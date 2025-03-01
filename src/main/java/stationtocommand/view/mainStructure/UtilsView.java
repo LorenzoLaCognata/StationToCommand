@@ -2,6 +2,8 @@ package stationtocommand.view.mainStructure;
 
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -164,9 +166,9 @@ public class UtilsView {
         return imageView;
     }
 
-    public ImageView mediumShadowIcon(String iconPath, String color) {
+    public ImageView mediumShadowIcon(String iconPath, IconColor iconColor) {
         ImageView imageView = mediumIcon(iconPath);
-        imageView.setStyle("-fx-effect: dropshadow(gaussian, " + color + ", 20, 0.3, 0, 0);");
+        imageView.setStyle("-fx-effect: dropshadow(gaussian, " + iconColor + ", 20, 0.3, 0, 0);");
         return imageView;
     }
 
@@ -177,9 +179,9 @@ public class UtilsView {
         return imageView;
     }
 
-    public ImageView smallShadowIcon(String iconPath, String color) {
+    public ImageView smallShadowIcon(String iconPath, IconColor iconColor) {
         ImageView imageView = smallIcon(iconPath);
-        imageView.setStyle("-fx-effect: dropshadow(gaussian, " + color + ", 20, 0.3, 0, 0);");
+        imageView.setStyle("-fx-effect: dropshadow(gaussian, " + iconColor + ", 20, 0.3, 0, 0);");
         return imageView;
     }
 
@@ -326,15 +328,41 @@ public class UtilsView {
         return iconPath;
     }
 
-    public String departmentIconColor(Department department) {
-        String iconColor;
+    public IconColor departmentIconColor(Department department) {
+        IconColor iconColor;
         switch (department.getDepartmentType()) {
-            case FIRE_DEPARTMENT -> iconColor = "#dc212a";
-            case POLICE_DEPARTMENT -> iconColor = "#03132d";
-            case MEDIC_DEPARTMENT -> iconColor = "#840705";
-            default -> iconColor = "white";
+            case FIRE_DEPARTMENT -> iconColor = IconColor.PERSIAN_RED;
+            case POLICE_DEPARTMENT -> iconColor = IconColor.DARK_BLUE;
+            case MEDIC_DEPARTMENT -> iconColor = IconColor.CRIMSON_RED;
+            default -> iconColor = IconColor.WHITE;
         }
         return iconColor;
+    }
+
+    public HBox createHBox(Pane pane) {
+        HBox hBox = new HBox(10);
+        pane.getChildren().add(hBox);
+        return hBox;
+    }
+
+    public ImageView addIconToPane(Pane pane, IconType iconType, IconColor iconColor, String imagePath) {
+        ImageView imageView;
+
+        switch (iconType) {
+            case IconType.SMALL -> imageView = smallIcon(imagePath);
+            case IconType.SMALL_SHADOW -> imageView = smallShadowIcon(imagePath, iconColor);
+            case IconType.MEDIUM -> imageView = mediumIcon(imagePath);
+            case IconType.MEDIUM_SHADOW -> imageView = mediumShadowIcon(imagePath, iconColor);
+            default -> imageView = smallIcon(imagePath);
+        }
+        pane.getChildren().add(imageView);
+        return imageView;
+    }
+
+    public void addButtonToPane(Pane pane, String string, EventHandler<ActionEvent> eventHandler) {
+        Button button = new Button(string);
+        button.setOnAction(eventHandler);
+        pane.getChildren().add(button);
     }
 
 }

@@ -1,12 +1,11 @@
 package stationtocommand.view.departmentStructure;
 
-import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.model.stationStructure.Station;
+import stationtocommand.view.mainStructure.IconColor;
+import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
 
 import java.util.List;
@@ -26,34 +25,30 @@ public class DepartmentListView {
         return departmentView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, List<Department> departments) {
-        utilsView.addSectionTitleLabel(pane1, "Departments");
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, List<Department> departments) {
+        utilsView.addSectionTitleLabel(navigationPanel, "Departments");
         for (Department department : departments) {
-            showSidebar(breadCrumbBar, pane1, pane2, department);
+            showSidebar(breadCrumbBar, navigationPanel, worldMap, department);
             for (Station station : department.getStations()) {
-                departmentView.getStationListView().getStationView().showMap(pane2, station);
+                departmentView.getStationListView().getStationView().showMap(worldMap, station);
             }
         }
     }
 
-    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, Department department) {
-        HBox hBox = new HBox(10);
-        pane1.getChildren().add(hBox);
-
-        showDepartmentIcon(department, hBox);
-        showDepartmentButton(breadCrumbBar, pane1, pane2, department, hBox);
+    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, Department department) {
+        Pane labelPane = utilsView.createHBox(navigationPanel);
+        showDepartmentIcon(labelPane, department);
+        showDepartmentButton(breadCrumbBar, navigationPanel, worldMap, labelPane, department);
     }
 
-    private void showDepartmentIcon(Department department, HBox hBox) {
-        ImageView imageView = utilsView.smallIcon(utilsView.departmentIconPath(department.getDepartmentType()));
-        hBox.getChildren().add(imageView);
+    private void showDepartmentIcon(Pane navigationPanel, Department department) {
+        utilsView.addIconToPane(navigationPanel, IconType.SMALL, IconColor.BLANK, utilsView.departmentIconPath(department.getDepartmentType()));
     }
 
-    private void showDepartmentButton(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, Department department, HBox hBox) {
-        Button button = new Button(department.getDepartmentType().toString() + " Department");
-        button.setOnAction(_ -> departmentView.show(breadCrumbBar, pane1, pane2, department));
-        hBox.getChildren().add(button);
+    private void showDepartmentButton(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, Pane labelPane, Department department) {
+        utilsView.addButtonToPane(labelPane, department.toString(), (_ -> departmentView.show(breadCrumbBar, navigationPanel, worldMap, department)));
     }
+
 
 
 }

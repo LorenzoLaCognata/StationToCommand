@@ -43,7 +43,7 @@ public class View {
     private final ToolBar toolbar = new ToolBar();
     private final VBox navigationPanel = new VBox(5);
     private final BreadCrumbBar<Object> breadcrumb = new BreadCrumbBar<>();
-    private final StackPane worldView = new StackPane();
+    private final StackPane worldMap = new StackPane();
     private final HBox hud = new HBox(5);
 
     private final Label gameClockLabel = new Label();
@@ -55,7 +55,7 @@ public class View {
         gridPane.add(toolbar, 0, 0, 2, 1);
         gridPane.add(breadcrumb, 0, 1, 2, 1);
         gridPane.add(navigationPanel, 0, 2, 1, 2);
-        gridPane.add(worldView, 1, 2);
+        gridPane.add(worldMap, 1, 2);
         gridPane.add(hud, 1, 3);
 
     }
@@ -179,8 +179,8 @@ public class View {
         breadcrumb.setStyle("-fx-background-color: #222; -fx-padding: 5px;");
         breadCrumbActions(departments, missions);
 
-        worldView.setStyle("-fx-background-color: #ffffff;");
-        worldView.getChildren().addAll(mapBackgroundLayer, mapElementsLayer);
+        worldMap.setStyle("-fx-background-color: #ffffff;");
+        worldMap.getChildren().addAll(mapBackgroundLayer, mapElementsLayer);
 
         Timeline userInterfaceUpdater = new Timeline(new KeyFrame(Duration.seconds(1), _ -> refreshUserInterface()));
         userInterfaceUpdater.setCycleCount(Animation.INDEFINITE);

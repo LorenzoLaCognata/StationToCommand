@@ -7,6 +7,7 @@ import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.missionLinkStructure.MissionResponderLink;
 import stationtocommand.view.View;
+import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.UtilsView;
 
 public class MissionResponderView {
@@ -46,12 +47,13 @@ public class MissionResponderView {
             case FEMALE -> iconPath = "/images/femaleResponder.png";
             default -> iconPath = "/images/blank.png";
         }
-        String color = "";
+        IconColor iconColor;
         switch (missionResponderLink.getResponder().getGender()) {
-            case MALE -> color = "blue";
-            case FEMALE -> color = "red";
+            case MALE -> iconColor = IconColor.DARK_BLUE;
+            case FEMALE -> iconColor = IconColor.PERSIAN_RED;
+            default -> iconColor = IconColor.BLANK;
         }
-        ImageView imageView = utilsView.mediumShadowIcon(iconPath, color);
+        ImageView imageView = utilsView.mediumShadowIcon(iconPath, iconColor);
         utilsView.addNodeToPane(pane, imageView, point);
     }
 

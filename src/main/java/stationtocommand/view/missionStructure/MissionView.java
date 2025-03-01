@@ -7,6 +7,7 @@ import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.view.View;
+import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.UtilsView;
 
 public class MissionView {
@@ -39,7 +40,7 @@ public class MissionView {
 
     public void showMap(Pane pane, Mission mission) {
         Point2D point = utilsView.locationToPoint(mission.getLocation());
-        ImageView imageView = utilsView.mediumShadowIcon(utilsView.missionIconPath(mission.getMissionType()), "red");
+        ImageView imageView = utilsView.mediumShadowIcon(utilsView.missionIconPath(mission.getMissionType()), IconColor.PERSIAN_RED);
         utilsView.addNodeToPane(pane, imageView, point);
     }
 
