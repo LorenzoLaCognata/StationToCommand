@@ -7,13 +7,16 @@ import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
+import stationtocommand.view.trainingStructure.TrainingListView;
 
 public class ResponderView {
 
     private final UtilsView utilsView;
+    private final TrainingListView trainingListView;
 
     public ResponderView(UtilsView utilsView) {
         this.utilsView = utilsView;
+        this.trainingListView = new TrainingListView(utilsView);
     }
 
     public void show(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Responder responder) {
@@ -25,6 +28,7 @@ public class ResponderView {
 
     private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Responder responder) {
         showResponderDetails(navigationPanel, responder);
+        trainingListView.show(breadCrumbBar, navigationPanel, responder.getTrainings());
     }
 
     private void showResponderDetails(Pane navigationPanel, Responder responder) {
