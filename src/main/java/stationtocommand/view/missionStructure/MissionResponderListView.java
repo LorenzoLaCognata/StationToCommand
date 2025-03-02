@@ -1,13 +1,12 @@
 package stationtocommand.view.missionStructure;
 
-import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.missionLinkStructure.MissionResponderLink;
 import stationtocommand.model.missionLinkStructure.MissionStationLink;
 import stationtocommand.model.missionLinkStructure.MissionUnitLink;
+import stationtocommand.view.mainStructure.IconColor;
+import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
 
 public class MissionResponderListView {
@@ -24,44 +23,39 @@ public class MissionResponderListView {
         return missionResponderView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, MissionStationLink missionStationLink) {
-        utilsView.addSectionTitleLabel(pane1, "Responders");
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, MissionStationLink missionStationLink) {
+        utilsView.addSectionTitleLabel(navigationPanel, "Responders");
         for (MissionUnitLink missionUnitLink : missionStationLink.getUnitLinks()) {
             for (MissionResponderLink missionResponderLink : missionUnitLink.getResponderLinks()) {
-                showSidebar(breadCrumbBar, pane1, pane2, missionResponderLink);
+                showSidebar(breadCrumbBar, navigationPanel, worldMap, missionResponderLink);
             }
         }
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, MissionUnitLink missionUnitLink) {
-        utilsView.addSectionTitleLabel(pane1, "Responders");
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, MissionUnitLink missionUnitLink) {
+        utilsView.addSectionTitleLabel(navigationPanel, "Responders");
         for (MissionResponderLink missionResponderLink : missionUnitLink.getResponderLinks()) {
-            showSidebar(breadCrumbBar, pane1, pane2, missionResponderLink);
-            showMap(pane2, missionResponderLink);
+            showSidebar(breadCrumbBar, navigationPanel, worldMap, missionResponderLink);
+            showMap(worldMap, missionResponderLink);
         }
     }
 
-    public void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, MissionResponderLink missionResponderLink) {
-        HBox hBox = new HBox(10);
-        pane1.getChildren().add(hBox);
-
-        showMissionResponderIcon(missionResponderLink, hBox);
-        showMissionResponderButton(breadCrumbBar, pane1, pane2, missionResponderLink, hBox);
+    public void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, MissionResponderLink missionResponderLink) {
+        Pane labelPane = utilsView.createHBox(navigationPanel);
+        showMissionResponderIcon(labelPane, missionResponderLink);
+        showMissionResponderButton(breadCrumbBar, navigationPanel, worldMap, labelPane, missionResponderLink);
     }
 
-    private void showMissionResponderIcon(MissionResponderLink missionResponderLink, HBox hBox) {
-        ImageView imageView = utilsView.smallIcon(utilsView.responderIconPath(missionResponderLink.getResponder()));
-        hBox.getChildren().add(imageView);
+    private void showMissionResponderIcon(Pane labelPane, MissionResponderLink missionResponderLink) {
+        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.BLANK, utilsView.responderIconPath(missionResponderLink.getResponder()));
     }
 
-    private void showMissionResponderButton(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, MissionResponderLink missionResponderLink, HBox hBox) {
-        Button button = new Button(missionResponderLink.getResponder().toString());
-        button.setOnAction(_ -> missionResponderView.show(breadCrumbBar, pane1, pane2, missionResponderLink));
-        hBox.getChildren().add(button);
+    private void showMissionResponderButton(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, Pane labelPane, MissionResponderLink missionResponderLink) {
+        utilsView.addButtonToPane(labelPane, missionResponderLink.getResponder().toString(), (_ -> missionResponderView.show(breadCrumbBar, navigationPanel, worldMap, missionResponderLink)));
     }
 
-    public void showMap(Pane pane, MissionResponderLink missionResponderLink) {
-        missionResponderView.showMap(pane, missionResponderLink);
+    public void showMap(Pane worldMap, MissionResponderLink missionResponderLink) {
+        missionResponderView.showMap(worldMap, missionResponderLink);
     }
 
 }

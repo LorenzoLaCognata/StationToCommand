@@ -1,13 +1,12 @@
 package stationtocommand.view.missionStructure;
 
-import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.missionLinkStructure.MissionStationLink;
 import stationtocommand.model.missionLinkStructure.MissionUnitLink;
 import stationtocommand.model.missionLinkStructure.MissionVehicleLink;
+import stationtocommand.view.mainStructure.IconColor;
+import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
 
 public class MissionVehicleListView {
@@ -24,40 +23,34 @@ public class MissionVehicleListView {
         return missionVehicleView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, MissionStationLink missionStationLink) {
-        utilsView.addSectionTitleLabel(pane, "Vehicles");
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, MissionStationLink missionStationLink) {
+        utilsView.addSectionTitleLabel(navigationPanel, "Vehicles");
         for (MissionUnitLink missionUnitLink : missionStationLink.getUnitLinks()) {
             for (MissionVehicleLink missionVehicleLink : missionUnitLink.getVehicleLinks()) {
-                showSidebar(breadCrumbBar, pane, missionVehicleLink);
+                showSidebar(breadCrumbBar, navigationPanel, missionVehicleLink);
             }
         }
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, MissionUnitLink missionUnitLink) {
-        utilsView.addSectionTitleLabel(pane, "Vehicles");
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, MissionUnitLink missionUnitLink) {
+        utilsView.addSectionTitleLabel(navigationPanel, "Vehicles");
         for (MissionVehicleLink missionVehicleLink : missionUnitLink.getVehicleLinks()) {
-            showSidebar(breadCrumbBar, pane, missionVehicleLink);
+            showSidebar(breadCrumbBar, navigationPanel, missionVehicleLink);
         }
     }
 
-    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane pane, MissionVehicleLink missionVehicleLink) {
-        HBox hBox = new HBox(10);
-        pane.getChildren().add(hBox);
-
-        showMissionVehicleIcon(missionVehicleLink, hBox);
-        showMissionVehicleButton(breadCrumbBar, pane, missionVehicleLink, hBox);
+    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, MissionVehicleLink missionVehicleLink) {
+        Pane labelPane = utilsView.createHBox(navigationPanel);
+        showMissionVehicleIcon(labelPane, missionVehicleLink);
+        showMissionVehicleButton(breadCrumbBar, navigationPanel, labelPane, missionVehicleLink);
     }
 
-    private void showMissionVehicleIcon(MissionVehicleLink missionVehicleLink, HBox hBox) {
-        ImageView imageView = utilsView.smallIcon(utilsView.vehicleIconPath(missionVehicleLink.getVehicle().getVehicleType()));
-        hBox.getChildren().add(imageView);
+    private void showMissionVehicleIcon(Pane labelPane, MissionVehicleLink missionVehicleLink) {
+        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.BLANK, utilsView.vehicleIconPath(missionVehicleLink.getVehicle().getVehicleType()));
     }
 
-    private void showMissionVehicleButton(BreadCrumbBar<Object> breadCrumbBar, Pane pane, MissionVehicleLink missionVehicleLink, HBox hBox) {
-        Button button = new Button(missionVehicleLink.getVehicle().toString());
-        button.setOnAction(_ -> missionVehicleView.show(breadCrumbBar, pane, missionVehicleLink));
-        hBox.getChildren().add(button);
-
+    private void showMissionVehicleButton(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane labelPane, MissionVehicleLink missionVehicleLink) {
+        utilsView.addButtonToPane(labelPane, missionVehicleLink.getVehicle().toString(), (_ -> missionVehicleView.show(breadCrumbBar, navigationPanel, missionVehicleLink)));
     }
 
 }

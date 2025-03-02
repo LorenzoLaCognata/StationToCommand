@@ -58,9 +58,8 @@ public class UtilsView {
         return dateFormat;
     }
 
-    public List<Node> clearPane(Pane pane) {
+    public void clearPane(Pane pane) {
         pane.getChildren().clear();
-        return new ArrayList<>();
     }
 
     public void addToSidebar(Pane pane, Button button, String text1, String text2) {

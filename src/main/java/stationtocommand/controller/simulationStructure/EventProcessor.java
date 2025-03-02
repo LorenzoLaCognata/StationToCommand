@@ -40,9 +40,9 @@ public class EventProcessor {
             System.out.println(controller.getScheduler().getSimulationDateTime(event.eventTime()) + ": " + event.eventType());
         }
 
-        long nextEventTime = 0;
-        ScheduledEventType nextEventType = null;
-        Object nextEventObject = null;
+        long nextEventTime;
+        ScheduledEventType nextEventType;
+        Object nextEventObject;
 
         switch (event.eventType()) {
             case MISSION_QUEUEING:

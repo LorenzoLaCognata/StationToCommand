@@ -31,8 +31,8 @@ import java.util.Objects;
 
 public class View {
 
-    public static float MAP_WIDTH = 1400.0f;
-    public static float MAP_HEIGHT = 900.0f;
+    public static final float MAP_WIDTH = 1400.0f;
+    public static final float MAP_HEIGHT = 900.0f;
 
     private Controller controller;
     private UtilsView utilsView;
