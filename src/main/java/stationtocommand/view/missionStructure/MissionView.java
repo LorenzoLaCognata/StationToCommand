@@ -39,7 +39,7 @@ public class MissionView {
     }
 
     public void showMap(Pane worldMap, Mission mission) {
-        Point2D point = utilsView.locationToPoint(mission.getLocation());
+        Point2D point = utilsView.locationToPoint(mission.getLocation(), IconType.SMALL);
         ImageView imageView = utilsView.mediumShadowIcon(utilsView.missionIconPath(mission.getMissionType()), IconColor.PERSIAN_RED);
         utilsView.addNodeToPane(worldMap, imageView, point);
     }

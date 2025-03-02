@@ -33,12 +33,16 @@ import stationtocommand.model.vehicleStructure.FireVehicleType;
 import stationtocommand.model.vehicleStructure.VehicleType;
 import stationtocommand.view.View;
 
+import javax.swing.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class UtilsView {
+
+    public static final float SMALL_ICON_SIZE = 32;
+    public static final float MEDIUM_ICON_SIZE = 48;
 
     private final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("E dd-MM-yyyy HH:mm");
 
@@ -148,10 +152,15 @@ public class UtilsView {
         return (value - min) / (max - min);
     }
 
-    public Point2D locationToPoint(Location location) {
+    public Point2D locationToPoint(Location location, IconType iconType) {
+        double iconSize = 0;
+        switch (iconType) {
+            case IconType.SMALL, IconType.SMALL_SHADOW -> iconSize = SMALL_ICON_SIZE;
+            case IconType.MEDIUM, IconType.MEDIUM_SHADOW -> iconSize = MEDIUM_ICON_SIZE;
+        }
         double x = normalize(location.longitude(), LocationManager.MIN_LONGITUDE, LocationManager.MAX_LONGITUDE) * View.MAP_WIDTH;
         double y = (1 - normalize(location.latitude(), LocationManager.MIN_LATITUDE, LocationManager.MAX_LATITUDE)) * View.MAP_HEIGHT;
-        return new Point2D(x, y);
+        return new Point2D(x - (iconSize/2.0) , y  - (iconSize/2.0));
     }
 
     public ImageView basicIcon(String iconPath) {
@@ -160,8 +169,8 @@ public class UtilsView {
 
     public ImageView mediumIcon(String iconPath) {
         ImageView imageView = basicIcon(iconPath);
-        imageView.setFitWidth(48);
-        imageView.setFitHeight(48);
+        imageView.setFitWidth(MEDIUM_ICON_SIZE);
+        imageView.setFitHeight(MEDIUM_ICON_SIZE);
         return imageView;
     }
 
@@ -173,8 +182,8 @@ public class UtilsView {
 
     public ImageView smallIcon(String iconPath) {
         ImageView imageView = basicIcon(iconPath);
-        imageView.setFitWidth(32);
-        imageView.setFitHeight(32);
+        imageView.setFitWidth(SMALL_ICON_SIZE);
+        imageView.setFitHeight(SMALL_ICON_SIZE);
         return imageView;
     }
 

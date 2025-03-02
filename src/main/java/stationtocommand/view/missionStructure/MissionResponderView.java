@@ -38,7 +38,7 @@ public class MissionResponderView {
     }
 
     public void showMap(Pane worldMap, MissionResponderLink missionResponderLink) {
-        Point2D point = utilsView.locationToPoint(missionResponderLink.getResponder().getLocation());
+        Point2D point = utilsView.locationToPoint(missionResponderLink.getResponder().getLocation(), IconType.SMALL);
         String iconPath;
         switch (missionResponderLink.getResponder().getGender()) {
             case MALE -> iconPath = "/images/maleResponder.png";
