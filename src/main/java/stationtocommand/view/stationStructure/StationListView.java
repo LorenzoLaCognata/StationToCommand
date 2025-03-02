@@ -32,11 +32,11 @@ public class StationListView {
         return stationView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, List<Station> stations) {
-        utilsView.addSectionTitleLabel(pane1, "Stations");
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, List<Station> stations) {
+        utilsView.addSectionTitleLabel(navigationPanel, "Stations");
         for (Station station : stations) {
-            showSidebar(breadCrumbBar, pane1, pane2, station);
-            stationView.showMap(pane2, station);
+            showSidebar(breadCrumbBar, navigationPanel, worldMap, station);
+            stationView.showMap(worldMap, station);
         }
     }
 
@@ -47,8 +47,8 @@ public class StationListView {
         showStationUnitTypes(labelPane, station);
     }
 
-    private void showStationIcon(Pane navigationPanel, Station station) {
-        utilsView.addIconToPane(navigationPanel, IconType.SMALL, IconColor.BLANK, utilsView.stationIconPath(station.getDepartment().getDepartmentType()));
+    private void showStationIcon(Pane labelPane, Station station) {
+        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.BLANK, utilsView.stationIconPath(station.getDepartment().getDepartmentType()));
     }
 
     private void showStationButton(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, Pane labelPane, Station station) {

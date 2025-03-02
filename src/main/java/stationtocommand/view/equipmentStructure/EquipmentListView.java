@@ -1,11 +1,10 @@
 package stationtocommand.view.equipmentStructure;
 
-import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.equipmentStructure.Equipment;
+import stationtocommand.view.mainStructure.IconColor;
+import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
 
 import java.util.List;
@@ -24,30 +23,25 @@ public class EquipmentListView {
         return equipmentView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, List<Equipment> equipments) {
-        utilsView.addSectionTitleLabel(pane, "Equipment");
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, List<Equipment> equipments) {
+        utilsView.addSectionTitleLabel(navigationPanel, "Equipment");
         for (Equipment equipment : equipments) {
-            showSidebar(breadCrumbBar, pane, equipment);
+            showSidebar(breadCrumbBar, navigationPanel, equipment);
         }
     }
 
-    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane pane, Equipment equipment) {
-        HBox hBox = new HBox(10);
-        pane.getChildren().add(hBox);
-
-        showEquipmentIcon(equipment, hBox);
-        showEquipmentButton(breadCrumbBar, pane, equipment, hBox);
+    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Equipment equipment) {
+        Pane labelPane = utilsView.createHBox(navigationPanel);
+        showEquipmentIcon(labelPane, equipment);
+        showEquipmentButton(breadCrumbBar, navigationPanel, labelPane, equipment);
     }
 
-    private void showEquipmentIcon(Equipment equipment, HBox hBox) {
-        ImageView imageView = utilsView.smallIcon(utilsView.equipmentIconPath(equipment.getEquipmentType()));
-        hBox.getChildren().add(imageView);
+    private void showEquipmentIcon(Pane labelPane, Equipment equipment) {
+        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.BLANK, utilsView.equipmentIconPath(equipment.getEquipmentType()));
     }
 
-    private void showEquipmentButton(BreadCrumbBar<Object> breadCrumbBar, Pane pane, Equipment equipment, HBox hBox) {
-        Button button = new Button(equipment.toString());
-        button.setOnAction(_ -> equipmentView.show(breadCrumbBar, pane, equipment));
-        hBox.getChildren().add(button);
+    private void showEquipmentButton(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane labelPane, Equipment equipment) {
+        utilsView.addButtonToPane(labelPane, equipment.toString(), (_ -> equipmentView.show(breadCrumbBar, navigationPanel, equipment)));
     }
 
 }

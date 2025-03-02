@@ -63,10 +63,10 @@ public class StationView {
         utilsView.addMainTitleLabel(labelPane, station.toString());
     }
 
-    public void showMap(Pane pane, Station station) {
+    public void showMap(Pane worldMap, Station station) {
         Point2D point = utilsView.locationToPoint(station.getLocation());
         ImageView imageView = utilsView.smallShadowIcon(utilsView.stationIconPath(station.getDepartment().getDepartmentType()), utilsView.departmentIconColor(station.getDepartment()));
-        utilsView.addNodeToPane(pane, imageView, point);
+        utilsView.addNodeToPane(worldMap, imageView, point);
     }
 
 }

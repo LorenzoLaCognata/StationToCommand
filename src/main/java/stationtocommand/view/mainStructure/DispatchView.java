@@ -19,8 +19,8 @@ public class DispatchView {
         return missionListView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, List<Mission> missions) {
-        missionListView.show(breadCrumbBar, pane1, pane2, missions);
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, List<Mission> missions) {
+        missionListView.show(breadCrumbBar, navigationPanel, worldMap, missions);
     }
 
 }

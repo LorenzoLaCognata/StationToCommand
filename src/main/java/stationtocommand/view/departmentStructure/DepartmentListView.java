@@ -41,8 +41,8 @@ public class DepartmentListView {
         showDepartmentButton(breadCrumbBar, navigationPanel, worldMap, labelPane, department);
     }
 
-    private void showDepartmentIcon(Pane navigationPanel, Department department) {
-        utilsView.addIconToPane(navigationPanel, IconType.SMALL, IconColor.BLANK, utilsView.departmentIconPath(department.getDepartmentType()));
+    private void showDepartmentIcon(Pane labelPane, Department department) {
+        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.BLANK, utilsView.departmentIconPath(department.getDepartmentType()));
     }
 
     private void showDepartmentButton(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, Pane labelPane, Department department) {

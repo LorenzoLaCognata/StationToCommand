@@ -1,11 +1,10 @@
 package stationtocommand.view.unitStructure;
 
-import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.unitStructure.Unit;
+import stationtocommand.view.mainStructure.IconColor;
+import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
 
 import java.util.List;
@@ -24,36 +23,30 @@ public class UnitListView {
         return unitView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, List<Unit> units) {
-        utilsView.addSectionTitleLabel(pane, "Units");
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, List<Unit> units) {
+        utilsView.addSectionTitleLabel(navigationPanel, "Units");
         for (Unit unit : units) {
-            showSidebar(breadCrumbBar, pane, unit);
+            showSidebar(breadCrumbBar, navigationPanel, unit);
         }
     }
 
-    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane pane, Unit unit) {
-        HBox hBox = new HBox(10);
-        pane.getChildren().add(hBox);
-
-        showUnitIcon(unit, hBox);
-        showUnitButton(breadCrumbBar, pane, unit, hBox);
-        showUnitStatus(unit, hBox);
+    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Unit unit) {
+        Pane labelPane = utilsView.createHBox(navigationPanel);
+        showUnitIcon(labelPane, unit);
+        showUnitButton(breadCrumbBar, navigationPanel, labelPane, unit);
+        showUnitStatus(labelPane, unit);
     }
 
-    private void showUnitIcon(Unit unit, HBox hBox) {
-        ImageView imageView = utilsView.smallIcon(utilsView.unitIconPath(unit.getUnitType()));
-        hBox.getChildren().add(imageView);
+    private void showUnitIcon(Pane labelPane, Unit unit) {
+        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.BLANK, utilsView.unitIconPath(unit.getUnitType()));
     }
 
-    private void showUnitButton(BreadCrumbBar<Object> breadCrumbBar, Pane pane, Unit unit, HBox hBox) {
-        Button button = new Button(unit.toString());
-        button.setOnAction(_ -> unitView.show(breadCrumbBar, pane, unit));
-        hBox.getChildren().add(button);
+    private void showUnitButton(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane labelPane, Unit unit) {
+        utilsView.addButtonToPane(labelPane, unit.toString(), (_ -> unitView.show(breadCrumbBar, navigationPanel, unit)));
     }
 
-    private void showUnitStatus(Unit unit, HBox hBox) {
-        ImageView statusImageView = utilsView.smallIcon(utilsView.unitStatusIconPath(unit.getUnitStatus()));
-        hBox.getChildren().add(statusImageView);
+    private void showUnitStatus(Pane labelPane, Unit unit) {
+        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.BLANK, utilsView.unitStatusIconPath(unit.getUnitStatus()));
     }
 
 }

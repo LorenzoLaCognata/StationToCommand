@@ -1,11 +1,10 @@
 package stationtocommand.view.responderStructure;
 
-import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.responderStructure.Responder;
+import stationtocommand.view.mainStructure.IconColor;
+import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
 
 import java.util.List;
@@ -24,34 +23,29 @@ public class ResponderListView {
         return responderView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, List<Responder> responders) {
-        utilsView.addSectionTitleLabel(pane, "Responders");
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, List<Responder> responders) {
+        utilsView.addSectionTitleLabel(navigationPanel, "Responders");
 
         // TODO: review different approach to avoid showing too many responders
         if (responders.size()<20) {
             for (Responder responder : responders) {
-                showSidebar(breadCrumbBar, pane, responder);
+                showSidebar(breadCrumbBar, navigationPanel, responder);
             }
         }
     }
 
-    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane pane, Responder responder) {
-        HBox hBox = new HBox(10);
-        pane.getChildren().add(hBox);
-
-        showResponderIcon(responder, hBox);
-        showResponderButton(breadCrumbBar, pane, responder, hBox);
+    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Responder responder) {
+        Pane labelPane = utilsView.createHBox(navigationPanel);
+        showResponderIcon(labelPane, responder);
+        showResponderButton(breadCrumbBar, navigationPanel, labelPane, responder);
     }
 
-    private void showResponderIcon(Responder responder, HBox hBox) {
-        ImageView imageView = utilsView.smallIcon(utilsView.responderIconPath(responder));
-        hBox.getChildren().add(imageView);
+    private void showResponderIcon(Pane labelPane, Responder responder) {
+        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.BLANK, utilsView.responderIconPath(responder));
     }
 
-    private void showResponderButton(BreadCrumbBar<Object> breadCrumbBar, Pane pane, Responder responder, HBox hBox) {
-        Button button = new Button(responder.toString());
-        button.setOnAction(_ -> responderView.show(breadCrumbBar, pane, responder));
-        hBox.getChildren().add(button);
+    private void showResponderButton(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane labelPane, Responder responder) {
+        utilsView.addButtonToPane(labelPane, responder.toString(), (_ -> responderView.show(breadCrumbBar, navigationPanel, responder)));
     }
 
 }

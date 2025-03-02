@@ -1,11 +1,11 @@
 package stationtocommand.view.vehicleStructure;
 
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.vehicleStructure.Vehicle;
 import stationtocommand.view.View;
+import stationtocommand.view.mainStructure.IconColor;
+import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
 
 public class VehicleView {
@@ -16,23 +16,21 @@ public class VehicleView {
         this.utilsView = utilsView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, Vehicle vehicle) {
-        View.viewRunnable = () -> show(breadCrumbBar, pane, vehicle);
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Vehicle vehicle) {
+        View.viewRunnable = () -> show(breadCrumbBar, navigationPanel, vehicle);
         utilsView.addBreadCrumb(breadCrumbBar, vehicle);
-        utilsView.clearPane(pane);
-        showSidebar(pane, vehicle);
+        utilsView.clearPane(navigationPanel);
+        showSidebar(navigationPanel, vehicle);
     }
 
-    private void showSidebar(Pane pane, Vehicle vehicle) {
-        showVehicleDetails(pane, vehicle);
+    private void showSidebar(Pane navigationPanel, Vehicle vehicle) {
+        showVehicleDetails(navigationPanel, vehicle);
     }
 
-    private void showVehicleDetails(Pane pane1, Vehicle vehicle) {
-        HBox hBox = new HBox(10);
-        ImageView imageView = utilsView.mediumIcon(utilsView.vehicleIconPath(vehicle.getVehicleType()));
-        utilsView.addNodeToPane(hBox, imageView);
-        utilsView.addMainTitleLabel(hBox, vehicle.toString());
-        utilsView.addNodeToPane(pane1, hBox);
+    private void showVehicleDetails(Pane navigationPanel, Vehicle vehicle) {
+        Pane labelPane = utilsView.createHBox(navigationPanel);
+        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.BLANK, utilsView.vehicleIconPath(vehicle.getVehicleType()));
+        utilsView.addMainTitleLabel(labelPane, vehicle.toString());
     }
 
 }

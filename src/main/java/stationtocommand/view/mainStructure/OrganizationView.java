@@ -15,8 +15,8 @@ public class OrganizationView {
         this.departmentListView = new DepartmentListView(utilsView);
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane1, Pane pane2, List<Department> departments) {
-        departmentListView.show(breadCrumbBar, pane1, pane2, departments);
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, List<Department> departments) {
+        departmentListView.show(breadCrumbBar, navigationPanel, worldMap, departments);
     }
 
     public DepartmentListView getDepartmentListView() {

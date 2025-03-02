@@ -1,11 +1,11 @@
 package stationtocommand.view.equipmentStructure;
 
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.equipmentStructure.Equipment;
 import stationtocommand.view.View;
+import stationtocommand.view.mainStructure.IconColor;
+import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
 
 public class EquipmentView {
@@ -16,23 +16,21 @@ public class EquipmentView {
         this.utilsView = utilsView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane pane, Equipment equipment) {
-        View.viewRunnable = () -> show(breadCrumbBar, pane, equipment);
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Equipment equipment) {
+        View.viewRunnable = () -> show(breadCrumbBar, navigationPanel, equipment);
         utilsView.addBreadCrumb(breadCrumbBar, equipment);
-        utilsView.clearPane(pane);
-        showSidebar(breadCrumbBar, pane, equipment);
+        utilsView.clearPane(navigationPanel);
+        showSidebar(breadCrumbBar, navigationPanel, equipment);
     }
 
-    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane pane, Equipment equipment) {
-        showEquipmentDetails(pane, equipment);
+    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Equipment equipment) {
+        showEquipmentDetails(navigationPanel, equipment);
     }
 
-    private void showEquipmentDetails(Pane pane, Equipment equipment) {
-        HBox hBox = new HBox(10);
-        ImageView imageView = utilsView.mediumIcon(utilsView.equipmentIconPath(equipment.getEquipmentType()));
-        utilsView.addNodeToPane(hBox, imageView);
-        utilsView.addMainTitleLabel(hBox, equipment.toString());
-        utilsView.addNodeToPane(pane, hBox);
+    private void showEquipmentDetails(Pane navigationPanel, Equipment equipment) {
+        Pane labelPane = utilsView.createHBox(navigationPanel);
+        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.BLANK, utilsView.equipmentIconPath(equipment.getEquipmentType()));
+        utilsView.addMainTitleLabel(labelPane, equipment.toString());
     }
 
 }
