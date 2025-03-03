@@ -97,20 +97,22 @@ public class StationManager {
 				addStation(new Station(department, nextStationNumber(), new Location(40.104133f, -88.222438f), this));
 				addStation(new Station(department, nextStationNumber(), new Location(40.110017f, -88.204630f), this));
 				addStation(new Station(department, nextStationNumber(), new Location(40.090293f, -88.191698f), this));
-				// TODO: add Station #7
-				// TODO: add Station #8
+				addStation(new Station(department, nextStationNumber(), new Location(40.092407f, -88.260449f), this));
+                addStation(new Station(department, nextStationNumber(), new Location(40.107123f, -88.275456f), this));
 			}
 			case POLICE_DEPARTMENT ->  {
-				stationCount = POLICE_STATIONS_COUNT;
-				for (int i=0; i<stationCount; i++) {
-					addStation(new Station(department, nextStationNumber(), locationManager.generateLocation(), this));
-				}
+                addStation(new Station(department, nextStationNumber(), new Location(40.1179555f, -88.2408512f), this));
+				addStation(new Station(department, nextStationNumber(), new Location(40.1212780f, -88.2708330f), this));
+				addStation(new Station(department, nextStationNumber(), new Location(40.0899440f, -88.2711164f), this));
+				addStation(new Station(department, nextStationNumber(), new Location(40.1019990f, -88.2102220f), this));
 			}
 			case MEDIC_DEPARTMENT -> {
-				stationCount = MEDIC_STATIONS_COUNT;
-				for (int i=0; i<stationCount; i++) {
-					addStation(new Station(department, nextStationNumber(), locationManager.generateLocation(), this));
-				}
+				addStation(new Station(department, nextStationNumber(), new Location(40.125500f, -88.240000f), this));
+				addStation(new Station(department, nextStationNumber(), new Location(40.110000f, -88.200000f), this));
+				addStation(new Station(department, nextStationNumber(), new Location(40.098000f, -88.270000f), this));
+				addStation(new Station(department, nextStationNumber(), new Location(40.095000f, -88.220000f), this));
+				addStation(new Station(department, nextStationNumber(), new Location(40.112500f, -88.230000f), this));
+				addStation(new Station(department, nextStationNumber(), new Location(40.115000f, -88.262000f), this));
 			}
 		}
 
