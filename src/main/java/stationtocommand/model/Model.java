@@ -33,7 +33,7 @@ public class Model {
 	public Model() {
 		locationManager = new LocationManager();
 		watchManager = new WatchManager();
-		departmentManager = new DepartmentManager(locationManager);
+		departmentManager = new DepartmentManager();
 		responderManager = new ResponderManager(departmentManager);
 		missionManager = new MissionManager(departmentManager);
 		vehicleManager = new VehicleManager(departmentManager);

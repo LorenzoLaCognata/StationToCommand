@@ -30,6 +30,8 @@ import stationtocommand.model.unitTypeStructure.MedicUnitType;
 import stationtocommand.model.unitTypeStructure.PoliceUnitType;
 import stationtocommand.model.unitTypeStructure.UnitType;
 import stationtocommand.model.vehicleStructure.FireVehicleType;
+import stationtocommand.model.vehicleStructure.MedicVehicleType;
+import stationtocommand.model.vehicleStructure.PoliceVehicleType;
 import stationtocommand.model.vehicleStructure.VehicleType;
 import stationtocommand.view.View;
 
@@ -207,8 +209,16 @@ public class UtilsView {
         String iconPath;
         switch (vehicleType) {
             case FireVehicleType.PUMPER -> iconPath = "/images/vehicle/pumperFireTruck.png";
+            case FireVehicleType.TANKER -> iconPath = "/images/vehicle/tankerFireTruck.png";
+            case FireVehicleType.LADDER -> iconPath = "/images/vehicle/aerialLadderTruck.png";
             case FireVehicleType.TOWER -> iconPath = "/images/vehicle/towerLadderTruck.png";
             case FireVehicleType.RESCUE -> iconPath = "/images/vehicle/rescueTruck.png";
+            case FireVehicleType.HEAVY_RESCUE -> iconPath = "/images/vehicle/heavyRescueTruck.png";
+            case PoliceVehicleType.SUV -> iconPath = "/images/vehicle/suv.png";
+            case PoliceVehicleType.SEDAN -> iconPath = "/images/vehicle/sedan.png";
+            case PoliceVehicleType.MOTORCYCLE -> iconPath = "/images/vehicle/motorcycle.png";
+            case MedicVehicleType.BLS_AMBULANCE -> iconPath = "/images/vehicle/blsAmbulance.png";
+            case MedicVehicleType.ALS_AMBULANCE -> iconPath = "/images/vehicle/alsAmbulance.png";
             default -> iconPath = "/images/blank.png";
         }
         return iconPath;

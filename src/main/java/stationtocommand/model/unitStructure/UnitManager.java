@@ -21,9 +21,9 @@ public class UnitManager {
 
 	public static final float PATROL_RATIO = 20.0f;
 	public static final float DETECTIVE_RATIO = 1.0f;
-	public static final float HOMICIDE_RATIO = 1.5f / StationManager.POLICE_STATIONS_COUNT;
-	public static final float NARCOTICS_RATIO = 2.0f / StationManager.POLICE_STATIONS_COUNT;
-	public static final float VICE_RATIO = 2.0f / StationManager.POLICE_STATIONS_COUNT;
+	public static final float HOMICIDE_RATIO = 0.4f;
+	public static final float NARCOTICS_RATIO = 0.5f;
+	public static final float VICE_RATIO = 0.5f;
 
 	public static final float PRIMARY_CARE_RATIO = 0.8f;
 	public static final float CRITICAL_CARE_RATIO = 1.0f;
@@ -101,18 +101,7 @@ public class UnitManager {
 	}
 
 	private void randomUnits(StationManager stationManager, DepartmentType departmentType, UnitType unitType, float unitRatio) {
-		float randomFloat;
-		int unitCount;
-		randomFloat = Utils.randomGenerator.nextFloat();
-		if (unitRatio > 1.0f) {
-			unitCount = (int) unitRatio;
-		}
-		else if (randomFloat < unitRatio) {
-			unitCount = 1;
-		}
-		else {
-			unitCount = 0;
-		}
+		int unitCount = Utils.randomIntegerFromRatio(unitRatio);
 		for (int i=0; i<unitCount; i++) {
 			addUnit(departmentType, unitType, stationManager);
 		}

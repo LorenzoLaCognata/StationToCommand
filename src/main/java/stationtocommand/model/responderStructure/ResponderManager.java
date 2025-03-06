@@ -13,6 +13,9 @@ import stationtocommand.model.skillStructure.SkillLink;
 import stationtocommand.model.stationStructure.Station;
 import stationtocommand.model.unitStructure.Unit;
 import stationtocommand.model.unitTypeStructure.FireUnitType;
+import stationtocommand.model.unitTypeStructure.MedicUnitType;
+import stationtocommand.model.unitTypeStructure.PoliceUnitType;
+import stationtocommand.model.unitTypeStructure.UnitType;
 import stationtocommand.model.utilsStructure.Utils;
 
 import java.util.ArrayList;
@@ -77,45 +80,19 @@ public class ResponderManager {
 		for (Department department: departmentManager.getDepartments()) {
 			for (Station station : department.getStations()) {
 				for (Unit unit : station.getUnits()) {
-					for (int level = 4; level >= 1; level--) {
 
-						float randomLimit = 0.0f;
+					float responderRatio = responderCountByUnitType(department.getDepartmentType(), unit.getUnitType());
+					int responderCount = Utils.randomIntegerFromRatio(responderRatio);
+					for (int i=0; i<responderCount; i++) {
+						// TODO: distribute Rank not randomly
+						int level = Utils.randomGenerator.nextInt(1, 5);
+						Rank rank = department.getRankManager().getRank(level);
+						// TODO: distribute experience according to ranks
+						Experience experience = new Experience(1);
+						Location location = station.getLocation();
+						Responder responder = new Responder(location, nextResponderId(), experience, rank, unit);
+						addResponder(responder);
 
-						switch (department.getDepartmentType()) {
-							case FIRE_DEPARTMENT -> {
-								switch (level) {
-									case 1 -> randomLimit = 1.0f;
-									case 2 -> randomLimit = 0.6f;
-									case 3 -> randomLimit = 0.8f;
-									case 4 -> randomLimit = 0.4f;
-								}
-							}
-							case POLICE_DEPARTMENT -> {
-								switch (level) {
-									case 1 -> randomLimit = 0.8f;
-									case 2 -> randomLimit = 0.4f;
-									case 3 -> randomLimit = 0.6f;
-									case 4 -> randomLimit = 0.2f;
-								}
-							}
-							case MEDIC_DEPARTMENT -> {
-								switch (level) {
-									case 1 -> randomLimit = 0.6f;
-									case 2 -> randomLimit = 0.2f;
-									case 3 -> randomLimit = 0.4f;
-									case 4 -> randomLimit = 0.1f;
-								}
-							}
-						}
-
-						if (Utils.randomGenerator.nextFloat() < randomLimit) {
-							Rank rank = department.getRankManager().getRank(level);
-							// TODO: distribute experience according to ranks
-							Experience experience = new Experience(1);
-							Location location = station.getLocation();
-							Responder responder = new Responder(location, nextResponderId(), experience, rank, unit);
-							addResponder(responder);
-						}
 					}
 				}
 			}
@@ -135,6 +112,35 @@ public class ResponderManager {
 
 		addResponder(player);
 
+	}
+
+	private static float responderCountByUnitType(DepartmentType departmentType, UnitType unitType) {
+		float randomLimit = 0.0f;
+
+		switch (departmentType) {
+			case FIRE_DEPARTMENT -> {
+				switch (unitType) {
+					case FireUnitType.FIRE_ENGINE, FireUnitType.FIRE_TRUCK -> randomLimit = 4.0f;
+					case FireUnitType.RESCUE_SQUAD -> randomLimit = 3.0f;
+					default -> randomLimit = 0.0f;
+				}
+			}
+			case POLICE_DEPARTMENT -> {
+				switch (unitType) {
+					case PoliceUnitType.PATROL_UNIT, PoliceUnitType.DETECTIVE_UNIT -> randomLimit = 2.0f;
+					case PoliceUnitType.HOMICIDE_UNIT, PoliceUnitType.NARCOTICS_UNIT, PoliceUnitType.VICE_UNIT -> randomLimit = 3.0f;
+					default -> randomLimit = 0.0f;
+				}
+			}
+			case MEDIC_DEPARTMENT -> {
+				switch (unitType) {
+					case MedicUnitType.PRIMARY_CARE_UNIT -> randomLimit = 2.0f;
+					case MedicUnitType.CRITICAL_CARE_UNIT -> randomLimit = 3.0f;
+					default -> randomLimit = 0.0f;
+				}
+			}
+		}
+		return randomLimit;
 	}
 
 }

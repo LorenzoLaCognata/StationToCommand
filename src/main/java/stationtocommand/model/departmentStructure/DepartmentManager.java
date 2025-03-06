@@ -10,8 +10,8 @@ public class DepartmentManager {
 
 	private final List<Department> departments = new ArrayList<>();
 
-	public DepartmentManager(LocationManager locationManager) {
-		initDepartments(locationManager);
+	public DepartmentManager() {
+		initDepartments();
 	}
 
 	@Override
@@ -36,10 +36,10 @@ public class DepartmentManager {
 		this.departments.add(department);
 	}
 
-	public void initDepartments(LocationManager locationManager) {
-		addDepartment(new Department(DepartmentType.FIRE_DEPARTMENT, locationManager));
-		addDepartment(new Department(DepartmentType.POLICE_DEPARTMENT, locationManager));
-		addDepartment(new Department(DepartmentType.MEDIC_DEPARTMENT, locationManager));
+	public void initDepartments() {
+		addDepartment(new Department(DepartmentType.FIRE_DEPARTMENT));
+		addDepartment(new Department(DepartmentType.POLICE_DEPARTMENT));
+		addDepartment(new Department(DepartmentType.MEDIC_DEPARTMENT));
 	}
 
 }

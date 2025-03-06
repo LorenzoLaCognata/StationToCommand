@@ -12,4 +12,20 @@ public class Utils {
         int randomIndex = randomGenerator.nextInt(values.length);
         return values[randomIndex];
     }
+
+    public static int randomIntegerFromRatio(float ratio) {
+        int count = 0;
+
+        if (ratio > 1.0f) {
+            count = (int) ratio;
+        }
+        else {
+            float randomFloat = Utils.randomGenerator.nextFloat();
+            if (randomFloat < ratio) {
+                count = 1;
+            }
+        }
+        return count;
+    }
+
 }

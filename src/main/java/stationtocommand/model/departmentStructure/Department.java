@@ -15,9 +15,9 @@ public class Department {
     private final RankManager rankManager;
     private final ShiftManager shiftManager;
 
-    public Department(DepartmentType departmentType, LocationManager locationManager) {
+    public Department(DepartmentType departmentType) {
         this.departmentType = departmentType;
-        this.stationManager = new StationManager(this, locationManager);
+        this.stationManager = new StationManager(this);
         this.rankManager = new RankManager(this);
         this.shiftManager = new ShiftManager(this);
     }

@@ -12,16 +12,12 @@ import java.util.stream.Collectors;
 
 public class StationManager {
 
-	public static final int FIRE_STATIONS_COUNT = 8;
-	public static final int POLICE_STATIONS_COUNT = 4;
-	public static final int MEDIC_STATIONS_COUNT = 6;
-
 	private final List<Station> stations = new ArrayList<>();
 	private int stationNumberCounter = 0;
 	private int unitNumberCounter = 0;
 
-    public StationManager(Department department, LocationManager locationManager) {
-		initStations(department, locationManager);
+    public StationManager(Department department) {
+		initStations(department);
     }
 
 	@Override
@@ -85,9 +81,7 @@ public class StationManager {
 		return unitNumberCounter;
 	}
 
-	public void initStations(Department department, LocationManager locationManager) {
-
-		int stationCount = 0;
+	public void initStations(Department department) {
 
 		switch (department.getDepartmentType()) {
 			case FIRE_DEPARTMENT -> {
