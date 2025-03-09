@@ -38,7 +38,7 @@ public class MissionDepartmentView {
 
     private void showMissionDepartmentDetails(Pane navigationPanel, MissionDepartmentLink missionDepartmentLink) {
         Pane labelPane = utilsView.createHBox(navigationPanel);
-        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.BLANK, utilsView.missionIconPath(missionDepartmentLink.getMission().getMissionType()));
+        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.BLANK, missionDepartmentLink.getMission().getMissionType().getResourcePath());
         utilsView.addMainTitleLabel(labelPane, missionDepartmentLink.getMission().toString());
     }
 

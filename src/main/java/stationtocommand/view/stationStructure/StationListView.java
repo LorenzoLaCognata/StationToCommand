@@ -48,7 +48,7 @@ public class StationListView {
     }
 
     private void showStationIcon(Pane labelPane, Station station) {
-        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.BLANK, utilsView.stationIconPath(station.getDepartment().getDepartmentType()));
+        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.BLANK, station.getStationType().getResourcePath());
     }
 
     private void showStationButton(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, Pane labelPane, Station station) {
@@ -66,7 +66,7 @@ public class StationListView {
         }
 
         for (UnitType unitType : unitTypes) {
-            ImageView unitImageView = utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.BLANK, utilsView.unitIconPath(unitType));
+            ImageView unitImageView = utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.BLANK, unitType.getResourcePath());
             if (station.getUnitManager().getUnits(unitType).isEmpty()) {
                 unitImageView.setOpacity(0.2);
             }

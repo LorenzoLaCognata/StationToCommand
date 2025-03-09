@@ -37,7 +37,7 @@ public class EquipmentListView {
     }
 
     private void showEquipmentIcon(Pane labelPane, Equipment equipment) {
-        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.BLANK, utilsView.equipmentIconPath(equipment.getEquipmentType()));
+        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.BLANK, equipment.getEquipmentType().getResourcePath());
     }
 
     private void showEquipmentButton(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane labelPane, Equipment equipment) {

@@ -2,7 +2,6 @@ package stationtocommand.model.stationStructure;
 
 import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.model.locationStructure.Location;
-import stationtocommand.model.locationStructure.LocationManager;
 import stationtocommand.model.unitStructure.UnitStatus;
 import stationtocommand.model.unitTypeStructure.UnitType;
 

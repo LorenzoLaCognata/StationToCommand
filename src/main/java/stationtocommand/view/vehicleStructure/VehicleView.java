@@ -29,7 +29,7 @@ public class VehicleView {
 
     private void showVehicleDetails(Pane navigationPanel, Vehicle vehicle) {
         Pane labelPane = utilsView.createHBox(navigationPanel);
-        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.BLANK, utilsView.vehicleIconPath(vehicle.getVehicleType()));
+        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.BLANK, vehicle.getVehicleType().getResourcePath());
         utilsView.addMainTitleLabel(labelPane, vehicle.toString());
     }
 

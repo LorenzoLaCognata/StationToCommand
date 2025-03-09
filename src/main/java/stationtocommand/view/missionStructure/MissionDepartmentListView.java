@@ -36,7 +36,7 @@ public class MissionDepartmentListView {
     }
 
     private void showMissionDepartmentIcon(Pane labelPane, MissionDepartmentLink missionDepartmentLink) {
-        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.BLANK, utilsView.departmentIconPath(missionDepartmentLink.getDepartment().getDepartmentType()));
+        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.BLANK, missionDepartmentLink.getDepartment().getDepartmentType().getResourcePath());
     }
 
     private void showMissionDepartmentButton(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, Pane labelPane, MissionDepartmentLink missionDepartmentLink) {

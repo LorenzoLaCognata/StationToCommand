@@ -29,7 +29,7 @@ public class ResponderView {
 
     private void showResponderDetails(Pane navigationPanel, Responder responder) {
         Pane labelPane = utilsView.createHBox(navigationPanel);
-        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.BLANK, utilsView.responderIconPath(responder));
+        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.BLANK, responder.getAppearanceType().getResourcePath());
         utilsView.addMainTitleLabel(labelPane, responder.toString());
     }
 

@@ -1,22 +1,32 @@
 package stationtocommand.model.equipmentStructure;
 
+import java.util.Objects;
+
 public enum PoliceEquipmentType implements EquipmentType {
-  BODY_ARMOR("Body Armor"),
-  HANDCUFFS("Handcuffs"),
-  FLASHLIGHT("Flashlight"),
-  BATON("Baton"),
-  TASER("Taser"),
-  EVIDENCE_KIT("Evidence Collection Kit");
+  // TODO: replace with final icons
+  BODY_ARMOR("Body Armor", null),
+  HANDCUFFS("Handcuffs", null),
+  FLASHLIGHT("Flashlight", null),
+  BATON("Baton", null),
+  TASER("Taser", null),
+  EVIDENCE_KIT("Evidence Collection Kit", null);
 
   private final String name;
+  private final String resourcePath;
 
-  PoliceEquipmentType(String name) {
+  PoliceEquipmentType(String name, String resourcePath) {
     this.name = name;
+    this.resourcePath = resourcePath;
   }
 
   @Override
   public String toString() {
     return this.name;
+  }
+
+  @Override
+  public String getResourcePath() {
+    return Objects.requireNonNullElse(resourcePath, "/images/blank.png");
   }
 
 }
