@@ -247,8 +247,11 @@ public class UtilsView {
         String iconPath;
         switch (equipmentType) {
             case FireEquipmentType.HOSE -> iconPath = "/images/equipment/fireHose.png";
+            case FireEquipmentType.NOZZLE -> iconPath = "/images/equipment/fogNozzle.png";
+            case FireEquipmentType.AXE -> iconPath = "/images/equipment/fireAxe.png";
             default -> iconPath = "/images/blank.png";
         }
+        System.out.println(equipmentType + "..." + iconPath);
         return iconPath;
     }
 
