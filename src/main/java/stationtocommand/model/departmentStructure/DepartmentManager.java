@@ -1,7 +1,5 @@
 package stationtocommand.model.departmentStructure;
 
-import stationtocommand.model.locationStructure.LocationManager;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;

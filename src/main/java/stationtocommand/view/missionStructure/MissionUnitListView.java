@@ -36,7 +36,7 @@ public class MissionUnitListView {
     }
 
     private void showMissionUnitIcon(Pane labelPane, MissionUnitLink missionUnitLink) {
-        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.BLANK, utilsView.unitIconPath(missionUnitLink.getUnit().getUnitType()));
+        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.BLANK, missionUnitLink.getUnit().getUnitType().getResourcePath());
     }
 
     private void showMissionUnitButton(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, Pane labelPane, MissionUnitLink missionUnitLink) {

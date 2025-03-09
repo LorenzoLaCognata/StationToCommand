@@ -1,6 +1,5 @@
 package stationtocommand.model.departmentStructure;
 
-import stationtocommand.model.locationStructure.LocationManager;
 import stationtocommand.model.rankStructure.RankManager;
 import stationtocommand.model.shiftStructure.ShiftManager;
 import stationtocommand.model.stationStructure.Station;

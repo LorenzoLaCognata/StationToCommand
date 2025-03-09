@@ -1,5 +1,6 @@
 package stationtocommand.model.personStructure;
 
+import stationtocommand.model.departmentStructure.AppearanceType;
 import stationtocommand.model.locationStructure.Location;
 import stationtocommand.model.utilsStructure.Utils;
 
@@ -11,12 +12,47 @@ public abstract class Person {
     private final String firstName;
     private final String lastName;
     private final Gender gender;
+    private final AppearanceType appearanceType;
     private Location location;
 
     public Person(String firstName, String lastName, Gender gender, Location location) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
+        int hash = Math.abs((firstName + lastName).hashCode() % 10) + 1;
+        switch (gender) {
+            case MALE -> {
+                switch (hash) {
+                    case 1 -> this.appearanceType = AppearanceType.MALE_01;
+                    case 2 -> this.appearanceType = AppearanceType.MALE_02;
+                    case 3 -> this.appearanceType = AppearanceType.MALE_03;
+                    case 4 -> this.appearanceType = AppearanceType.MALE_04;
+                    case 5 -> this.appearanceType = AppearanceType.MALE_05;
+                    case 6 -> this.appearanceType = AppearanceType.MALE_06;
+                    case 7 -> this.appearanceType = AppearanceType.MALE_07;
+                    case 8 -> this.appearanceType = AppearanceType.MALE_08;
+                    case 9 -> this.appearanceType = AppearanceType.MALE_09;
+                    case 10 -> this.appearanceType = AppearanceType.MALE_10;
+                    default -> this.appearanceType = AppearanceType.MALE_01;
+                }
+            }
+            case FEMALE -> {
+                switch (hash) {
+                    case 1 -> this.appearanceType = AppearanceType.FEMALE_01;
+                    case 2 -> this.appearanceType = AppearanceType.FEMALE_02;
+                    case 3 -> this.appearanceType = AppearanceType.FEMALE_03;
+                    case 4 -> this.appearanceType = AppearanceType.FEMALE_04;
+                    case 5 -> this.appearanceType = AppearanceType.FEMALE_05;
+                    case 6 -> this.appearanceType = AppearanceType.FEMALE_06;
+                    case 7 -> this.appearanceType = AppearanceType.FEMALE_07;
+                    case 8 -> this.appearanceType = AppearanceType.FEMALE_08;
+                    case 9 -> this.appearanceType = AppearanceType.FEMALE_09;
+                    case 10 -> this.appearanceType = AppearanceType.FEMALE_10;
+                    default -> this.appearanceType = AppearanceType.FEMALE_01;
+                }
+            }
+            default -> this.appearanceType = AppearanceType.MALE_01;
+        }
         this.location = location;
     }
 
@@ -27,6 +63,40 @@ public abstract class Person {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
+        int hash = Math.abs((firstName + lastName).hashCode() % 10) + 1;
+        switch (gender) {
+            case MALE -> {
+                switch (hash) {
+                    case 1 -> this.appearanceType = AppearanceType.MALE_01;
+                    case 2 -> this.appearanceType = AppearanceType.MALE_02;
+                    case 3 -> this.appearanceType = AppearanceType.MALE_03;
+                    case 4 -> this.appearanceType = AppearanceType.MALE_04;
+                    case 5 -> this.appearanceType = AppearanceType.MALE_05;
+                    case 6 -> this.appearanceType = AppearanceType.MALE_06;
+                    case 7 -> this.appearanceType = AppearanceType.MALE_07;
+                    case 8 -> this.appearanceType = AppearanceType.MALE_08;
+                    case 9 -> this.appearanceType = AppearanceType.MALE_09;
+                    case 10 -> this.appearanceType = AppearanceType.MALE_10;
+                    default -> this.appearanceType = AppearanceType.MALE_01;
+                }
+            }
+            case FEMALE -> {
+                switch (hash) {
+                    case 1 -> this.appearanceType = AppearanceType.FEMALE_01;
+                    case 2 -> this.appearanceType = AppearanceType.FEMALE_02;
+                    case 3 -> this.appearanceType = AppearanceType.FEMALE_03;
+                    case 4 -> this.appearanceType = AppearanceType.FEMALE_04;
+                    case 5 -> this.appearanceType = AppearanceType.FEMALE_05;
+                    case 6 -> this.appearanceType = AppearanceType.FEMALE_06;
+                    case 7 -> this.appearanceType = AppearanceType.FEMALE_07;
+                    case 8 -> this.appearanceType = AppearanceType.FEMALE_08;
+                    case 9 -> this.appearanceType = AppearanceType.FEMALE_09;
+                    case 10 -> this.appearanceType = AppearanceType.FEMALE_10;
+                    default -> this.appearanceType = AppearanceType.FEMALE_01;
+                }
+            }
+            default -> this.appearanceType = AppearanceType.MALE_01;
+        }
         this.location = location;
     }
 
@@ -40,6 +110,10 @@ public abstract class Person {
 
     public Gender getGender() {
         return gender;
+    }
+
+    public AppearanceType getAppearanceType() {
+        return appearanceType;
     }
 
     public Location getLocation() {

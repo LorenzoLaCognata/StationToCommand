@@ -14,12 +14,19 @@ import java.util.List;
 public class Station {
 
     private final Department department;
+    private final StationType stationType;
     private final int number;
 	private final Location location;
 	private final UnitManager unitManager;
 	
     public Station(Department department, int number, Location location, StationManager stationManager) {
         this.department = department;
+        switch (department.getDepartmentType()) {
+            case FIRE_DEPARTMENT -> this.stationType = StationType.FIRE_STATION;
+            case POLICE_DEPARTMENT -> this.stationType = StationType.POLICE_STATION;
+            case MEDIC_DEPARTMENT -> this.stationType = StationType.MEDIC_STATION;
+            default ->  stationType = null;
+        }
 		this.number = number;
         this.location = location;
 		this.unitManager = new UnitManager(this, stationManager);
@@ -32,6 +39,10 @@ public class Station {
 
     public Department getDepartment() {
         return department;
+    }
+
+    public StationType getStationType() {
+        return stationType;
     }
 
     public int getNumber() {

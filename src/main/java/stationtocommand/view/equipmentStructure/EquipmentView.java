@@ -29,7 +29,7 @@ public class EquipmentView {
 
     private void showEquipmentDetails(Pane navigationPanel, Equipment equipment) {
         Pane labelPane = utilsView.createHBox(navigationPanel);
-        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.BLANK, utilsView.equipmentIconPath(equipment.getEquipmentType()));
+        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.BLANK, equipment.getEquipmentType().getResourcePath());
         utilsView.addMainTitleLabel(labelPane, equipment.toString());
     }
 

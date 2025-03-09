@@ -1,16 +1,17 @@
-package stationtocommand.model.vehicleStructure;
+package stationtocommand.model.stationStructure;
 
 import java.util.Objects;
 
-public enum PoliceVehicleType implements VehicleType {
-  SEDAN("Police Sedan", "/images/vehicle/sedan.png"),
-  SUV("Police SUV", "/images/vehicle/suv.png"),
-  MOTORCYCLE("Police Motorcycle", "/images/vehicle/motorcycle.png");
+public enum StationType {
+
+  FIRE_STATION("Fire", "/images/station/fireStation.png"),
+  POLICE_STATION("Police","/images/station/policeStation.png"),
+  MEDIC_STATION("EMS", "/images/station/medicStation.png");
 
   private final String name;
   private final String resourcePath;
 
-  PoliceVehicleType(String name, String resourcePath) {
+  StationType(String name, String resourcePath) {
     this.name = name;
     this.resourcePath = resourcePath;
   }
@@ -20,7 +21,6 @@ public enum PoliceVehicleType implements VehicleType {
     return this.name;
   }
 
-  @Override
   public String getResourcePath() {
     return Objects.requireNonNullElse(resourcePath, "/images/blank.png");
   }

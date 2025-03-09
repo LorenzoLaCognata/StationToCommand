@@ -37,7 +37,7 @@ public class VehicleListView {
     }
 
     private void showVehicleIcon(Pane labelPane, Vehicle vehicle) {
-        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.BLANK, utilsView.vehicleIconPath(vehicle.getVehicleType()));
+        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.BLANK, vehicle.getVehicleType().getResourcePath());
     }
 
     private void showVehicleButton(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane labelPane, Vehicle vehicle) {

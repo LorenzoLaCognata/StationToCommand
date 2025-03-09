@@ -34,7 +34,7 @@ public class DepartmentView {
 
     private void showDepartmentDetails(Pane navigationPanel, Department department) {
         Pane labelPane = utilsView.createHBox(navigationPanel);
-        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.BLANK, utilsView.departmentIconPath(department.getDepartmentType()));
+        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.BLANK, department.getDepartmentType().getResourcePath());
         utilsView.addMainTitleLabel(labelPane, department.toString());
     }
 

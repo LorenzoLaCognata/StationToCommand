@@ -33,25 +33,13 @@ public class MissionResponderView {
 
     private void showMissionResponderDetails(Pane navigationPanel, MissionResponderLink missionResponderLink) {
         Pane labelPane = utilsView.createHBox(navigationPanel);
-        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.BLANK, utilsView.missionIconPath(missionResponderLink.getMission().getMissionType()));
+        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.BLANK, missionResponderLink.getMission().getMissionType().getResourcePath());
         utilsView.addMainTitleLabel(labelPane, missionResponderLink.getMission().toString());
     }
 
     public void showMap(Pane worldMap, MissionResponderLink missionResponderLink) {
         Point2D point = utilsView.locationToPoint(missionResponderLink.getResponder().getLocation(), IconType.SMALL);
-        String iconPath;
-        switch (missionResponderLink.getResponder().getGender()) {
-            case MALE -> iconPath = "/images/maleResponder.png";
-            case FEMALE -> iconPath = "/images/femaleResponder.png";
-            default -> iconPath = "/images/blank.png";
-        }
-        IconColor iconColor;
-        switch (missionResponderLink.getResponder().getGender()) {
-            case MALE -> iconColor = IconColor.DARK_BLUE;
-            case FEMALE -> iconColor = IconColor.PERSIAN_RED;
-            default -> iconColor = IconColor.BLANK;
-        }
-        ImageView imageView = utilsView.mediumShadowIcon(iconPath, iconColor);
+        ImageView imageView = utilsView.smallIcon(missionResponderLink.getResponder().getAppearanceType().getResourcePath());
         utilsView.addNodeToPane(worldMap, imageView, point);
     }
 

@@ -41,7 +41,7 @@ public class ResponderListView {
     }
 
     private void showResponderIcon(Pane labelPane, Responder responder) {
-        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.BLANK, utilsView.responderIconPath(responder));
+        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.BLANK, responder.getAppearanceType().getResourcePath());
     }
 
     private void showResponderButton(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane labelPane, Responder responder) {

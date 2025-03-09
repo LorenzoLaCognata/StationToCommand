@@ -53,7 +53,7 @@ public class UnitView {
 
     private void showUnitDetails(Pane navigationPanel, Unit unit) {
         Pane labelPane = utilsView.createHBox(navigationPanel);
-        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.BLANK, utilsView.unitIconPath(unit.getUnitType()));
+        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.BLANK, unit.getUnitType().getResourcePath());
         utilsView.addMainTitleLabel(labelPane, unit.toString());
     }
 
