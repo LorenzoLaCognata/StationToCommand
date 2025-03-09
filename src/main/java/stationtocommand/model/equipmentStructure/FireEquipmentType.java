@@ -3,14 +3,12 @@ package stationtocommand.model.equipmentStructure;
 public enum FireEquipmentType implements EquipmentType {
   HOSE("Fire Hose"),
   NOZZLE("Fog Nozzle"),
-
   AXE("Fire Axe"),
   HALLIGAN("Halligan Bar"),
   LADDER("Portable Ladder"),
   CUTTER("Hydraulic Cutter"),
   SPREADER("Hydraulic Spreader"),
-  SCBA("Self-Contained Breathing Apparatus"),
-  EXTINGUISHER("Fire Extinguisher");
+  SCBA("Self-Contained Breathing Apparatus");
 
   private final String name;
 

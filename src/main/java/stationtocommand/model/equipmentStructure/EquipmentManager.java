@@ -56,12 +56,15 @@ public class EquipmentManager {
                         case FireUnitType.FIRE_ENGINE -> {
                             addEquipment(new Equipment(FireEquipmentType.HOSE, unit));
                             addEquipment(new Equipment(FireEquipmentType.NOZZLE, unit));
+							addEquipment(new Equipment(FireEquipmentType.SCBA, unit));
                         }
                         case FireUnitType.FIRE_TRUCK -> {
                             addEquipment(new Equipment(FireEquipmentType.HALLIGAN, unit));
                             addEquipment(new Equipment(FireEquipmentType.LADDER, unit));
+							addEquipment(new Equipment(FireEquipmentType.SCBA, unit));
                         }
                         case FireUnitType.RESCUE_SQUAD -> {
+							addEquipment(new Equipment(FireEquipmentType.AXE, unit));
                             addEquipment(new Equipment(FireEquipmentType.CUTTER, unit));
                             addEquipment(new Equipment(FireEquipmentType.SPREADER, unit));
                         }
@@ -69,21 +72,27 @@ public class EquipmentManager {
                             addEquipment(new Equipment(PoliceEquipmentType.FLASHLIGHT, unit));
 							addEquipment(new Equipment(PoliceEquipmentType.HANDCUFFS, unit));
 							addEquipment(new Equipment(PoliceEquipmentType.BODY_ARMOR, unit));
+							addEquipment(new Equipment(PoliceEquipmentType.BATON, unit));
                         }
                         case PoliceUnitType.DETECTIVE_UNIT -> {
 							addEquipment(new Equipment(PoliceEquipmentType.FLASHLIGHT, unit));
 							addEquipment(new Equipment(PoliceEquipmentType.HANDCUFFS, unit));
                             addEquipment(new Equipment(PoliceEquipmentType.EVIDENCE_KIT, unit));
+							addEquipment(new Equipment(PoliceEquipmentType.TASER, unit));
                         }
                         case MedicUnitType.PRIMARY_CARE_UNIT -> {
                             addEquipment(new Equipment(MedicEquipmentType.FIRST_AID_KIT, unit));
                             addEquipment(new Equipment(MedicEquipmentType.OXYGEN_MASK, unit));
                             addEquipment(new Equipment(MedicEquipmentType.STRETCHER, unit));
+							addEquipment(new Equipment(MedicEquipmentType.TRAUMA_BAG, unit));
+							addEquipment(new Equipment(MedicEquipmentType.COLLAR, unit));
                         }
                         case MedicUnitType.CRITICAL_CARE_UNIT -> {
                             addEquipment(new Equipment(MedicEquipmentType.INTUBATION_KIT, unit));
                             addEquipment(new Equipment(MedicEquipmentType.VENTILATOR, unit));
                             addEquipment(new Equipment(MedicEquipmentType.DEFIBRILLATOR, unit));
+							addEquipment(new Equipment(MedicEquipmentType.CARDIAC_MONITOR, unit));
+							addEquipment(new Equipment(MedicEquipmentType.BURN_KIT, unit));
                         }
                         default -> {}
 					}
