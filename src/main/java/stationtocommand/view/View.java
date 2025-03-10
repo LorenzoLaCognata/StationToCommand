@@ -15,7 +15,6 @@ import javafx.util.Duration;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.controller.Controller;
 import stationtocommand.model.departmentStructure.Department;
-import stationtocommand.model.equipmentStructure.Equipment;
 import stationtocommand.model.missionLinkStructure.*;
 import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.model.responderStructure.Responder;
