@@ -223,6 +223,10 @@ public class View {
                 utilsView.addBreadCrumb(breadcrumb, selectedObject);
                 organizationView.getDepartmentListView().getDepartmentView().getStationListView().getStationView().getUnitListView().getUnitView().getVehicleListView().getVehicleView().show(breadcrumb, navigationPanel, (Vehicle) selectedObject);
             }
+            else if (selectedObject instanceof Equipment) {
+                utilsView.addBreadCrumb(breadcrumb, selectedObject);
+                organizationView.getDepartmentListView().getDepartmentView().getStationListView().getStationView().getUnitListView().getUnitView().getEquipmentListView().getEquipmentView().show(breadcrumb, navigationPanel, (Equipment) selectedObject);
+            }
             else if (selectedObject instanceof Mission) {
                 utilsView.resetBreadCrumbBar(breadcrumb);
                 dispatchView.getMissionListView().getMissionView().show(breadcrumb, navigationPanel, mapElementsLayer, (Mission) selectedObject);
