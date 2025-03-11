@@ -7,10 +7,13 @@ import stationtocommand.model.locationStructure.Location;
 import stationtocommand.model.locationStructure.LocationManager;
 import stationtocommand.model.missionLinkStructure.MissionDepartmentLink;
 import stationtocommand.model.missionLinkStructure.MissionStationLink;
+import stationtocommand.model.missionLinkStructure.MissionUnitLink;
+import stationtocommand.model.responderStructure.Responder;
 import stationtocommand.model.stationStructure.Station;
 import stationtocommand.model.stationStructure.StationManager;
 import stationtocommand.model.unitStructure.Unit;
 import stationtocommand.model.unitStructure.UnitManager;
+import stationtocommand.model.unitStructure.UnitResponderLink;
 import stationtocommand.model.unitStructure.UnitStatus;
 import stationtocommand.model.unitTypeStructure.FireUnitType;
 import stationtocommand.model.unitTypeStructure.MedicUnitType;
@@ -108,6 +111,11 @@ public class MissionManager {
                         Unit unit = units.getFirst();
                         unit.setUnitStatus(UnitStatus.DISPATCHED);
                         missionStationLink.getMission().linkUnit(unit);
+
+                        MissionUnitLink missionUnitLink = missionStationLink.getUnitLink(unit);
+                        if (missionUnitLink != null) {
+                            dispatchMissionToResponders(missionUnitLink);
+                        }
                     }
                 }
             }
@@ -130,11 +138,25 @@ public class MissionManager {
                             Unit unit = units.getFirst();
                             unit.setUnitStatus(UnitStatus.DISPATCHED);
                             missionStationLink.getMission().linkUnit(unit);
+
+                            MissionUnitLink missionUnitLink = missionStationLink.getUnitLink(unit);
+                            if (missionUnitLink != null) {
+                                dispatchMissionToResponders(missionUnitLink);
+                            }
                         }
 
                     }
                 }
             }
+        }
+
+    }
+
+    public void dispatchMissionToResponders(MissionUnitLink missionUnitLink) {
+
+        for (UnitResponderLink unitResponderLink : missionUnitLink.getUnit().getResponderLinks()) {
+            Responder responder = unitResponderLink.getResponder();
+            missionUnitLink.getMission().linkResponder(responder);
         }
 
     }
