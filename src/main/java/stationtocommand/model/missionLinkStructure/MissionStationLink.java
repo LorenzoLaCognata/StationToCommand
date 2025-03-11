@@ -32,6 +32,13 @@ public class MissionStationLink extends StationLink {
     return unitLinks;
   }
 
+  public MissionUnitLink getUnitLink(Unit unit) {
+    return unitLinks.stream()
+            .filter(item -> item.getUnit().equals(unit))
+            .findAny()
+            .orElse(null);
+  }
+
   public void linkUnit(Unit unit) {
     if (unitLinks.stream()
           .noneMatch(item -> item.getUnit().equals(unit))) {

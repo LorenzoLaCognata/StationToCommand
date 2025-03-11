@@ -3,7 +3,7 @@ package stationtocommand.model.unitTypeStructure;
 import java.util.Objects;
 
 public enum PoliceUnitType implements UnitType {
-  PATROL_UNIT("Patrol", "/images/unit/"),
+  PATROL_UNIT("Patrol", "/images/unit/patrolUnit.png"),
   DETECTIVE_UNIT("Detective", "/images/unit/detectiveUnit.png"),
   HOMICIDE_UNIT("Homicide", "/images/unit/homicideUnit.png"),
   NARCOTICS_UNIT("Narcotics", "/images/unit/narcoticsUnit.png"),
