@@ -114,11 +114,7 @@ public class MissionManager {
 
                         MissionUnitLink missionUnitLink = missionStationLink.getUnitLink(unit);
                         if (missionUnitLink != null) {
-                            System.out.println("www");
                             dispatchMissionToResponders(missionUnitLink);
-                        }
-                        else {
-                            System.out.println("zzz");
                         }
                     }
                 }
@@ -145,11 +141,7 @@ public class MissionManager {
 
                             MissionUnitLink missionUnitLink = missionStationLink.getUnitLink(unit);
                             if (missionUnitLink != null) {
-                                System.out.println("xxx");
                                 dispatchMissionToResponders(missionUnitLink);
-                            }
-                            else {
-                                System.out.println("yyy");
                             }
                         }
 
