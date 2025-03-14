@@ -7,16 +7,16 @@ import stationtocommand.model.locationStructure.Location;
 import stationtocommand.model.locationStructure.LocationManager;
 import stationtocommand.model.missionLinkStructure.MissionDepartmentLink;
 import stationtocommand.model.missionLinkStructure.MissionStationLink;
+import stationtocommand.model.missionLinkStructure.MissionUnitLink;
 import stationtocommand.model.stationStructure.Station;
 import stationtocommand.model.stationStructure.StationManager;
-import stationtocommand.model.unitStructure.Unit;
-import stationtocommand.model.unitStructure.UnitManager;
-import stationtocommand.model.unitStructure.UnitStatus;
+import stationtocommand.model.unitStructure.*;
 import stationtocommand.model.unitTypeStructure.FireUnitType;
 import stationtocommand.model.unitTypeStructure.MedicUnitType;
 import stationtocommand.model.unitTypeStructure.PoliceUnitType;
 import stationtocommand.model.unitTypeStructure.UnitType;
 import stationtocommand.model.utilsStructure.Utils;
+import stationtocommand.model.vehicleStructure.Vehicle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,6 +108,11 @@ public class MissionManager {
                         Unit unit = units.getFirst();
                         unit.setUnitStatus(UnitStatus.DISPATCHED);
                         missionStationLink.getMission().linkUnit(unit);
+
+                        MissionUnitLink missionUnitLink = missionStationLink.getUnitLink(unit);
+                        if (missionUnitLink != null) {
+                            dispatchMissionToVehicles(missionUnitLink);
+                        }
                     }
                 }
             }
@@ -130,11 +135,25 @@ public class MissionManager {
                             Unit unit = units.getFirst();
                             unit.setUnitStatus(UnitStatus.DISPATCHED);
                             missionStationLink.getMission().linkUnit(unit);
+
+                            MissionUnitLink missionUnitLink = missionStationLink.getUnitLink(unit);
+                            if (missionUnitLink != null) {
+                                dispatchMissionToVehicles(missionUnitLink);
+                            }
                         }
 
                     }
                 }
             }
+        }
+
+    }
+
+    public void dispatchMissionToVehicles(MissionUnitLink missionUnitLink) {
+        for (UnitVehicleLink unitVehicleLink : missionUnitLink.getUnit().getVehicleLinks()) {
+            // TODO: select appropriate unit vehicles to dispatch
+            Vehicle vehicle = unitVehicleLink.getVehicle();
+            missionUnitLink.getMission().linkVehicle(vehicle);
         }
 
     }
