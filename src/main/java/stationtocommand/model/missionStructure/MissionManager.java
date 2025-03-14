@@ -152,6 +152,15 @@ public class MissionManager {
 
     }
 
+    public void dispatchMissionToVehicles(MissionUnitLink missionUnitLink) {
+        for (UnitVehicleLink unitVehicleLink : missionUnitLink.getUnit().getVehicleLinks()) {
+            // TODO: select appropriate unit vehicles to dispatch
+            Vehicle vehicle = unitVehicleLink.getVehicle();
+            missionUnitLink.getMission().linkVehicle(vehicle);
+        }
+
+    }
+
     public void dispatchMissionToResponders(MissionUnitLink missionUnitLink) {
 
         for (UnitResponderLink unitResponderLink : missionUnitLink.getUnit().getResponderLinks()) {
