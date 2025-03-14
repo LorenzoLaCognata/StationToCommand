@@ -9,13 +9,8 @@ import stationtocommand.model.missionLinkStructure.MissionDepartmentLink;
 import stationtocommand.model.missionLinkStructure.MissionStationLink;
 import stationtocommand.model.missionLinkStructure.MissionUnitLink;
 import stationtocommand.model.responderStructure.Responder;
-import stationtocommand.model.missionLinkStructure.MissionUnitLink;
 import stationtocommand.model.stationStructure.Station;
 import stationtocommand.model.stationStructure.StationManager;
-import stationtocommand.model.unitStructure.Unit;
-import stationtocommand.model.unitStructure.UnitManager;
-import stationtocommand.model.unitStructure.UnitResponderLink;
-import stationtocommand.model.unitStructure.UnitStatus;
 import stationtocommand.model.unitStructure.*;
 import stationtocommand.model.unitTypeStructure.FireUnitType;
 import stationtocommand.model.unitTypeStructure.MedicUnitType;
@@ -157,20 +152,20 @@ public class MissionManager {
 
     }
 
-    public void dispatchMissionToVehicles(MissionUnitLink missionUnitLink) {
-        for (UnitVehicleLink unitVehicleLink : missionUnitLink.getUnit().getVehicleLinks()) {
-            // TODO: select appropriate unit vehicles to dispatch
-            Vehicle vehicle = unitVehicleLink.getVehicle();
-            missionUnitLink.getMission().linkVehicle(vehicle);
-        }
-
-    }
-
     public void dispatchMissionToResponders(MissionUnitLink missionUnitLink) {
 
         for (UnitResponderLink unitResponderLink : missionUnitLink.getUnit().getResponderLinks()) {
             Responder responder = unitResponderLink.getResponder();
             missionUnitLink.getMission().linkResponder(responder);
+        }
+
+    }
+
+    public void dispatchMissionToVehicles(MissionUnitLink missionUnitLink) {
+        for (UnitVehicleLink unitVehicleLink : missionUnitLink.getUnit().getVehicleLinks()) {
+            // TODO: select appropriate unit vehicles to dispatch
+            Vehicle vehicle = unitVehicleLink.getVehicle();
+            missionUnitLink.getMission().linkVehicle(vehicle);
         }
 
     }
