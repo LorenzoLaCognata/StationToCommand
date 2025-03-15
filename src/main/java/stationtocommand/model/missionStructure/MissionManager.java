@@ -9,6 +9,7 @@ import stationtocommand.model.missionLinkStructure.MissionDepartmentLink;
 import stationtocommand.model.missionLinkStructure.MissionStationLink;
 import stationtocommand.model.missionLinkStructure.MissionUnitLink;
 import stationtocommand.model.responderStructure.Responder;
+import stationtocommand.model.responderStructure.ResponderStatus;
 import stationtocommand.model.stationStructure.Station;
 import stationtocommand.model.stationStructure.StationManager;
 import stationtocommand.model.unitStructure.*;
@@ -165,6 +166,7 @@ public class MissionManager {
 
         for (UnitResponderLink unitResponderLink : missionUnitLink.getUnit().getResponderLinks()) {
             Responder responder = unitResponderLink.getResponder();
+            responder.setResponderStatus(ResponderStatus.DISPATCHED);
             missionUnitLink.getMission().linkResponder(responder);
         }
 

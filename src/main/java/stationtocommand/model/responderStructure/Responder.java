@@ -19,6 +19,7 @@ public class Responder extends Person {
 
     private final int id;
     private final boolean isPlayer;
+    private ResponderStatus responderStatus;
     private Experience experience;
     private Rank rank;
     // TODO: manage ranks 5+ that are not linked to a unit but to the entire department (e.g. create ad Admin unit?!)
@@ -31,6 +32,7 @@ public class Responder extends Person {
         super(firstName, lastName, gender, location);
         this.id = id;
         this.isPlayer = isPlayer;
+        this.responderStatus = ResponderStatus.AVAILABLE;
         this.experience = experience;
         this.rank = rank;
         this.unitLink = new ResponderUnitLink(unit);
@@ -44,6 +46,7 @@ public class Responder extends Person {
         super(location);
         this.id = id;
         this.isPlayer = false;
+        this.responderStatus = ResponderStatus.AVAILABLE;
         this.experience = experience;
         this.rank = rank;
         this.unitLink = new ResponderUnitLink(unit);
@@ -66,6 +69,10 @@ public class Responder extends Person {
         return isPlayer;
     }
 
+    public ResponderStatus getResponderStatus() {
+        return responderStatus;
+    }
+
     public Experience getExperience() {
         return experience;
     }
@@ -80,6 +87,10 @@ public class Responder extends Person {
 
     public List<ResponderResponderLink> getResponderLinks() {
         return responderLinks;
+    }
+
+    public void setResponderStatus(ResponderStatus responderStatus) {
+        this.responderStatus = responderStatus;
     }
 
     public void setExperience(Experience experience) {
