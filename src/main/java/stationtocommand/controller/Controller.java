@@ -15,6 +15,7 @@ import stationtocommand.model.objectiveStructure.Objective;
 import stationtocommand.model.objectiveStructure.ObjectiveType;
 import stationtocommand.model.personStructure.Civilian;
 import stationtocommand.model.responderStructure.Responder;
+import stationtocommand.model.responderStructure.ResponderStatus;
 import stationtocommand.model.shiftStructure.Shift;
 import stationtocommand.model.skillStructure.Skill;
 import stationtocommand.model.skillStructure.SkillType;
@@ -130,6 +131,7 @@ public class Controller {
         for (Unit missionUnit : sampleMissionUnits) {
 
             for (Responder responder : missionUnit.getResponders()) {
+                responder.setResponderStatus(ResponderStatus.DISPATCHED);
                 sampleMission.linkResponder(responder);
                 System.out.println(sampleMission + " assigned to " + responder);
 
@@ -141,7 +143,6 @@ public class Controller {
             sampleMission.linkVehicle(vehicle);
             System.out.println(sampleMission + " assigned to " + vehicle);
         }
-
 
         Training training = model.getTrainingManager().getTraining(TrainingType.FIRST_AID);
         model.getResponderManager().getPlayer().linkTraining(training);
