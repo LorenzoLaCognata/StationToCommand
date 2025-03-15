@@ -2,6 +2,7 @@ package stationtocommand.view.vehicleStructure;
 
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
+import stationtocommand.model.responderStructure.Responder;
 import stationtocommand.model.vehicleStructure.Vehicle;
 import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
@@ -34,6 +35,7 @@ public class VehicleListView {
         Pane labelPane = utilsView.createHBox(navigationPanel);
         showVehicleIcon(labelPane, vehicle);
         showVehicleButton(breadCrumbBar, navigationPanel, labelPane, vehicle);
+        showVehicleStatus(labelPane, vehicle);
     }
 
     private void showVehicleIcon(Pane labelPane, Vehicle vehicle) {
@@ -42,6 +44,10 @@ public class VehicleListView {
 
     private void showVehicleButton(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane labelPane, Vehicle vehicle) {
         utilsView.addButtonToPane(labelPane, vehicle.toString(), (_ -> vehicleView.show(breadCrumbBar, navigationPanel, vehicle)));
+    }
+
+    private void showVehicleStatus(Pane labelPane, Vehicle vehicle) {
+        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.BLANK, vehicle.getVehicleStatus().getResourcePath());
     }
 
 }

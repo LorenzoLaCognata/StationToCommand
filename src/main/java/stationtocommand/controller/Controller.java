@@ -29,6 +29,7 @@ import stationtocommand.model.unitStructure.UnitStatus;
 import stationtocommand.model.unitTypeStructure.FireUnitType;
 import stationtocommand.model.utilsStructure.Utils;
 import stationtocommand.model.vehicleStructure.Vehicle;
+import stationtocommand.model.vehicleStructure.VehicleStatus;
 import stationtocommand.view.View;
 
 import java.util.List;
@@ -140,6 +141,7 @@ public class Controller {
             }
 
             Vehicle vehicle = model.getVehicleManager().getVehicles(missionUnit).getFirst();
+            vehicle.setVehicleStatus(VehicleStatus.DISPATCHED);
             sampleMission.linkVehicle(vehicle);
             System.out.println(sampleMission + " assigned to " + vehicle);
         }

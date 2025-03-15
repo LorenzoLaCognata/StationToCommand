@@ -19,6 +19,7 @@ import stationtocommand.model.unitTypeStructure.PoliceUnitType;
 import stationtocommand.model.unitTypeStructure.UnitType;
 import stationtocommand.model.utilsStructure.Utils;
 import stationtocommand.model.vehicleStructure.Vehicle;
+import stationtocommand.model.vehicleStructure.VehicleStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -153,21 +154,22 @@ public class MissionManager {
 
     }
 
-    public void dispatchMissionToVehicles(MissionUnitLink missionUnitLink) {
-        for (UnitVehicleLink unitVehicleLink : missionUnitLink.getUnit().getVehicleLinks()) {
-            // TODO: select appropriate unit vehicles to dispatch
-            Vehicle vehicle = unitVehicleLink.getVehicle();
-            missionUnitLink.getMission().linkVehicle(vehicle);
-        }
-
-    }
-
     public void dispatchMissionToResponders(MissionUnitLink missionUnitLink) {
 
         for (UnitResponderLink unitResponderLink : missionUnitLink.getUnit().getResponderLinks()) {
             Responder responder = unitResponderLink.getResponder();
             responder.setResponderStatus(ResponderStatus.DISPATCHED);
             missionUnitLink.getMission().linkResponder(responder);
+        }
+
+    }
+
+    public void dispatchMissionToVehicles(MissionUnitLink missionUnitLink) {
+        for (UnitVehicleLink unitVehicleLink : missionUnitLink.getUnit().getVehicleLinks()) {
+            // TODO: select appropriate unit vehicles to dispatch
+            Vehicle vehicle = unitVehicleLink.getVehicle();
+            vehicle.setVehicleStatus(VehicleStatus.DISPATCHED);
+            missionUnitLink.getMission().linkVehicle(vehicle);
         }
 
     }

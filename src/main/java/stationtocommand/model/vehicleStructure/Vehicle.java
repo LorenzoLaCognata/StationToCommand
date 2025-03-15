@@ -1,12 +1,14 @@
 package stationtocommand.model.vehicleStructure;
 
 import stationtocommand.model.locationStructure.Location;
+import stationtocommand.model.responderStructure.ResponderStatus;
 import stationtocommand.model.unitStructure.Unit;
 import stationtocommand.model.unitStructure.UnitLink;
 
 public class Vehicle {
 
 	private final VehicleType vehicleType;
+	private VehicleStatus vehicleStatus;
 	private float integrity = 1.0f;
 	private float condition = 1.0f;
 	private Location location;
@@ -14,6 +16,7 @@ public class Vehicle {
 
     public Vehicle(VehicleType vehicleType, Unit unit) {
 		this.vehicleType = vehicleType;
+		this.vehicleStatus = VehicleStatus.AVAILABLE;
 		this.location = unit.getStation().getLocation();
 		this.unitLink = new VehicleUnitLink(unit);
 		unit.linkVehicle(this);
@@ -26,6 +29,14 @@ public class Vehicle {
 
 	public VehicleType getVehicleType() {
 		return vehicleType;
+	}
+
+	public VehicleStatus getVehicleStatus() {
+		return vehicleStatus;
+	}
+
+	public void setVehicleStatus(VehicleStatus vehicleStatus) {
+		this.vehicleStatus = vehicleStatus;
 	}
 
 	public void setLocation(Location location) {
