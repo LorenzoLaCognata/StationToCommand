@@ -3,6 +3,8 @@ package stationtocommand.view.departmentStructure;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.departmentStructure.Department;
+import stationtocommand.model.responderStructure.Responder;
+import stationtocommand.model.responderStructure.ResponderStatus;
 import stationtocommand.model.unitStructure.Unit;
 import stationtocommand.model.unitStructure.UnitStatus;
 import stationtocommand.model.unitTypeStructure.FireUnitType;
@@ -40,12 +42,18 @@ public class DepartmentView {
         utilsView.clearPane(worldMap);
         showDepartmentDetails(navigationPanel, department);
         stationListView.show(breadCrumbBar, navigationPanel, worldMap, department.getStations());
+        showDepartmentUnitCounts(navigationPanel, department);
+        showDepartmentResponderCounts(navigationPanel, department);
     }
 
     private void showDepartmentDetails(Pane navigationPanel, Department department) {
         Pane labelPane = utilsView.createHBox(navigationPanel);
         utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.BLANK, department.getDepartmentType().getResourcePath());
         utilsView.addMainTitleLabel(labelPane, department.toString());
+    }
+
+    private void showDepartmentUnitCounts(Pane navigationPanel, Department department) {
+        utilsView.addSectionTitleLabel(navigationPanel, "Units");
         Map<UnitType, Map<UnitStatus, Long>> unitCounts = department.getStations().stream()
                 .flatMap(station -> station.getUnits().stream())
                 .collect(Collectors.groupingBy(
@@ -94,6 +102,21 @@ public class DepartmentView {
         }
         utilsView.addBodyLabel(unitCountPane, count);
         utilsView.addIconToPane(unitCountPane, IconType.SMALL, IconColor.BLANK, unitStatus.getResourcePath());
+    }
+
+    private void showDepartmentResponderCounts(Pane navigationPanel, Department department) {
+        utilsView.addSectionTitleLabel(navigationPanel, "Responders");
+        Map<Integer, Map<ResponderStatus, Long>> responderCounts = department.getStations().stream()
+                .flatMap(station -> station.getUnits().stream())
+                .flatMap(unit -> unit.getResponders().stream())
+                .collect(Collectors.groupingBy(
+                                responder -> responder.getRank().getLevel(),
+                                Collectors.groupingBy(
+                                        Responder::getResponderStatus,
+                                        Collectors.counting())
+                        )
+                );
+
     }
 
 }
