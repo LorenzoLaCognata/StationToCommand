@@ -42,7 +42,7 @@ public class MissionListView {
     }
 
     private void showMissionIcon(Pane labelPane, Mission mission) {
-        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.BLANK, mission.getMissionType().getResourcePath());
+        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.EMPTY, mission.getMissionType().getResourcePath(), mission.getMissionType().toString());
     }
 
     private void showMissionButton(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, Pane labelPane, Mission mission) {
@@ -52,7 +52,7 @@ public class MissionListView {
     private void showMissionDepartments(Pane labelPane, Mission mission) {
         if (!mission.getDepartmentLinks().isEmpty()) {
             for (MissionDepartmentLink missionDepartmentLink : mission.getDepartmentLinks()) {
-                utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.BLANK, missionDepartmentLink.getDepartment().getDepartmentType().getResourcePath());
+                utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.EMPTY, missionDepartmentLink.getDepartment().getDepartmentType().getResourcePath(), missionDepartmentLink.getDepartment().getDepartmentType().toString());
 
                 for (MissionStationLink missionStationLink : missionDepartmentLink.getStationLinks()) {
                     if (!missionStationLink.getUnitLinks().isEmpty()) {

@@ -32,7 +32,7 @@ public class MissionUnitView {
 
     private void showMissionUnitDetails(Pane navigationPanel, MissionUnitLink missionUnitLink) {
         Pane labelPane = utilsView.createHBox(navigationPanel);
-        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.BLANK, missionUnitLink.getMission().getMissionType().getResourcePath());
+        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.EMPTY, missionUnitLink.getMission().getMissionType().getResourcePath(), missionUnitLink.getMission().getMissionType().toString());
         utilsView.addMainTitleLabel(labelPane, missionUnitLink.getMission().toString());
     }
 

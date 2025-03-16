@@ -40,13 +40,13 @@ public class MissionView {
 
     public void showMap(Pane worldMap, Mission mission) {
         Point2D point = utilsView.locationToPoint(mission.getLocation(), IconType.SMALL);
-        ImageView imageView = utilsView.smallIcon(mission.getMissionType().getResourcePath());
+        ImageView imageView = utilsView.smallIcon(mission.getMissionType().getResourcePath(), mission.getMissionType().toString());
         utilsView.addNodeToPane(worldMap, imageView, point);
     }
 
     private void showMissionDetails(Pane navigationPanel, Mission mission) {
         Pane labelPane = utilsView.createHBox(navigationPanel);
-        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.BLANK, mission.getMissionType().getResourcePath());
+        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.EMPTY, mission.getMissionType().getResourcePath(), mission.getMissionType().toString());
         utilsView.addMainTitleLabel(labelPane, mission.toString());
     }
 

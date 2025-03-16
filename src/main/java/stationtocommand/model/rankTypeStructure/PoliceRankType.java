@@ -3,13 +3,13 @@ package stationtocommand.model.rankTypeStructure;
 import java.util.Objects;
 
 public enum PoliceRankType implements RankType {
-  OFFICER("Officer", 1, null),
-  SERGEANT("Sergeant", 2, null),
-  LIEUTENANT("Lieutenant", 3, null),
-  CAPTAIN("Captain", 4, null),
-  COMMANDER("Commander", 5, null),
-  CHIEF("Chief", 6, null),
-  SUPERINTENDENT("Superintendent", 7, null);
+  OFFICER("Officer", 1, "/images/rank/policeRank1.png"),
+  SERGEANT("Sergeant", 2, "/images/rank/policeRank2.png"),
+  LIEUTENANT("Lieutenant", 3, "/images/rank/policeRank3.png"),
+  CAPTAIN("Captain", 4, "/images/rank/policeRank4.png"),
+  COMMANDER("Commander", 5, "/images/rank/policeRank5.png"),
+  CHIEF("Chief", 6, "/images/rank/policeRank6.png"),
+  SUPERINTENDENT("Superintendent", 7, "/images/rank/policeRank7.png");
 
   private final String name;
   private final int level;

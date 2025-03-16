@@ -3,13 +3,13 @@ package stationtocommand.model.rankTypeStructure;
 import java.util.Objects;
 
 public enum MedicRankType implements RankType {
-  EMR("Emergency Medical Responder", 1, null),
-  EMT("Emergency Medical Technician", 2, null),
-  PARAMEDIC("Paramedic", 3, null),
-  PARAMEDIC_IN_CHARGE("Paramedic-in-Charge", 4, null),
-  PARAMEDIC_SUPERVISOR("Paramedic Field Supervisor", 5, null),
-  PARAMEDIC_FIELD_CHIEF("Paramedic Field Chief", 6, null),
-  CHIEF_PARAMEDIC("Chief Paramedic", 7, null);
+  EMR("Emergency Medical Responder", 1, "/images/rank/medicRank1.png"),
+  EMT("Emergency Medical Technician", 2, "/images/rank/medicRank2.png"),
+  PARAMEDIC("Paramedic", 3, "/images/rank/medicRank3.png"),
+  PARAMEDIC_IN_CHARGE("Paramedic-in-Charge", 4, "/images/rank/medicRank4.png"),
+  PARAMEDIC_SUPERVISOR("Paramedic Field Supervisor", 5, "/images/rank/medicRank5.png"),
+  PARAMEDIC_FIELD_CHIEF("Paramedic Field Chief", 6, "/images/rank/medicRank6.png"),
+  CHIEF_PARAMEDIC("Chief Paramedic", 7, "/images/rank/medicRank7.png");
 
   private final String name;
   private final int level;

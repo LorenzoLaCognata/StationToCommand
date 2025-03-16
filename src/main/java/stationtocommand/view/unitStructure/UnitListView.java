@@ -38,7 +38,7 @@ public class UnitListView {
     }
 
     private void showUnitIcon(Pane labelPane, Unit unit) {
-        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.BLANK, unit.getUnitType().getResourcePath());
+        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.EMPTY, unit.getUnitType().getResourcePath(), unit.getUnitType().toString());
     }
 
     private void showUnitButton(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane labelPane, Unit unit) {
@@ -46,7 +46,7 @@ public class UnitListView {
     }
 
     private void showUnitStatus(Pane labelPane, Unit unit) {
-        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.BLANK, unit.getUnitStatus().getResourcePath());
+        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.EMPTY, unit.getUnitStatus().getResourcePath(), unit.getUnitStatus().toString());
     }
 
 }

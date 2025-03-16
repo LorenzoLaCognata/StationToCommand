@@ -36,7 +36,7 @@ public class MissionStationListView {
     }
 
     private void showMissionStationIcon(Pane labelPane, MissionStationLink missionStationLink) {
-        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.BLANK, missionStationLink.getStation().getStationType().getResourcePath());
+        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.EMPTY, missionStationLink.getStation().getStationType().getResourcePath(), missionStationLink.getStation().getStationType().toString());
     }
 
     private void showMissionStationButton(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, Pane labelPane, MissionStationLink missionStationLink) {
