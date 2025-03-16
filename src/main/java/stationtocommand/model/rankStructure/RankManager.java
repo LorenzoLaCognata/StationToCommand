@@ -3,6 +3,10 @@ package stationtocommand.model.rankStructure;
 import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.model.departmentStructure.DepartmentType;
 import stationtocommand.model.experienceStructure.ExperienceLink;
+import stationtocommand.model.rankTypeStructure.FireRankType;
+import stationtocommand.model.rankTypeStructure.MedicRankType;
+import stationtocommand.model.rankTypeStructure.PoliceRankType;
+import stationtocommand.model.rankTypeStructure.RankType;
 import stationtocommand.model.skillStructure.SkillLink;
 
 import java.util.ArrayList;
@@ -26,7 +30,7 @@ public class RankManager {
 
 	public Rank getRank(int level) {
 		return ranks.stream()
-				.filter(item -> item.getLevel() == level)
+				.filter(item -> item.getRankType().getLevel() == level)
 				.findAny()
 				.orElse(null);
 	}
@@ -49,48 +53,45 @@ public class RankManager {
 			List<SkillLink> skillRequirements = new ArrayList<>();
 			// TODO: define Skill requirements for each Rank
 
-			String name = "";
+			RankType rankType = null;
 
 			if (department.getDepartmentType().equals(DepartmentType.FIRE_DEPARTMENT)) {
-				name = switch (level) {
-					case 1 -> "Candidate Firefighter";
-					case 2 -> "Firefighter";
-					case 3 -> "Lieutenant";
-					case 4 -> "Captain";
-					case 5 -> "Battalion Chief";
-					case 6 -> "District Chief";
-					case 7 -> "Commissioner";
-					default -> "";
-				};
+				switch (level) {
+					case 1 -> rankType = FireRankType.CANDIDATE_FIREFIGHTER;
+					case 2 -> rankType = FireRankType.FIREFIGHTER;
+					case 3 -> rankType = FireRankType.LIEUTENANT;
+					case 4 -> rankType = FireRankType.CAPTAIN;
+					case 5 -> rankType = FireRankType.BATTALION_CHIEF;
+					case 6 -> rankType = FireRankType.DISTRICT_CHIEF;
+					case 7 -> rankType = FireRankType.COMMISSIONER;
+				}
 			}
 
 			else if (department.getDepartmentType().equals(DepartmentType.POLICE_DEPARTMENT)) {
-				name = switch (level) {
-					case 1 -> "Officer";
-					case 2 -> "Sergeant";
-					case 3 -> "Lieutenant";
-					case 4 -> "Captain";
-					case 5 -> "Commander";
-					case 6 -> "Chief";
-					case 7 -> "Superintendent";
-					default -> "";
-				};
+				switch (level) {
+					case 1 -> rankType = PoliceRankType.OFFICER;
+					case 2 -> rankType = PoliceRankType.SERGEANT;
+					case 3 -> rankType = PoliceRankType.LIEUTENANT;
+					case 4 -> rankType = PoliceRankType.CAPTAIN;
+					case 5 -> rankType = PoliceRankType.COMMANDER;
+					case 6 -> rankType = PoliceRankType.CHIEF;
+					case 7 -> rankType = PoliceRankType.SUPERINTENDENT;
+				}
 			}
 
 			else if (department.getDepartmentType().equals(DepartmentType.MEDIC_DEPARTMENT)) {
-				name = switch (level) {
-					case 1 -> "Emergency Medical Responder";
-					case 2 -> "Emergency Medical Technician";
-					case 3 -> "Paramedic";
-					case 4 -> "Paramedic-in-Charge";
-					case 5 -> "Paramedic Field Supervisor";
-					case 6 -> "Paramedic Field Chief";
-					case 7 -> "Chief Paramedic";
-					default -> "";
-				};
+				switch (level) {
+					case 1 -> rankType = MedicRankType.EMR;
+					case 2 -> rankType = MedicRankType.EMT;
+					case 3 -> rankType = MedicRankType.PARAMEDIC;
+					case 4 -> rankType = MedicRankType.PARAMEDIC_IN_CHARGE;
+					case 5 -> rankType = MedicRankType.PARAMEDIC_SUPERVISOR;
+					case 6 -> rankType = MedicRankType.PARAMEDIC_FIELD_CHIEF;
+					case 7 -> rankType = MedicRankType.CHIEF_PARAMEDIC;
+				}
 			}
 
-			Rank rank = new Rank(level, name, rankRequirements, experienceRequirements, skillRequirements);
+			Rank rank = new Rank(rankType, rankRequirements, experienceRequirements, skillRequirements);
 			addRank(rank);
 		}
 

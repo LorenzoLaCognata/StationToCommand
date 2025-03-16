@@ -31,6 +31,8 @@ public class ResponderView {
         Pane labelPane = utilsView.createHBox(navigationPanel);
         utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.BLANK, responder.getAppearanceType().getResourcePath());
         utilsView.addMainTitleLabel(labelPane, responder.toString());
+        Pane detailsPane = utilsView.createHBox(navigationPanel);
+        utilsView.addBodyLabel(detailsPane, responder.getRank().toString());
     }
 
 }

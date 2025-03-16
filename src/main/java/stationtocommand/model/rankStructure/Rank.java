@@ -1,22 +1,21 @@
 package stationtocommand.model.rankStructure;
 
 import stationtocommand.model.experienceStructure.ExperienceLink;
+import stationtocommand.model.rankTypeStructure.RankType;
 import stationtocommand.model.skillStructure.SkillLink;
 
 import java.util.List;
 
 public class Rank {
 
-	private final int level;
-	private final String name;
+	private final RankType rankType;
 	private final List<RankLink> rankRequirements;
 	private final List<ExperienceLink> experienceRequirements;
 	private final List<SkillLink> skillRequirements;
 
-	public Rank(int level, String name, List<RankLink> rankRequirements, List<ExperienceLink>
+	public Rank(RankType rankType, List<RankLink> rankRequirements, List<ExperienceLink>
 		experienceRequirements, List<SkillLink> skillRequirements) {
-		this.level = level;
-		this.name = name;
+		this.rankType = rankType;
 		this.rankRequirements = rankRequirements;
 		this.experienceRequirements = experienceRequirements;
 		this.skillRequirements = skillRequirements;
@@ -25,15 +24,11 @@ public class Rank {
 	@Override
 	// TODO: associate appropriate symbols/images to ranks
 	public String toString() {
-		return "\uD83C\uDF96".repeat(level) + " " + name;
+		return "\uD83C\uDF96".repeat(rankType.getLevel()) + " " + rankType.toString();
 	}
 
-	public int getLevel() {
-		return level;
-	}
-
-	public String getName() {
-		return name;
+	public RankType getRankType() {
+		return rankType;
 	}
 
 }
