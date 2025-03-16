@@ -155,6 +155,7 @@ public class View {
         quitButton.setOnAction(_ -> {
             controller.getScheduler().stopGameClock();
             Platform.exit();
+            System.exit(0);
         });
         toolbar.getItems().addAll(quitButton);
 
