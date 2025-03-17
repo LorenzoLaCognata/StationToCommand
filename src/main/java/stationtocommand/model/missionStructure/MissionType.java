@@ -5,9 +5,9 @@ import java.util.Objects;
 public enum MissionType {
   // TODO: replace with final probability
   STRUCTURE_FIRE("Structure Fire", "/images/mission/structureFire.png", 1.0f),
+  VEHICLE_FIRE("Vehicle Fire", "/images/mission/vehicleFire.png", 0.0f),
+  WATER_RESCUE("Water Rescue", "/images/mission/waterRescue.png", 0.0f),
   // TODO: replace with final icons
-  VEHICLE_FIRE("Vehicle Fire", "/images/fireMission.png", 0.0f),
-  WATER_RESCUE("Water Rescue", "/images/rescueMission.png", 0.0f),
   COLLAPSE_RESCUE("Collapse Rescue", "/images/rescueMission.png", 0.0f),
   TRAFFIC_INCIDENT("Traffic Incident", "/images/rescueMission.png", 0.0f),
   BURGLARY("Burglary", "/images/policeMission.png", 0.0f),
