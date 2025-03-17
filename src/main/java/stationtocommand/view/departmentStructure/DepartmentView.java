@@ -15,6 +15,7 @@ import stationtocommand.model.unitTypeStructure.FireUnitType;
 import stationtocommand.model.unitTypeStructure.MedicUnitType;
 import stationtocommand.model.unitTypeStructure.PoliceUnitType;
 import stationtocommand.model.unitTypeStructure.UnitType;
+import stationtocommand.model.vehicleStructure.*;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
@@ -47,6 +48,7 @@ public class DepartmentView {
         showDepartmentDetails(navigationPanel, department);
         stationListView.show(breadCrumbBar, navigationPanel, worldMap, department.getStations());
         showDepartmentUnitCounts(navigationPanel, department);
+        showDepartmentVehicleCounts(navigationPanel, department);
         showDepartmentResponderCounts(navigationPanel, department);
     }
 
@@ -106,6 +108,61 @@ public class DepartmentView {
         }
         utilsView.addBodySmallLabel(pane, count);
         utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, unitStatus.getResourcePath(), unitStatus.toString());
+    }
+
+    private void showDepartmentVehicleCounts(Pane navigationPanel, Department department) {
+        utilsView.addSectionTitleLabel(navigationPanel, "Vehicles");
+        Map<VehicleType, Map<VehicleStatus, Long>> vehicleCounts = department.getStations().stream()
+                .flatMap(station -> station.getUnits().stream())
+                .flatMap(unit -> unit.getVehicles().stream())
+                .collect(Collectors.groupingBy(
+                                Vehicle::getVehicleType,
+                                Collectors.groupingBy(
+                                        Vehicle::getVehicleStatus,
+                                        Collectors.counting())
+                        )
+                );
+
+        switch (department.getDepartmentType()) {
+            case FIRE_DEPARTMENT -> {
+                addVehicleTypeCount(navigationPanel, vehicleCounts, FireVehicleType.PUMPER);
+                addVehicleTypeCount(navigationPanel, vehicleCounts, FireVehicleType.TANKER);
+                addVehicleTypeCount(navigationPanel, vehicleCounts, FireVehicleType.LADDER);
+                addVehicleTypeCount(navigationPanel, vehicleCounts, FireVehicleType.TOWER);
+                addVehicleTypeCount(navigationPanel, vehicleCounts, FireVehicleType.RESCUE);
+                addVehicleTypeCount(navigationPanel, vehicleCounts, FireVehicleType.HEAVY_RESCUE);
+            }
+            case POLICE_DEPARTMENT -> {
+                addVehicleTypeCount(navigationPanel, vehicleCounts, PoliceVehicleType.SEDAN);
+                addVehicleTypeCount(navigationPanel, vehicleCounts, PoliceVehicleType.SUV);
+                addVehicleTypeCount(navigationPanel, vehicleCounts, PoliceVehicleType.MOTORCYCLE);
+            }
+            case MEDIC_DEPARTMENT -> {
+                addVehicleTypeCount(navigationPanel, vehicleCounts, MedicVehicleType.BLS_AMBULANCE);
+                addVehicleTypeCount(navigationPanel, vehicleCounts, MedicVehicleType.ALS_AMBULANCE);
+            }
+        }
+
+    }
+
+    private void addVehicleTypeCount(Pane navigationPanel, Map<VehicleType, Map<VehicleStatus, Long>> vehicleCounts, VehicleType vehicleType) {
+        Pane countPane = utilsView.createHBox(navigationPanel);
+        Map<VehicleStatus, Long> statusCounts = vehicleCounts.getOrDefault(vehicleType, Collections.emptyMap());
+        utilsView.addIconToPane(countPane, IconType.SMALL, IconColor.EMPTY, vehicleType.getResourcePath(), vehicleType.toString());
+        addVehicleTypeStatusCount(countPane, statusCounts, VehicleStatus.AVAILABLE);
+        addVehicleTypeStatusCount(countPane, statusCounts, VehicleStatus.DISPATCHED);
+        addVehicleTypeStatusCount(countPane, statusCounts, VehicleStatus.ON_SCENE);
+        addVehicleTypeStatusCount(countPane, statusCounts, VehicleStatus.RETURNING);
+        addVehicleTypeStatusCount(countPane, statusCounts, VehicleStatus.UNAVAILABLE);
+    }
+
+    private void addVehicleTypeStatusCount(Pane pane, Map<VehicleStatus, Long> vehicles, VehicleStatus vehicleStatus) {
+        String count = " ";
+        if (vehicles.getOrDefault(vehicleStatus, 0L) > 0L ) {
+            count = String.valueOf(vehicles.getOrDefault(vehicleStatus, 0L));
+        }
+        utilsView.addBodySmallLabel(pane, count);
+        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, vehicleStatus.getResourcePath(), vehicleStatus.toString());
     }
 
     private void showDepartmentResponderCounts(Pane navigationPanel, Department department) {
