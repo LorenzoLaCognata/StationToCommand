@@ -46,7 +46,7 @@ public class MissionVehicleListView {
     }
 
     private void showMissionVehicleIcon(Pane labelPane, MissionVehicleLink missionVehicleLink) {
-        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.BLANK, missionVehicleLink.getVehicle().getVehicleType().getResourcePath());
+        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.EMPTY, missionVehicleLink.getVehicle().getVehicleType().getResourcePath(), missionVehicleLink.getVehicle().getVehicleType().toString());
     }
 
     private void showMissionVehicleButton(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane labelPane, MissionVehicleLink missionVehicleLink) {

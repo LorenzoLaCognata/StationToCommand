@@ -3,7 +3,6 @@ package stationtocommand.view.responderStructure;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.responderStructure.Responder;
-import stationtocommand.model.unitStructure.Unit;
 import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
@@ -43,7 +42,7 @@ public class ResponderListView {
     }
 
     private void showResponderIcon(Pane labelPane, Responder responder) {
-        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.BLANK, responder.getAppearanceType().getResourcePath());
+        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.EMPTY, responder.getAppearanceType().getResourcePath(), "");
     }
 
     private void showResponderButton(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane labelPane, Responder responder) {
@@ -51,7 +50,7 @@ public class ResponderListView {
     }
 
     private void showResponderStatus(Pane labelPane, Responder responder) {
-        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.BLANK, responder.getResponderStatus().getResourcePath());
+        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.EMPTY, responder.getResponderStatus().getResourcePath(), responder.getResponderStatus().toString());
     }
 
 }

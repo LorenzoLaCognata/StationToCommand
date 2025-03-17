@@ -7,6 +7,7 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -51,9 +52,15 @@ public class View {
     public static Runnable viewRunnable;
 
     public View() {
+        ScrollPane scrollPane = new ScrollPane(navigationPanel);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setFitToHeight(true);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+
         gridPane.add(toolbar, 0, 0, 2, 1);
         gridPane.add(breadcrumb, 0, 1, 2, 1);
-        gridPane.add(navigationPanel, 0, 2, 1, 2);
+        gridPane.add(scrollPane, 0, 2, 1, 2);
         gridPane.add(worldMap, 1, 2);
         gridPane.add(hud, 1, 3);
 
@@ -83,6 +90,8 @@ public class View {
     }
 
     public void generateHomePage(List<Department> departments, List<Mission> missions) {
+
+
 
         navigationPanel.setSpacing(15);
         navigationPanel.setPadding(new Insets(15));

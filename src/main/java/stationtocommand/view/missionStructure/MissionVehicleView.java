@@ -29,7 +29,7 @@ public class MissionVehicleView {
 
     private void showMissionVehicleDetails(Pane navigationPanel, MissionVehicleLink missionVehicleLink) {
         Pane labelPane = utilsView.createHBox(navigationPanel);
-        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.BLANK, missionVehicleLink.getMission().getMissionType().getResourcePath());
+        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.EMPTY, missionVehicleLink.getMission().getMissionType().getResourcePath(), missionVehicleLink.getMission().getMissionType().toString());
         utilsView.addMainTitleLabel(labelPane, missionVehicleLink.getMission().toString());
     }
 

@@ -5,6 +5,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.missionLinkStructure.MissionResponderLink;
+import stationtocommand.model.missionStructure.MissionType;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
@@ -33,13 +34,14 @@ public class MissionResponderView {
 
     private void showMissionResponderDetails(Pane navigationPanel, MissionResponderLink missionResponderLink) {
         Pane labelPane = utilsView.createHBox(navigationPanel);
-        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.BLANK, missionResponderLink.getMission().getMissionType().getResourcePath());
+        MissionType missionType = missionResponderLink.getMission().getMissionType();
+        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.EMPTY, missionType.getResourcePath(), missionType.toString());
         utilsView.addMainTitleLabel(labelPane, missionResponderLink.getMission().toString());
     }
 
     public void showMap(Pane worldMap, MissionResponderLink missionResponderLink) {
         Point2D point = utilsView.locationToPoint(missionResponderLink.getResponder().getLocation(), IconType.SMALL);
-        ImageView imageView = utilsView.smallIcon(missionResponderLink.getResponder().getAppearanceType().getResourcePath());
+        ImageView imageView = utilsView.smallIcon(missionResponderLink.getResponder().getAppearanceType().getResourcePath(), "");
         utilsView.addNodeToPane(worldMap, imageView, point);
     }
 

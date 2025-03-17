@@ -1,7 +1,6 @@
 package stationtocommand.model.vehicleStructure;
 
 import stationtocommand.model.locationStructure.Location;
-import stationtocommand.model.responderStructure.ResponderStatus;
 import stationtocommand.model.unitStructure.Unit;
 import stationtocommand.model.unitStructure.UnitLink;
 

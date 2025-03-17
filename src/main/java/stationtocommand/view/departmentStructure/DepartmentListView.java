@@ -42,7 +42,7 @@ public class DepartmentListView {
     }
 
     private void showDepartmentIcon(Pane labelPane, Department department) {
-        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.BLANK, department.getDepartmentType().getResourcePath());
+        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.EMPTY, department.getDepartmentType().getResourcePath(), "");
     }
 
     private void showDepartmentButton(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, Pane labelPane, Department department) {

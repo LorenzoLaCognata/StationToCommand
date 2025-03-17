@@ -9,11 +9,13 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.departmentStructure.Department;
@@ -110,6 +112,21 @@ public class UtilsView {
         pane.getChildren().add(label);
     }
 
+    public void addBodySmallLabel(Pane pane, String text) {
+        Label label = new Label(text);
+        label.setStyle("""
+        -fx-text-fill: white;
+        -fx-font-size: 13px;
+        -fx-padding: 5px 10px;
+        -fx-background-color: rgba(60, 60, 60, 0.9);
+        -fx-background-radius: 4px;
+    """);
+        label.setPrefWidth(100);
+        label.setMaxWidth(100);
+        label.setAlignment(Pos.CENTER_RIGHT);
+        pane.getChildren().add(label);
+    }
+
     public void resetBreadCrumbBar(BreadCrumbBar<Object> breadCrumbBar) {
         breadCrumbBar.setSelectedCrumb(null);
     }
@@ -150,34 +167,67 @@ public class UtilsView {
         return new Point2D(x - (iconSize/2.0) , y  - (iconSize/2.0));
     }
 
-    public ImageView basicIcon(String iconPath) {
-        return new ImageView(new Image(Objects.requireNonNull(getClass().getResource(iconPath)).toExternalForm()));
+    public ImageView basicIcon(String iconPath, String tooltipText) {
+        ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(iconPath)).toExternalForm()));
+        if (!tooltipText.isEmpty()) {
+            Tooltip tooltip = new Tooltip(tooltipText);
+            tooltip.setShowDelay(javafx.util.Duration.millis(100));
+            tooltip.setShowDuration(javafx.util.Duration.seconds(10));
+            Tooltip.install(imageView, tooltip);
+        }
+        return imageView;
     }
 
-    public ImageView mediumIcon(String iconPath) {
-        ImageView imageView = basicIcon(iconPath);
+    public ImageView mediumIcon(String iconPath, String tooltipText) {
+        ImageView imageView = basicIcon(iconPath, tooltipText);
         imageView.setFitWidth(MEDIUM_ICON_SIZE);
         imageView.setFitHeight(MEDIUM_ICON_SIZE);
         return imageView;
     }
 
-    public ImageView mediumShadowIcon(String iconPath, IconColor iconColor) {
-        ImageView imageView = mediumIcon(iconPath);
+    public ImageView mediumShadowIcon(String iconPath, String tooltipText, IconColor iconColor) {
+        ImageView imageView = mediumIcon(iconPath, tooltipText);
         imageView.setStyle("-fx-effect: dropshadow(gaussian, " + iconColor + ", 20, 0.3, 0, 0);");
         return imageView;
     }
 
-    public ImageView smallIcon(String iconPath) {
-        ImageView imageView = basicIcon(iconPath);
+    public ImageView mediumFadedIcon(String iconPath, String tooltipText) {
+        ImageView imageView = mediumIcon(iconPath, tooltipText);
+        imageView.setOpacity(0.2);
+        return imageView;
+    }
+
+    public StackPane mediumBorderIcon(String iconPath, String tooltipText, IconColor iconColor) {
+        ImageView imageView = mediumIcon(iconPath, tooltipText);
+        StackPane imageContainer = new StackPane(imageView);
+        imageContainer.setStyle("-fx-border-color: " + iconColor + "; -fx-border-width: 1px; -fx-border-radius: 2px;");
+        return imageContainer;
+    }
+
+    public ImageView smallIcon(String iconPath, String tooltipText) {
+        ImageView imageView = basicIcon(iconPath, tooltipText);
         imageView.setFitWidth(SMALL_ICON_SIZE);
         imageView.setFitHeight(SMALL_ICON_SIZE);
         return imageView;
     }
 
-    public ImageView smallShadowIcon(String iconPath, IconColor iconColor) {
-        ImageView imageView = smallIcon(iconPath);
+    public ImageView smallShadowIcon(String iconPath, String tooltipText, IconColor iconColor) {
+        ImageView imageView = smallIcon(iconPath, tooltipText);
         imageView.setStyle("-fx-effect: dropshadow(gaussian, " + iconColor + ", 20, 0.3, 0, 0);");
         return imageView;
+    }
+
+    public ImageView smallFadedIcon(String iconPath, String tooltipText) {
+        ImageView imageView = smallIcon(iconPath, tooltipText);
+        imageView.setOpacity(0.2);
+        return imageView;
+    }
+
+    public StackPane smallBorderIcon(String iconPath, String tooltipText, IconColor iconColor) {
+        ImageView imageView = smallIcon(iconPath, tooltipText);
+        StackPane imageContainer = new StackPane(imageView);
+        imageContainer.setStyle("-fx-border-color: " + iconColor + "; -fx-border-width: 1px; -fx-border-radius: 2px;");
+        return imageContainer;
     }
 
     public FadeTransition iconTransition(ImageView stationIcon) {
@@ -207,18 +257,21 @@ public class UtilsView {
         return hBox;
     }
 
-    public ImageView addIconToPane(Pane pane, IconType iconType, IconColor iconColor, String imagePath) {
-        ImageView imageView;
+    public void addIconToPane(Pane pane, IconType iconType, IconColor iconColor, String imagePath, String tooltipText) {
+        Node node;
 
         switch (iconType) {
-            case IconType.SMALL -> imageView = smallIcon(imagePath);
-            case IconType.SMALL_SHADOW -> imageView = smallShadowIcon(imagePath, iconColor);
-            case IconType.MEDIUM -> imageView = mediumIcon(imagePath);
-            case IconType.MEDIUM_SHADOW -> imageView = mediumShadowIcon(imagePath, iconColor);
-            default -> imageView = smallIcon(imagePath);
+            case IconType.SMALL -> node = smallIcon(imagePath, tooltipText);
+            case IconType.SMALL_SHADOW -> node = smallShadowIcon(imagePath, tooltipText, iconColor);
+            case IconType.SMALL_FADED -> node = smallFadedIcon(imagePath, tooltipText);
+            case IconType.SMALL_BORDER -> node = smallBorderIcon(imagePath, tooltipText, iconColor);
+            case IconType.MEDIUM -> node = mediumIcon(imagePath, tooltipText);
+            case IconType.MEDIUM_SHADOW -> node = mediumShadowIcon(imagePath, tooltipText, iconColor);
+            case IconType.MEDIUM_FADED -> node = mediumFadedIcon(imagePath, tooltipText);
+            case IconType.MEDIUM_BORDER -> node = mediumBorderIcon(imagePath, tooltipText, iconColor);
+            default -> node = smallIcon(imagePath, tooltipText);
         }
-        pane.getChildren().add(imageView);
-        return imageView;
+        pane.getChildren().add(node);
     }
 
     public void addButtonToPane(Pane pane, String string, EventHandler<ActionEvent> eventHandler) {

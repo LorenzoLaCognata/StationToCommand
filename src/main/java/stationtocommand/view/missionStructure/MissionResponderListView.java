@@ -47,7 +47,7 @@ public class MissionResponderListView {
     }
 
     private void showMissionResponderIcon(Pane labelPane, MissionResponderLink missionResponderLink) {
-        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.BLANK, missionResponderLink.getResponder().getAppearanceType().getResourcePath());
+        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.EMPTY, missionResponderLink.getResponder().getAppearanceType().getResourcePath(), "");
     }
 
     private void showMissionResponderButton(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, Pane labelPane, MissionResponderLink missionResponderLink) {

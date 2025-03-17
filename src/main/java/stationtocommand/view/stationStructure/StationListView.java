@@ -1,6 +1,5 @@
 package stationtocommand.view.stationStructure;
 
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.departmentStructure.DepartmentType;
@@ -48,7 +47,7 @@ public class StationListView {
     }
 
     private void showStationIcon(Pane labelPane, Station station) {
-        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.BLANK, station.getStationType().getResourcePath());
+        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.EMPTY, station.getStationType().getResourcePath(), "");
     }
 
     private void showStationButton(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, Pane labelPane, Station station) {
@@ -66,9 +65,13 @@ public class StationListView {
         }
 
         for (UnitType unitType : unitTypes) {
-            ImageView unitImageView = utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.BLANK, unitType.getResourcePath());
             if (station.getUnitManager().getUnits(unitType).isEmpty()) {
-                unitImageView.setOpacity(0.2);
+                utilsView.addIconToPane(labelPane, IconType.SMALL_FADED, IconColor.EMPTY, unitType.getResourcePath(), unitType.toString());
+
+            }
+            else {
+                utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.EMPTY, unitType.getResourcePath(), unitType.toString());
+
             }
         }
     }
