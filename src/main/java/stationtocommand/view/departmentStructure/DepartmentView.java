@@ -52,7 +52,7 @@ public class DepartmentView {
 
     private void showDepartmentDetails(Pane navigationPanel, Department department) {
         Pane labelPane = utilsView.createHBox(navigationPanel);
-        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.EMPTY, department.getDepartmentType().getResourcePath(), department.getDepartmentType().toString());
+        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.EMPTY, department.getDepartmentType().getResourcePath(), "");
         utilsView.addMainTitleLabel(labelPane, department.toString());
     }
 

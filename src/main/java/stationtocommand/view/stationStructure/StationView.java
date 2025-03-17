@@ -59,7 +59,7 @@ public class StationView {
 
     private void showStationDetails(Pane navigationPanel, Station station) {
         Pane labelPane = utilsView.createHBox(navigationPanel);
-        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.EMPTY, station.getStationType().getResourcePath(), station.getStationType().toString());
+        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.EMPTY, station.getStationType().getResourcePath(), "");
         utilsView.addMainTitleLabel(labelPane, station.toString());
     }
 

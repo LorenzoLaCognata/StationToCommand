@@ -169,8 +169,12 @@ public class UtilsView {
 
     public ImageView basicIcon(String iconPath, String tooltipText) {
         ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(iconPath)).toExternalForm()));
-        Tooltip tooltip = new Tooltip(tooltipText);
-        Tooltip.install(imageView, tooltip);
+        if (!tooltipText.isEmpty()) {
+            Tooltip tooltip = new Tooltip(tooltipText);
+            tooltip.setShowDelay(javafx.util.Duration.millis(100));
+            tooltip.setShowDuration(javafx.util.Duration.seconds(10));
+            Tooltip.install(imageView, tooltip);
+        }
         return imageView;
     }
 
