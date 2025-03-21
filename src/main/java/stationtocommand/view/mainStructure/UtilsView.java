@@ -16,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.departmentStructure.Department;
@@ -251,10 +252,22 @@ public class UtilsView {
         return iconColor;
     }
 
+    public Pane createPane(Pane pane) {
+        Pane pane2 = new Pane();
+        pane.getChildren().add(pane2);
+        return pane2;
+    }
+
     public HBox createHBox(Pane pane) {
         HBox hBox = new HBox(10);
         pane.getChildren().add(hBox);
         return hBox;
+    }
+
+    public VBox createVBox(Pane pane) {
+        VBox vBox = new VBox(10);
+        pane.getChildren().add(vBox);
+        return vBox;
     }
 
     public void addIconToPane(Pane pane, IconType iconType, IconColor iconColor, String imagePath, String tooltipText) {
