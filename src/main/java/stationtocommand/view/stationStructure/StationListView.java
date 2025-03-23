@@ -1,13 +1,13 @@
 package stationtocommand.view.stationStructure;
 
 import javafx.scene.layout.Pane;
-import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.departmentStructure.DepartmentType;
 import stationtocommand.model.stationStructure.Station;
 import stationtocommand.model.unitTypeStructure.FireUnitType;
 import stationtocommand.model.unitTypeStructure.MedicUnitType;
 import stationtocommand.model.unitTypeStructure.PoliceUnitType;
 import stationtocommand.model.unitTypeStructure.UnitType;
+import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
@@ -31,30 +31,30 @@ public class StationListView {
         return stationView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, List<Station> stations) {
-        utilsView.addSectionTitleLabel(navigationPanel, "Stations");
+    public void show(View view, List<Station> stations) {
+        utilsView.addSectionTitleLabel(view.getNavigationPanel().getDetailsPane(), "Stations");
         for (Station station : stations) {
-            showSidebar(breadCrumbBar, navigationPanel, worldMap, station);
-            stationView.showMap(worldMap, station);
+            showSidebar(view, station);
+            stationView.showMap(view, station);
         }
     }
 
-    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, Station station) {
-        Pane labelPane = utilsView.createHBox(navigationPanel);
-        showStationIcon(labelPane, station);
-        showStationButton(breadCrumbBar, navigationPanel, worldMap, labelPane, station);
-        showStationUnitTypes(labelPane, station);
+    private void showSidebar(View view, Station station) {
+        Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
+        showStationIcon(horizontalDetailsPane, station);
+        showStationButton(view, horizontalDetailsPane, station);
+        showStationUnitTypes(horizontalDetailsPane, station);
     }
 
-    private void showStationIcon(Pane labelPane, Station station) {
-        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.EMPTY, station.getStationType().getResourcePath(), "");
+    private void showStationIcon(Pane pane, Station station) {
+        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, station.getStationType().getResourcePath(), "");
     }
 
-    private void showStationButton(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, Pane labelPane, Station station) {
-        utilsView.addButtonToPane(labelPane, station.toString(), (_ -> stationView.show(breadCrumbBar, navigationPanel, worldMap, station)));
+    private void showStationButton(View view, Pane pane, Station station) {
+        utilsView.addButtonToPane(pane, station.toString(), (_ -> stationView.show(view, station)));
     }
 
-    private void showStationUnitTypes(Pane labelPane, Station station) {
+    private void showStationUnitTypes(Pane pane, Station station) {
         List<UnitType> unitTypes;
 
         switch (station.getDepartment().getDepartmentType()) {
@@ -66,11 +66,11 @@ public class StationListView {
 
         for (UnitType unitType : unitTypes) {
             if (station.getUnitManager().getUnits(unitType).isEmpty()) {
-                utilsView.addIconToPane(labelPane, IconType.SMALL_FADED, IconColor.EMPTY, unitType.getResourcePath(), unitType.toString());
+                utilsView.addIconToPane(pane, IconType.SMALL_FADED, IconColor.EMPTY, unitType.getResourcePath(), unitType.toString());
 
             }
             else {
-                utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.EMPTY, unitType.getResourcePath(), unitType.toString());
+                utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, unitType.getResourcePath(), unitType.toString());
 
             }
         }

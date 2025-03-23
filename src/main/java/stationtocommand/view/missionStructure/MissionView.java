@@ -3,7 +3,6 @@ package stationtocommand.view.missionStructure;
 import javafx.geometry.Point2D;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
@@ -24,30 +23,31 @@ public class MissionView {
         return missionDepartmentListView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, Mission mission) {
-        View.viewRunnable = () -> show(breadCrumbBar, navigationPanel, worldMap, mission);
-        utilsView.addBreadCrumb(breadCrumbBar, mission);
-        utilsView.clearPane(navigationPanel);
-        utilsView.clearPane(worldMap);
-        showSidebar(breadCrumbBar, navigationPanel, worldMap, mission);
-        showMap(worldMap, mission);
+    public void show(View view, Mission mission) {
+        View.viewRunnable = () -> show(view, mission);
+        utilsView.addBreadCrumb(view.getBreadCrumbBar(), mission);
+        view.getNavigationPanel().clear();
+        view.getWorldMap().clear();
+        showSidebar(view, mission);
+        showMap(view, mission);
     }
 
-    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, Mission mission) {
-        showMissionDetails(navigationPanel, mission);
-        missionDepartmentListView.show(breadCrumbBar, navigationPanel, worldMap, mission);
+    private void showSidebar(View view, Mission mission) {
+        showMissionDetails(view, mission);
+        missionDepartmentListView.show(view, mission);
     }
 
-    public void showMap(Pane worldMap, Mission mission) {
+    public void showMap(View view, Mission mission) {
         Point2D point = utilsView.locationToPoint(mission.getLocation(), IconType.SMALL);
         ImageView imageView = utilsView.smallIcon(mission.getMissionType().getResourcePath(), mission.getMissionType().toString());
-        utilsView.addNodeToPane(worldMap, imageView, point);
+        Pane mapLayer = view.getWorldMap().getMapElementsLayer();
+        utilsView.addNodeToPane(mapLayer, imageView, point);
     }
 
-    private void showMissionDetails(Pane navigationPanel, Mission mission) {
-        Pane labelPane = utilsView.createHBox(navigationPanel);
-        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.EMPTY, mission.getMissionType().getResourcePath(), mission.getMissionType().toString());
-        utilsView.addMainTitleLabel(labelPane, mission.toString());
+    private void showMissionDetails(View view, Mission mission) {
+        Pane horizontalTitlePane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
+        utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, mission.getMissionType().getResourcePath(), mission.getMissionType().toString());
+        utilsView.addMainTitleLabel(horizontalTitlePane, mission.toString());
     }
 
 }

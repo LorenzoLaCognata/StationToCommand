@@ -1,7 +1,6 @@
 package stationtocommand.view.unitStructure;
 
 import javafx.scene.layout.Pane;
-import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.unitStructure.Unit;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
@@ -30,23 +29,23 @@ public class UnitView {
         return vehicleListView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Unit unit) {
-        View.viewRunnable = () -> show(breadCrumbBar, navigationPanel, unit);
-        utilsView.addBreadCrumb(breadCrumbBar, unit);
-        utilsView.clearPane(navigationPanel);
-        showSidebar(breadCrumbBar, navigationPanel, unit);
+    public void show(View view, Unit unit) {
+        View.viewRunnable = () -> show(view, unit);
+        utilsView.addBreadCrumb(view.getBreadCrumbBar(), unit);
+        view.getNavigationPanel().clear();
+        showSidebar(view, unit);
     }
 
-    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Unit unit) {
-        showUnitDetails(navigationPanel, unit);
-        responderListView.show(breadCrumbBar, navigationPanel, unit.getResponders());
-        vehicleListView.show(breadCrumbBar, navigationPanel, unit.getVehicles());
+    private void showSidebar(View view, Unit unit) {
+        showUnitDetails(view, unit);
+        responderListView.show(view, unit.getResponders());
+        vehicleListView.show(view, unit.getVehicles());
     }
 
-    private void showUnitDetails(Pane navigationPanel, Unit unit) {
-        Pane labelPane = utilsView.createHBox(navigationPanel);
-        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.EMPTY, unit.getUnitType().getResourcePath(), unit.getUnitType().toString());
-        utilsView.addMainTitleLabel(labelPane, unit.toString());
+    private void showUnitDetails(View view, Unit unit) {
+        Pane horizontalTitlePane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
+        utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, unit.getUnitType().getResourcePath(), unit.getUnitType().toString());
+        utilsView.addMainTitleLabel(horizontalTitlePane, unit.toString());
     }
 
 }

@@ -21,7 +21,6 @@ import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.model.locationStructure.Location;
 import stationtocommand.model.locationStructure.LocationManager;
-import stationtocommand.view.View;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -69,34 +68,34 @@ public class UtilsView {
     public void addMainTitleLabel(Pane pane, String text) {
         Label label = new Label(text);
         label.setStyle("""
-        -fx-text-fill: white;
-        -fx-font-size: 18px;
-        -fx-font-weight: bold;
-        -fx-padding: 10px 15px;
-        -fx-background-color: rgba(50, 50, 50, 0.9);
-        -fx-background-radius: 6px;
-        -fx-border-color: #777;
-        -fx-border-width: 1px;
-        -fx-border-radius: 6px;
-        -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 5, 0.3, 0, 0);
-    """);
+            -fx-text-fill: white;
+            -fx-font-size: 18px;
+            -fx-font-weight: bold;
+            -fx-padding: 10px 15px;
+            -fx-background-color: rgba(50, 50, 50, 0.9);
+            -fx-background-radius: 6px;
+            -fx-border-color: #777;
+            -fx-border-width: 1px;
+            -fx-border-radius: 6px;
+            -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 5, 0.3, 0, 0);
+        """);
         pane.getChildren().add(label);
     }
 
     public void addSectionTitleLabel(Pane pane, String text) {
         Label label = new Label(text);
         label.setStyle("""
-        -fx-text-fill: white;
-        -fx-font-size: 14px;
-        -fx-font-weight: bold;
-        -fx-padding: 7px 12px;
-        -fx-background-color: rgba(60, 60, 60, 0.9);
-        -fx-background-radius: 6px;
-        -fx-border-color: #777;
-        -fx-border-width: 1px;
-        -fx-border-radius: 6px;
-        -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 5, 0.3, 0, 0);
-    """);
+            -fx-text-fill: white;
+            -fx-font-size: 14px;
+            -fx-font-weight: bold;
+            -fx-padding: 7px 12px;
+            -fx-background-color: rgba(60, 60, 60, 0.9);
+            -fx-background-radius: 6px;
+            -fx-border-color: #777;
+            -fx-border-width: 1px;
+            -fx-border-radius: 6px;
+            -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 5, 0.3, 0, 0);
+        """);
         pane.getChildren().add(label);
     }
 
@@ -162,8 +161,8 @@ public class UtilsView {
             case IconType.SMALL, IconType.SMALL_SHADOW -> iconSize = SMALL_ICON_SIZE;
             case IconType.MEDIUM, IconType.MEDIUM_SHADOW -> iconSize = MEDIUM_ICON_SIZE;
         }
-        double x = normalize(location.longitude(), LocationManager.MIN_LONGITUDE, LocationManager.MAX_LONGITUDE) * View.MAP_WIDTH;
-        double y = (1 - normalize(location.latitude(), LocationManager.MIN_LATITUDE, LocationManager.MAX_LATITUDE)) * View.MAP_HEIGHT;
+        double x = normalize(location.longitude(), LocationManager.MIN_LONGITUDE, LocationManager.MAX_LONGITUDE) * WorldMap.MAP_WIDTH;
+        double y = (1 - normalize(location.latitude(), LocationManager.MIN_LATITUDE, LocationManager.MAX_LATITUDE)) * WorldMap.MAP_HEIGHT;
         return new Point2D(x - (iconSize/2.0) , y  - (iconSize/2.0));
     }
 

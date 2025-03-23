@@ -1,7 +1,6 @@
 package stationtocommand.view.missionStructure;
 
 import javafx.scene.layout.Pane;
-import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.missionLinkStructure.MissionResponderLink;
 import stationtocommand.model.missionLinkStructure.MissionStationLink;
 import stationtocommand.model.missionLinkStructure.MissionUnitLink;
@@ -36,30 +35,30 @@ public class MissionStationView {
         return missionVehicleListView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, MissionStationLink missionStationLink) {
-        View.viewRunnable = () -> show(breadCrumbBar, navigationPanel, worldMap, missionStationLink);
-        utilsView.addBreadCrumb(breadCrumbBar, missionStationLink);
-        utilsView.clearPane(navigationPanel);
-        utilsView.clearPane(worldMap);
-        showSidebar(breadCrumbBar, navigationPanel, worldMap, missionStationLink);
+    public void show(View view, MissionStationLink missionStationLink) {
+        View.viewRunnable = () -> show(view, missionStationLink);
+        utilsView.addBreadCrumb(view.getBreadCrumbBar(), missionStationLink);
+        view.getNavigationPanel().clear();
+        view.getWorldMap().clear();
+        showSidebar(view, missionStationLink);
     }
 
-    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, MissionStationLink missionStationLink) {
-        showMissionStationDetails(navigationPanel, missionStationLink);
-        missionUnitListView.show(breadCrumbBar, navigationPanel, worldMap, missionStationLink);
-        missionResponderListView.show(breadCrumbBar, navigationPanel, worldMap, missionStationLink);
-        missionVehicleListView.show(breadCrumbBar, navigationPanel, missionStationLink);
+    private void showSidebar(View view, MissionStationLink missionStationLink) {
+        showMissionStationDetails(view, missionStationLink);
+        missionUnitListView.show(view, missionStationLink);
+        missionResponderListView.show(view, missionStationLink);
+        missionVehicleListView.show(view, missionStationLink);
         for (MissionUnitLink missionUnitLink : missionStationLink.getUnitLinks()) {
             for (MissionResponderLink missionResponderLink : missionUnitLink.getResponderLinks()) {
-                missionResponderListView.showMap(worldMap   , missionResponderLink);
+                missionResponderListView.showMap(view, missionResponderLink);
             }
         }
     }
 
-    private void showMissionStationDetails(Pane navigationPanel, MissionStationLink missionStationLink) {
-        Pane labelPane = utilsView.createHBox(navigationPanel);
-        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.EMPTY, missionStationLink.getMission().getMissionType().getResourcePath(), missionStationLink.getMission().getMissionType().toString());
-        utilsView.addMainTitleLabel(labelPane, missionStationLink.getMission().toString());
+    private void showMissionStationDetails(View view, MissionStationLink missionStationLink) {
+        Pane horizontalTitlePane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
+        utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, missionStationLink.getMission().getMissionType().getResourcePath(), missionStationLink.getMission().getMissionType().toString());
+        utilsView.addMainTitleLabel(horizontalTitlePane, missionStationLink.getMission().toString());
     }
 
 }

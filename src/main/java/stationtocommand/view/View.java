@@ -9,8 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToolBar;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 import org.controlsfx.control.BreadCrumbBar;
@@ -22,17 +20,11 @@ import stationtocommand.model.responderStructure.Responder;
 import stationtocommand.model.stationStructure.Station;
 import stationtocommand.model.unitStructure.Unit;
 import stationtocommand.model.vehicleStructure.Vehicle;
-import stationtocommand.view.mainStructure.DispatchView;
-import stationtocommand.view.mainStructure.OrganizationView;
-import stationtocommand.view.mainStructure.UtilsView;
+import stationtocommand.view.mainStructure.*;
 
 import java.util.List;
-import java.util.Objects;
 
 public class View {
-
-    public static final float MAP_WIDTH = 1400.0f;
-    public static final float MAP_HEIGHT = 900.0f;
 
     private Controller controller;
     private UtilsView utilsView;
@@ -41,37 +33,52 @@ public class View {
     private final GridPane gridPane = new GridPane();
 
     private final ToolBar toolbar = new ToolBar();
-    private final VBox navigationPanel = new VBox(5);
-    private final BreadCrumbBar<Object> breadcrumb = new BreadCrumbBar<>();
-    private final StackPane worldMap = new StackPane();
+    private final BreadCrumbBar<Object> breadCrumbBar = new BreadCrumbBar<>();
+    private final NavigationPanel navigationPanel = new NavigationPanel();
+    private final WorldMap worldMap = new WorldMap();
     private final HBox hud = new HBox(5);
 
     private final Label gameClockLabel = new Label();
-    private final Pane mapElementsLayer = new Pane();
 
     public static Runnable viewRunnable;
 
     public View() {
-        ScrollPane scrollPane = new ScrollPane(navigationPanel);
+        ScrollPane scrollPane = new ScrollPane(navigationPanel.getContainer());
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 
         gridPane.add(toolbar, 0, 0, 2, 1);
-        gridPane.add(breadcrumb, 0, 1, 2, 1);
+        gridPane.add(breadCrumbBar, 0, 1, 2, 1);
         gridPane.add(scrollPane, 0, 2, 1, 2);
-        gridPane.add(worldMap, 1, 2);
+        gridPane.add(worldMap.getContainer(), 1, 2);
         gridPane.add(hud, 1, 3);
 
     }
 
-    public BreadCrumbBar<Object> getBreadcrumb() {
-        return breadcrumb;
+    public BreadCrumbBar<Object> getBreadCrumbBar() {
+        return breadCrumbBar;
     }
 
     public GridPane getGridPane() {
         return gridPane;
+    }
+
+    public ToolBar getToolbar() {
+        return toolbar;
+    }
+
+    public NavigationPanel getNavigationPanel() {
+        return navigationPanel;
+    }
+
+    public WorldMap getWorldMap() {
+        return worldMap;
+    }
+
+    public HBox getHud() {
+        return hud;
     }
 
     public Label getGameClockLabel() {
@@ -90,12 +97,6 @@ public class View {
     }
 
     public void generateHomePage(List<Department> departments, List<Mission> missions) {
-
-
-
-        navigationPanel.setSpacing(15);
-        navigationPanel.setPadding(new Insets(15));
-        navigationPanel.setStyle("-fx-background-color: rgba(20, 20, 20, 0.9); -fx-border-radius: 10;");
 
         hud.setSpacing(15);
         hud.setPadding(new Insets(15));
@@ -120,8 +121,8 @@ public class View {
 
         ColumnConstraints secondCol = new ColumnConstraints();
         secondCol.setHgrow(Priority.NEVER);
-        secondCol.setMinWidth(MAP_WIDTH);
-        secondCol.setMaxWidth(MAP_WIDTH);
+        secondCol.setMinWidth(WorldMap.MAP_WIDTH);
+        secondCol.setMaxWidth(WorldMap.MAP_WIDTH);
 
         gridPane.getColumnConstraints().addAll(firstCol, secondCol);
 
@@ -137,22 +138,13 @@ public class View {
 
         RowConstraints thirdRow = new RowConstraints();
         thirdRow.setVgrow(Priority.NEVER);
-        thirdRow.setMinHeight(MAP_HEIGHT);
-        thirdRow.setMaxHeight(MAP_HEIGHT);
+        thirdRow.setMinHeight(WorldMap.MAP_HEIGHT);
+        thirdRow.setMaxHeight(WorldMap.MAP_HEIGHT);
 
         RowConstraints fourthRow = new RowConstraints();
         fourthRow.setVgrow(Priority.ALWAYS);
 
         gridPane.getRowConstraints().addAll(firstRow, secondRow, thirdRow, fourthRow);
-
-        ImageView mapView = new ImageView(new Image(Objects.requireNonNull(getClass().getResource("/images/map-light.png")).toExternalForm()));
-        mapView.setFitWidth(MAP_WIDTH);
-        mapView.setFitHeight(MAP_HEIGHT);
-        mapView.setOpacity(0.60);
-        mapView.setPreserveRatio(true);
-
-        Pane mapBackgroundLayer = new Pane();
-        mapBackgroundLayer.getChildren().add(mapView);
 
         organizationButton.setOnAction(_ -> organizationButtonHandler(organizationButton.getText(), departments));
         toolbar.getItems().addAll(organizationButton);
@@ -185,11 +177,8 @@ public class View {
         });
         toolbar.getItems().addAll(speed0Button, speed1Button, speed2Button, speed3Button);
 
-        breadcrumb.setStyle("-fx-background-color: #222; -fx-padding: 5px;");
+        breadCrumbBar.setStyle("-fx-background-color: #222; -fx-padding: 5px;");
         breadCrumbActions(departments, missions);
-
-        worldMap.setStyle("-fx-background-color: #ffffff;");
-        worldMap.getChildren().addAll(mapBackgroundLayer, mapElementsLayer);
 
         Timeline userInterfaceUpdater = new Timeline(new KeyFrame(Duration.seconds(1), _ -> refreshUserInterface()));
         userInterfaceUpdater.setCycleCount(Animation.INDEFINITE);
@@ -198,7 +187,7 @@ public class View {
     }
 
     private void breadCrumbActions(List<Department> departments, List<Mission> missions) {
-        breadcrumb.setOnCrumbAction(event -> {
+        breadCrumbBar.setOnCrumbAction(event -> {
             Object selectedObject = event.getSelectedCrumb().getValue();
 
             if (selectedObject instanceof String string) {
@@ -212,69 +201,69 @@ public class View {
                 }
             }
             else if (selectedObject instanceof Department) {
-                utilsView.clearPane(mapElementsLayer);
-                utilsView.resetBreadCrumbBar(breadcrumb);
-                organizationView.getDepartmentListView().getDepartmentView().show(breadcrumb, navigationPanel, mapElementsLayer, (Department) selectedObject);
+                worldMap.clear();
+                utilsView.resetBreadCrumbBar(breadCrumbBar);
+                organizationView.getDepartmentListView().getDepartmentView().show(this, (Department) selectedObject);
             }
             else if (selectedObject instanceof Station) {
-                utilsView.addBreadCrumb(breadcrumb, selectedObject);
-                organizationView.getDepartmentListView().getDepartmentView().getStationListView().getStationView().show(breadcrumb, navigationPanel, mapElementsLayer, (Station) selectedObject);
+                utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
+                organizationView.getDepartmentListView().getDepartmentView().getStationListView().getStationView().show(this, (Station) selectedObject);
             }
             else if (selectedObject instanceof Unit) {
-                utilsView.addBreadCrumb(breadcrumb, selectedObject);
-                organizationView.getDepartmentListView().getDepartmentView().getStationListView().getStationView().getUnitListView().getUnitView().show(breadcrumb, navigationPanel, (Unit) selectedObject);
+                utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
+                organizationView.getDepartmentListView().getDepartmentView().getStationListView().getStationView().getUnitListView().getUnitView().show(this, (Unit) selectedObject);
             }
             else if (selectedObject instanceof Responder) {
-                utilsView.addBreadCrumb(breadcrumb, selectedObject);
-                organizationView.getDepartmentListView().getDepartmentView().getStationListView().getStationView().getUnitListView().getUnitView().getResponderListView().getResponderView().show(breadcrumb, navigationPanel, (Responder) selectedObject);
+                utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
+                organizationView.getDepartmentListView().getDepartmentView().getStationListView().getStationView().getUnitListView().getUnitView().getResponderListView().getResponderView().show(this, (Responder) selectedObject);
             }
             else if (selectedObject instanceof Vehicle) {
-                utilsView.addBreadCrumb(breadcrumb, selectedObject);
-                organizationView.getDepartmentListView().getDepartmentView().getStationListView().getStationView().getUnitListView().getUnitView().getVehicleListView().getVehicleView().show(breadcrumb, navigationPanel, (Vehicle) selectedObject);
+                utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
+                organizationView.getDepartmentListView().getDepartmentView().getStationListView().getStationView().getUnitListView().getUnitView().getVehicleListView().getVehicleView().show(this, (Vehicle) selectedObject);
             }
             else if (selectedObject instanceof Mission) {
-                utilsView.resetBreadCrumbBar(breadcrumb);
-                dispatchView.getMissionListView().getMissionView().show(breadcrumb, navigationPanel, mapElementsLayer, (Mission) selectedObject);
+                utilsView.resetBreadCrumbBar(breadCrumbBar);
+                dispatchView.getMissionListView().getMissionView().show(this, (Mission) selectedObject);
             }
             else if (selectedObject instanceof MissionDepartmentLink) {
-                utilsView.addBreadCrumb(breadcrumb, selectedObject);
-                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().show(breadcrumb, navigationPanel, mapElementsLayer, (MissionDepartmentLink) selectedObject);
+                utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
+                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().show(this, (MissionDepartmentLink) selectedObject);
             }
             else if (selectedObject instanceof MissionStationLink) {
-                utilsView.addBreadCrumb(breadcrumb, selectedObject);
-                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().show(breadcrumb, navigationPanel, mapElementsLayer, (MissionStationLink) selectedObject);
+                utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
+                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().show(this, (MissionStationLink) selectedObject);
             }
             else if (selectedObject instanceof MissionUnitLink) {
-                utilsView.addBreadCrumb(breadcrumb, selectedObject);
-                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().getMissionUnitListView().getMissionUnitView().show(breadcrumb, navigationPanel, mapElementsLayer, (MissionUnitLink) selectedObject);
+                utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
+                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().getMissionUnitListView().getMissionUnitView().show(this, (MissionUnitLink) selectedObject);
             }
             else if (selectedObject instanceof MissionResponderLink) {
-                utilsView.addBreadCrumb(breadcrumb, selectedObject);
-                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().getMissionResponderListView().getMissionResponderView().show(breadcrumb, navigationPanel, mapElementsLayer, (MissionResponderLink) selectedObject);
+                utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
+                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().getMissionResponderListView().getMissionResponderView().show(this, (MissionResponderLink) selectedObject);
             }
             else if (selectedObject instanceof MissionVehicleLink) {
-                utilsView.addBreadCrumb(breadcrumb, selectedObject);
-                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().getMissionVehicleListView().getMissionVehicleView().show(breadcrumb, navigationPanel, (MissionVehicleLink) selectedObject);
+                utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
+                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().getMissionVehicleListView().getMissionVehicleView().show(this, (MissionVehicleLink) selectedObject);
             }
         });
     }
 
     public void organizationButtonHandler(String buttonText, List<Department> departments) {
         viewRunnable = () -> organizationButtonHandler(buttonText, departments);
-        utilsView.clearPane(navigationPanel);
-        utilsView.clearPane(mapElementsLayer);
-        utilsView.resetBreadCrumbBar(breadcrumb);
-        utilsView.addBreadCrumb(breadcrumb, buttonText);
-        organizationView.show(breadcrumb, navigationPanel, mapElementsLayer, departments);
+        navigationPanel.clear();
+        worldMap.clear();
+        utilsView.resetBreadCrumbBar(breadCrumbBar);
+        utilsView.addBreadCrumb(breadCrumbBar, buttonText);
+        organizationView.show(this, departments);
     }
 
     public void dispatchButtonHandler(String buttonText, List<Mission> missions) {
         viewRunnable = () -> dispatchButtonHandler(buttonText, missions);
-        utilsView.clearPane(navigationPanel);
-        utilsView.clearPane(mapElementsLayer);
-        utilsView.resetBreadCrumbBar(breadcrumb);
-        utilsView.addBreadCrumb(breadcrumb, buttonText);
-        dispatchView.show(breadcrumb, navigationPanel, mapElementsLayer, missions);
+        navigationPanel.clear();
+        worldMap.clear();
+        utilsView.resetBreadCrumbBar(breadCrumbBar);
+        utilsView.addBreadCrumb(breadCrumbBar, buttonText);
+        dispatchView.show(this, missions);
     }
 
     public void refreshUserInterface() {

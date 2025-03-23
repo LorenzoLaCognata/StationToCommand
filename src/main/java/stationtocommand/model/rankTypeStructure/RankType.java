@@ -2,7 +2,7 @@ package stationtocommand.model.rankTypeStructure;
 
 public interface RankType {
 
-    public int getLevel();
-    public String getResourcePath();
+    int getLevel();
+    String getResourcePath();
 
 }

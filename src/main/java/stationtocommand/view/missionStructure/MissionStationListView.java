@@ -1,9 +1,9 @@
 package stationtocommand.view.missionStructure;
 
 import javafx.scene.layout.Pane;
-import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.missionLinkStructure.MissionDepartmentLink;
 import stationtocommand.model.missionLinkStructure.MissionStationLink;
+import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
@@ -22,25 +22,25 @@ public class MissionStationListView {
         return missionStationView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, MissionDepartmentLink missionDepartmentLink) {
-        utilsView.addSectionTitleLabel(navigationPanel, "Stations");
+    public void show(View view, MissionDepartmentLink missionDepartmentLink) {
+        utilsView.addSectionTitleLabel(view.getNavigationPanel().getDetailsPane(), "Stations");
         for (MissionStationLink missionStationLink : missionDepartmentLink.getStationLinks()) {
-            showSidebar(breadCrumbBar, navigationPanel, worldMap, missionStationLink);
+            showSidebar(view, missionStationLink);
         }
     }
 
-    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, MissionStationLink missionStationLink) {
-        Pane labelPane = utilsView.createHBox(navigationPanel);
-        showMissionStationIcon(labelPane, missionStationLink);
-        showMissionStationButton(breadCrumbBar, navigationPanel, worldMap, labelPane, missionStationLink);
+    private void showSidebar(View view, MissionStationLink missionStationLink) {
+        Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
+        showMissionStationIcon(horizontalDetailsPane, missionStationLink);
+        showMissionStationButton(view, horizontalDetailsPane, missionStationLink);
     }
 
-    private void showMissionStationIcon(Pane labelPane, MissionStationLink missionStationLink) {
-        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.EMPTY, missionStationLink.getStation().getStationType().getResourcePath(), "");
+    private void showMissionStationIcon(Pane pane, MissionStationLink missionStationLink) {
+        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, missionStationLink.getStation().getStationType().getResourcePath(), "");
     }
 
-    private void showMissionStationButton(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, Pane labelPane, MissionStationLink missionStationLink) {
-        utilsView.addButtonToPane(labelPane, missionStationLink.getStation().toString(), (_ -> missionStationView.show(breadCrumbBar, navigationPanel, worldMap, missionStationLink)));
+    private void showMissionStationButton(View view, Pane pane, MissionStationLink missionStationLink) {
+        utilsView.addButtonToPane(pane, missionStationLink.getStation().toString(), (_ -> missionStationView.show(view, missionStationLink)));
     }
 
 }
