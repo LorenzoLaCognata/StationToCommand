@@ -16,23 +16,23 @@ public class ResponderView {
         this.utilsView = utilsView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Responder responder) {
-        View.viewRunnable = () -> show(breadCrumbBar, navigationPanel, responder);
+    public void show(BreadCrumbBar<Object> breadCrumbBar, View view, Responder responder) {
+        View.viewRunnable = () -> show(breadCrumbBar, view, responder);
         utilsView.addBreadCrumb(breadCrumbBar, responder);
-        utilsView.clearPane(navigationPanel);
-        showSidebar(breadCrumbBar, navigationPanel, responder);
+        view.getNavigationPanel().clear();
+        showSidebar(breadCrumbBar, view, responder);
     }
 
-    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Responder responder) {
-        showResponderDetails(navigationPanel, responder);
+    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, View view, Responder responder) {
+        showResponderDetails(view, responder);
     }
 
-    private void showResponderDetails(Pane navigationPanel, Responder responder) {
-        Pane labelPane = utilsView.createHBox(navigationPanel);
-        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.EMPTY, responder.getAppearanceType().getResourcePath(), "");
-        utilsView.addMainTitleLabel(labelPane, responder.toString());
-        Pane detailsPane = utilsView.createHBox(navigationPanel);
-        utilsView.addBodyLabel(detailsPane, responder.getRank().toString());
+    private void showResponderDetails(View view, Responder responder) {
+        Pane horizontalTitlePane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
+        utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, responder.getAppearanceType().getResourcePath(), "");
+        utilsView.addMainTitleLabel(horizontalTitlePane, responder.toString());
+        Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
+        utilsView.addBodyLabel(horizontalDetailsPane, responder.getRank().toString());
     }
 
 }

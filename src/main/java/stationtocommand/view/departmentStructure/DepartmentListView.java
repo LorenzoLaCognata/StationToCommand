@@ -26,28 +26,28 @@ public class DepartmentListView {
         return departmentView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, View view, Pane worldMap, List<Department> departments) {
+    public void show(BreadCrumbBar<Object> breadCrumbBar, View view, List<Department> departments) {
         utilsView.addSectionTitleLabel(view.getNavigationPanel().getTitlePane(), "Departments");
         for (Department department : departments) {
-            showSidebar(breadCrumbBar, view, worldMap, department);
+            showSidebar(breadCrumbBar, view, department);
             for (Station station : department.getStations()) {
-                departmentView.getStationListView().getStationView().showMap(worldMap, station);
+                departmentView.getStationListView().getStationView().showMap(view, station);
             }
         }
     }
 
-    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, View view, Pane worldMap, Department department) {
-        Pane horizontalEntryPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
-        showDepartmentIcon(horizontalEntryPane, department);
-        showDepartmentButton(breadCrumbBar, view, worldMap, horizontalEntryPane, department);
+    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, View view, Department department) {
+        Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
+        showDepartmentIcon(horizontalDetailsPane, department);
+        showDepartmentButton(breadCrumbBar, view, horizontalDetailsPane, department);
     }
 
-    private void showDepartmentIcon(Pane horizontalEntryPane, Department department) {
-        utilsView.addIconToPane(horizontalEntryPane, IconType.SMALL, IconColor.EMPTY, department.getDepartmentType().getResourcePath(), "");
+    private void showDepartmentIcon(Pane pane, Department department) {
+        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, department.getDepartmentType().getResourcePath(), "");
     }
 
-    private void showDepartmentButton(BreadCrumbBar<Object> breadCrumbBar, View view, Pane worldMap, Pane horizontalEntryPane, Department department) {
-        utilsView.addButtonToPane(horizontalEntryPane, department.toString(), (_ -> departmentView.show(breadCrumbBar, view, worldMap, department)));
+    private void showDepartmentButton(BreadCrumbBar<Object> breadCrumbBar, View view, Pane pane, Department department) {
+        utilsView.addButtonToPane(pane, department.toString(), (_ -> departmentView.show(breadCrumbBar, view, department)));
     }
 
 

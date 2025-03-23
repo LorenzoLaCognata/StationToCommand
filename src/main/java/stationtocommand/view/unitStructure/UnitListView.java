@@ -32,23 +32,22 @@ public class UnitListView {
     }
 
     private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, View view, Unit unit) {
-        Pane horizontalEntryPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
-        showUnitIcon(horizontalEntryPane, unit);
-        // TODO: restore and fix
-//        showUnitButton(breadCrumbBar, view, horizontalEntryPane, unit);
-        showUnitStatus(horizontalEntryPane, unit);
+        Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
+        showUnitIcon(horizontalDetailsPane, unit);
+        showUnitButton(breadCrumbBar, view, horizontalDetailsPane, unit);
+        showUnitStatus(horizontalDetailsPane, unit);
     }
 
-    private void showUnitIcon(Pane horizontalEntryPane, Unit unit) {
-        utilsView.addIconToPane(horizontalEntryPane, IconType.SMALL, IconColor.EMPTY, unit.getUnitType().getResourcePath(), unit.getUnitType().toString());
+    private void showUnitIcon(Pane pane, Unit unit) {
+        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, unit.getUnitType().getResourcePath(), unit.getUnitType().toString());
     }
 
-    private void showUnitButton(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane horizontalEntryPane, Unit unit) {
-        utilsView.addButtonToPane(horizontalEntryPane, unit.toString(), (_ -> unitView.show(breadCrumbBar, navigationPanel, unit)));
+    private void showUnitButton(BreadCrumbBar<Object> breadCrumbBar, View view, Pane pane, Unit unit) {
+        utilsView.addButtonToPane(pane, unit.toString(), (_ -> unitView.show(breadCrumbBar, view, unit)));
     }
 
-    private void showUnitStatus(Pane horizontalEntryPane, Unit unit) {
-        utilsView.addIconToPane(horizontalEntryPane, IconType.SMALL, IconColor.EMPTY, unit.getUnitStatus().getResourcePath(), unit.getUnitStatus().toString());
+    private void showUnitStatus(Pane pane, Unit unit) {
+        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, unit.getUnitStatus().getResourcePath(), unit.getUnitStatus().toString());
     }
 
 }

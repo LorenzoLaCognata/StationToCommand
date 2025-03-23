@@ -30,23 +30,23 @@ public class UnitView {
         return vehicleListView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Unit unit) {
-        View.viewRunnable = () -> show(breadCrumbBar, navigationPanel, unit);
+    public void show(BreadCrumbBar<Object> breadCrumbBar, View view, Unit unit) {
+        View.viewRunnable = () -> show(breadCrumbBar, view, unit);
         utilsView.addBreadCrumb(breadCrumbBar, unit);
-        utilsView.clearPane(navigationPanel);
-        showSidebar(breadCrumbBar, navigationPanel, unit);
+        view.getNavigationPanel().clear();
+        showSidebar(breadCrumbBar, view, unit);
     }
 
-    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Unit unit) {
-        showUnitDetails(navigationPanel, unit);
-        responderListView.show(breadCrumbBar, navigationPanel, unit.getResponders());
-        vehicleListView.show(breadCrumbBar, navigationPanel, unit.getVehicles());
+    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, View view, Unit unit) {
+        showUnitDetails(view, unit);
+        responderListView.show(breadCrumbBar, view, unit.getResponders());
+        vehicleListView.show(breadCrumbBar, view, unit.getVehicles());
     }
 
-    private void showUnitDetails(Pane navigationPanel, Unit unit) {
-        Pane labelPane = utilsView.createHBox(navigationPanel);
-        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.EMPTY, unit.getUnitType().getResourcePath(), unit.getUnitType().toString());
-        utilsView.addMainTitleLabel(labelPane, unit.toString());
+    private void showUnitDetails(View view, Unit unit) {
+        Pane horizontalTitlePane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
+        utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, unit.getUnitType().getResourcePath(), unit.getUnitType().toString());
+        utilsView.addMainTitleLabel(horizontalTitlePane, unit.toString());
     }
 
 }

@@ -21,7 +21,6 @@ import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.model.locationStructure.Location;
 import stationtocommand.model.locationStructure.LocationManager;
-import stationtocommand.view.View;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -49,12 +48,6 @@ public class UtilsView {
 
     public DateTimeFormatter getDateFormat() {
         return dateFormat;
-    }
-
-    public void clearNavigationPanel(NavigationPanel navigationPanel) {
-        navigationPanel.getTitlePane().getChildren().clear();
-        navigationPanel.getButtonsPane().getChildren().clear();
-        navigationPanel.getDetailsPane().getChildren().clear();
     }
 
     public void clearPane(Pane pane) {
@@ -168,8 +161,8 @@ public class UtilsView {
             case IconType.SMALL, IconType.SMALL_SHADOW -> iconSize = SMALL_ICON_SIZE;
             case IconType.MEDIUM, IconType.MEDIUM_SHADOW -> iconSize = MEDIUM_ICON_SIZE;
         }
-        double x = normalize(location.longitude(), LocationManager.MIN_LONGITUDE, LocationManager.MAX_LONGITUDE) * View.MAP_WIDTH;
-        double y = (1 - normalize(location.latitude(), LocationManager.MIN_LATITUDE, LocationManager.MAX_LATITUDE)) * View.MAP_HEIGHT;
+        double x = normalize(location.longitude(), LocationManager.MIN_LONGITUDE, LocationManager.MAX_LONGITUDE) * WorldMap.MAP_WIDTH;
+        double y = (1 - normalize(location.latitude(), LocationManager.MIN_LATITUDE, LocationManager.MAX_LATITUDE)) * WorldMap.MAP_HEIGHT;
         return new Point2D(x - (iconSize/2.0) , y  - (iconSize/2.0));
     }
 

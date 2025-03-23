@@ -16,21 +16,21 @@ public class VehicleView {
         this.utilsView = utilsView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Vehicle vehicle) {
-        View.viewRunnable = () -> show(breadCrumbBar, navigationPanel, vehicle);
+    public void show(BreadCrumbBar<Object> breadCrumbBar, View view, Vehicle vehicle) {
+        View.viewRunnable = () -> show(breadCrumbBar, view, vehicle);
         utilsView.addBreadCrumb(breadCrumbBar, vehicle);
-        utilsView.clearPane(navigationPanel);
-        showSidebar(navigationPanel, vehicle);
+        view.getNavigationPanel().clear();
+        showSidebar(view, vehicle);
     }
 
-    private void showSidebar(Pane navigationPanel, Vehicle vehicle) {
-        showVehicleDetails(navigationPanel, vehicle);
+    private void showSidebar(View view, Vehicle vehicle) {
+        showVehicleDetails(view, vehicle);
     }
 
-    private void showVehicleDetails(Pane navigationPanel, Vehicle vehicle) {
-        Pane labelPane = utilsView.createHBox(navigationPanel);
-        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.EMPTY, vehicle.getVehicleType().getResourcePath(), vehicle.getVehicleType().toString());
-        utilsView.addMainTitleLabel(labelPane, vehicle.toString());
+    private void showVehicleDetails(View view, Vehicle vehicle) {
+        Pane horizontalTitlePane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
+        utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, vehicle.getVehicleType().getResourcePath(), vehicle.getVehicleType().toString());
+        utilsView.addMainTitleLabel(horizontalTitlePane, vehicle.toString());
     }
 
 }

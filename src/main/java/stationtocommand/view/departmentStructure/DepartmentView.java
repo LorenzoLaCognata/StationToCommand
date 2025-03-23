@@ -40,22 +40,22 @@ public class DepartmentView {
         return stationListView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, View view, Pane worldMap, Department department) {
-        View.viewRunnable = () -> show(breadCrumbBar, view, worldMap, department);
+    public void show(BreadCrumbBar<Object> breadCrumbBar, View view, Department department) {
+        View.viewRunnable = () -> show(breadCrumbBar, view, department);
         utilsView.addBreadCrumb(breadCrumbBar, department);
-        utilsView.clearNavigationPanel(view.getNavigationPanel());
-        utilsView.clearPane(worldMap);
+        view.getNavigationPanel().clear();
+        view.getWorldMap().clear();
         showDepartmentDetails(view, department);
-        stationListView.show(breadCrumbBar, view, worldMap, department.getStations());
+        stationListView.show(breadCrumbBar, view, department.getStations());
         showDepartmentUnitCounts(view, department);
         showDepartmentVehicleCounts(view, department);
         showDepartmentResponderCounts(view, department);
     }
 
     private void showDepartmentDetails(View view, Department department) {
-        Pane horizontalEntryPane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
-        utilsView.addIconToPane(horizontalEntryPane, IconType.MEDIUM, IconColor.EMPTY, department.getDepartmentType().getResourcePath(), "");
-        utilsView.addMainTitleLabel(horizontalEntryPane, department.toString());
+        Pane horizontalTitlePane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
+        utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, department.getDepartmentType().getResourcePath(), "");
+        utilsView.addMainTitleLabel(horizontalTitlePane, department.toString());
     }
 
     private void showDepartmentUnitCounts(View view, Department department) {
@@ -91,23 +91,23 @@ public class DepartmentView {
     }
 
     private void addUnitTypeCount(View view, Map<UnitType, Map<UnitStatus, Long>> unitCounts, UnitType unitType) {
-        Pane horizontalEntryPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
+        Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
         Map<UnitStatus, Long> statusCounts = unitCounts.getOrDefault(unitType, Collections.emptyMap());
-        utilsView.addIconToPane(horizontalEntryPane, IconType.SMALL, IconColor.EMPTY, unitType.getResourcePath(), unitType.toString());
-        addUnitTypeStatusCount(horizontalEntryPane, statusCounts, UnitStatus.AVAILABLE);
-        addUnitTypeStatusCount(horizontalEntryPane, statusCounts, UnitStatus.DISPATCHED);
-        addUnitTypeStatusCount(horizontalEntryPane, statusCounts, UnitStatus.ON_SCENE);
-        addUnitTypeStatusCount(horizontalEntryPane, statusCounts, UnitStatus.RETURNING);
-        addUnitTypeStatusCount(horizontalEntryPane, statusCounts, UnitStatus.UNAVAILABLE);
+        utilsView.addIconToPane(horizontalDetailsPane, IconType.SMALL, IconColor.EMPTY, unitType.getResourcePath(), unitType.toString());
+        addUnitTypeStatusCount(horizontalDetailsPane, statusCounts, UnitStatus.AVAILABLE);
+        addUnitTypeStatusCount(horizontalDetailsPane, statusCounts, UnitStatus.DISPATCHED);
+        addUnitTypeStatusCount(horizontalDetailsPane, statusCounts, UnitStatus.ON_SCENE);
+        addUnitTypeStatusCount(horizontalDetailsPane, statusCounts, UnitStatus.RETURNING);
+        addUnitTypeStatusCount(horizontalDetailsPane, statusCounts, UnitStatus.UNAVAILABLE);
     }
 
-    private void addUnitTypeStatusCount(Pane horizontalEntryPane, Map<UnitStatus, Long> units, UnitStatus unitStatus) {
+    private void addUnitTypeStatusCount(Pane pane, Map<UnitStatus, Long> units, UnitStatus unitStatus) {
         String count = " ";
         if (units.getOrDefault(unitStatus, 0L) > 0L ) {
             count = String.valueOf(units.getOrDefault(unitStatus, 0L));
         }
-        utilsView.addBodySmallLabel(horizontalEntryPane, count);
-        utilsView.addIconToPane(horizontalEntryPane, IconType.SMALL, IconColor.EMPTY, unitStatus.getResourcePath(), unitStatus.toString());
+        utilsView.addBodySmallLabel(pane, count);
+        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, unitStatus.getResourcePath(), unitStatus.toString());
     }
 
     private void showDepartmentVehicleCounts(View view, Department department) {
@@ -146,23 +146,23 @@ public class DepartmentView {
     }
 
     private void addVehicleTypeCount(View view, Map<VehicleType, Map<VehicleStatus, Long>> vehicleCounts, VehicleType vehicleType) {
-        Pane horizontalEntryPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
+        Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
         Map<VehicleStatus, Long> statusCounts = vehicleCounts.getOrDefault(vehicleType, Collections.emptyMap());
-        utilsView.addIconToPane(horizontalEntryPane, IconType.SMALL, IconColor.EMPTY, vehicleType.getResourcePath(), vehicleType.toString());
-        addVehicleTypeStatusCount(horizontalEntryPane, statusCounts, VehicleStatus.AVAILABLE);
-        addVehicleTypeStatusCount(horizontalEntryPane, statusCounts, VehicleStatus.DISPATCHED);
-        addVehicleTypeStatusCount(horizontalEntryPane, statusCounts, VehicleStatus.ON_SCENE);
-        addVehicleTypeStatusCount(horizontalEntryPane, statusCounts, VehicleStatus.RETURNING);
-        addVehicleTypeStatusCount(horizontalEntryPane, statusCounts, VehicleStatus.UNAVAILABLE);
+        utilsView.addIconToPane(horizontalDetailsPane, IconType.SMALL, IconColor.EMPTY, vehicleType.getResourcePath(), vehicleType.toString());
+        addVehicleTypeStatusCount(horizontalDetailsPane, statusCounts, VehicleStatus.AVAILABLE);
+        addVehicleTypeStatusCount(horizontalDetailsPane, statusCounts, VehicleStatus.DISPATCHED);
+        addVehicleTypeStatusCount(horizontalDetailsPane, statusCounts, VehicleStatus.ON_SCENE);
+        addVehicleTypeStatusCount(horizontalDetailsPane, statusCounts, VehicleStatus.RETURNING);
+        addVehicleTypeStatusCount(horizontalDetailsPane, statusCounts, VehicleStatus.UNAVAILABLE);
     }
 
-    private void addVehicleTypeStatusCount(Pane horizontalEntryPane, Map<VehicleStatus, Long> vehicles, VehicleStatus vehicleStatus) {
+    private void addVehicleTypeStatusCount(Pane pane, Map<VehicleStatus, Long> vehicles, VehicleStatus vehicleStatus) {
         String count = " ";
         if (vehicles.getOrDefault(vehicleStatus, 0L) > 0L ) {
             count = String.valueOf(vehicles.getOrDefault(vehicleStatus, 0L));
         }
-        utilsView.addBodySmallLabel(horizontalEntryPane, count);
-        utilsView.addIconToPane(horizontalEntryPane, IconType.SMALL, IconColor.EMPTY, vehicleStatus.getResourcePath(), vehicleStatus.toString());
+        utilsView.addBodySmallLabel(pane, count);
+        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, vehicleStatus.getResourcePath(), vehicleStatus.toString());
     }
 
     private void showDepartmentResponderCounts(View view, Department department) {
@@ -211,23 +211,23 @@ public class DepartmentView {
     }
 
     private void addRankTypeCount(View view, Map<RankType, Map<ResponderStatus, Long>> responderCounts, RankType rankType) {
-        Pane horizontalEntryPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
+        Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
         Map<ResponderStatus, Long> statusCounts = responderCounts.getOrDefault(rankType, Collections.emptyMap());
-        utilsView.addIconToPane(horizontalEntryPane, IconType.SMALL_BORDER, IconColor.BLACK, rankType.getResourcePath(), rankType.toString());
-        addRankTypeStatusCount(horizontalEntryPane, statusCounts, ResponderStatus.AVAILABLE);
-        addRankTypeStatusCount(horizontalEntryPane, statusCounts, ResponderStatus.DISPATCHED);
-        addRankTypeStatusCount(horizontalEntryPane, statusCounts, ResponderStatus.ON_SCENE);
-        addRankTypeStatusCount(horizontalEntryPane, statusCounts, ResponderStatus.RETURNING);
-        addRankTypeStatusCount(horizontalEntryPane, statusCounts, ResponderStatus.UNAVAILABLE);
+        utilsView.addIconToPane(horizontalDetailsPane, IconType.SMALL_BORDER, IconColor.BLACK, rankType.getResourcePath(), rankType.toString());
+        addRankTypeStatusCount(horizontalDetailsPane, statusCounts, ResponderStatus.AVAILABLE);
+        addRankTypeStatusCount(horizontalDetailsPane, statusCounts, ResponderStatus.DISPATCHED);
+        addRankTypeStatusCount(horizontalDetailsPane, statusCounts, ResponderStatus.ON_SCENE);
+        addRankTypeStatusCount(horizontalDetailsPane, statusCounts, ResponderStatus.RETURNING);
+        addRankTypeStatusCount(horizontalDetailsPane, statusCounts, ResponderStatus.UNAVAILABLE);
     }
 
-    private void addRankTypeStatusCount(Pane horizontalEntryPane, Map<ResponderStatus, Long> responders, ResponderStatus responderStatus) {
+    private void addRankTypeStatusCount(Pane pane, Map<ResponderStatus, Long> responders, ResponderStatus responderStatus) {
         String count = " ";
         if (responders.getOrDefault(responderStatus, 0L) > 0L ) {
             count = String.valueOf(responders.getOrDefault(responderStatus, 0L));
         }
-        utilsView.addBodySmallLabel(horizontalEntryPane, count);
-        utilsView.addIconToPane(horizontalEntryPane, IconType.SMALL, IconColor.EMPTY, responderStatus.getResourcePath(), responderStatus.toString());
+        utilsView.addBodySmallLabel(pane, count);
+        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, responderStatus.getResourcePath(), responderStatus.toString());
     }
 
 }

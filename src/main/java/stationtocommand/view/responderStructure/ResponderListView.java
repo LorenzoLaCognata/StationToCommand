@@ -3,6 +3,7 @@ package stationtocommand.view.responderStructure;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.responderStructure.Responder;
+import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
@@ -23,34 +24,34 @@ public class ResponderListView {
         return responderView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, List<Responder> responders) {
-        utilsView.addSectionTitleLabel(navigationPanel, "Responders");
+    public void show(BreadCrumbBar<Object> breadCrumbBar, View view, List<Responder> responders) {
+        utilsView.addSectionTitleLabel(view.getNavigationPanel().getDetailsPane(), "Responders");
 
         // TODO: review different approach to avoid showing too many responders
         if (responders.size()<20) {
             for (Responder responder : responders) {
-                showSidebar(breadCrumbBar, navigationPanel, responder);
+                showSidebar(breadCrumbBar, view, responder);
             }
         }
     }
 
-    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Responder responder) {
-        Pane labelPane = utilsView.createHBox(navigationPanel);
-        showResponderIcon(labelPane, responder);
-        showResponderButton(breadCrumbBar, navigationPanel, labelPane, responder);
-        showResponderStatus(labelPane, responder);
+    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, View view, Responder responder) {
+        Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
+        showResponderIcon(horizontalDetailsPane, responder);
+        showResponderButton(breadCrumbBar, view, horizontalDetailsPane, responder);
+        showResponderStatus(horizontalDetailsPane, responder);
     }
 
-    private void showResponderIcon(Pane labelPane, Responder responder) {
-        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.EMPTY, responder.getAppearanceType().getResourcePath(), "");
+    private void showResponderIcon(Pane pane, Responder responder) {
+        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, responder.getAppearanceType().getResourcePath(), "");
     }
 
-    private void showResponderButton(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane labelPane, Responder responder) {
-        utilsView.addButtonToPane(labelPane, responder.toString(), (_ -> responderView.show(breadCrumbBar, navigationPanel, responder)));
+    private void showResponderButton(BreadCrumbBar<Object> breadCrumbBar, View view, Pane pane, Responder responder) {
+        utilsView.addButtonToPane(pane, responder.toString(), (_ -> responderView.show(breadCrumbBar, view, responder)));
     }
 
-    private void showResponderStatus(Pane labelPane, Responder responder) {
-        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.EMPTY, responder.getResponderStatus().getResourcePath(), responder.getResponderStatus().toString());
+    private void showResponderStatus(Pane pane, Responder responder) {
+        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, responder.getResponderStatus().getResourcePath(), responder.getResponderStatus().toString());
     }
 
 }

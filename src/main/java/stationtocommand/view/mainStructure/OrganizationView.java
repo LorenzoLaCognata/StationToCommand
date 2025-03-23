@@ -1,6 +1,5 @@
 package stationtocommand.view.mainStructure;
 
-import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.view.View;
@@ -17,8 +16,8 @@ public class OrganizationView {
     }
 
     // TODO: replace worldMap with View from here downwards
-    public void show(BreadCrumbBar<Object> breadCrumbBar, View view, Pane worldMap, List<Department> departments) {
-        departmentListView.show(breadCrumbBar, view, worldMap, departments);
+    public void show(BreadCrumbBar<Object> breadCrumbBar, View view, List<Department> departments) {
+        departmentListView.show(breadCrumbBar, view, departments);
     }
 
     public DepartmentListView getDepartmentListView() {

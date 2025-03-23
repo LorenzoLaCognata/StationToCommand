@@ -41,33 +41,33 @@ public class StationView {
         return vehicleListView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, View view, Pane worldMap, Station station) {
-        View.viewRunnable = () -> show(breadCrumbBar, view, worldMap, station);
+    public void show(BreadCrumbBar<Object> breadCrumbBar, View view, Station station) {
+        View.viewRunnable = () -> show(breadCrumbBar, view, station);
         utilsView.addBreadCrumb(breadCrumbBar, station);
-        utilsView.clearNavigationPanel(view.getNavigationPanel());
-        utilsView.clearPane(worldMap);
+        view.getNavigationPanel().clear();
+        view.getWorldMap().clear();
         showSidebar(breadCrumbBar, view, station);
-        showMap(worldMap, station);
+        showMap(view, station);
     }
 
     private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, View view, Station station) {
         showStationDetails(view, station);
         unitListView.show(breadCrumbBar, view, station.getUnits());
-        // TODO: restore and fix
-//        responderListView.show(breadCrumbBar, navigationPanel, station.getResponders());
-//        vehicleListView.show(breadCrumbBar, navigationPanel, station.getVehicles());
+        responderListView.show(breadCrumbBar, view, station.getResponders());
+        vehicleListView.show(breadCrumbBar, view, station.getVehicles());
     }
 
     private void showStationDetails(View view, Station station) {
-        Pane horizontalEntryPane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
-        utilsView.addIconToPane(horizontalEntryPane, IconType.MEDIUM, IconColor.EMPTY, station.getStationType().getResourcePath(), "");
-        utilsView.addMainTitleLabel(horizontalEntryPane, station.toString());
+        Pane horizontalTitlePane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
+        utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, station.getStationType().getResourcePath(), "");
+        utilsView.addMainTitleLabel(horizontalTitlePane, station.toString());
     }
 
-    public void showMap(Pane worldMap, Station station) {
+    public void showMap(View view, Station station) {
         Point2D point = utilsView.locationToPoint(station.getLocation(), IconType.SMALL);
         ImageView imageView = utilsView.smallShadowIcon(station.getStationType().getResourcePath(), station.getStationType().toString(), utilsView.departmentIconColor(station.getDepartment()));
-        utilsView.addNodeToPane(worldMap, imageView, point);
+        Pane mapLayer = view.getWorldMap().getMapElementsLayer();
+        utilsView.addNodeToPane(mapLayer, imageView, point);
     }
 
 }
