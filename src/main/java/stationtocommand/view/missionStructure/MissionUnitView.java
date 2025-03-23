@@ -20,20 +20,20 @@ public class MissionUnitView {
         this.missionVehicleListView = new MissionVehicleListView(utilsView);
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, MissionUnitLink missionUnitLink) {
-        View.viewRunnable = () -> show(breadCrumbBar, navigationPanel, worldMap, missionUnitLink);
+    public void show(BreadCrumbBar<Object> breadCrumbBar, View view, MissionUnitLink missionUnitLink) {
+        View.viewRunnable = () -> show(breadCrumbBar, view, missionUnitLink);
         utilsView.addBreadCrumb(breadCrumbBar, missionUnitLink);
-        utilsView.clearPane(navigationPanel);
-        utilsView.clearPane(worldMap);
-        showMissionUnitDetails(navigationPanel, missionUnitLink);
-        missionResponderListView.show(breadCrumbBar, navigationPanel, worldMap, missionUnitLink);
-        missionVehicleListView.show(breadCrumbBar, navigationPanel, missionUnitLink);
+        view.getNavigationPanel().clear();
+        view.getWorldMap().clear();
+        showMissionUnitDetails(view, missionUnitLink);
+        missionResponderListView.show(breadCrumbBar, view, missionUnitLink);
+        missionVehicleListView.show(breadCrumbBar, view, missionUnitLink);
     }
 
-    private void showMissionUnitDetails(Pane navigationPanel, MissionUnitLink missionUnitLink) {
-        Pane labelPane = utilsView.createHBox(navigationPanel);
-        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.EMPTY, missionUnitLink.getMission().getMissionType().getResourcePath(), missionUnitLink.getMission().getMissionType().toString());
-        utilsView.addMainTitleLabel(labelPane, missionUnitLink.getMission().toString());
+    private void showMissionUnitDetails(View view, MissionUnitLink missionUnitLink) {
+        Pane horizontalTitlePane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
+        utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, missionUnitLink.getMission().getMissionType().getResourcePath(), missionUnitLink.getMission().getMissionType().toString());
+        utilsView.addMainTitleLabel(horizontalTitlePane, missionUnitLink.getMission().toString());
     }
 
 }

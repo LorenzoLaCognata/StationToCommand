@@ -19,30 +19,31 @@ public class MissionResponderView {
         this.utilsView = utilsView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, MissionResponderLink missionResponderLink) {
-        View.viewRunnable = () -> show(breadCrumbBar, navigationPanel, worldMap, missionResponderLink);
+    public void show(BreadCrumbBar<Object> breadCrumbBar, View view, MissionResponderLink missionResponderLink) {
+        View.viewRunnable = () -> show(breadCrumbBar, view, missionResponderLink);
         utilsView.addBreadCrumb(breadCrumbBar, missionResponderLink);
-        utilsView.clearPane(navigationPanel);
-        utilsView.clearPane(worldMap);
-        showSidebar(breadCrumbBar, navigationPanel, missionResponderLink);
-        showMap(worldMap, missionResponderLink);
+        view.getNavigationPanel().clear();
+        view.getWorldMap().clear();
+        showSidebar(view, missionResponderLink);
+        showMap(view, missionResponderLink);
     }
 
-    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, MissionResponderLink missionResponderLink) {
-        showMissionResponderDetails(navigationPanel, missionResponderLink);
+    private void showSidebar(View view, MissionResponderLink missionResponderLink) {
+        showMissionResponderDetails(view, missionResponderLink);
     }
 
-    private void showMissionResponderDetails(Pane navigationPanel, MissionResponderLink missionResponderLink) {
-        Pane labelPane = utilsView.createHBox(navigationPanel);
+    private void showMissionResponderDetails(View view, MissionResponderLink missionResponderLink) {
+        Pane horizontalTitlePane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
         MissionType missionType = missionResponderLink.getMission().getMissionType();
-        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.EMPTY, missionType.getResourcePath(), missionType.toString());
-        utilsView.addMainTitleLabel(labelPane, missionResponderLink.getMission().toString());
+        utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, missionType.getResourcePath(), missionType.toString());
+        utilsView.addMainTitleLabel(horizontalTitlePane, missionResponderLink.getMission().toString());
     }
 
-    public void showMap(Pane worldMap, MissionResponderLink missionResponderLink) {
+    public void showMap(View view, MissionResponderLink missionResponderLink) {
         Point2D point = utilsView.locationToPoint(missionResponderLink.getResponder().getLocation(), IconType.SMALL);
         ImageView imageView = utilsView.smallIcon(missionResponderLink.getResponder().getAppearanceType().getResourcePath(), "");
-        utilsView.addNodeToPane(worldMap, imageView, point);
+        Pane mapLayer = view.getWorldMap().getMapElementsLayer();
+        utilsView.addNodeToPane(mapLayer, imageView, point);
     }
 
 }

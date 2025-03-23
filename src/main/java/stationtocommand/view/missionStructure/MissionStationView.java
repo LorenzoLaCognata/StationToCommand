@@ -36,30 +36,30 @@ public class MissionStationView {
         return missionVehicleListView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, MissionStationLink missionStationLink) {
-        View.viewRunnable = () -> show(breadCrumbBar, navigationPanel, worldMap, missionStationLink);
+    public void show(BreadCrumbBar<Object> breadCrumbBar, View view, MissionStationLink missionStationLink) {
+        View.viewRunnable = () -> show(breadCrumbBar, view, missionStationLink);
         utilsView.addBreadCrumb(breadCrumbBar, missionStationLink);
-        utilsView.clearPane(navigationPanel);
-        utilsView.clearPane(worldMap);
-        showSidebar(breadCrumbBar, navigationPanel, worldMap, missionStationLink);
+        view.getNavigationPanel().clear();
+        view.getWorldMap().clear();
+        showSidebar(breadCrumbBar, view, missionStationLink);
     }
 
-    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, MissionStationLink missionStationLink) {
-        showMissionStationDetails(navigationPanel, missionStationLink);
-        missionUnitListView.show(breadCrumbBar, navigationPanel, worldMap, missionStationLink);
-        missionResponderListView.show(breadCrumbBar, navigationPanel, worldMap, missionStationLink);
-        missionVehicleListView.show(breadCrumbBar, navigationPanel, missionStationLink);
+    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, View view, MissionStationLink missionStationLink) {
+        showMissionStationDetails(view, missionStationLink);
+        missionUnitListView.show(breadCrumbBar, view, missionStationLink);
+        missionResponderListView.show(breadCrumbBar, view, missionStationLink);
+        missionVehicleListView.show(breadCrumbBar, view, missionStationLink);
         for (MissionUnitLink missionUnitLink : missionStationLink.getUnitLinks()) {
             for (MissionResponderLink missionResponderLink : missionUnitLink.getResponderLinks()) {
-                missionResponderListView.showMap(worldMap   , missionResponderLink);
+                missionResponderListView.showMap(view, missionResponderLink);
             }
         }
     }
 
-    private void showMissionStationDetails(Pane navigationPanel, MissionStationLink missionStationLink) {
-        Pane labelPane = utilsView.createHBox(navigationPanel);
-        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.EMPTY, missionStationLink.getMission().getMissionType().getResourcePath(), missionStationLink.getMission().getMissionType().toString());
-        utilsView.addMainTitleLabel(labelPane, missionStationLink.getMission().toString());
+    private void showMissionStationDetails(View view, MissionStationLink missionStationLink) {
+        Pane horizontalTitlePane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
+        utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, missionStationLink.getMission().getMissionType().getResourcePath(), missionStationLink.getMission().getMissionType().toString());
+        utilsView.addMainTitleLabel(horizontalTitlePane, missionStationLink.getMission().toString());
     }
 
 }

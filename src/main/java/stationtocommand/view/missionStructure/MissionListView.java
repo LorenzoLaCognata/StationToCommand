@@ -6,6 +6,7 @@ import stationtocommand.model.missionLinkStructure.MissionDepartmentLink;
 import stationtocommand.model.missionLinkStructure.MissionStationLink;
 import stationtocommand.model.missionLinkStructure.MissionUnitLink;
 import stationtocommand.model.missionStructure.Mission;
+import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
@@ -26,38 +27,38 @@ public class MissionListView {
         return missionView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, List<Mission> missions) {
-        utilsView.addSectionTitleLabel(navigationPanel, "Missions");
+    public void show(BreadCrumbBar<Object> breadCrumbBar, View view, List<Mission> missions) {
+        utilsView.addSectionTitleLabel(view.getNavigationPanel().getTitlePane(), "Missions");
         for (Mission mission : missions) {
-            showSidebar(breadCrumbBar, navigationPanel, worldMap, mission);
-            missionView.showMap(worldMap, mission);
+            showSidebar(breadCrumbBar, view, mission);
+            missionView.showMap(view, mission);
         }
     }
 
-    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, Mission mission) {
-        Pane labelPane = utilsView.createHBox(navigationPanel);
-        showMissionIcon(labelPane, mission);
-        showMissionButton(breadCrumbBar, navigationPanel, worldMap, labelPane, mission);
-        showMissionDepartments(labelPane, mission);
+    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, View view, Mission mission) {
+        Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
+        showMissionIcon(horizontalDetailsPane, mission);
+        showMissionButton(breadCrumbBar, view, horizontalDetailsPane, mission);
+        showMissionDepartments(horizontalDetailsPane, mission);
     }
 
-    private void showMissionIcon(Pane labelPane, Mission mission) {
-        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.EMPTY, mission.getMissionType().getResourcePath(), mission.getMissionType().toString());
+    private void showMissionIcon(Pane pane, Mission mission) {
+        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, mission.getMissionType().getResourcePath(), mission.getMissionType().toString());
     }
 
-    private void showMissionButton(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, Pane labelPane, Mission mission) {
-        utilsView.addButtonToPane(labelPane, mission.toString(), (_ -> missionView.show(breadCrumbBar, navigationPanel, worldMap, mission)));
+    private void showMissionButton(BreadCrumbBar<Object> breadCrumbBar, View view, Pane pane, Mission mission) {
+        utilsView.addButtonToPane(pane, mission.toString(), (_ -> missionView.show(breadCrumbBar, view, mission)));
     }
 
-    private void showMissionDepartments(Pane labelPane, Mission mission) {
+    private void showMissionDepartments(Pane pane, Mission mission) {
         if (!mission.getDepartmentLinks().isEmpty()) {
             for (MissionDepartmentLink missionDepartmentLink : mission.getDepartmentLinks()) {
-                utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.EMPTY, missionDepartmentLink.getDepartment().getDepartmentType().getResourcePath(), missionDepartmentLink.getDepartment().getDepartmentType().toString());
+                utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, missionDepartmentLink.getDepartment().getDepartmentType().getResourcePath(), missionDepartmentLink.getDepartment().getDepartmentType().toString());
 
                 for (MissionStationLink missionStationLink : missionDepartmentLink.getStationLinks()) {
                     if (!missionStationLink.getUnitLinks().isEmpty()) {
                         for (MissionUnitLink missionUnitLink : missionStationLink.getUnitLinks()) {
-                            utilsView.addBodyLabel(labelPane, missionUnitLink.getUnit().toString());
+                            utilsView.addBodyLabel(pane, missionUnitLink.getUnit().toString());
                         }
                     }
                 }

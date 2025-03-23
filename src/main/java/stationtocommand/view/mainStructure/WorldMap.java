@@ -29,7 +29,6 @@ public class WorldMap {
 
     }
 
-    // TODO: remove all usages except the one to add it to the GridPane
     public StackPane getContainer() {
         return container;
     }
@@ -38,7 +37,6 @@ public class WorldMap {
         return mapBackgroundLayer;
     }
 
-    // TODO: remove all usages after reviewing the approach to manage multiple map layers
     public Pane getMapElementsLayer() {
         return mapElementsLayer;
     }

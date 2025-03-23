@@ -23,23 +23,23 @@ public class MissionDepartmentView {
         return missionStationListView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, MissionDepartmentLink missionDepartmentLink) {
-        View.viewRunnable = () -> show(breadCrumbBar, navigationPanel, worldMap, missionDepartmentLink);
+    public void show(BreadCrumbBar<Object> breadCrumbBar, View view, MissionDepartmentLink missionDepartmentLink) {
+        View.viewRunnable = () -> show(breadCrumbBar, view, missionDepartmentLink);
         utilsView.addBreadCrumb(breadCrumbBar, missionDepartmentLink);
-        utilsView.clearPane(navigationPanel);
-        utilsView.clearPane(worldMap);
-        showSidebar(breadCrumbBar, navigationPanel, worldMap, missionDepartmentLink);
+        view.getNavigationPanel().clear();
+        view.getWorldMap().clear();
+        showSidebar(breadCrumbBar, view, missionDepartmentLink);
     }
 
-    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, MissionDepartmentLink missionDepartmentLink) {
-        showMissionDepartmentDetails(navigationPanel, missionDepartmentLink);
-        missionStationListView.show(breadCrumbBar, navigationPanel, worldMap, missionDepartmentLink);
+    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, View view, MissionDepartmentLink missionDepartmentLink) {
+        showMissionDepartmentDetails(view, missionDepartmentLink);
+        missionStationListView.show(breadCrumbBar, view, missionDepartmentLink);
     }
 
-    private void showMissionDepartmentDetails(Pane navigationPanel, MissionDepartmentLink missionDepartmentLink) {
-        Pane labelPane = utilsView.createHBox(navigationPanel);
-        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.EMPTY, missionDepartmentLink.getMission().getMissionType().getResourcePath(), missionDepartmentLink.getMission().getMissionType().toString());
-        utilsView.addMainTitleLabel(labelPane, missionDepartmentLink.getMission().toString());
+    private void showMissionDepartmentDetails(View view, MissionDepartmentLink missionDepartmentLink) {
+        Pane horizontalTitlePane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
+        utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, missionDepartmentLink.getMission().getMissionType().getResourcePath(), missionDepartmentLink.getMission().getMissionType().toString());
+        utilsView.addMainTitleLabel(horizontalTitlePane, missionDepartmentLink.getMission().toString());
     }
 
 }

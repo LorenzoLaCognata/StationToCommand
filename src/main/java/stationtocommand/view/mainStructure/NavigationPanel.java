@@ -22,7 +22,6 @@ public class NavigationPanel {
         container.getChildren().addAll(titlePane, buttonsPane, detailsPane);
     }
 
-    // TODO: remove all usages except the one to add it to the ScrollPane
     public VBox getContainer() {
         return container;
     }

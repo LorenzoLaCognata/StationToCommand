@@ -223,27 +223,27 @@ public class View {
             }
             else if (selectedObject instanceof Mission) {
                 utilsView.resetBreadCrumbBar(breadcrumb);
-                dispatchView.getMissionListView().getMissionView().show(breadcrumb, navigationPanel.getContainer(), worldMap.getMapElementsLayer(), (Mission) selectedObject);
+                dispatchView.getMissionListView().getMissionView().show(breadcrumb, this, (Mission) selectedObject);
             }
             else if (selectedObject instanceof MissionDepartmentLink) {
                 utilsView.addBreadCrumb(breadcrumb, selectedObject);
-                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().show(breadcrumb, navigationPanel.getContainer(), worldMap.getMapElementsLayer(), (MissionDepartmentLink) selectedObject);
+                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().show(breadcrumb, this, (MissionDepartmentLink) selectedObject);
             }
             else if (selectedObject instanceof MissionStationLink) {
                 utilsView.addBreadCrumb(breadcrumb, selectedObject);
-                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().show(breadcrumb, navigationPanel.getContainer(), worldMap.getMapElementsLayer(), (MissionStationLink) selectedObject);
+                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().show(breadcrumb, this, (MissionStationLink) selectedObject);
             }
             else if (selectedObject instanceof MissionUnitLink) {
                 utilsView.addBreadCrumb(breadcrumb, selectedObject);
-                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().getMissionUnitListView().getMissionUnitView().show(breadcrumb, navigationPanel.getContainer(), worldMap.getMapElementsLayer(), (MissionUnitLink) selectedObject);
+                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().getMissionUnitListView().getMissionUnitView().show(breadcrumb, this, (MissionUnitLink) selectedObject);
             }
             else if (selectedObject instanceof MissionResponderLink) {
                 utilsView.addBreadCrumb(breadcrumb, selectedObject);
-                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().getMissionResponderListView().getMissionResponderView().show(breadcrumb, navigationPanel.getContainer(), worldMap.getMapElementsLayer(), (MissionResponderLink) selectedObject);
+                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().getMissionResponderListView().getMissionResponderView().show(breadcrumb, this, (MissionResponderLink) selectedObject);
             }
             else if (selectedObject instanceof MissionVehicleLink) {
                 utilsView.addBreadCrumb(breadcrumb, selectedObject);
-                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().getMissionVehicleListView().getMissionVehicleView().show(breadcrumb, navigationPanel.getContainer(), (MissionVehicleLink) selectedObject);
+                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().getMissionVehicleListView().getMissionVehicleView().show(breadcrumb, this, (MissionVehicleLink) selectedObject);
             }
         });
     }
@@ -263,7 +263,7 @@ public class View {
         worldMap.clear();
         utilsView.resetBreadCrumbBar(breadcrumb);
         utilsView.addBreadCrumb(breadcrumb, buttonText);
-        dispatchView.show(breadcrumb, navigationPanel.getContainer(), worldMap.getMapElementsLayer(), missions);
+        dispatchView.show(breadcrumb, this, missions);
     }
 
     public void refreshUserInterface() {
