@@ -18,7 +18,7 @@ public class ResponderView {
     public void show(View view, Responder responder) {
         View.viewRunnable = () -> show(view, responder);
         utilsView.addBreadCrumb(view.getBreadCrumbBar(), responder);
-        view.getNavigationPanel().clear();
+        view.getNavigationPanel().clearAll();
         showSidebar(view, responder);
     }
 

@@ -25,7 +25,7 @@ public class MissionDepartmentView {
     public void show(View view, MissionDepartmentLink missionDepartmentLink) {
         View.viewRunnable = () -> show(view, missionDepartmentLink);
         utilsView.addBreadCrumb(view.getBreadCrumbBar(), missionDepartmentLink);
-        view.getNavigationPanel().clear();
+        view.getNavigationPanel().clearAll();
         view.getWorldMap().clear();
         showSidebar(view, missionDepartmentLink);
     }

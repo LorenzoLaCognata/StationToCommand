@@ -32,7 +32,7 @@ public class UnitView {
     public void show(View view, Unit unit) {
         View.viewRunnable = () -> show(view, unit);
         utilsView.addBreadCrumb(view.getBreadCrumbBar(), unit);
-        view.getNavigationPanel().clear();
+        view.getNavigationPanel().clearAll();
         showSidebar(view, unit);
     }
 

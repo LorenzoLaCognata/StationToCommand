@@ -250,7 +250,7 @@ public class View {
 
     public void organizationButtonHandler(String buttonText, List<Department> departments) {
         viewRunnable = () -> organizationButtonHandler(buttonText, departments);
-        navigationPanel.clear();
+        navigationPanel.clearAll();
         worldMap.clear();
         utilsView.resetBreadCrumbBar(breadCrumbBar);
         utilsView.addBreadCrumb(breadCrumbBar, buttonText);
@@ -259,7 +259,7 @@ public class View {
 
     public void dispatchButtonHandler(String buttonText, List<Mission> missions) {
         viewRunnable = () -> dispatchButtonHandler(buttonText, missions);
-        navigationPanel.clear();
+        navigationPanel.clearAll();
         worldMap.clear();
         utilsView.resetBreadCrumbBar(breadCrumbBar);
         utilsView.addBreadCrumb(breadCrumbBar, buttonText);

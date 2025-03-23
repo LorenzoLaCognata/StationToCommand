@@ -22,7 +22,7 @@ public class MissionUnitView {
     public void show(View view, MissionUnitLink missionUnitLink) {
         View.viewRunnable = () -> show(view, missionUnitLink);
         utilsView.addBreadCrumb(view.getBreadCrumbBar(), missionUnitLink);
-        view.getNavigationPanel().clear();
+        view.getNavigationPanel().clearAll();
         view.getWorldMap().clear();
         showMissionUnitDetails(view, missionUnitLink);
         missionResponderListView.show(view, missionUnitLink);

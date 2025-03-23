@@ -1,7 +1,6 @@
 package stationtocommand.view.stationStructure;
 
 import javafx.scene.layout.Pane;
-import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.departmentStructure.DepartmentType;
 import stationtocommand.model.stationStructure.Station;
 import stationtocommand.model.unitTypeStructure.FireUnitType;

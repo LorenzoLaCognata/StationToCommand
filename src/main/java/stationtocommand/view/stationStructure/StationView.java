@@ -3,7 +3,6 @@ package stationtocommand.view.stationStructure;
 import javafx.geometry.Point2D;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.stationStructure.Station;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
@@ -44,7 +43,7 @@ public class StationView {
     public void show(View view, Station station) {
         View.viewRunnable = () -> show(view, station);
         utilsView.addBreadCrumb(view.getBreadCrumbBar(), station);
-        view.getNavigationPanel().clear();
+        view.getNavigationPanel().clearAll();
         view.getWorldMap().clear();
         showSidebar(view, station);
         showMap(view, station);
