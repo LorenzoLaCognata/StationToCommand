@@ -3,7 +3,6 @@ package stationtocommand.view.missionStructure;
 import javafx.geometry.Point2D;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.missionLinkStructure.MissionResponderLink;
 import stationtocommand.model.missionStructure.MissionType;
 import stationtocommand.view.View;
@@ -19,9 +18,9 @@ public class MissionResponderView {
         this.utilsView = utilsView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, View view, MissionResponderLink missionResponderLink) {
-        View.viewRunnable = () -> show(breadCrumbBar, view, missionResponderLink);
-        utilsView.addBreadCrumb(breadCrumbBar, missionResponderLink);
+    public void show(View view, MissionResponderLink missionResponderLink) {
+        View.viewRunnable = () -> show(view, missionResponderLink);
+        utilsView.addBreadCrumb(view.getBreadCrumbBar(), missionResponderLink);
         view.getNavigationPanel().clear();
         view.getWorldMap().clear();
         showSidebar(view, missionResponderLink);

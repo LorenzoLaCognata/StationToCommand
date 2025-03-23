@@ -1,7 +1,6 @@
 package stationtocommand.view.vehicleStructure;
 
 import javafx.scene.layout.Pane;
-import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.vehicleStructure.Vehicle;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
@@ -16,9 +15,9 @@ public class VehicleView {
         this.utilsView = utilsView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, View view, Vehicle vehicle) {
-        View.viewRunnable = () -> show(breadCrumbBar, view, vehicle);
-        utilsView.addBreadCrumb(breadCrumbBar, vehicle);
+    public void show(View view, Vehicle vehicle) {
+        View.viewRunnable = () -> show(view, vehicle);
+        utilsView.addBreadCrumb(view.getBreadCrumbBar(), vehicle);
         view.getNavigationPanel().clear();
         showSidebar(view, vehicle);
     }

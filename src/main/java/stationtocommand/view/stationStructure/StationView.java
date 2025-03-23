@@ -3,7 +3,6 @@ package stationtocommand.view.stationStructure;
 import javafx.geometry.Point2D;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.stationStructure.Station;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
@@ -41,20 +40,20 @@ public class StationView {
         return vehicleListView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, View view, Station station) {
-        View.viewRunnable = () -> show(breadCrumbBar, view, station);
-        utilsView.addBreadCrumb(breadCrumbBar, station);
+    public void show(View view, Station station) {
+        View.viewRunnable = () -> show(view, station);
+        utilsView.addBreadCrumb(view.getBreadCrumbBar(), station);
         view.getNavigationPanel().clear();
         view.getWorldMap().clear();
-        showSidebar(breadCrumbBar, view, station);
+        showSidebar(view, station);
         showMap(view, station);
     }
 
-    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, View view, Station station) {
+    private void showSidebar(View view, Station station) {
         showStationDetails(view, station);
-        unitListView.show(breadCrumbBar, view, station.getUnits());
-        responderListView.show(breadCrumbBar, view, station.getResponders());
-        vehicleListView.show(breadCrumbBar, view, station.getVehicles());
+        unitListView.show(view, station.getUnits());
+        responderListView.show(view, station.getResponders());
+        vehicleListView.show(view, station.getVehicles());
     }
 
     private void showStationDetails(View view, Station station) {

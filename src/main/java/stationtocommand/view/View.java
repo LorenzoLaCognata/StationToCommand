@@ -33,7 +33,7 @@ public class View {
     private final GridPane gridPane = new GridPane();
 
     private final ToolBar toolbar = new ToolBar();
-    private final BreadCrumbBar<Object> breadcrumb = new BreadCrumbBar<>();
+    private final BreadCrumbBar<Object> breadCrumbBar = new BreadCrumbBar<>();
     private final NavigationPanel navigationPanel = new NavigationPanel();
     private final WorldMap worldMap = new WorldMap();
     private final HBox hud = new HBox(5);
@@ -50,15 +50,15 @@ public class View {
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 
         gridPane.add(toolbar, 0, 0, 2, 1);
-        gridPane.add(breadcrumb, 0, 1, 2, 1);
+        gridPane.add(breadCrumbBar, 0, 1, 2, 1);
         gridPane.add(scrollPane, 0, 2, 1, 2);
         gridPane.add(worldMap.getContainer(), 1, 2);
         gridPane.add(hud, 1, 3);
 
     }
 
-    public BreadCrumbBar<Object> getBreadcrumb() {
-        return breadcrumb;
+    public BreadCrumbBar<Object> getBreadCrumbBar() {
+        return breadCrumbBar;
     }
 
     public GridPane getGridPane() {
@@ -177,7 +177,7 @@ public class View {
         });
         toolbar.getItems().addAll(speed0Button, speed1Button, speed2Button, speed3Button);
 
-        breadcrumb.setStyle("-fx-background-color: #222; -fx-padding: 5px;");
+        breadCrumbBar.setStyle("-fx-background-color: #222; -fx-padding: 5px;");
         breadCrumbActions(departments, missions);
 
         Timeline userInterfaceUpdater = new Timeline(new KeyFrame(Duration.seconds(1), _ -> refreshUserInterface()));
@@ -187,7 +187,7 @@ public class View {
     }
 
     private void breadCrumbActions(List<Department> departments, List<Mission> missions) {
-        breadcrumb.setOnCrumbAction(event -> {
+        breadCrumbBar.setOnCrumbAction(event -> {
             Object selectedObject = event.getSelectedCrumb().getValue();
 
             if (selectedObject instanceof String string) {
@@ -202,48 +202,48 @@ public class View {
             }
             else if (selectedObject instanceof Department) {
                 worldMap.clear();
-                utilsView.resetBreadCrumbBar(breadcrumb);
-                organizationView.getDepartmentListView().getDepartmentView().show(breadcrumb, this, (Department) selectedObject);
+                utilsView.resetBreadCrumbBar(breadCrumbBar);
+                organizationView.getDepartmentListView().getDepartmentView().show(this, (Department) selectedObject);
             }
             else if (selectedObject instanceof Station) {
-                utilsView.addBreadCrumb(breadcrumb, selectedObject);
-                organizationView.getDepartmentListView().getDepartmentView().getStationListView().getStationView().show(breadcrumb, this, (Station) selectedObject);
+                utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
+                organizationView.getDepartmentListView().getDepartmentView().getStationListView().getStationView().show(this, (Station) selectedObject);
             }
             else if (selectedObject instanceof Unit) {
-                utilsView.addBreadCrumb(breadcrumb, selectedObject);
-                organizationView.getDepartmentListView().getDepartmentView().getStationListView().getStationView().getUnitListView().getUnitView().show(breadcrumb, this, (Unit) selectedObject);
+                utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
+                organizationView.getDepartmentListView().getDepartmentView().getStationListView().getStationView().getUnitListView().getUnitView().show(this, (Unit) selectedObject);
             }
             else if (selectedObject instanceof Responder) {
-                utilsView.addBreadCrumb(breadcrumb, selectedObject);
-                organizationView.getDepartmentListView().getDepartmentView().getStationListView().getStationView().getUnitListView().getUnitView().getResponderListView().getResponderView().show(breadcrumb, this, (Responder) selectedObject);
+                utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
+                organizationView.getDepartmentListView().getDepartmentView().getStationListView().getStationView().getUnitListView().getUnitView().getResponderListView().getResponderView().show(this, (Responder) selectedObject);
             }
             else if (selectedObject instanceof Vehicle) {
-                utilsView.addBreadCrumb(breadcrumb, selectedObject);
-                organizationView.getDepartmentListView().getDepartmentView().getStationListView().getStationView().getUnitListView().getUnitView().getVehicleListView().getVehicleView().show(breadcrumb, this, (Vehicle) selectedObject);
+                utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
+                organizationView.getDepartmentListView().getDepartmentView().getStationListView().getStationView().getUnitListView().getUnitView().getVehicleListView().getVehicleView().show(this, (Vehicle) selectedObject);
             }
             else if (selectedObject instanceof Mission) {
-                utilsView.resetBreadCrumbBar(breadcrumb);
-                dispatchView.getMissionListView().getMissionView().show(breadcrumb, this, (Mission) selectedObject);
+                utilsView.resetBreadCrumbBar(breadCrumbBar);
+                dispatchView.getMissionListView().getMissionView().show(this, (Mission) selectedObject);
             }
             else if (selectedObject instanceof MissionDepartmentLink) {
-                utilsView.addBreadCrumb(breadcrumb, selectedObject);
-                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().show(breadcrumb, this, (MissionDepartmentLink) selectedObject);
+                utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
+                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().show(this, (MissionDepartmentLink) selectedObject);
             }
             else if (selectedObject instanceof MissionStationLink) {
-                utilsView.addBreadCrumb(breadcrumb, selectedObject);
-                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().show(breadcrumb, this, (MissionStationLink) selectedObject);
+                utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
+                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().show(this, (MissionStationLink) selectedObject);
             }
             else if (selectedObject instanceof MissionUnitLink) {
-                utilsView.addBreadCrumb(breadcrumb, selectedObject);
-                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().getMissionUnitListView().getMissionUnitView().show(breadcrumb, this, (MissionUnitLink) selectedObject);
+                utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
+                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().getMissionUnitListView().getMissionUnitView().show(this, (MissionUnitLink) selectedObject);
             }
             else if (selectedObject instanceof MissionResponderLink) {
-                utilsView.addBreadCrumb(breadcrumb, selectedObject);
-                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().getMissionResponderListView().getMissionResponderView().show(breadcrumb, this, (MissionResponderLink) selectedObject);
+                utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
+                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().getMissionResponderListView().getMissionResponderView().show(this, (MissionResponderLink) selectedObject);
             }
             else if (selectedObject instanceof MissionVehicleLink) {
-                utilsView.addBreadCrumb(breadcrumb, selectedObject);
-                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().getMissionVehicleListView().getMissionVehicleView().show(breadcrumb, this, (MissionVehicleLink) selectedObject);
+                utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
+                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().getMissionVehicleListView().getMissionVehicleView().show(this, (MissionVehicleLink) selectedObject);
             }
         });
     }
@@ -252,18 +252,18 @@ public class View {
         viewRunnable = () -> organizationButtonHandler(buttonText, departments);
         navigationPanel.clear();
         worldMap.clear();
-        utilsView.resetBreadCrumbBar(breadcrumb);
-        utilsView.addBreadCrumb(breadcrumb, buttonText);
-        organizationView.show(breadcrumb, this, departments);
+        utilsView.resetBreadCrumbBar(breadCrumbBar);
+        utilsView.addBreadCrumb(breadCrumbBar, buttonText);
+        organizationView.show(this, departments);
     }
 
     public void dispatchButtonHandler(String buttonText, List<Mission> missions) {
         viewRunnable = () -> dispatchButtonHandler(buttonText, missions);
         navigationPanel.clear();
         worldMap.clear();
-        utilsView.resetBreadCrumbBar(breadcrumb);
-        utilsView.addBreadCrumb(breadcrumb, buttonText);
-        dispatchView.show(breadcrumb, this, missions);
+        utilsView.resetBreadCrumbBar(breadCrumbBar);
+        utilsView.addBreadCrumb(breadCrumbBar, buttonText);
+        dispatchView.show(this, missions);
     }
 
     public void refreshUserInterface() {

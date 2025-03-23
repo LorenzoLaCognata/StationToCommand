@@ -1,7 +1,6 @@
 package stationtocommand.view.responderStructure;
 
 import javafx.scene.layout.Pane;
-import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.responderStructure.Responder;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
@@ -16,14 +15,14 @@ public class ResponderView {
         this.utilsView = utilsView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, View view, Responder responder) {
-        View.viewRunnable = () -> show(breadCrumbBar, view, responder);
-        utilsView.addBreadCrumb(breadCrumbBar, responder);
+    public void show(View view, Responder responder) {
+        View.viewRunnable = () -> show(view, responder);
+        utilsView.addBreadCrumb(view.getBreadCrumbBar(), responder);
         view.getNavigationPanel().clear();
-        showSidebar(breadCrumbBar, view, responder);
+        showSidebar(view, responder);
     }
 
-    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, View view, Responder responder) {
+    private void showSidebar(View view, Responder responder) {
         showResponderDetails(view, responder);
     }
 

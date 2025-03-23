@@ -1,7 +1,6 @@
 package stationtocommand.view.stationStructure;
 
 import javafx.scene.layout.Pane;
-import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.departmentStructure.DepartmentType;
 import stationtocommand.model.stationStructure.Station;
 import stationtocommand.model.unitTypeStructure.FireUnitType;
@@ -32,18 +31,18 @@ public class StationListView {
         return stationView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, View view, List<Station> stations) {
+    public void show(View view, List<Station> stations) {
         utilsView.addSectionTitleLabel(view.getNavigationPanel().getDetailsPane(), "Stations");
         for (Station station : stations) {
-            showSidebar(breadCrumbBar, view, station);
+            showSidebar(view, station);
             stationView.showMap(view, station);
         }
     }
 
-    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, View view, Station station) {
+    private void showSidebar(View view, Station station) {
         Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
         showStationIcon(horizontalDetailsPane, station);
-        showStationButton(breadCrumbBar, view, horizontalDetailsPane, station);
+        showStationButton(view, horizontalDetailsPane, station);
         showStationUnitTypes(horizontalDetailsPane, station);
     }
 
@@ -51,8 +50,8 @@ public class StationListView {
         utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, station.getStationType().getResourcePath(), "");
     }
 
-    private void showStationButton(BreadCrumbBar<Object> breadCrumbBar, View view, Pane pane, Station station) {
-        utilsView.addButtonToPane(pane, station.toString(), (_ -> stationView.show(breadCrumbBar, view, station)));
+    private void showStationButton(View view, Pane pane, Station station) {
+        utilsView.addButtonToPane(pane, station.toString(), (_ -> stationView.show(view, station)));
     }
 
     private void showStationUnitTypes(Pane pane, Station station) {

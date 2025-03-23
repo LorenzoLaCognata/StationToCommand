@@ -3,7 +3,6 @@ package stationtocommand.view.missionStructure;
 import javafx.geometry.Point2D;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
@@ -24,18 +23,18 @@ public class MissionView {
         return missionDepartmentListView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, View view, Mission mission) {
-        View.viewRunnable = () -> show(breadCrumbBar, view, mission);
-        utilsView.addBreadCrumb(breadCrumbBar, mission);
+    public void show(View view, Mission mission) {
+        View.viewRunnable = () -> show(view, mission);
+        utilsView.addBreadCrumb(view.getBreadCrumbBar(), mission);
         view.getNavigationPanel().clear();
         view.getWorldMap().clear();
-        showSidebar(breadCrumbBar, view, mission);
+        showSidebar(view, mission);
         showMap(view, mission);
     }
 
-    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, View view, Mission mission) {
+    private void showSidebar(View view, Mission mission) {
         showMissionDetails(view, mission);
-        missionDepartmentListView.show(breadCrumbBar, view, mission);
+        missionDepartmentListView.show(view, mission);
     }
 
     public void showMap(View view, Mission mission) {

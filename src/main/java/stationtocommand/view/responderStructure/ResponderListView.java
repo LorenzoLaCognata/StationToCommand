@@ -1,7 +1,6 @@
 package stationtocommand.view.responderStructure;
 
 import javafx.scene.layout.Pane;
-import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.responderStructure.Responder;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
@@ -24,21 +23,21 @@ public class ResponderListView {
         return responderView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, View view, List<Responder> responders) {
+    public void show(View view, List<Responder> responders) {
         utilsView.addSectionTitleLabel(view.getNavigationPanel().getDetailsPane(), "Responders");
 
         // TODO: review different approach to avoid showing too many responders
         if (responders.size()<20) {
             for (Responder responder : responders) {
-                showSidebar(breadCrumbBar, view, responder);
+                showSidebar(view, responder);
             }
         }
     }
 
-    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, View view, Responder responder) {
+    private void showSidebar(View view, Responder responder) {
         Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
         showResponderIcon(horizontalDetailsPane, responder);
-        showResponderButton(breadCrumbBar, view, horizontalDetailsPane, responder);
+        showResponderButton(view, horizontalDetailsPane, responder);
         showResponderStatus(horizontalDetailsPane, responder);
     }
 
@@ -46,8 +45,8 @@ public class ResponderListView {
         utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, responder.getAppearanceType().getResourcePath(), "");
     }
 
-    private void showResponderButton(BreadCrumbBar<Object> breadCrumbBar, View view, Pane pane, Responder responder) {
-        utilsView.addButtonToPane(pane, responder.toString(), (_ -> responderView.show(breadCrumbBar, view, responder)));
+    private void showResponderButton(View view, Pane pane, Responder responder) {
+        utilsView.addButtonToPane(pane, responder.toString(), (_ -> responderView.show(view, responder)));
     }
 
     private void showResponderStatus(Pane pane, Responder responder) {

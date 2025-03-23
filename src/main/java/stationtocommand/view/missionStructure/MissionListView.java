@@ -1,7 +1,6 @@
 package stationtocommand.view.missionStructure;
 
 import javafx.scene.layout.Pane;
-import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.missionLinkStructure.MissionDepartmentLink;
 import stationtocommand.model.missionLinkStructure.MissionStationLink;
 import stationtocommand.model.missionLinkStructure.MissionUnitLink;
@@ -27,18 +26,18 @@ public class MissionListView {
         return missionView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, View view, List<Mission> missions) {
+    public void show(View view, List<Mission> missions) {
         utilsView.addSectionTitleLabel(view.getNavigationPanel().getTitlePane(), "Missions");
         for (Mission mission : missions) {
-            showSidebar(breadCrumbBar, view, mission);
+            showSidebar(view, mission);
             missionView.showMap(view, mission);
         }
     }
 
-    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, View view, Mission mission) {
+    private void showSidebar(View view, Mission mission) {
         Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
         showMissionIcon(horizontalDetailsPane, mission);
-        showMissionButton(breadCrumbBar, view, horizontalDetailsPane, mission);
+        showMissionButton(view, horizontalDetailsPane, mission);
         showMissionDepartments(horizontalDetailsPane, mission);
     }
 
@@ -46,8 +45,8 @@ public class MissionListView {
         utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, mission.getMissionType().getResourcePath(), mission.getMissionType().toString());
     }
 
-    private void showMissionButton(BreadCrumbBar<Object> breadCrumbBar, View view, Pane pane, Mission mission) {
-        utilsView.addButtonToPane(pane, mission.toString(), (_ -> missionView.show(breadCrumbBar, view, mission)));
+    private void showMissionButton(View view, Pane pane, Mission mission) {
+        utilsView.addButtonToPane(pane, mission.toString(), (_ -> missionView.show(view, mission)));
     }
 
     private void showMissionDepartments(Pane pane, Mission mission) {

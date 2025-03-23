@@ -1,7 +1,6 @@
 package stationtocommand.view.missionStructure;
 
 import javafx.scene.layout.Pane;
-import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.missionLinkStructure.MissionResponderLink;
 import stationtocommand.model.missionLinkStructure.MissionStationLink;
 import stationtocommand.model.missionLinkStructure.MissionUnitLink;
@@ -24,35 +23,35 @@ public class MissionResponderListView {
         return missionResponderView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, View view, MissionStationLink missionStationLink) {
+    public void show(View view, MissionStationLink missionStationLink) {
         utilsView.addSectionTitleLabel(view.getNavigationPanel().getDetailsPane(), "Responders");
         for (MissionUnitLink missionUnitLink : missionStationLink.getUnitLinks()) {
             for (MissionResponderLink missionResponderLink : missionUnitLink.getResponderLinks()) {
-                showSidebar(breadCrumbBar, view, missionResponderLink);
+                showSidebar(view, missionResponderLink);
             }
         }
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, View view, MissionUnitLink missionUnitLink) {
+    public void show(View view, MissionUnitLink missionUnitLink) {
         utilsView.addSectionTitleLabel(view.getNavigationPanel().getDetailsPane(), "Responders");
         for (MissionResponderLink missionResponderLink : missionUnitLink.getResponderLinks()) {
-            showSidebar(breadCrumbBar, view, missionResponderLink);
+            showSidebar(view, missionResponderLink);
             showMap(view, missionResponderLink);
         }
     }
 
-    public void showSidebar(BreadCrumbBar<Object> breadCrumbBar, View view, MissionResponderLink missionResponderLink) {
+    public void showSidebar(View view, MissionResponderLink missionResponderLink) {
         Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
         showMissionResponderIcon(horizontalDetailsPane, missionResponderLink);
-        showMissionResponderButton(breadCrumbBar, view, horizontalDetailsPane, missionResponderLink);
+        showMissionResponderButton(view, horizontalDetailsPane, missionResponderLink);
     }
 
     private void showMissionResponderIcon(Pane pane, MissionResponderLink missionResponderLink) {
         utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, missionResponderLink.getResponder().getAppearanceType().getResourcePath(), "");
     }
 
-    private void showMissionResponderButton(BreadCrumbBar<Object> breadCrumbBar, View view, Pane pane, MissionResponderLink missionResponderLink) {
-        utilsView.addButtonToPane(pane, missionResponderLink.getResponder().toString(), (_ -> missionResponderView.show(breadCrumbBar, view, missionResponderLink)));
+    private void showMissionResponderButton(View view, Pane pane, MissionResponderLink missionResponderLink) {
+        utilsView.addButtonToPane(pane, missionResponderLink.getResponder().toString(), (_ -> missionResponderView.show(view, missionResponderLink)));
     }
 
     public void showMap(View view, MissionResponderLink missionResponderLink) {

@@ -1,7 +1,6 @@
 package stationtocommand.view.departmentStructure;
 
 import javafx.scene.layout.Pane;
-import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.model.rankTypeStructure.FireRankType;
 import stationtocommand.model.rankTypeStructure.MedicRankType;
@@ -40,13 +39,13 @@ public class DepartmentView {
         return stationListView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, View view, Department department) {
-        View.viewRunnable = () -> show(breadCrumbBar, view, department);
-        utilsView.addBreadCrumb(breadCrumbBar, department);
+    public void show(View view, Department department) {
+        View.viewRunnable = () -> show(view, department);
+        utilsView.addBreadCrumb(view.getBreadCrumbBar(), department);
         view.getNavigationPanel().clear();
         view.getWorldMap().clear();
         showDepartmentDetails(view, department);
-        stationListView.show(breadCrumbBar, view, department.getStations());
+        stationListView.show(view, department.getStations());
         showDepartmentUnitCounts(view, department);
         showDepartmentVehicleCounts(view, department);
         showDepartmentResponderCounts(view, department);

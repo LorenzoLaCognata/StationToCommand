@@ -1,7 +1,6 @@
 package stationtocommand.view.missionStructure;
 
 import javafx.scene.layout.Pane;
-import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.missionLinkStructure.MissionResponderLink;
 import stationtocommand.model.missionLinkStructure.MissionStationLink;
 import stationtocommand.model.missionLinkStructure.MissionUnitLink;
@@ -36,19 +35,19 @@ public class MissionStationView {
         return missionVehicleListView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, View view, MissionStationLink missionStationLink) {
-        View.viewRunnable = () -> show(breadCrumbBar, view, missionStationLink);
-        utilsView.addBreadCrumb(breadCrumbBar, missionStationLink);
+    public void show(View view, MissionStationLink missionStationLink) {
+        View.viewRunnable = () -> show(view, missionStationLink);
+        utilsView.addBreadCrumb(view.getBreadCrumbBar(), missionStationLink);
         view.getNavigationPanel().clear();
         view.getWorldMap().clear();
-        showSidebar(breadCrumbBar, view, missionStationLink);
+        showSidebar(view, missionStationLink);
     }
 
-    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, View view, MissionStationLink missionStationLink) {
+    private void showSidebar(View view, MissionStationLink missionStationLink) {
         showMissionStationDetails(view, missionStationLink);
-        missionUnitListView.show(breadCrumbBar, view, missionStationLink);
-        missionResponderListView.show(breadCrumbBar, view, missionStationLink);
-        missionVehicleListView.show(breadCrumbBar, view, missionStationLink);
+        missionUnitListView.show(view, missionStationLink);
+        missionResponderListView.show(view, missionStationLink);
+        missionVehicleListView.show(view, missionStationLink);
         for (MissionUnitLink missionUnitLink : missionStationLink.getUnitLinks()) {
             for (MissionResponderLink missionResponderLink : missionUnitLink.getResponderLinks()) {
                 missionResponderListView.showMap(view, missionResponderLink);
