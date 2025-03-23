@@ -31,27 +31,27 @@ public class StationListView {
         return stationView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, List<Station> stations) {
-        utilsView.addSectionTitleLabel(navigationPanel, "Stations");
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane detailsPane, Pane worldMap, List<Station> stations) {
+        utilsView.addSectionTitleLabel(detailsPane, "Stations");
         for (Station station : stations) {
-            showSidebar(breadCrumbBar, navigationPanel, worldMap, station);
+            showSidebar(breadCrumbBar, navigationPanel, detailsPane, worldMap, station);
             stationView.showMap(worldMap, station);
         }
     }
 
-    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, Station station) {
-        Pane labelPane = utilsView.createHBox(navigationPanel);
-        showStationIcon(labelPane, station);
-        showStationButton(breadCrumbBar, navigationPanel, worldMap, labelPane, station);
-        showStationUnitTypes(labelPane, station);
+    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane detailsPane, Pane worldMap, Station station) {
+        Pane labelPane = utilsView.createHBox(detailsPane);
+        showStationIcon(detailsPane, station);
+        showStationButton(breadCrumbBar, navigationPanel, detailsPane, worldMap, labelPane, station);
+        showStationUnitTypes(detailsPane, station);
     }
 
     private void showStationIcon(Pane labelPane, Station station) {
         utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.EMPTY, station.getStationType().getResourcePath(), "");
     }
 
-    private void showStationButton(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, Pane labelPane, Station station) {
-        utilsView.addButtonToPane(labelPane, station.toString(), (_ -> stationView.show(breadCrumbBar, navigationPanel, worldMap, station)));
+    private void showStationButton(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane detailsPane, Pane worldMap, Pane labelPane, Station station) {
+        utilsView.addButtonToPane(labelPane, station.toString(), (_ -> stationView.show(breadCrumbBar, navigationPanel, detailsPane, worldMap, station)));
     }
 
     private void showStationUnitTypes(Pane labelPane, Station station) {

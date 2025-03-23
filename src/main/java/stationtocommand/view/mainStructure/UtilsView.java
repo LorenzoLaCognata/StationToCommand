@@ -13,10 +13,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.control.TreeItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.util.Duration;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.departmentStructure.Department;
@@ -74,11 +71,6 @@ public class UtilsView {
         -fx-font-size: 18px;
         -fx-font-weight: bold;
         -fx-padding: 10px 15px;
-        -fx-background-color: rgba(50, 50, 50, 0.9);
-        -fx-background-radius: 6px;
-        -fx-border-color: #777;
-        -fx-border-width: 1px;
-        -fx-border-radius: 6px;
         -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 5, 0.3, 0, 0);
     """);
         pane.getChildren().add(label);
@@ -287,10 +279,18 @@ public class UtilsView {
         pane.getChildren().add(node);
     }
 
-    public void addButtonToPane(Pane pane, String string, EventHandler<ActionEvent> eventHandler) {
+    public Button addButtonToPane(Pane pane, String string, EventHandler<ActionEvent> eventHandler) {
         Button button = new Button(string);
         button.setOnAction(eventHandler);
         pane.getChildren().add(button);
+        return button;
+    }
+
+    public Button addButtonToHorizontalPane(Pane pane, String string, EventHandler<ActionEvent> eventHandler) {
+        Button button = addButtonToPane(pane, string, eventHandler);
+        HBox.setHgrow(button, Priority.ALWAYS);
+        button.setMaxWidth(Double.MAX_VALUE);
+        return button;
     }
 
 }

@@ -41,8 +41,8 @@ public class StationView {
         return vehicleListView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, Station station) {
-        View.viewRunnable = () -> show(breadCrumbBar, navigationPanel, worldMap, station);
+    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane detailsPane, Pane worldMap, Station station) {
+        View.viewRunnable = () -> show(breadCrumbBar, navigationPanel, detailsPane, worldMap, station);
         utilsView.addBreadCrumb(breadCrumbBar, station);
         utilsView.clearPane(navigationPanel);
         utilsView.clearPane(worldMap);

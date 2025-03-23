@@ -1,9 +1,9 @@
 package stationtocommand.view.departmentStructure;
 
-import javafx.scene.layout.HBox;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import org.controlsfx.control.BreadCrumbBar;
+import stationtocommand.model.departmentStructure.AppearanceType;
 import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.model.rankTypeStructure.FireRankType;
 import stationtocommand.model.rankTypeStructure.MedicRankType;
@@ -11,6 +11,7 @@ import stationtocommand.model.rankTypeStructure.PoliceRankType;
 import stationtocommand.model.rankTypeStructure.RankType;
 import stationtocommand.model.responderStructure.Responder;
 import stationtocommand.model.responderStructure.ResponderStatus;
+import stationtocommand.model.stationStructure.StationType;
 import stationtocommand.model.unitStructure.Unit;
 import stationtocommand.model.unitStructure.UnitStatus;
 import stationtocommand.model.unitTypeStructure.FireUnitType;
@@ -48,18 +49,27 @@ public class DepartmentView {
         utilsView.clearPane(navigationPanel);
         utilsView.clearPane(worldMap);
         showDepartmentDetails(navigationPanel, department);
+
         Pane choicePane = utilsView.createHBox(navigationPanel);
         Pane detailsPane = utilsView.createVBox(navigationPanel);
-        utilsView.addButtonToPane(choicePane, "Stations", (_ -> showDepartmentStations(breadCrumbBar, detailsPane, worldMap, department)));
-        utilsView.addButtonToPane(choicePane, "Units", (_ -> showDepartmentUnitCounts(detailsPane, department)));
-        utilsView.addButtonToPane(choicePane, "Vehicles", (_ -> showDepartmentVehicleCounts(detailsPane, department)));
-        utilsView.addButtonToPane(choicePane, "Responders", (_ -> showDepartmentResponderCounts(detailsPane, department)));
+
+        Button stationsButton = utilsView.addButtonToHorizontalPane(choicePane, "Stations", (_ -> showDepartmentStations(breadCrumbBar, navigationPanel, detailsPane, worldMap, department)));
+        stationsButton.setGraphic(utilsView.smallIcon(StationType.FIRE_STATION.getResourcePath(), ""));
+        Button unitsButton = utilsView.addButtonToHorizontalPane(choicePane, "Units", (_ -> showDepartmentUnitCounts(detailsPane, department)));
+        unitsButton.setGraphic(utilsView.smallIcon(FireUnitType.FIRE_ENGINE.getResourcePath(), ""));
+        Button vehiclesButton = utilsView.addButtonToHorizontalPane(choicePane, "Vehicles", (_ -> showDepartmentVehicleCounts(detailsPane, department)));
+        vehiclesButton.setGraphic(utilsView.smallIcon(PoliceVehicleType.SUV.getResourcePath(), ""));
+        Button respondersButton = utilsView.addButtonToHorizontalPane(choicePane, "Responders", (_ -> showDepartmentResponderCounts(detailsPane, department)));
+        respondersButton.setGraphic(utilsView.smallIcon(AppearanceType.MALE_01.getResourcePath(), ""));
+
+        showDepartmentStations(breadCrumbBar, navigationPanel, detailsPane, worldMap, department);
     }
 
-    private void showDepartmentStations(BreadCrumbBar<Object> breadCrumbBar, Pane pane, Pane worldMap, Department department) {
-        View.viewRunnable = () -> showDepartmentStations(breadCrumbBar, pane, worldMap, department);
-        pane.getChildren().clear();
-        stationListView.show(breadCrumbBar, pane, worldMap, department.getStations());
+    private void showDepartmentStations(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane detailsPane, Pane worldMap, Department department) {
+        // TODO: fix stuff readded to the map (background getting darker and darker)
+        View.viewRunnable = () -> showDepartmentStations(breadCrumbBar, navigationPanel, detailsPane, worldMap, department);
+        utilsView.clearPane(detailsPane);
+        stationListView.show(breadCrumbBar, navigationPanel, detailsPane, worldMap, department.getStations());
     }
 
     private void showDepartmentDetails(Pane navigationPanel, Department department) {
