@@ -1,6 +1,9 @@
 package stationtocommand.view.departmentStructure;
 
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import org.controlsfx.control.BreadCrumbBar;
+import stationtocommand.model.departmentStructure.AppearanceType;
 import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.model.rankTypeStructure.FireRankType;
 import stationtocommand.model.rankTypeStructure.MedicRankType;
@@ -8,6 +11,7 @@ import stationtocommand.model.rankTypeStructure.PoliceRankType;
 import stationtocommand.model.rankTypeStructure.RankType;
 import stationtocommand.model.responderStructure.Responder;
 import stationtocommand.model.responderStructure.ResponderStatus;
+import stationtocommand.model.stationStructure.StationType;
 import stationtocommand.model.unitStructure.Unit;
 import stationtocommand.model.unitStructure.UnitStatus;
 import stationtocommand.model.unitTypeStructure.FireUnitType;
@@ -45,10 +49,25 @@ public class DepartmentView {
         view.getNavigationPanel().clear();
         view.getWorldMap().clear();
         showDepartmentDetails(view, department);
+
+        Button stationsButton = utilsView.addButtonToHorizontalPane(view.getNavigationPanel().getButtonsPane(), "Stations", (_ -> showDepartmentStations(view, department)));
+        stationsButton.setGraphic(utilsView.smallIcon(StationType.FIRE_STATION.getResourcePath(), ""));
+        Button unitsButton = utilsView.addButtonToHorizontalPane(view.getNavigationPanel().getButtonsPane(), "Units", (_ -> showDepartmentUnitCounts(view, department)));
+        unitsButton.setGraphic(utilsView.smallIcon(FireUnitType.FIRE_ENGINE.getResourcePath(), ""));
+        Button vehiclesButton = utilsView.addButtonToHorizontalPane(view.getNavigationPanel().getButtonsPane(), "Vehicles", (_ -> showDepartmentVehicleCounts(view, department)));
+        vehiclesButton.setGraphic(utilsView.smallIcon(PoliceVehicleType.SUV.getResourcePath(), ""));
+        Button respondersButton = utilsView.addButtonToHorizontalPane(view.getNavigationPanel().getButtonsPane(), "Responders", (_ -> showDepartmentResponderCounts(view, department)));
+        respondersButton.setGraphic(utilsView.smallIcon(AppearanceType.MALE_01.getResourcePath(), ""));
+
+        showDepartmentStations(view, department);
+    }
+
+    private void showDepartmentStations(View view, Department department) {
+        // TODO: fix stuff that gets added again to the map (background getting darker and darker)
+        View.viewRunnable = () -> showDepartmentStations(view, department);
+        // TODO: restore and fix
+        //utilsView.clearPane(detailsPane);
         stationListView.show(view, department.getStations());
-        showDepartmentUnitCounts(view, department);
-        showDepartmentVehicleCounts(view, department);
-        showDepartmentResponderCounts(view, department);
     }
 
     private void showDepartmentDetails(View view, Department department) {
@@ -58,6 +77,9 @@ public class DepartmentView {
     }
 
     private void showDepartmentUnitCounts(View view, Department department) {
+        View.viewRunnable = () -> showDepartmentUnitCounts(view, department);
+        // TODO: restore and fix
+        //pane.getChildren().clear();
         utilsView.addSectionTitleLabel(view.getNavigationPanel().getDetailsPane(), "Units");
         Map<UnitType, Map<UnitStatus, Long>> unitCounts = department.getStations().stream()
                 .flatMap(station -> station.getUnits().stream())
@@ -110,6 +132,9 @@ public class DepartmentView {
     }
 
     private void showDepartmentVehicleCounts(View view, Department department) {
+        View.viewRunnable = () -> showDepartmentVehicleCounts(view, department);
+        // TODO: restore and fix
+        //pane.getChildren().clear();
         utilsView.addSectionTitleLabel(view.getNavigationPanel().getDetailsPane(), "Vehicles");
         Map<VehicleType, Map<VehicleStatus, Long>> vehicleCounts = department.getStations().stream()
                 .flatMap(station -> station.getUnits().stream())
@@ -165,6 +190,9 @@ public class DepartmentView {
     }
 
     private void showDepartmentResponderCounts(View view, Department department) {
+        View.viewRunnable = () -> showDepartmentResponderCounts(view, department);
+        // TODO: restore and fix
+        //pane.getChildren().clear();
         utilsView.addSectionTitleLabel(view.getNavigationPanel().getDetailsPane(), "Responders");
         Map<RankType, Map<ResponderStatus, Long>> responderCounts = department.getStations().stream()
                 .flatMap(station -> station.getUnits().stream())
