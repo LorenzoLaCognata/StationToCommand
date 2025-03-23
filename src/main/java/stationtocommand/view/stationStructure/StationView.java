@@ -43,7 +43,7 @@ public class StationView {
     public void show(View view, Station station) {
         View.viewRunnable = () -> show(view, station);
         utilsView.addBreadCrumb(view.getBreadCrumbBar(), station);
-        view.getNavigationPanel().clear();
+        view.getNavigationPanel().clearAll();
         view.getWorldMap().clear();
         showSidebar(view, station);
         showMap(view, station);

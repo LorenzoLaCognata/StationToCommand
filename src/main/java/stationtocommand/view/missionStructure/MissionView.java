@@ -26,7 +26,7 @@ public class MissionView {
     public void show(View view, Mission mission) {
         View.viewRunnable = () -> show(view, mission);
         utilsView.addBreadCrumb(view.getBreadCrumbBar(), mission);
-        view.getNavigationPanel().clear();
+        view.getNavigationPanel().clearAll();
         view.getWorldMap().clear();
         showSidebar(view, mission);
         showMap(view, mission);

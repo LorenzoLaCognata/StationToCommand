@@ -21,7 +21,7 @@ public class MissionResponderView {
     public void show(View view, MissionResponderLink missionResponderLink) {
         View.viewRunnable = () -> show(view, missionResponderLink);
         utilsView.addBreadCrumb(view.getBreadCrumbBar(), missionResponderLink);
-        view.getNavigationPanel().clear();
+        view.getNavigationPanel().clearAll();
         view.getWorldMap().clear();
         showSidebar(view, missionResponderLink);
         showMap(view, missionResponderLink);

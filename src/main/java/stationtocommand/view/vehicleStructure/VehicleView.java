@@ -18,7 +18,7 @@ public class VehicleView {
     public void show(View view, Vehicle vehicle) {
         View.viewRunnable = () -> show(view, vehicle);
         utilsView.addBreadCrumb(view.getBreadCrumbBar(), vehicle);
-        view.getNavigationPanel().clear();
+        view.getNavigationPanel().clearAll();
         showSidebar(view, vehicle);
     }
 

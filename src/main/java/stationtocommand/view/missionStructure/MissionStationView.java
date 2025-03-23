@@ -38,7 +38,7 @@ public class MissionStationView {
     public void show(View view, MissionStationLink missionStationLink) {
         View.viewRunnable = () -> show(view, missionStationLink);
         utilsView.addBreadCrumb(view.getBreadCrumbBar(), missionStationLink);
-        view.getNavigationPanel().clear();
+        view.getNavigationPanel().clearAll();
         view.getWorldMap().clear();
         showSidebar(view, missionStationLink);
     }
