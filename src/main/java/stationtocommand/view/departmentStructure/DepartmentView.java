@@ -40,26 +40,26 @@ public class DepartmentView {
         return stationListView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane worldMap, Department department) {
-        View.viewRunnable = () -> show(breadCrumbBar, navigationPanel, worldMap, department);
+    public void show(BreadCrumbBar<Object> breadCrumbBar, View view, Pane worldMap, Department department) {
+        View.viewRunnable = () -> show(breadCrumbBar, view, worldMap, department);
         utilsView.addBreadCrumb(breadCrumbBar, department);
-        utilsView.clearPane(navigationPanel);
+        utilsView.clearNavigationPanel(view.getNavigationPanel());
         utilsView.clearPane(worldMap);
-        showDepartmentDetails(navigationPanel, department);
-        stationListView.show(breadCrumbBar, navigationPanel, worldMap, department.getStations());
-        showDepartmentUnitCounts(navigationPanel, department);
-        showDepartmentVehicleCounts(navigationPanel, department);
-        showDepartmentResponderCounts(navigationPanel, department);
+        showDepartmentDetails(view, department);
+        stationListView.show(breadCrumbBar, view, worldMap, department.getStations());
+        showDepartmentUnitCounts(view, department);
+        showDepartmentVehicleCounts(view, department);
+        showDepartmentResponderCounts(view, department);
     }
 
-    private void showDepartmentDetails(Pane navigationPanel, Department department) {
-        Pane labelPane = utilsView.createHBox(navigationPanel);
-        utilsView.addIconToPane(navigationPanel, IconType.MEDIUM, IconColor.EMPTY, department.getDepartmentType().getResourcePath(), "");
-        utilsView.addMainTitleLabel(labelPane, department.toString());
+    private void showDepartmentDetails(View view, Department department) {
+        Pane horizontalEntryPane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
+        utilsView.addIconToPane(horizontalEntryPane, IconType.MEDIUM, IconColor.EMPTY, department.getDepartmentType().getResourcePath(), "");
+        utilsView.addMainTitleLabel(horizontalEntryPane, department.toString());
     }
 
-    private void showDepartmentUnitCounts(Pane navigationPanel, Department department) {
-        utilsView.addSectionTitleLabel(navigationPanel, "Units");
+    private void showDepartmentUnitCounts(View view, Department department) {
+        utilsView.addSectionTitleLabel(view.getNavigationPanel().getDetailsPane(), "Units");
         Map<UnitType, Map<UnitStatus, Long>> unitCounts = department.getStations().stream()
                 .flatMap(station -> station.getUnits().stream())
                 .collect(Collectors.groupingBy(
@@ -72,46 +72,46 @@ public class DepartmentView {
 
         switch (department.getDepartmentType()) {
             case FIRE_DEPARTMENT -> {
-                addUnitTypeCount(navigationPanel, unitCounts, FireUnitType.FIRE_ENGINE);
-                addUnitTypeCount(navigationPanel, unitCounts, FireUnitType.FIRE_TRUCK);
-                addUnitTypeCount(navigationPanel, unitCounts, FireUnitType.RESCUE_SQUAD);
+                addUnitTypeCount(view, unitCounts, FireUnitType.FIRE_ENGINE);
+                addUnitTypeCount(view, unitCounts, FireUnitType.FIRE_TRUCK);
+                addUnitTypeCount(view, unitCounts, FireUnitType.RESCUE_SQUAD);
             }
             case POLICE_DEPARTMENT -> {
-                addUnitTypeCount(navigationPanel, unitCounts, PoliceUnitType.PATROL_UNIT);
-                addUnitTypeCount(navigationPanel, unitCounts, PoliceUnitType.DETECTIVE_UNIT);
-                addUnitTypeCount(navigationPanel, unitCounts, PoliceUnitType.HOMICIDE_UNIT);
-                addUnitTypeCount(navigationPanel, unitCounts, PoliceUnitType.NARCOTICS_UNIT);
-                addUnitTypeCount(navigationPanel, unitCounts, PoliceUnitType.VICE_UNIT);
+                addUnitTypeCount(view, unitCounts, PoliceUnitType.PATROL_UNIT);
+                addUnitTypeCount(view, unitCounts, PoliceUnitType.DETECTIVE_UNIT);
+                addUnitTypeCount(view, unitCounts, PoliceUnitType.HOMICIDE_UNIT);
+                addUnitTypeCount(view, unitCounts, PoliceUnitType.NARCOTICS_UNIT);
+                addUnitTypeCount(view, unitCounts, PoliceUnitType.VICE_UNIT);
             }
             case MEDIC_DEPARTMENT -> {
-                addUnitTypeCount(navigationPanel, unitCounts, MedicUnitType.PRIMARY_CARE_UNIT);
-                addUnitTypeCount(navigationPanel, unitCounts, MedicUnitType.CRITICAL_CARE_UNIT);
+                addUnitTypeCount(view, unitCounts, MedicUnitType.PRIMARY_CARE_UNIT);
+                addUnitTypeCount(view, unitCounts, MedicUnitType.CRITICAL_CARE_UNIT);
             }
         }
     }
 
-    private void addUnitTypeCount(Pane navigationPanel, Map<UnitType, Map<UnitStatus, Long>> unitCounts, UnitType unitType) {
-        Pane countPane = utilsView.createHBox(navigationPanel);
+    private void addUnitTypeCount(View view, Map<UnitType, Map<UnitStatus, Long>> unitCounts, UnitType unitType) {
+        Pane horizontalEntryPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
         Map<UnitStatus, Long> statusCounts = unitCounts.getOrDefault(unitType, Collections.emptyMap());
-        utilsView.addIconToPane(countPane, IconType.SMALL, IconColor.EMPTY, unitType.getResourcePath(), unitType.toString());
-        addUnitTypeStatusCount(countPane, statusCounts, UnitStatus.AVAILABLE);
-        addUnitTypeStatusCount(countPane, statusCounts, UnitStatus.DISPATCHED);
-        addUnitTypeStatusCount(countPane, statusCounts, UnitStatus.ON_SCENE);
-        addUnitTypeStatusCount(countPane, statusCounts, UnitStatus.RETURNING);
-        addUnitTypeStatusCount(countPane, statusCounts, UnitStatus.UNAVAILABLE);
+        utilsView.addIconToPane(horizontalEntryPane, IconType.SMALL, IconColor.EMPTY, unitType.getResourcePath(), unitType.toString());
+        addUnitTypeStatusCount(horizontalEntryPane, statusCounts, UnitStatus.AVAILABLE);
+        addUnitTypeStatusCount(horizontalEntryPane, statusCounts, UnitStatus.DISPATCHED);
+        addUnitTypeStatusCount(horizontalEntryPane, statusCounts, UnitStatus.ON_SCENE);
+        addUnitTypeStatusCount(horizontalEntryPane, statusCounts, UnitStatus.RETURNING);
+        addUnitTypeStatusCount(horizontalEntryPane, statusCounts, UnitStatus.UNAVAILABLE);
     }
 
-    private void addUnitTypeStatusCount(Pane pane, Map<UnitStatus, Long> units, UnitStatus unitStatus) {
+    private void addUnitTypeStatusCount(Pane horizontalEntryPane, Map<UnitStatus, Long> units, UnitStatus unitStatus) {
         String count = " ";
         if (units.getOrDefault(unitStatus, 0L) > 0L ) {
             count = String.valueOf(units.getOrDefault(unitStatus, 0L));
         }
-        utilsView.addBodySmallLabel(pane, count);
-        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, unitStatus.getResourcePath(), unitStatus.toString());
+        utilsView.addBodySmallLabel(horizontalEntryPane, count);
+        utilsView.addIconToPane(horizontalEntryPane, IconType.SMALL, IconColor.EMPTY, unitStatus.getResourcePath(), unitStatus.toString());
     }
 
-    private void showDepartmentVehicleCounts(Pane navigationPanel, Department department) {
-        utilsView.addSectionTitleLabel(navigationPanel, "Vehicles");
+    private void showDepartmentVehicleCounts(View view, Department department) {
+        utilsView.addSectionTitleLabel(view.getNavigationPanel().getDetailsPane(), "Vehicles");
         Map<VehicleType, Map<VehicleStatus, Long>> vehicleCounts = department.getStations().stream()
                 .flatMap(station -> station.getUnits().stream())
                 .flatMap(unit -> unit.getVehicles().stream())
@@ -125,48 +125,48 @@ public class DepartmentView {
 
         switch (department.getDepartmentType()) {
             case FIRE_DEPARTMENT -> {
-                addVehicleTypeCount(navigationPanel, vehicleCounts, FireVehicleType.PUMPER);
-                addVehicleTypeCount(navigationPanel, vehicleCounts, FireVehicleType.TANKER);
-                addVehicleTypeCount(navigationPanel, vehicleCounts, FireVehicleType.LADDER);
-                addVehicleTypeCount(navigationPanel, vehicleCounts, FireVehicleType.TOWER);
-                addVehicleTypeCount(navigationPanel, vehicleCounts, FireVehicleType.RESCUE);
-                addVehicleTypeCount(navigationPanel, vehicleCounts, FireVehicleType.HEAVY_RESCUE);
+                addVehicleTypeCount(view, vehicleCounts, FireVehicleType.PUMPER);
+                addVehicleTypeCount(view, vehicleCounts, FireVehicleType.TANKER);
+                addVehicleTypeCount(view, vehicleCounts, FireVehicleType.LADDER);
+                addVehicleTypeCount(view, vehicleCounts, FireVehicleType.TOWER);
+                addVehicleTypeCount(view, vehicleCounts, FireVehicleType.RESCUE);
+                addVehicleTypeCount(view, vehicleCounts, FireVehicleType.HEAVY_RESCUE);
             }
             case POLICE_DEPARTMENT -> {
-                addVehicleTypeCount(navigationPanel, vehicleCounts, PoliceVehicleType.SEDAN);
-                addVehicleTypeCount(navigationPanel, vehicleCounts, PoliceVehicleType.SUV);
-                addVehicleTypeCount(navigationPanel, vehicleCounts, PoliceVehicleType.MOTORCYCLE);
+                addVehicleTypeCount(view, vehicleCounts, PoliceVehicleType.SEDAN);
+                addVehicleTypeCount(view, vehicleCounts, PoliceVehicleType.SUV);
+                addVehicleTypeCount(view, vehicleCounts, PoliceVehicleType.MOTORCYCLE);
             }
             case MEDIC_DEPARTMENT -> {
-                addVehicleTypeCount(navigationPanel, vehicleCounts, MedicVehicleType.BLS_AMBULANCE);
-                addVehicleTypeCount(navigationPanel, vehicleCounts, MedicVehicleType.ALS_AMBULANCE);
+                addVehicleTypeCount(view, vehicleCounts, MedicVehicleType.BLS_AMBULANCE);
+                addVehicleTypeCount(view, vehicleCounts, MedicVehicleType.ALS_AMBULANCE);
             }
         }
 
     }
 
-    private void addVehicleTypeCount(Pane navigationPanel, Map<VehicleType, Map<VehicleStatus, Long>> vehicleCounts, VehicleType vehicleType) {
-        Pane countPane = utilsView.createHBox(navigationPanel);
+    private void addVehicleTypeCount(View view, Map<VehicleType, Map<VehicleStatus, Long>> vehicleCounts, VehicleType vehicleType) {
+        Pane horizontalEntryPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
         Map<VehicleStatus, Long> statusCounts = vehicleCounts.getOrDefault(vehicleType, Collections.emptyMap());
-        utilsView.addIconToPane(countPane, IconType.SMALL, IconColor.EMPTY, vehicleType.getResourcePath(), vehicleType.toString());
-        addVehicleTypeStatusCount(countPane, statusCounts, VehicleStatus.AVAILABLE);
-        addVehicleTypeStatusCount(countPane, statusCounts, VehicleStatus.DISPATCHED);
-        addVehicleTypeStatusCount(countPane, statusCounts, VehicleStatus.ON_SCENE);
-        addVehicleTypeStatusCount(countPane, statusCounts, VehicleStatus.RETURNING);
-        addVehicleTypeStatusCount(countPane, statusCounts, VehicleStatus.UNAVAILABLE);
+        utilsView.addIconToPane(horizontalEntryPane, IconType.SMALL, IconColor.EMPTY, vehicleType.getResourcePath(), vehicleType.toString());
+        addVehicleTypeStatusCount(horizontalEntryPane, statusCounts, VehicleStatus.AVAILABLE);
+        addVehicleTypeStatusCount(horizontalEntryPane, statusCounts, VehicleStatus.DISPATCHED);
+        addVehicleTypeStatusCount(horizontalEntryPane, statusCounts, VehicleStatus.ON_SCENE);
+        addVehicleTypeStatusCount(horizontalEntryPane, statusCounts, VehicleStatus.RETURNING);
+        addVehicleTypeStatusCount(horizontalEntryPane, statusCounts, VehicleStatus.UNAVAILABLE);
     }
 
-    private void addVehicleTypeStatusCount(Pane pane, Map<VehicleStatus, Long> vehicles, VehicleStatus vehicleStatus) {
+    private void addVehicleTypeStatusCount(Pane horizontalEntryPane, Map<VehicleStatus, Long> vehicles, VehicleStatus vehicleStatus) {
         String count = " ";
         if (vehicles.getOrDefault(vehicleStatus, 0L) > 0L ) {
             count = String.valueOf(vehicles.getOrDefault(vehicleStatus, 0L));
         }
-        utilsView.addBodySmallLabel(pane, count);
-        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, vehicleStatus.getResourcePath(), vehicleStatus.toString());
+        utilsView.addBodySmallLabel(horizontalEntryPane, count);
+        utilsView.addIconToPane(horizontalEntryPane, IconType.SMALL, IconColor.EMPTY, vehicleStatus.getResourcePath(), vehicleStatus.toString());
     }
 
-    private void showDepartmentResponderCounts(Pane navigationPanel, Department department) {
-        utilsView.addSectionTitleLabel(navigationPanel, "Responders");
+    private void showDepartmentResponderCounts(View view, Department department) {
+        utilsView.addSectionTitleLabel(view.getNavigationPanel().getDetailsPane(), "Responders");
         Map<RankType, Map<ResponderStatus, Long>> responderCounts = department.getStations().stream()
                 .flatMap(station -> station.getUnits().stream())
                 .flatMap(unit -> unit.getResponders().stream())
@@ -180,54 +180,54 @@ public class DepartmentView {
 
         switch (department.getDepartmentType()) {
             case FIRE_DEPARTMENT -> {
-                addRankTypeCount(navigationPanel, responderCounts, FireRankType.CANDIDATE_FIREFIGHTER);
-                addRankTypeCount(navigationPanel, responderCounts, FireRankType.FIREFIGHTER);
-                addRankTypeCount(navigationPanel, responderCounts, FireRankType.LIEUTENANT);
-                addRankTypeCount(navigationPanel, responderCounts, FireRankType.CAPTAIN);
-                addRankTypeCount(navigationPanel, responderCounts, FireRankType.BATTALION_CHIEF);
-                addRankTypeCount(navigationPanel, responderCounts, FireRankType.DISTRICT_CHIEF);
-                addRankTypeCount(navigationPanel, responderCounts, FireRankType.COMMISSIONER);
+                addRankTypeCount(view, responderCounts, FireRankType.CANDIDATE_FIREFIGHTER);
+                addRankTypeCount(view, responderCounts, FireRankType.FIREFIGHTER);
+                addRankTypeCount(view, responderCounts, FireRankType.LIEUTENANT);
+                addRankTypeCount(view, responderCounts, FireRankType.CAPTAIN);
+                addRankTypeCount(view, responderCounts, FireRankType.BATTALION_CHIEF);
+                addRankTypeCount(view, responderCounts, FireRankType.DISTRICT_CHIEF);
+                addRankTypeCount(view, responderCounts, FireRankType.COMMISSIONER);
             }
             case POLICE_DEPARTMENT -> {
-                addRankTypeCount(navigationPanel, responderCounts, PoliceRankType.OFFICER);
-                addRankTypeCount(navigationPanel, responderCounts, PoliceRankType.SERGEANT);
-                addRankTypeCount(navigationPanel, responderCounts, PoliceRankType.LIEUTENANT);
-                addRankTypeCount(navigationPanel, responderCounts, PoliceRankType.CAPTAIN);
-                addRankTypeCount(navigationPanel, responderCounts, PoliceRankType.COMMANDER);
-                addRankTypeCount(navigationPanel, responderCounts, PoliceRankType.CHIEF);
-                addRankTypeCount(navigationPanel, responderCounts, PoliceRankType.SUPERINTENDENT);
+                addRankTypeCount(view, responderCounts, PoliceRankType.OFFICER);
+                addRankTypeCount(view, responderCounts, PoliceRankType.SERGEANT);
+                addRankTypeCount(view, responderCounts, PoliceRankType.LIEUTENANT);
+                addRankTypeCount(view, responderCounts, PoliceRankType.CAPTAIN);
+                addRankTypeCount(view, responderCounts, PoliceRankType.COMMANDER);
+                addRankTypeCount(view, responderCounts, PoliceRankType.CHIEF);
+                addRankTypeCount(view, responderCounts, PoliceRankType.SUPERINTENDENT);
             }
             case MEDIC_DEPARTMENT -> {
-                addRankTypeCount(navigationPanel, responderCounts, MedicRankType.EMR);
-                addRankTypeCount(navigationPanel, responderCounts, MedicRankType.EMT);
-                addRankTypeCount(navigationPanel, responderCounts, MedicRankType.PARAMEDIC);
-                addRankTypeCount(navigationPanel, responderCounts, MedicRankType.PARAMEDIC_IN_CHARGE);
-                addRankTypeCount(navigationPanel, responderCounts, MedicRankType.PARAMEDIC_SUPERVISOR);
-                addRankTypeCount(navigationPanel, responderCounts, MedicRankType.PARAMEDIC_FIELD_CHIEF);
-                addRankTypeCount(navigationPanel, responderCounts, MedicRankType.CHIEF_PARAMEDIC);
+                addRankTypeCount(view, responderCounts, MedicRankType.EMR);
+                addRankTypeCount(view, responderCounts, MedicRankType.EMT);
+                addRankTypeCount(view, responderCounts, MedicRankType.PARAMEDIC);
+                addRankTypeCount(view, responderCounts, MedicRankType.PARAMEDIC_IN_CHARGE);
+                addRankTypeCount(view, responderCounts, MedicRankType.PARAMEDIC_SUPERVISOR);
+                addRankTypeCount(view, responderCounts, MedicRankType.PARAMEDIC_FIELD_CHIEF);
+                addRankTypeCount(view, responderCounts, MedicRankType.CHIEF_PARAMEDIC);
             }
         }
 
     }
 
-    private void addRankTypeCount(Pane navigationPanel, Map<RankType, Map<ResponderStatus, Long>> responderCounts, RankType rankType) {
-        Pane countPane = utilsView.createHBox(navigationPanel);
+    private void addRankTypeCount(View view, Map<RankType, Map<ResponderStatus, Long>> responderCounts, RankType rankType) {
+        Pane horizontalEntryPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
         Map<ResponderStatus, Long> statusCounts = responderCounts.getOrDefault(rankType, Collections.emptyMap());
-        utilsView.addIconToPane(countPane, IconType.SMALL_BORDER, IconColor.BLACK, rankType.getResourcePath(), rankType.toString());
-        addRankTypeStatusCount(countPane, statusCounts, ResponderStatus.AVAILABLE);
-        addRankTypeStatusCount(countPane, statusCounts, ResponderStatus.DISPATCHED);
-        addRankTypeStatusCount(countPane, statusCounts, ResponderStatus.ON_SCENE);
-        addRankTypeStatusCount(countPane, statusCounts, ResponderStatus.RETURNING);
-        addRankTypeStatusCount(countPane, statusCounts, ResponderStatus.UNAVAILABLE);
+        utilsView.addIconToPane(horizontalEntryPane, IconType.SMALL_BORDER, IconColor.BLACK, rankType.getResourcePath(), rankType.toString());
+        addRankTypeStatusCount(horizontalEntryPane, statusCounts, ResponderStatus.AVAILABLE);
+        addRankTypeStatusCount(horizontalEntryPane, statusCounts, ResponderStatus.DISPATCHED);
+        addRankTypeStatusCount(horizontalEntryPane, statusCounts, ResponderStatus.ON_SCENE);
+        addRankTypeStatusCount(horizontalEntryPane, statusCounts, ResponderStatus.RETURNING);
+        addRankTypeStatusCount(horizontalEntryPane, statusCounts, ResponderStatus.UNAVAILABLE);
     }
 
-    private void addRankTypeStatusCount(Pane pane, Map<ResponderStatus, Long> responders, ResponderStatus responderStatus) {
+    private void addRankTypeStatusCount(Pane horizontalEntryPane, Map<ResponderStatus, Long> responders, ResponderStatus responderStatus) {
         String count = " ";
         if (responders.getOrDefault(responderStatus, 0L) > 0L ) {
             count = String.valueOf(responders.getOrDefault(responderStatus, 0L));
         }
-        utilsView.addBodySmallLabel(pane, count);
-        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, responderStatus.getResourcePath(), responderStatus.toString());
+        utilsView.addBodySmallLabel(horizontalEntryPane, count);
+        utilsView.addIconToPane(horizontalEntryPane, IconType.SMALL, IconColor.EMPTY, responderStatus.getResourcePath(), responderStatus.toString());
     }
 
 }

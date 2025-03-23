@@ -3,6 +3,7 @@ package stationtocommand.view.unitStructure;
 import javafx.scene.layout.Pane;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.unitStructure.Unit;
+import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
@@ -23,30 +24,31 @@ public class UnitListView {
         return unitView;
     }
 
-    public void show(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, List<Unit> units) {
-        utilsView.addSectionTitleLabel(navigationPanel, "Units");
+    public void show(BreadCrumbBar<Object> breadCrumbBar, View view, List<Unit> units) {
+        utilsView.addSectionTitleLabel(view.getNavigationPanel().getDetailsPane(), "Units");
         for (Unit unit : units) {
-            showSidebar(breadCrumbBar, navigationPanel, unit);
+            showSidebar(breadCrumbBar, view, unit);
         }
     }
 
-    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Unit unit) {
-        Pane labelPane = utilsView.createHBox(navigationPanel);
-        showUnitIcon(labelPane, unit);
-        showUnitButton(breadCrumbBar, navigationPanel, labelPane, unit);
-        showUnitStatus(labelPane, unit);
+    private void showSidebar(BreadCrumbBar<Object> breadCrumbBar, View view, Unit unit) {
+        Pane horizontalEntryPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
+        showUnitIcon(horizontalEntryPane, unit);
+        // TODO: restore and fix
+//        showUnitButton(breadCrumbBar, view, horizontalEntryPane, unit);
+        showUnitStatus(horizontalEntryPane, unit);
     }
 
-    private void showUnitIcon(Pane labelPane, Unit unit) {
-        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.EMPTY, unit.getUnitType().getResourcePath(), unit.getUnitType().toString());
+    private void showUnitIcon(Pane horizontalEntryPane, Unit unit) {
+        utilsView.addIconToPane(horizontalEntryPane, IconType.SMALL, IconColor.EMPTY, unit.getUnitType().getResourcePath(), unit.getUnitType().toString());
     }
 
-    private void showUnitButton(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane labelPane, Unit unit) {
-        utilsView.addButtonToPane(labelPane, unit.toString(), (_ -> unitView.show(breadCrumbBar, navigationPanel, unit)));
+    private void showUnitButton(BreadCrumbBar<Object> breadCrumbBar, Pane navigationPanel, Pane horizontalEntryPane, Unit unit) {
+        utilsView.addButtonToPane(horizontalEntryPane, unit.toString(), (_ -> unitView.show(breadCrumbBar, navigationPanel, unit)));
     }
 
-    private void showUnitStatus(Pane labelPane, Unit unit) {
-        utilsView.addIconToPane(labelPane, IconType.SMALL, IconColor.EMPTY, unit.getUnitStatus().getResourcePath(), unit.getUnitStatus().toString());
+    private void showUnitStatus(Pane horizontalEntryPane, Unit unit) {
+        utilsView.addIconToPane(horizontalEntryPane, IconType.SMALL, IconColor.EMPTY, unit.getUnitStatus().getResourcePath(), unit.getUnitStatus().toString());
     }
 
 }
