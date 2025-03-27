@@ -25,4 +25,14 @@ public enum FireUnitType implements UnitType {
     return Objects.requireNonNullElse(resourcePath, "/images/blank.png");
   }
 
+  @Override
+  public FireUnitType[] getValues() {
+    return values();
+  }
+
+  @Override
+  public FireUnitType getPrimaryValue() {
+    return values()[0];
+  }
+
 }

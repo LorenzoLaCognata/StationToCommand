@@ -25,4 +25,14 @@ public enum PoliceVehicleType implements VehicleType {
     return Objects.requireNonNullElse(resourcePath, "/images/blank.png");
   }
 
+  @Override
+  public PoliceVehicleType[] getValues() {
+    return values();
+  }
+
+  @Override
+  public PoliceVehicleType getPrimaryValue() {
+    return values()[0];
+  }
+
 }

@@ -28,4 +28,14 @@ public enum FireVehicleType implements VehicleType {
     return Objects.requireNonNullElse(resourcePath, "/images/blank.png");
   }
 
+  @Override
+  public FireVehicleType[] getValues() {
+    return values();
+  }
+
+  @Override
+  public FireVehicleType getPrimaryValue() {
+    return values()[0];
+  }
+
 }

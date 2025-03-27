@@ -1,8 +1,10 @@
 package stationtocommand.model.vehicleStructure;
 
+import stationtocommand.model.utilsStructure.EnumWithResource;
+
 import java.util.Objects;
 
-public enum VehicleStatus {
+public enum VehicleStatus implements EnumWithResource {
     AVAILABLE("Available", "/images/status/availableStatus.png"),
     DISPATCHED("Dispatched", "/images/status/dispatchedStatus.png"),
     ON_SCENE("On Scene", "/images/status/onSceneStatus.png"),
@@ -24,6 +26,16 @@ public enum VehicleStatus {
 
     public String getResourcePath() {
         return Objects.requireNonNullElse(resourcePath, "/images/blank.png");
+    }
+
+    @Override
+    public VehicleStatus[] getValues() {
+        return values();
+    }
+
+    @Override
+    public VehicleStatus getPrimaryValue() {
+        return values()[0];
     }
 
 }

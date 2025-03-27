@@ -36,4 +36,14 @@ public enum PoliceRankType implements RankType {
     return Objects.requireNonNullElse(resourcePath, "/images/blank.png");
   }
 
+  @Override
+  public PoliceRankType[] getValues() {
+    return values();
+  }
+
+  @Override
+  public PoliceRankType getPrimaryValue() {
+    return values()[0];
+  }
+
 }

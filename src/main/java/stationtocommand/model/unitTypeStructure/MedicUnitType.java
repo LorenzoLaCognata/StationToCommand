@@ -24,4 +24,14 @@ public enum MedicUnitType implements UnitType {
     return Objects.requireNonNullElse(resourcePath, "/images/blank.png");
   }
 
+  @Override
+  public MedicUnitType[] getValues() {
+    return values();
+  }
+
+  @Override
+  public MedicUnitType getPrimaryValue() {
+    return values()[0];
+  }
+
 }

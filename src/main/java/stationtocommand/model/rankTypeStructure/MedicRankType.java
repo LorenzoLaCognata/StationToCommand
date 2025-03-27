@@ -36,4 +36,14 @@ public enum MedicRankType implements RankType {
     return Objects.requireNonNullElse(resourcePath, "/images/blank.png");
   }
 
+  @Override
+  public MedicRankType[] getValues() {
+    return values();
+  }
+
+  @Override
+  public MedicRankType getPrimaryValue() {
+    return values()[0];
+  }
+
 }

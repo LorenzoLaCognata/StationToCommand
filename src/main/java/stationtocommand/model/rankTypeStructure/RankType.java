@@ -1,8 +1,9 @@
 package stationtocommand.model.rankTypeStructure;
 
-public interface RankType {
+import stationtocommand.model.utilsStructure.EnumWithResource;
+
+public interface RankType extends EnumWithResource {
 
     int getLevel();
-    String getResourcePath();
 
 }

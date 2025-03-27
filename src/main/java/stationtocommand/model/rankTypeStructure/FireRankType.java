@@ -36,4 +36,14 @@ public enum FireRankType implements RankType {
     return Objects.requireNonNullElse(resourcePath, "/images/blank.png");
   }
 
+  @Override
+  public FireRankType[] getValues() {
+    return values();
+  }
+
+  @Override
+  public FireRankType getPrimaryValue() {
+    return values()[0];
+  }
+
 }

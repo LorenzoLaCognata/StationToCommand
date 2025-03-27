@@ -1,7 +1,7 @@
 package stationtocommand.model.vehicleStructure;
 
-public interface VehicleType {
+import stationtocommand.model.utilsStructure.EnumWithResource;
 
-    String getResourcePath();
+public interface VehicleType extends EnumWithResource {
 
 }

@@ -95,24 +95,26 @@ public class UtilsView {
     public void addBodyLabel(Pane pane, String text) {
         Label label = new Label(text);
         label.setStyle("""
-        -fx-text-fill: white;
-        -fx-font-size: 13px;
-        -fx-padding: 5px 10px;
-        -fx-background-color: rgba(60, 60, 60, 0.9);
-        -fx-background-radius: 4px;
-    """);
+            -fx-text-fill: white;
+            -fx-font-size: 13px;
+            -fx-padding: 5px 10px;
+            -fx-background-color: rgba(60, 60, 60, 0.9);
+            -fx-background-radius: 4px;
+            -fx-alignment: center;
+        """);
         pane.getChildren().add(label);
     }
 
     public void addBodySmallLabel(Pane pane, String text) {
         Label label = new Label(text);
         label.setStyle("""
-        -fx-text-fill: white;
-        -fx-font-size: 13px;
-        -fx-padding: 5px 10px;
-        -fx-background-color: rgba(60, 60, 60, 0.9);
-        -fx-background-radius: 4px;
-    """);
+            -fx-text-fill: white;
+            -fx-font-size: 13px;
+            -fx-padding: 5px 10px;
+            -fx-background-color: rgba(60, 60, 60, 0.9);
+            -fx-background-radius: 4px;
+            -fx-alignment: center;
+        """);
         label.setPrefWidth(100);
         label.setMaxWidth(100);
         label.setAlignment(Pos.CENTER_RIGHT);
@@ -255,9 +257,21 @@ public class UtilsView {
         return hBox;
     }
 
+    public HBox createHBox(Pane pane, Pos pos) {
+        HBox hBox = createHBox(pane);
+        hBox.setAlignment(pos);
+        return hBox;
+    }
+
     public VBox createVBox(Pane pane) {
-        VBox vBox = new VBox(10);
+        VBox vBox = new VBox(15);
         pane.getChildren().add(vBox);
+        return vBox;
+    }
+
+    public VBox createVBox(Pane pane, Pos pos) {
+        VBox vBox = createVBox(pane);
+        vBox.setAlignment(pos);
         return vBox;
     }
 

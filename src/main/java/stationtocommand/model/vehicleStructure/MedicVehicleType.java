@@ -24,4 +24,14 @@ public enum MedicVehicleType implements VehicleType {
     return Objects.requireNonNullElse(resourcePath, "/images/blank.png");
   }
 
+  @Override
+  public MedicVehicleType[] getValues() {
+    return values();
+  }
+
+  @Override
+  public MedicVehicleType getPrimaryValue() {
+    return values()[0];
+  }
+
 }

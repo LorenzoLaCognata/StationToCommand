@@ -27,4 +27,14 @@ public enum PoliceUnitType implements UnitType {
     return Objects.requireNonNullElse(resourcePath, "/images/blank.png");
   }
 
+  @Override
+  public PoliceUnitType[] getValues() {
+    return values();
+  }
+
+  @Override
+  public PoliceUnitType getPrimaryValue() {
+    return values()[0];
+  }
+
 }
