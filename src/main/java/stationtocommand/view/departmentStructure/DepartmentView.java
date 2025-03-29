@@ -1,5 +1,7 @@
 package stationtocommand.view.departmentStructure;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
@@ -50,15 +52,37 @@ public class DepartmentView {
         view.getWorldMap().clear();
         showDepartmentDetails(view, department);
 
-        Button stationsButton = utilsView.addButtonToHorizontalPane(view.getNavigationPanel().getButtonsPane(), "Stations", (_ -> showDepartmentStations(view, department)));
+        Pane buttonsPane = view.getNavigationPanel().getButtonsPane();
+
+        EventHandler<ActionEvent> stationsButtonHandler = event -> {
+            utilsView.setPaneButtonsSelectionStyle(event, buttonsPane);
+            showDepartmentStations(view, department);
+        };
+        Button stationsButton = utilsView.addButtonToHorizontalPane(buttonsPane, "Stations", stationsButtonHandler);
         stationsButton.setGraphic(utilsView.smallIcon(StationType.FIRE_STATION.getResourcePath(), ""));
-        Button unitsButton = utilsView.addButtonToHorizontalPane(view.getNavigationPanel().getButtonsPane(), "Units", (_ -> showDepartmentUnitCounts(view, department)));
+
+        EventHandler<ActionEvent> unitsButtonHandler = event -> {
+            utilsView.setPaneButtonsSelectionStyle(event, buttonsPane);
+            showDepartmentUnitCounts(view, department);
+        };
+        Button unitsButton = utilsView.addButtonToHorizontalPane(buttonsPane, "Units", unitsButtonHandler);
         unitsButton.setGraphic(utilsView.smallIcon(FireUnitType.FIRE_ENGINE.getResourcePath(), ""));
-        Button vehiclesButton = utilsView.addButtonToHorizontalPane(view.getNavigationPanel().getButtonsPane(), "Vehicles", (_ -> showDepartmentVehicleCounts(view, department)));
+
+        EventHandler<ActionEvent> vehiclesButtonHandler = event -> {
+            utilsView.setPaneButtonsSelectionStyle(event, buttonsPane);
+            showDepartmentVehicleCounts(view, department);
+        };
+        Button vehiclesButton = utilsView.addButtonToHorizontalPane(buttonsPane, "Vehicles", vehiclesButtonHandler);
         vehiclesButton.setGraphic(utilsView.smallIcon(PoliceVehicleType.SUV.getResourcePath(), ""));
-        Button respondersButton = utilsView.addButtonToHorizontalPane(view.getNavigationPanel().getButtonsPane(), "Responders", (_ -> showDepartmentResponderCounts(view, department)));
+
+        EventHandler<ActionEvent> respondersButtonHandler = event -> {
+            utilsView.setPaneButtonsSelectionStyle(event, buttonsPane);
+            showDepartmentResponderCounts(view, department);
+        };
+        Button respondersButton = utilsView.addButtonToHorizontalPane(buttonsPane, "Responders", respondersButtonHandler);
         respondersButton.setGraphic(utilsView.smallIcon(AppearanceType.MALE_01.getResourcePath(), ""));
 
+        utilsView.setButtonSelectedStyle(stationsButton);
         showDepartmentStations(view, department);
     }
 
@@ -96,7 +120,7 @@ public class DepartmentView {
                         )
                 );
 
-        utilsView.addSectionTitleLabel(view.getNavigationPanel().getDetailsPane(), "Unit Status");
+        utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
         Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
         addCount(horizontalDetailsPane, department, unitStatusCounts, unitTypeStatusCounts);
 
@@ -125,7 +149,7 @@ public class DepartmentView {
                         )
                 );
 
-        utilsView.addSectionTitleLabel(view.getNavigationPanel().getDetailsPane(), "Vehicle Status");
+        utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
         Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
         addCount(horizontalDetailsPane, department, vehicleStatusCounts, vehicleTypeStatusCounts);
 
@@ -154,7 +178,7 @@ public class DepartmentView {
                     )
                 );
 
-        utilsView.addSectionTitleLabel(view.getNavigationPanel().getDetailsPane(), "Responder Status");
+        utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
         Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
         addCount(horizontalDetailsPane, department, responderStatusCounts, responderRankStatusCounts);
 
@@ -179,6 +203,7 @@ public class DepartmentView {
         verticalDetailPane.getChildren().add(pieChart);
         addStatusPieChartSlices(pieChart, statusCounts, statusCounts.keySet().iterator().next());
 
+        utilsView.addSeparatorToPane(verticalDetailPane);
         Pane horizontalDetailsPane = utilsView.createHBox(verticalDetailPane);
         addTypeCounts(horizontalDetailsPane, typeStatusCounts, typeStatusCounts.keySet().iterator().next(), statusCounts.keySet().iterator().next());
 

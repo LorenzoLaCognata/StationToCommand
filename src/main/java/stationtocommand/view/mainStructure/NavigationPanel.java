@@ -1,6 +1,7 @@
 package stationtocommand.view.mainStructure;
 
 import javafx.geometry.Insets;
+import javafx.scene.control.Separator;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -18,8 +19,8 @@ public class NavigationPanel {
             -fx-background-color: rgba(20, 20, 20, 0.9);
             -fx-border-radius: 10;
         """);
-
-        container.getChildren().addAll(titlePane, buttonsPane, detailsPane);
+        Separator separator = UtilsView.createSeparator();
+        container.getChildren().addAll(titlePane, separator, buttonsPane, detailsPane);
     }
 
     public VBox getContainer() {

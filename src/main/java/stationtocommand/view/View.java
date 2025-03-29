@@ -94,6 +94,7 @@ public class View {
         this.utilsView = new UtilsView();
         this.organizationView = new OrganizationView(utilsView);
         this.dispatchView = new DispatchView(utilsView);
+        organizationButtonHandler("Organization", controller.getModel().getDepartmentManager().getDepartments());
     }
 
     public void generateHomePage(List<Department> departments, List<Mission> missions) {

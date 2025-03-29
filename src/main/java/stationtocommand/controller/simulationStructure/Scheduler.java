@@ -40,7 +40,7 @@ public class Scheduler {
                 ScheduledEvent event = eventQueue.getEventQueue().poll();
                 if (event != null) {eventProcessor.processEvent(event);}
             }
-        }, 0, 500, TimeUnit.MILLISECONDS);
+        }, 0, 750, TimeUnit.MILLISECONDS);
     }
 
     public void scheduleEvent(long eventTime, ScheduledEventType eventType, Object eventObject) {

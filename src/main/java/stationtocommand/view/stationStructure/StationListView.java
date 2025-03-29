@@ -32,7 +32,7 @@ public class StationListView {
     }
 
     public void show(View view, List<Station> stations) {
-        utilsView.addSectionTitleLabel(view.getNavigationPanel().getDetailsPane(), "Stations");
+        utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
         for (Station station : stations) {
             showSidebar(view, station);
             stationView.showMap(view, station);

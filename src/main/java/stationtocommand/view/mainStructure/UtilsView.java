@@ -7,10 +7,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
-import javafx.scene.control.TreeItem;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -257,6 +254,30 @@ public class UtilsView {
         return hBox;
     }
 
+    public static Separator createSeparator() {
+        Separator separator = new Separator();
+        separator.setStyle("""
+            -fx-border-color: #444444;
+            -fx-border-width: 1px;
+        """);
+        return separator;
+    }
+
+    public void addSeparatorToPane(Pane pane) {
+        Separator separator = createSeparator();
+        pane.getChildren().add(separator);
+    }
+
+    /*
+    public void addSeparatorBeforeNode(Pane pane, Node node) {
+        Separator separator = createSeparator();
+        int index = pane.getChildren().indexOf(node);
+        if (index > -1) {
+            pane.getChildren().add(index, separator);
+        }
+    }
+    */
+
     public HBox createHBox(Pane pane, Pos pos) {
         HBox hBox = createHBox(pane);
         hBox.setAlignment(pos);
@@ -290,6 +311,31 @@ public class UtilsView {
             default -> node = smallIcon(imagePath, tooltipText);
         }
         pane.getChildren().add(node);
+    }
+
+    public void setButtonSelectedStyle(Button button) {
+        button.setStyle("""
+            -fx-background-color: #5a78a0;
+            -fx-text-fill: #333;
+        """);
+    }
+
+    public void setButtonUnselectedStyle(Button button) {
+        button.setStyle("""
+            -fx-background-color: #e0e0e0;
+            -fx-text-fill: #333;
+        """);
+    }
+
+    public void setPaneButtonsSelectionStyle(ActionEvent event, Pane buttonsPane) {
+        Button clickedButton = (Button) event.getSource();
+
+        buttonsPane.getChildren().stream()
+                .filter(node -> node instanceof Button)
+                .map(node -> (Button) node)
+                .forEach(this::setButtonUnselectedStyle);
+
+        setButtonSelectedStyle(clickedButton);
     }
 
     public Button addButtonToPane(Pane pane, String string, EventHandler<ActionEvent> eventHandler) {
