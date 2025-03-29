@@ -24,7 +24,6 @@ public class VehicleListView {
     }
 
     public void show(View view, List<Vehicle> vehicles) {
-        utilsView.addSectionTitleLabel(view.getNavigationPanel().getDetailsPane(), "Vehicles");
         for (Vehicle vehicle : vehicles) {
             showSidebar(view, vehicle);
         }

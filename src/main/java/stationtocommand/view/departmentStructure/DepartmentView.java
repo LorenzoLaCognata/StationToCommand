@@ -2,12 +2,8 @@ package stationtocommand.view.departmentStructure;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
-import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
 import stationtocommand.model.departmentStructure.AppearanceType;
 import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.model.rankTypeStructure.RankType;
@@ -18,7 +14,6 @@ import stationtocommand.model.unitStructure.Unit;
 import stationtocommand.model.unitStructure.UnitStatus;
 import stationtocommand.model.unitTypeStructure.FireUnitType;
 import stationtocommand.model.unitTypeStructure.UnitType;
-import stationtocommand.model.utilsStructure.EnumWithResource;
 import stationtocommand.model.vehicleStructure.PoliceVehicleType;
 import stationtocommand.model.vehicleStructure.Vehicle;
 import stationtocommand.model.vehicleStructure.VehicleStatus;
@@ -29,7 +24,6 @@ import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
 import stationtocommand.view.stationStructure.StationListView;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -125,7 +119,7 @@ public class DepartmentView {
 
         utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
         Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
-        addCount(horizontalDetailsPane, department, unitStatusCounts, unitTypeStatusCounts);
+        stationListView.getStationView().addCount(horizontalDetailsPane, unitStatusCounts, unitTypeStatusCounts);
 
         utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
 
@@ -161,7 +155,7 @@ public class DepartmentView {
 
         utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
         Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
-        addCount(horizontalDetailsPane, department, vehicleStatusCounts, vehicleTypeStatusCounts);
+        stationListView.getStationView().addCount(horizontalDetailsPane, vehicleStatusCounts, vehicleTypeStatusCounts);
 
         utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
 
@@ -197,7 +191,7 @@ public class DepartmentView {
 
         utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
         Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
-        addCount(horizontalDetailsPane, department, responderStatusCounts, responderRankStatusCounts);
+        stationListView.getStationView().addCount(horizontalDetailsPane, responderStatusCounts, responderRankStatusCounts);
 
         utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
 
@@ -206,66 +200,6 @@ public class DepartmentView {
             .toList();
         stationListView.getStationView().getResponderListView().show(view, responders);
 
-    }
-
-    private <T extends EnumWithResource, S extends EnumWithResource> void addCount(Pane pane, Department department, Map<S, Long> statusCounts, Map<T, Map<S, Long>> typeStatusCounts) {
-        Pane verticalDetailPane = utilsView.createVBox(pane);
-
-        PieChart pieChart = new PieChart();
-        pieChart.setAnimated(false);
-        /*+
-        String color = switch (i) {
-            case 0 -> "#66bb6a";
-            case 1 -> "#ff7043";
-            case 2 -> "#c62828";
-            case 3 -> "#00796b";
-            case 4 -> "#424242";
-            default -> "black";
-        };
-        */
-
-        pieChart.setMinHeight(400);
-        pieChart.setPrefHeight(400);
-        verticalDetailPane.getChildren().add(pieChart);
-        addStatusPieChartSlices(pieChart, statusCounts, statusCounts.keySet().iterator().next());
-
-        utilsView.addSeparatorToPane(verticalDetailPane);
-        Pane horizontalDetailsPane = utilsView.createHBox(verticalDetailPane);
-        addTypeCounts(horizontalDetailsPane, typeStatusCounts, typeStatusCounts.keySet().iterator().next(), statusCounts.keySet().iterator().next());
-
-    }
-
-    @SuppressWarnings("unchecked")
-    private <S extends EnumWithResource> void addStatusPieChartSlices(PieChart pieChart, Map<S, Long> statusCounts, S sampleStatusClass) {
-        for (EnumWithResource status : sampleStatusClass.getValues()) {
-            addStatusPieChartSlice(pieChart, statusCounts, (S) status);
-        }
-    }
-
-    private <S extends EnumWithResource> void addStatusPieChartSlice(PieChart pieChart, Map<S, Long> counts, S status) {
-        int value = counts.getOrDefault(status, 0L).intValue();
-        PieChart.Data slice = new PieChart.Data(status.toString(), value);
-        pieChart.getData().add(slice);
-    }
-
-    @SuppressWarnings("unchecked")
-    private <T extends EnumWithResource, S extends EnumWithResource> void addTypeCounts(Pane pane, Map<T, Map<S, Long>> counts, T sampleTypeClass, S sampleStatusClass)  {
-        for (EnumWithResource type : sampleTypeClass.getValues()) {
-            addTypeCount(pane, counts, (T) type, (S) sampleStatusClass.getPrimaryValue());
-        }
-    }
-
-    private <T extends EnumWithResource, S extends EnumWithResource> void addTypeCount(Pane pane, Map<T, Map<S, Long>> counts, T type, S status) {
-        Pane verticalDetailsPane = utilsView.createVBox(pane, Pos.CENTER);
-        Map<S, Long> statusCounts = counts.getOrDefault(type, Collections.emptyMap());
-        utilsView.addIconToPane(verticalDetailsPane, IconType.SMALL, IconColor.EMPTY, type.getResourcePath(), type.toString());
-        long total = statusCounts.values().stream().mapToLong(Long::longValue).sum();
-        String count = "";
-        if (total > 0) {
-            long selectedStatus = statusCounts.getOrDefault(status, 0L);
-            count = selectedStatus + " / " + total;
-        }
-        utilsView.addBodySmallLabel(verticalDetailsPane, count);
     }
 
 }
