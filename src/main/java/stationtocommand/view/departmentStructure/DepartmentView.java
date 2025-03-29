@@ -6,6 +6,8 @@ import javafx.geometry.Pos;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import stationtocommand.model.departmentStructure.AppearanceType;
 import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.model.rankTypeStructure.RankType;
@@ -222,6 +224,8 @@ public class DepartmentView {
         };
         */
 
+        pieChart.setMinHeight(400);
+        pieChart.setPrefHeight(400);
         verticalDetailPane.getChildren().add(pieChart);
         addStatusPieChartSlices(pieChart, statusCounts, statusCounts.keySet().iterator().next());
 
