@@ -25,12 +25,8 @@ public class ResponderListView {
 
     public void show(View view, List<Responder> responders) {
         utilsView.addSectionTitleLabel(view.getNavigationPanel().getDetailsPane(), "Responders");
-
-        // TODO: review different approach to avoid showing too many responders
-        if (responders.size()<20) {
-            for (Responder responder : responders) {
-                showSidebar(view, responder);
-            }
+        for (Responder responder : responders) {
+            showSidebar(view, responder);
         }
     }
 
