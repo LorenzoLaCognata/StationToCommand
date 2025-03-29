@@ -24,7 +24,6 @@ public class ResponderListView {
     }
 
     public void show(View view, List<Responder> responders) {
-        utilsView.addSectionTitleLabel(view.getNavigationPanel().getDetailsPane(), "Responders");
         for (Responder responder : responders) {
             showSidebar(view, responder);
         }

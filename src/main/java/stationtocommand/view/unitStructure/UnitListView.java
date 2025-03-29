@@ -24,7 +24,6 @@ public class UnitListView {
     }
 
     public void show(View view, List<Unit> units) {
-        utilsView.addSectionTitleLabel(view.getNavigationPanel().getDetailsPane(), "Units");
         for (Unit unit : units) {
             showSidebar(view, unit);
         }
