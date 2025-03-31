@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -16,11 +17,10 @@ import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.model.locationStructure.Location;
 import stationtocommand.model.locationStructure.LocationManager;
+import stationtocommand.model.utilsStructure.EnumWithResource;
 
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class UtilsView {
 
@@ -350,6 +350,66 @@ public class UtilsView {
         HBox.setHgrow(button, Priority.ALWAYS);
         button.setMaxWidth(Double.MAX_VALUE);
         return button;
+    }
+
+    public  <T extends EnumWithResource, S extends EnumWithResource> void addCount(Pane pane, Map<S, Long> statusCounts, Map<T, Map<S, Long>> typeStatusCounts) {
+        Pane verticalDetailPane = createVBox(pane);
+
+        PieChart pieChart = new PieChart();
+        pieChart.setAnimated(false);
+        /*+
+        String color = switch (i) {
+            case 0 -> "#66bb6a";
+            case 1 -> "#ff7043";
+            case 2 -> "#c62828";
+            case 3 -> "#00796b";
+            case 4 -> "#424242";
+            default -> "black";
+        };
+        */
+
+        pieChart.setMinHeight(400);
+        pieChart.setPrefHeight(400);
+        verticalDetailPane.getChildren().add(pieChart);
+        addStatusPieChartSlices(pieChart, statusCounts, statusCounts.keySet().iterator().next());
+
+        addSeparatorToPane(verticalDetailPane);
+        Pane horizontalDetailsPane = createHBox(verticalDetailPane);
+        addTypeCounts(horizontalDetailsPane, typeStatusCounts, typeStatusCounts.keySet().iterator().next(), statusCounts.keySet().iterator().next());
+
+    }
+
+    @SuppressWarnings("unchecked")
+    public <S extends EnumWithResource> void addStatusPieChartSlices(PieChart pieChart, Map<S, Long> statusCounts, S sampleStatusClass) {
+        for (EnumWithResource status : sampleStatusClass.getValues()) {
+            addStatusPieChartSlice(pieChart, statusCounts, (S) status);
+        }
+    }
+
+    public <S extends EnumWithResource> void addStatusPieChartSlice(PieChart pieChart, Map<S, Long> counts, S status) {
+        int value = counts.getOrDefault(status, 0L).intValue();
+        PieChart.Data slice = new PieChart.Data(status.toString(), value);
+        pieChart.getData().add(slice);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T extends EnumWithResource, S extends EnumWithResource> void addTypeCounts(Pane pane, Map<T, Map<S, Long>> counts, T sampleTypeClass, S sampleStatusClass)  {
+        for (EnumWithResource type : sampleTypeClass.getValues()) {
+            addTypeCount(pane, counts, (T) type, (S) sampleStatusClass.getPrimaryValue());
+        }
+    }
+
+    public <T extends EnumWithResource, S extends EnumWithResource> void addTypeCount(Pane pane, Map<T, Map<S, Long>> counts, T type, S status) {
+        Pane verticalDetailsPane = createVBox(pane, Pos.CENTER);
+        Map<S, Long> statusCounts = counts.getOrDefault(type, Collections.emptyMap());
+        addIconToPane(verticalDetailsPane, IconType.SMALL, IconColor.EMPTY, type.getResourcePath(), type.toString());
+        long total = statusCounts.values().stream().mapToLong(Long::longValue).sum();
+        String count = "";
+        if (total > 0) {
+            long selectedStatus = statusCounts.getOrDefault(status, 0L);
+            count = selectedStatus + " / " + total;
+        }
+        addBodySmallLabel(verticalDetailsPane, count);
     }
 
 }

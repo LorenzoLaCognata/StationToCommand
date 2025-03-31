@@ -119,7 +119,7 @@ public class DepartmentView {
 
         utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
         Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
-        stationListView.getStationView().addCount(horizontalDetailsPane, unitStatusCounts, unitTypeStatusCounts);
+        utilsView.addCount(horizontalDetailsPane, unitStatusCounts, unitTypeStatusCounts);
 
         utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
 
@@ -155,7 +155,7 @@ public class DepartmentView {
 
         utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
         Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
-        stationListView.getStationView().addCount(horizontalDetailsPane, vehicleStatusCounts, vehicleTypeStatusCounts);
+        utilsView.addCount(horizontalDetailsPane, vehicleStatusCounts, vehicleTypeStatusCounts);
 
         utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
 
@@ -191,7 +191,7 @@ public class DepartmentView {
 
         utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
         Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
-        stationListView.getStationView().addCount(horizontalDetailsPane, responderStatusCounts, responderRankStatusCounts);
+        utilsView.addCount(horizontalDetailsPane, responderStatusCounts, responderRankStatusCounts);
 
         utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
 

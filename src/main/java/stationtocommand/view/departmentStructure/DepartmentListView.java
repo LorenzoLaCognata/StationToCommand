@@ -26,12 +26,15 @@ public class DepartmentListView {
     }
 
     public void show(View view, List<Department> departments) {
-        utilsView.addSectionTitleLabel(view.getNavigationPanel().getTitlePane(), "Departments");
         for (Department department : departments) {
             showSidebar(view, department);
-            for (Station station : department.getStations()) {
-                departmentView.getStationListView().getStationView().showMap(view, station);
-            }
+            showMap(view, department);
+        }
+    }
+
+    private void showMap(View view, Department department) {
+        for (Station station : department.getStations()) {
+            departmentView.getStationListView().getStationView().showMap(view, station);
         }
     }
 
