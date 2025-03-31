@@ -35,8 +35,12 @@ public class StationListView {
         utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
         for (Station station : stations) {
             showSidebar(view, station);
-            stationView.showMap(view, station);
+            showMap(view, station);
         }
+    }
+
+    private void showMap(View view, Station station) {
+        stationView.showMap(view, station);
     }
 
     private void showSidebar(View view, Station station) {
