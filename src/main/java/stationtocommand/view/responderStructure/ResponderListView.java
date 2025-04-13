@@ -37,7 +37,7 @@ public class ResponderListView {
     }
 
     private void showResponderIcon(Pane pane, Responder responder) {
-        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, responder.getAppearanceType().getResourcePath(), "");
+        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, responder.getAppearanceType());
     }
 
     private void showResponderButton(View view, Pane pane, Responder responder) {
@@ -45,7 +45,7 @@ public class ResponderListView {
     }
 
     private void showResponderStatus(Pane pane, Responder responder) {
-        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, responder.getResponderStatus().getResourcePath(), responder.getResponderStatus().toString());
+        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, responder.getResponderStatus());
     }
 
 }

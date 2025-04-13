@@ -23,7 +23,7 @@ public class MissionStationListView {
     }
 
     public void show(View view, MissionDepartmentLink missionDepartmentLink) {
-        utilsView.addSectionTitleLabel(view.getNavigationPanel().getDetailsPane(), "Stations");
+        utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
         for (MissionStationLink missionStationLink : missionDepartmentLink.getStationLinks()) {
             showSidebar(view, missionStationLink);
         }
@@ -36,7 +36,7 @@ public class MissionStationListView {
     }
 
     private void showMissionStationIcon(Pane pane, MissionStationLink missionStationLink) {
-        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, missionStationLink.getStation().getStationType().getResourcePath(), "");
+        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, missionStationLink.getStation().getStationType());
     }
 
     private void showMissionStationButton(View view, Pane pane, MissionStationLink missionStationLink) {

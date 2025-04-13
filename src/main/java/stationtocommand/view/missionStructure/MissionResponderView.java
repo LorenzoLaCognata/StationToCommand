@@ -4,7 +4,6 @@ import javafx.geometry.Point2D;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import stationtocommand.model.missionLinkStructure.MissionResponderLink;
-import stationtocommand.model.missionStructure.MissionType;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
@@ -32,10 +31,13 @@ public class MissionResponderView {
     }
 
     private void showMissionResponderDetails(View view, MissionResponderLink missionResponderLink) {
-        Pane horizontalTitlePane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
-        MissionType missionType = missionResponderLink.getMission().getMissionType();
-        utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, missionType.getResourcePath(), missionType.toString());
+        Pane titleAndSubtitlePane = utilsView.createVBox(view.getNavigationPanel().getTitlePane());
+        Pane horizontalTitlePane = utilsView.createHBox(titleAndSubtitlePane);
+        utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, missionResponderLink.getMission().getMissionType());
         utilsView.addMainTitleLabel(horizontalTitlePane, missionResponderLink.getMission().toString());
+        Pane horizontalSubtitlePane = utilsView.createHBox(titleAndSubtitlePane);
+        utilsView.addIconToPane(horizontalSubtitlePane, IconType.SMALL, IconColor.EMPTY, missionResponderLink.getResponder().getAppearanceType());
+        utilsView.addMainSubtitleLabel(horizontalSubtitlePane, missionResponderLink.getResponder().toString());
     }
 
     public void showMap(View view, MissionResponderLink missionResponderLink) {

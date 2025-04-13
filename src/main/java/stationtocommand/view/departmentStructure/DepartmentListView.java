@@ -45,7 +45,7 @@ public class DepartmentListView {
     }
 
     private void showDepartmentIcon(Pane pane, Department department) {
-        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, department.getDepartmentType().getResourcePath(), "");
+        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, department.getDepartmentType());
     }
 
     private void showDepartmentButton(View view, Pane pane, Department department) {

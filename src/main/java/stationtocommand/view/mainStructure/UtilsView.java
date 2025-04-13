@@ -72,6 +72,18 @@ public class UtilsView {
         pane.getChildren().add(label);
     }
 
+    public void addMainSubtitleLabel(Pane pane, String text) {
+        Label label = new Label(text);
+        label.setStyle("""
+            -fx-text-fill: white;
+            -fx-font-size: 14px;
+            -fx-font-weight: bold;
+            -fx-padding: 10px 15px 10px 30px;
+            -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 5, 0.3, 0, 0);
+        """);
+        pane.getChildren().add(label);
+    }
+
     public void addSectionTitleLabel(Pane pane, String text) {
         Label label = new Label(text);
         label.setStyle("""
@@ -296,8 +308,10 @@ public class UtilsView {
         return vBox;
     }
 
-    public void addIconToPane(Pane pane, IconType iconType, IconColor iconColor, String imagePath, String tooltipText) {
+    public <T extends EnumWithResource> void addIconToPane(Pane pane, IconType iconType, IconColor iconColor, T enumElement) {
         Node node;
+        String imagePath = enumElement.getResourcePath();
+        String tooltipText = enumElement.toString();
 
         switch (iconType) {
             case IconType.SMALL -> node = smallIcon(imagePath, tooltipText);
@@ -352,9 +366,25 @@ public class UtilsView {
         return button;
     }
 
-    public  <T extends EnumWithResource, S extends EnumWithResource> void addCount(Pane pane, Map<S, Long> statusCounts, Map<T, Map<S, Long>> typeStatusCounts) {
+    public  <T extends EnumWithResource, S extends EnumWithResource> void addAvailabilityCount(Pane pane, Map<S, Long> statusCounts, Map<T, Map<S, Long>> typeStatusCounts) {
         Pane verticalDetailPane = createVBox(pane);
+        addPieChart(statusCounts, verticalDetailPane);
+        addSeparatorToPane(verticalDetailPane);
+        Pane horizontalDetailsPane = createHBox(verticalDetailPane);
+        addAvailabilityTypeCounts(horizontalDetailsPane, typeStatusCounts, typeStatusCounts.keySet().iterator().next(), statusCounts.keySet().iterator().next());
 
+    }
+
+    public  <T extends EnumWithResource, S extends EnumWithResource> void addTotalCount(Pane pane, Map<S, Long> statusCounts, Map<T, Map<S, Long>> typeStatusCounts) {
+        Pane verticalDetailPane = createVBox(pane);
+        addPieChart(statusCounts, verticalDetailPane);
+        addSeparatorToPane(verticalDetailPane);
+        Pane horizontalDetailsPane = createHBox(verticalDetailPane);
+        addTotalTypeCounts(horizontalDetailsPane, typeStatusCounts, typeStatusCounts.keySet().iterator().next());
+
+    }
+
+    private <S extends EnumWithResource> void addPieChart(Map<S, Long> statusCounts, Pane verticalDetailPane) {
         PieChart pieChart = new PieChart();
         pieChart.setAnimated(false);
         /*+
@@ -372,11 +402,6 @@ public class UtilsView {
         pieChart.setPrefHeight(400);
         verticalDetailPane.getChildren().add(pieChart);
         addStatusPieChartSlices(pieChart, statusCounts, statusCounts.keySet().iterator().next());
-
-        addSeparatorToPane(verticalDetailPane);
-        Pane horizontalDetailsPane = createHBox(verticalDetailPane);
-        addTypeCounts(horizontalDetailsPane, typeStatusCounts, typeStatusCounts.keySet().iterator().next(), statusCounts.keySet().iterator().next());
-
     }
 
     @SuppressWarnings("unchecked")
@@ -393,16 +418,16 @@ public class UtilsView {
     }
 
     @SuppressWarnings("unchecked")
-    public <T extends EnumWithResource, S extends EnumWithResource> void addTypeCounts(Pane pane, Map<T, Map<S, Long>> counts, T sampleTypeClass, S sampleStatusClass)  {
+    public <T extends EnumWithResource, S extends EnumWithResource> void addAvailabilityTypeCounts(Pane pane, Map<T, Map<S, Long>> counts, T sampleTypeClass, S sampleStatusClass)  {
         for (EnumWithResource type : sampleTypeClass.getValues()) {
-            addTypeCount(pane, counts, (T) type, (S) sampleStatusClass.getPrimaryValue());
+            addAvailabilityTypeCount(pane, counts, (T) type, (S) sampleStatusClass.getPrimaryValue());
         }
     }
 
-    public <T extends EnumWithResource, S extends EnumWithResource> void addTypeCount(Pane pane, Map<T, Map<S, Long>> counts, T type, S status) {
+    public <T extends EnumWithResource, S extends EnumWithResource> void addAvailabilityTypeCount(Pane pane, Map<T, Map<S, Long>> counts, T type, S status) {
         Pane verticalDetailsPane = createVBox(pane, Pos.CENTER);
         Map<S, Long> statusCounts = counts.getOrDefault(type, Collections.emptyMap());
-        addIconToPane(verticalDetailsPane, IconType.SMALL, IconColor.EMPTY, type.getResourcePath(), type.toString());
+        addIconToPane(verticalDetailsPane, IconType.SMALL, IconColor.EMPTY, type);
         long total = statusCounts.values().stream().mapToLong(Long::longValue).sum();
         String count = "";
         if (total > 0) {
@@ -410,6 +435,21 @@ public class UtilsView {
             count = selectedStatus + " / " + total;
         }
         addBodySmallLabel(verticalDetailsPane, count);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T extends EnumWithResource, S extends EnumWithResource> void addTotalTypeCounts(Pane pane, Map<T, Map<S, Long>> counts, T sampleTypeClass)  {
+        for (EnumWithResource type : sampleTypeClass.getValues()) {
+            addTotalTypeCount(pane, counts, (T) type);
+        }
+    }
+
+    public <T extends EnumWithResource, S extends EnumWithResource> void addTotalTypeCount(Pane pane, Map<T, Map<S, Long>> counts, T type) {
+        Pane verticalDetailsPane = createVBox(pane, Pos.CENTER);
+        Map<S, Long> statusCounts = counts.getOrDefault(type, Collections.emptyMap());
+        addIconToPane(verticalDetailsPane, IconType.SMALL, IconColor.EMPTY, type);
+        long total = statusCounts.values().stream().mapToLong(Long::longValue).sum();
+        addBodySmallLabel(verticalDetailsPane, String.valueOf(total));
     }
 
 }

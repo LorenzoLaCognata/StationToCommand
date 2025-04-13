@@ -51,7 +51,7 @@ public class StationListView {
     }
 
     private void showStationIcon(Pane pane, Station station) {
-        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, station.getStationType().getResourcePath(), "");
+        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, station.getStationType());
     }
 
     private void showStationButton(View view, Pane pane, Station station) {
@@ -70,11 +70,11 @@ public class StationListView {
 
         for (UnitType unitType : unitTypes) {
             if (station.getUnitManager().getUnits(unitType).isEmpty()) {
-                utilsView.addIconToPane(pane, IconType.SMALL_FADED, IconColor.EMPTY, unitType.getResourcePath(), unitType.toString());
+                utilsView.addIconToPane(pane, IconType.SMALL_FADED, IconColor.EMPTY, unitType);
 
             }
             else {
-                utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, unitType.getResourcePath(), unitType.toString());
+                utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, unitType);
 
             }
         }

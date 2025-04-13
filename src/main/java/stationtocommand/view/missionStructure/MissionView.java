@@ -37,17 +37,17 @@ public class MissionView {
         missionDepartmentListView.show(view, mission);
     }
 
+    private void showMissionDetails(View view, Mission mission) {
+        Pane horizontalTitlePane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
+        utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, mission.getMissionType());
+        utilsView.addMainTitleLabel(horizontalTitlePane, mission.toString());
+    }
+
     public void showMap(View view, Mission mission) {
         Point2D point = utilsView.locationToPoint(mission.getLocation(), IconType.SMALL);
         ImageView imageView = utilsView.smallIcon(mission.getMissionType().getResourcePath(), mission.getMissionType().toString());
         Pane mapLayer = view.getWorldMap().getMapElementsLayer();
         utilsView.addNodeToPane(mapLayer, imageView, point);
-    }
-
-    private void showMissionDetails(View view, Mission mission) {
-        Pane horizontalTitlePane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
-        utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, mission.getMissionType().getResourcePath(), mission.getMissionType().toString());
-        utilsView.addMainTitleLabel(horizontalTitlePane, mission.toString());
     }
 
 }

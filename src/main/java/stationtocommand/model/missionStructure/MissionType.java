@@ -1,8 +1,10 @@
 package stationtocommand.model.missionStructure;
 
+import stationtocommand.model.utilsStructure.EnumWithResource;
+
 import java.util.Objects;
 
-public enum MissionType {
+public enum MissionType implements EnumWithResource {
   // TODO: replace with final probability
   STRUCTURE_FIRE("Structure Fire", "/images/mission/structureFire.png", 1.0f),
   VEHICLE_FIRE("Vehicle Fire", "/images/mission/vehicleFire.png", 0.0f),
@@ -39,6 +41,16 @@ public enum MissionType {
 
   public String getResourcePath() {
     return Objects.requireNonNullElse(resourcePath, "/images/blank.png");
+  }
+
+  @Override
+  public MissionType[] getValues() {
+    return values();
+  }
+
+  @Override
+  public MissionType getPrimaryValue() {
+    return values()[0];
   }
 
 }
