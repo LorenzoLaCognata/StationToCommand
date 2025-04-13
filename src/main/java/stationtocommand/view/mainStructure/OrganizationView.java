@@ -29,7 +29,7 @@ public class OrganizationView {
     private void showOrganizationDetails(View view, List<Department> departments) {
         Pane horizontalTitlePane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
         for (Department department : departments) {
-            utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, department.getDepartmentType().getResourcePath(), "");
+            utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, department.getDepartmentType());
         }
         utilsView.addMainTitleLabel(horizontalTitlePane, "Organization");
     }

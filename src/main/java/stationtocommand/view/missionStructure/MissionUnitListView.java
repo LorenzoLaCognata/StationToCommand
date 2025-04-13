@@ -1,12 +1,13 @@
 package stationtocommand.view.missionStructure;
 
 import javafx.scene.layout.Pane;
-import stationtocommand.model.missionLinkStructure.MissionStationLink;
 import stationtocommand.model.missionLinkStructure.MissionUnitLink;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
+
+import java.util.List;
 
 public class MissionUnitListView {
 
@@ -22,9 +23,8 @@ public class MissionUnitListView {
         return missionUnitView;
     }
 
-    public void show(View view, MissionStationLink missionStationLink) {
-        utilsView.addSectionTitleLabel(view.getNavigationPanel().getDetailsPane(), "Units");
-        for (MissionUnitLink missionUnitLink : missionStationLink.getUnitLinks()) {
+    public void show(View view, List<MissionUnitLink> missionUnitLinks) {
+        for (MissionUnitLink missionUnitLink : missionUnitLinks) {
             showSidebar(view, missionUnitLink);
         }
     }
@@ -36,7 +36,7 @@ public class MissionUnitListView {
     }
 
     private void showMissionUnitIcon(Pane pane, MissionUnitLink missionUnitLink) {
-        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, missionUnitLink.getUnit().getUnitType().getResourcePath(), missionUnitLink.getUnit().getUnitType().toString());
+        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, missionUnitLink.getUnit().getUnitType());
     }
 
     private void showMissionUnitButton(View view, Pane pane, MissionUnitLink missionUnitLink) {

@@ -1,8 +1,10 @@
 package stationtocommand.model.stationStructure;
 
+import stationtocommand.model.utilsStructure.EnumWithResource;
+
 import java.util.Objects;
 
-public enum StationType {
+public enum StationType implements EnumWithResource {
 
   FIRE_STATION("Fire", "/images/station/fireStation.png"),
   POLICE_STATION("Police","/images/station/policeStation.png"),
@@ -23,6 +25,16 @@ public enum StationType {
 
   public String getResourcePath() {
     return Objects.requireNonNullElse(resourcePath, "/images/blank.png");
+  }
+
+  @Override
+  public StationType[] getValues() {
+    return values();
+  }
+
+  @Override
+  public StationType getPrimaryValue() {
+    return values()[0];
   }
 
 }

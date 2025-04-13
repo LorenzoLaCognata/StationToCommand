@@ -1,8 +1,10 @@
 package stationtocommand.model.departmentStructure;
 
+import stationtocommand.model.utilsStructure.EnumWithResource;
+
 import java.util.Objects;
 
-public enum AppearanceType {
+public enum AppearanceType implements EnumWithResource {
 
   MALE_01("Male 01", "/images/responder/male01.png"),
   MALE_02("Male 01", "/images/responder/male02.png"),
@@ -40,6 +42,16 @@ public enum AppearanceType {
 
   public String getResourcePath() {
     return Objects.requireNonNullElse(resourcePath, "/images/blank.png");
+  }
+
+  @Override
+  public AppearanceType[] getValues() {
+    return values();
+  }
+
+  @Override
+  public AppearanceType getPrimaryValue() {
+    return values()[0];
   }
 
 }

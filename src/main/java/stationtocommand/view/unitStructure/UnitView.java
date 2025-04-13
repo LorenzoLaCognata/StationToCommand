@@ -75,7 +75,7 @@ public class UnitView {
 
     private void showUnitDetails(View view, Unit unit) {
         Pane horizontalTitlePane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
-        utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, unit.getUnitType().getResourcePath(), unit.getUnitType().toString());
+        utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, unit.getUnitType());
         utilsView.addMainTitleLabel(horizontalTitlePane, unit.toString());
     }
 
@@ -100,7 +100,7 @@ public class UnitView {
 
         utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
         Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
-        utilsView.addCount(horizontalDetailsPane, vehicleStatusCounts, vehicleTypeStatusCounts);
+        utilsView.addAvailabilityCount(horizontalDetailsPane, vehicleStatusCounts, vehicleTypeStatusCounts);
 
         utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
         vehicleListView.show(view, unit.getVehicles());
@@ -128,7 +128,7 @@ public class UnitView {
 
         utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
         Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
-        utilsView.addCount(horizontalDetailsPane, responderStatusCounts, responderRankStatusCounts);
+        utilsView.addAvailabilityCount(horizontalDetailsPane, responderStatusCounts, responderRankStatusCounts);
 
         utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
         responderListView.show(view, unit.getResponders());

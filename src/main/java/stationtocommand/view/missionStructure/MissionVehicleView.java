@@ -28,9 +28,13 @@ public class MissionVehicleView {
     }
 
     private void showMissionVehicleDetails(View view, MissionVehicleLink missionVehicleLink) {
-        Pane horizontalTitlePane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
-        utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, missionVehicleLink.getMission().getMissionType().getResourcePath(), missionVehicleLink.getMission().getMissionType().toString());
+        Pane titleAndSubtitlePane = utilsView.createVBox(view.getNavigationPanel().getTitlePane());
+        Pane horizontalTitlePane = utilsView.createHBox(titleAndSubtitlePane);
+        utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, missionVehicleLink.getMission().getMissionType());
         utilsView.addMainTitleLabel(horizontalTitlePane, missionVehicleLink.getMission().toString());
+        Pane horizontalSubtitlePane = utilsView.createHBox(titleAndSubtitlePane);
+        utilsView.addIconToPane(horizontalSubtitlePane, IconType.SMALL, IconColor.EMPTY, missionVehicleLink.getVehicle().getVehicleType());
+        utilsView.addMainSubtitleLabel(horizontalSubtitlePane, missionVehicleLink.getVehicle().toString());
     }
 
 }

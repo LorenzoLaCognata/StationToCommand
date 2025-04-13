@@ -27,7 +27,6 @@ public class MissionListView {
     }
 
     public void show(View view, List<Mission> missions) {
-        utilsView.addSectionTitleLabel(view.getNavigationPanel().getTitlePane(), "Missions");
         for (Mission mission : missions) {
             showSidebar(view, mission);
             missionView.showMap(view, mission);
@@ -42,7 +41,7 @@ public class MissionListView {
     }
 
     private void showMissionIcon(Pane pane, Mission mission) {
-        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, mission.getMissionType().getResourcePath(), mission.getMissionType().toString());
+        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, mission.getMissionType());
     }
 
     private void showMissionButton(View view, Pane pane, Mission mission) {
@@ -52,7 +51,7 @@ public class MissionListView {
     private void showMissionDepartments(Pane pane, Mission mission) {
         if (!mission.getDepartmentLinks().isEmpty()) {
             for (MissionDepartmentLink missionDepartmentLink : mission.getDepartmentLinks()) {
-                utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, missionDepartmentLink.getDepartment().getDepartmentType().getResourcePath(), missionDepartmentLink.getDepartment().getDepartmentType().toString());
+                utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, missionDepartmentLink.getDepartment().getDepartmentType());
 
                 for (MissionStationLink missionStationLink : missionDepartmentLink.getStationLinks()) {
                     if (!missionStationLink.getUnitLinks().isEmpty()) {

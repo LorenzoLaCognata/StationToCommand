@@ -1,13 +1,13 @@
 package stationtocommand.view.missionStructure;
 
 import javafx.scene.layout.Pane;
-import stationtocommand.model.missionLinkStructure.MissionStationLink;
-import stationtocommand.model.missionLinkStructure.MissionUnitLink;
 import stationtocommand.model.missionLinkStructure.MissionVehicleLink;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
+
+import java.util.List;
 
 public class MissionVehicleListView {
 
@@ -23,18 +23,8 @@ public class MissionVehicleListView {
         return missionVehicleView;
     }
 
-    public void show(View view, MissionStationLink missionStationLink) {
-        utilsView.addSectionTitleLabel(view.getNavigationPanel().getDetailsPane(), "Vehicles");
-        for (MissionUnitLink missionUnitLink : missionStationLink.getUnitLinks()) {
-            for (MissionVehicleLink missionVehicleLink : missionUnitLink.getVehicleLinks()) {
-                showSidebar(view, missionVehicleLink);
-            }
-        }
-    }
-
-    public void show(View view, MissionUnitLink missionUnitLink) {
-        utilsView.addSectionTitleLabel(view.getNavigationPanel().getDetailsPane(), "Vehicles");
-        for (MissionVehicleLink missionVehicleLink : missionUnitLink.getVehicleLinks()) {
+    public void show(View view, List<MissionVehicleLink> missionVehicleLinks) {
+        for (MissionVehicleLink missionVehicleLink : missionVehicleLinks) {
             showSidebar(view, missionVehicleLink);
         }
     }
@@ -46,7 +36,7 @@ public class MissionVehicleListView {
     }
 
     private void showMissionVehicleIcon(Pane pane, MissionVehicleLink missionVehicleLink) {
-        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, missionVehicleLink.getVehicle().getVehicleType().getResourcePath(), missionVehicleLink.getVehicle().getVehicleType().toString());
+        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, missionVehicleLink.getVehicle().getVehicleType());
     }
 
     private void showMissionVehicleButton(View view, Pane pane, MissionVehicleLink missionVehicleLink) {

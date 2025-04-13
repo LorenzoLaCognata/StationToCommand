@@ -28,7 +28,7 @@ public class VehicleView {
 
     private void showVehicleDetails(View view, Vehicle vehicle) {
         Pane horizontalTitlePane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
-        utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, vehicle.getVehicleType().getResourcePath(), vehicle.getVehicleType().toString());
+        utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, vehicle.getVehicleType());
         utilsView.addMainTitleLabel(horizontalTitlePane, vehicle.toString());
     }
 

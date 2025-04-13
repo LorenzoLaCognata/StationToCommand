@@ -37,7 +37,7 @@ public class VehicleListView {
     }
 
     private void showVehicleIcon(Pane pane, Vehicle vehicle) {
-        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, vehicle.getVehicleType().getResourcePath(), vehicle.getVehicleType().toString());
+        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, vehicle.getVehicleType());
     }
 
     private void showVehicleButton(View view, Pane pane, Vehicle vehicle) {
@@ -45,7 +45,7 @@ public class VehicleListView {
     }
 
     private void showVehicleStatus(Pane pane, Vehicle vehicle) {
-        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, vehicle.getVehicleStatus().getResourcePath(), vehicle.getVehicleStatus().toString());
+        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, vehicle.getVehicleStatus());
     }
 
 }

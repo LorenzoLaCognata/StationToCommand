@@ -2,12 +2,12 @@ package stationtocommand.view.missionStructure;
 
 import javafx.scene.layout.Pane;
 import stationtocommand.model.missionLinkStructure.MissionResponderLink;
-import stationtocommand.model.missionLinkStructure.MissionStationLink;
-import stationtocommand.model.missionLinkStructure.MissionUnitLink;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
+
+import java.util.List;
 
 public class MissionResponderListView {
 
@@ -23,18 +23,8 @@ public class MissionResponderListView {
         return missionResponderView;
     }
 
-    public void show(View view, MissionStationLink missionStationLink) {
-        utilsView.addSectionTitleLabel(view.getNavigationPanel().getDetailsPane(), "Responders");
-        for (MissionUnitLink missionUnitLink : missionStationLink.getUnitLinks()) {
-            for (MissionResponderLink missionResponderLink : missionUnitLink.getResponderLinks()) {
-                showSidebar(view, missionResponderLink);
-            }
-        }
-    }
-
-    public void show(View view, MissionUnitLink missionUnitLink) {
-        utilsView.addSectionTitleLabel(view.getNavigationPanel().getDetailsPane(), "Responders");
-        for (MissionResponderLink missionResponderLink : missionUnitLink.getResponderLinks()) {
+    public void show(View view, List<MissionResponderLink> missionResponderLinks) {
+        for (MissionResponderLink missionResponderLink : missionResponderLinks) {
             showSidebar(view, missionResponderLink);
             showMap(view, missionResponderLink);
         }
@@ -47,7 +37,7 @@ public class MissionResponderListView {
     }
 
     private void showMissionResponderIcon(Pane pane, MissionResponderLink missionResponderLink) {
-        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, missionResponderLink.getResponder().getAppearanceType().getResourcePath(), "");
+        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, missionResponderLink.getResponder().getAppearanceType());
     }
 
     private void showMissionResponderButton(View view, Pane pane, MissionResponderLink missionResponderLink) {

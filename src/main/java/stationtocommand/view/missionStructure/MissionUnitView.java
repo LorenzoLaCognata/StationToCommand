@@ -25,13 +25,13 @@ public class MissionUnitView {
         view.getNavigationPanel().clearAll();
         view.getWorldMap().clear();
         showMissionUnitDetails(view, missionUnitLink);
-        missionResponderListView.show(view, missionUnitLink);
-        missionVehicleListView.show(view, missionUnitLink);
+        missionResponderListView.show(view, missionUnitLink.getResponderLinks());
+        missionVehicleListView.show(view, missionUnitLink.getVehicleLinks());
     }
 
     private void showMissionUnitDetails(View view, MissionUnitLink missionUnitLink) {
         Pane horizontalTitlePane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
-        utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, missionUnitLink.getMission().getMissionType().getResourcePath(), missionUnitLink.getMission().getMissionType().toString());
+        utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, missionUnitLink.getMission().getMissionType());
         utilsView.addMainTitleLabel(horizontalTitlePane, missionUnitLink.getMission().toString());
     }
 
