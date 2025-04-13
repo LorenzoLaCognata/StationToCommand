@@ -134,5 +134,4 @@ public class UnitView {
         responderListView.show(view, unit.getResponders());
     }
 
-
 }
