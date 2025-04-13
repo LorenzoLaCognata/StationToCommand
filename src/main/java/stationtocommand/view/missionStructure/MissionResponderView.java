@@ -42,7 +42,7 @@ public class MissionResponderView {
 
     public void showMap(View view, MissionResponderLink missionResponderLink) {
         Point2D point = utilsView.locationToPoint(missionResponderLink.getResponder().getLocation(), IconType.SMALL);
-        ImageView imageView = utilsView.smallIcon(missionResponderLink.getResponder().getAppearanceType().getResourcePath(), "");
+        ImageView imageView = utilsView.smallIcon(missionResponderLink.getResponder().getAppearanceType());
         Pane mapLayer = view.getWorldMap().getMapElementsLayer();
         utilsView.addNodeToPane(mapLayer, imageView, point);
     }

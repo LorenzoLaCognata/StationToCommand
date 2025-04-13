@@ -45,7 +45,7 @@ public class MissionView {
 
     public void showMap(View view, Mission mission) {
         Point2D point = utilsView.locationToPoint(mission.getLocation(), IconType.SMALL);
-        ImageView imageView = utilsView.smallIcon(mission.getMissionType().getResourcePath(), mission.getMissionType().toString());
+        ImageView imageView = utilsView.smallIcon(mission.getMissionType());
         Pane mapLayer = view.getWorldMap().getMapElementsLayer();
         utilsView.addNodeToPane(mapLayer, imageView, point);
     }

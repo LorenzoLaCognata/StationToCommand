@@ -62,6 +62,10 @@ public class Vehicle {
 		this.condition = condition;
 	}
 
+	public Location getLocation() {
+		return location;
+	}
+
 	public void linkUnit(Unit unit) {
 		this.unitLink = new VehicleUnitLink(unit);
 		unit.linkVehicle(this);

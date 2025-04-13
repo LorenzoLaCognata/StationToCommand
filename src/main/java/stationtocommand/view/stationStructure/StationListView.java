@@ -33,17 +33,14 @@ public class StationListView {
 
     public void show(View view, List<Station> stations) {
         utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
+        view.getWorldMap().clear();
         for (Station station : stations) {
-            showSidebar(view, station);
-            showMap(view, station);
+            showStationSidebar(view, station);
+            showStationMap(view, station);
         }
     }
 
-    private void showMap(View view, Station station) {
-        stationView.showMap(view, station);
-    }
-
-    private void showSidebar(View view, Station station) {
+    public void showStationSidebar(View view, Station station) {
         Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
         showStationIcon(horizontalDetailsPane, station);
         showStationButton(view, horizontalDetailsPane, station);
@@ -78,6 +75,10 @@ public class StationListView {
 
             }
         }
+    }
+
+    private void showStationMap(View view, Station station) {
+        stationView.showStationUnitsMap(view, station);
     }
 
 }

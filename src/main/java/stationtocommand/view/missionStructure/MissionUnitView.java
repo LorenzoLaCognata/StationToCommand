@@ -52,14 +52,14 @@ public class MissionUnitView {
             showMissionUnitVehicles(view, missionUnitLink);
         };
         Button missionVehiclesButton = utilsView.addButtonToHorizontalPane(buttonsPane, "Vehicles", missionVehiclesButtonHandler);
-        missionVehiclesButton.setGraphic(utilsView.smallIcon(PoliceVehicleType.SUV.getResourcePath(), ""));
+        missionVehiclesButton.setGraphic(utilsView.smallIcon(PoliceVehicleType.SUV));
 
         EventHandler<ActionEvent> missionRespondersButtonHandler = event -> {
             utilsView.setPaneButtonsSelectionStyle(event, buttonsPane);
             showMissionUnitResponders(view, missionUnitLink);
         };
         Button missionRespondersButton = utilsView.addButtonToHorizontalPane(buttonsPane, "Responders", missionRespondersButtonHandler);
-        missionRespondersButton.setGraphic(utilsView.smallIcon(AppearanceType.MALE_01.getResourcePath(), ""));
+        missionRespondersButton.setGraphic(utilsView.smallIcon(AppearanceType.MALE_01));
 
         utilsView.setButtonSelectedStyle(missionVehiclesButton);
         showMissionUnitVehicles(view, missionUnitLink);

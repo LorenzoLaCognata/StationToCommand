@@ -56,28 +56,28 @@ public class MissionDepartmentView {
             showMissionDepartmentStations(view, missionDepartmentLink);
         };
         Button missionStationsButton = utilsView.addButtonToHorizontalPane(buttonsPane, "Stations", missionStationsButtonHandler);
-        missionStationsButton.setGraphic(utilsView.smallIcon(StationType.FIRE_STATION.getResourcePath(), ""));
+        missionStationsButton.setGraphic(utilsView.smallIcon(StationType.FIRE_STATION));
 
         EventHandler<ActionEvent> missionUnitsButtonHandler = event -> {
             utilsView.setPaneButtonsSelectionStyle(event, buttonsPane);
             showMissionDepartmentUnits(view, missionDepartmentLink);
         };
         Button missionUnitsButton = utilsView.addButtonToHorizontalPane(buttonsPane, "Units", missionUnitsButtonHandler);
-        missionUnitsButton.setGraphic(utilsView.smallIcon(FireUnitType.FIRE_ENGINE.getResourcePath(), ""));
+        missionUnitsButton.setGraphic(utilsView.smallIcon(FireUnitType.FIRE_ENGINE));
 
         EventHandler<ActionEvent> missionVehiclesButtonHandler = event -> {
             utilsView.setPaneButtonsSelectionStyle(event, buttonsPane);
             showMissionDepartmentVehicles(view, missionDepartmentLink);
         };
         Button missionVehiclesButton = utilsView.addButtonToHorizontalPane(buttonsPane, "Vehicles", missionVehiclesButtonHandler);
-        missionVehiclesButton.setGraphic(utilsView.smallIcon(PoliceVehicleType.SUV.getResourcePath(), ""));
+        missionVehiclesButton.setGraphic(utilsView.smallIcon(PoliceVehicleType.SUV));
 
         EventHandler<ActionEvent> missionRespondersButtonHandler = event -> {
             utilsView.setPaneButtonsSelectionStyle(event, buttonsPane);
             showMissionDepartmentResponders(view, missionDepartmentLink);
         };
         Button missionRespondersButton = utilsView.addButtonToHorizontalPane(buttonsPane, "Responders", missionRespondersButtonHandler);
-        missionRespondersButton.setGraphic(utilsView.smallIcon(AppearanceType.MALE_01.getResourcePath(), ""));
+        missionRespondersButton.setGraphic(utilsView.smallIcon(AppearanceType.MALE_01));
 
         utilsView.setButtonSelectedStyle(missionStationsButton);
         showMissionDepartmentStations(view, missionDepartmentLink);

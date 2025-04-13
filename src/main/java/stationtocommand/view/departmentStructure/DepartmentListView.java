@@ -26,6 +26,7 @@ public class DepartmentListView {
     }
 
     public void show(View view, List<Department> departments) {
+        view.getWorldMap().clear();
         for (Department department : departments) {
             showSidebar(view, department);
             showMap(view, department);
@@ -34,7 +35,7 @@ public class DepartmentListView {
 
     private void showMap(View view, Department department) {
         for (Station station : department.getStations()) {
-            departmentView.getStationListView().getStationView().showMap(view, station);
+            departmentView.getStationListView().getStationView().showStationUnitsMap(view, station);
         }
     }
 

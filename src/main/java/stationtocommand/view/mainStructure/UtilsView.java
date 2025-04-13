@@ -170,10 +170,10 @@ public class UtilsView {
         return new Point2D(x - (iconSize/2.0) , y  - (iconSize/2.0));
     }
 
-    public ImageView basicIcon(String iconPath, String tooltipText) {
-        ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(iconPath)).toExternalForm()));
-        if (!tooltipText.isEmpty()) {
-            Tooltip tooltip = new Tooltip(tooltipText);
+    public <T extends EnumWithResource> ImageView basicIcon(T resource) {
+        ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(resource.getResourcePath())).toExternalForm()));
+        if (!resource.toString().isEmpty()) {
+            Tooltip tooltip = new Tooltip(resource.toString());
             tooltip.setShowDelay(javafx.util.Duration.millis(100));
             tooltip.setShowDuration(javafx.util.Duration.seconds(10));
             Tooltip.install(imageView, tooltip);
@@ -181,53 +181,53 @@ public class UtilsView {
         return imageView;
     }
 
-    public ImageView mediumIcon(String iconPath, String tooltipText) {
-        ImageView imageView = basicIcon(iconPath, tooltipText);
+    public <T extends EnumWithResource> ImageView mediumIcon(T resource) {
+        ImageView imageView = basicIcon(resource);
         imageView.setFitWidth(MEDIUM_ICON_SIZE);
         imageView.setFitHeight(MEDIUM_ICON_SIZE);
         return imageView;
     }
 
-    public ImageView mediumShadowIcon(String iconPath, String tooltipText, IconColor iconColor) {
-        ImageView imageView = mediumIcon(iconPath, tooltipText);
+    public <T extends EnumWithResource> ImageView mediumShadowIcon(T resource, IconColor iconColor) {
+        ImageView imageView = mediumIcon(resource);
         imageView.setStyle("-fx-effect: dropshadow(gaussian, " + iconColor + ", 20, 0.3, 0, 0);");
         return imageView;
     }
 
-    public ImageView mediumFadedIcon(String iconPath, String tooltipText) {
-        ImageView imageView = mediumIcon(iconPath, tooltipText);
+    public <T extends EnumWithResource> ImageView mediumFadedIcon(T resource) {
+        ImageView imageView = mediumIcon(resource);
         imageView.setOpacity(0.2);
         return imageView;
     }
 
-    public StackPane mediumBorderIcon(String iconPath, String tooltipText, IconColor iconColor) {
-        ImageView imageView = mediumIcon(iconPath, tooltipText);
+    public <T extends EnumWithResource> StackPane mediumBorderIcon(T resource, IconColor iconColor) {
+        ImageView imageView = mediumIcon(resource);
         StackPane imageContainer = new StackPane(imageView);
         imageContainer.setStyle("-fx-border-color: " + iconColor + "; -fx-border-width: 1px; -fx-border-radius: 2px;");
         return imageContainer;
     }
 
-    public ImageView smallIcon(String iconPath, String tooltipText) {
-        ImageView imageView = basicIcon(iconPath, tooltipText);
+    public <T extends EnumWithResource> ImageView smallIcon(T resource) {
+        ImageView imageView = basicIcon(resource);
         imageView.setFitWidth(SMALL_ICON_SIZE);
         imageView.setFitHeight(SMALL_ICON_SIZE);
         return imageView;
     }
 
-    public ImageView smallShadowIcon(String iconPath, String tooltipText, IconColor iconColor) {
-        ImageView imageView = smallIcon(iconPath, tooltipText);
+    public <T extends EnumWithResource> ImageView smallShadowIcon(T resource, IconColor iconColor) {
+        ImageView imageView = smallIcon(resource);
         imageView.setStyle("-fx-effect: dropshadow(gaussian, " + iconColor + ", 20, 0.3, 0, 0);");
         return imageView;
     }
 
-    public ImageView smallFadedIcon(String iconPath, String tooltipText) {
-        ImageView imageView = smallIcon(iconPath, tooltipText);
+    public <T extends EnumWithResource> ImageView smallFadedIcon(T resource) {
+        ImageView imageView = smallIcon(resource);
         imageView.setOpacity(0.2);
         return imageView;
     }
 
-    public StackPane smallBorderIcon(String iconPath, String tooltipText, IconColor iconColor) {
-        ImageView imageView = smallIcon(iconPath, tooltipText);
+    public <T extends EnumWithResource> StackPane smallBorderIcon(T resource, IconColor iconColor) {
+        ImageView imageView = smallIcon(resource);
         StackPane imageContainer = new StackPane(imageView);
         imageContainer.setStyle("-fx-border-color: " + iconColor + "; -fx-border-width: 1px; -fx-border-radius: 2px;");
         return imageContainer;
@@ -308,21 +308,19 @@ public class UtilsView {
         return vBox;
     }
 
-    public <T extends EnumWithResource> void addIconToPane(Pane pane, IconType iconType, IconColor iconColor, T enumElement) {
+    public <T extends EnumWithResource> void addIconToPane(Pane pane, IconType iconType, IconColor iconColor, T resource) {
         Node node;
-        String imagePath = enumElement.getResourcePath();
-        String tooltipText = enumElement.toString();
 
         switch (iconType) {
-            case IconType.SMALL -> node = smallIcon(imagePath, tooltipText);
-            case IconType.SMALL_SHADOW -> node = smallShadowIcon(imagePath, tooltipText, iconColor);
-            case IconType.SMALL_FADED -> node = smallFadedIcon(imagePath, tooltipText);
-            case IconType.SMALL_BORDER -> node = smallBorderIcon(imagePath, tooltipText, iconColor);
-            case IconType.MEDIUM -> node = mediumIcon(imagePath, tooltipText);
-            case IconType.MEDIUM_SHADOW -> node = mediumShadowIcon(imagePath, tooltipText, iconColor);
-            case IconType.MEDIUM_FADED -> node = mediumFadedIcon(imagePath, tooltipText);
-            case IconType.MEDIUM_BORDER -> node = mediumBorderIcon(imagePath, tooltipText, iconColor);
-            default -> node = smallIcon(imagePath, tooltipText);
+            case IconType.SMALL -> node = smallIcon(resource);
+            case IconType.SMALL_SHADOW -> node = smallShadowIcon(resource, iconColor);
+            case IconType.SMALL_FADED -> node = smallFadedIcon(resource);
+            case IconType.SMALL_BORDER -> node = smallBorderIcon(resource, iconColor);
+            case IconType.MEDIUM -> node = mediumIcon(resource);
+            case IconType.MEDIUM_SHADOW -> node = mediumShadowIcon(resource, iconColor);
+            case IconType.MEDIUM_FADED -> node = mediumFadedIcon(resource);
+            case IconType.MEDIUM_BORDER -> node = mediumBorderIcon(resource, iconColor);
+            default -> node = smallIcon(resource);
         }
         pane.getChildren().add(node);
     }

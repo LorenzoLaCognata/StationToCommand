@@ -24,12 +24,14 @@ public class UnitListView {
     }
 
     public void show(View view, List<Unit> units) {
+        view.getWorldMap().clear();
         for (Unit unit : units) {
-            showSidebar(view, unit);
+            showUnitSidebar(view, unit);
+            showUnitMap(view, unit);
         }
     }
 
-    private void showSidebar( View view, Unit unit) {
+    public void showUnitSidebar( View view, Unit unit) {
         Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
         showUnitIcon(horizontalDetailsPane, unit);
         showUnitButton(view, horizontalDetailsPane, unit);
@@ -46,6 +48,10 @@ public class UnitListView {
 
     private void showUnitStatus(Pane pane, Unit unit) {
         utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, unit.getUnitStatus());
+    }
+
+    private void showUnitMap(View view, Unit unit) {
+        unitView.showUnitVehiclesMap(view, unit);
     }
 
 }
