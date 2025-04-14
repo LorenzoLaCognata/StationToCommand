@@ -45,6 +45,25 @@ public class UnitView {
         return vehicleListView;
     }
 
+    public void stationDetailsUnitEntry(View view, Unit unit) {
+        Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
+        unitIcon(horizontalDetailsPane, unit);
+        unitButton(view, horizontalDetailsPane, unit);
+        unitStatusIcon(horizontalDetailsPane, unit);
+    }
+
+    private void unitIcon(Pane pane, Unit unit) {
+        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, unit.getUnitType());
+    }
+
+    private void unitButton(View view, Pane pane, Unit unit) {
+        utilsView.addButtonToPane(pane, unit.toString(), (_ ->  show(view, unit)));
+    }
+
+    private void unitStatusIcon(Pane pane, Unit unit) {
+        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, unit.getUnitStatus());
+    }
+
     public void show(View view, Unit unit) {
         View.viewRunnable = () -> show(view, unit);
         utilsView.addBreadCrumb(view.getBreadCrumbBar(), unit);

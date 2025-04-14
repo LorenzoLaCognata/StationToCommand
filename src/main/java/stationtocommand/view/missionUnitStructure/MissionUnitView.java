@@ -1,4 +1,4 @@
-package stationtocommand.view.missionStructure;
+package stationtocommand.view.missionUnitStructure;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -17,6 +17,8 @@ import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
+import stationtocommand.view.missionResponderStructure.MissionResponderListView;
+import stationtocommand.view.missionVehicleStructure.MissionVehicleListView;
 
 import java.util.List;
 import java.util.Map;

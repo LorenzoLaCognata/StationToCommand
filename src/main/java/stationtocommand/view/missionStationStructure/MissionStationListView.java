@@ -1,4 +1,4 @@
-package stationtocommand.view.missionStructure;
+package stationtocommand.view.missionStationStructure;
 
 import javafx.scene.layout.Pane;
 import stationtocommand.model.missionLinkStructure.MissionDepartmentLink;
@@ -24,12 +24,14 @@ public class MissionStationListView {
 
     public void show(View view, MissionDepartmentLink missionDepartmentLink) {
         utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
+        view.getWorldMap().clear();
         for (MissionStationLink missionStationLink : missionDepartmentLink.getStationLinks()) {
-            showSidebar(view, missionStationLink);
+            showMissionStationSidebar(view, missionStationLink);
+            showMissionStationMap(view, missionStationLink);
         }
     }
 
-    private void showSidebar(View view, MissionStationLink missionStationLink) {
+    private void showMissionStationSidebar(View view, MissionStationLink missionStationLink) {
         Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
         showMissionStationIcon(horizontalDetailsPane, missionStationLink);
         showMissionStationButton(view, horizontalDetailsPane, missionStationLink);
@@ -41,6 +43,10 @@ public class MissionStationListView {
 
     private void showMissionStationButton(View view, Pane pane, MissionStationLink missionStationLink) {
         utilsView.addButtonToPane(pane, missionStationLink.getStation().toString(), (_ -> missionStationView.show(view, missionStationLink)));
+    }
+
+    private void showMissionStationMap(View view, MissionStationLink missionStationLink) {
+        missionStationView.showMissionStationUnitsMap(view, missionStationLink.getUnitLinks());
     }
 
 }

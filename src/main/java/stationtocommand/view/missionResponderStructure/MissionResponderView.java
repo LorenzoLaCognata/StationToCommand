@@ -1,4 +1,4 @@
-package stationtocommand.view.missionStructure;
+package stationtocommand.view.missionResponderStructure;
 
 import javafx.geometry.Point2D;
 import javafx.scene.image.ImageView;

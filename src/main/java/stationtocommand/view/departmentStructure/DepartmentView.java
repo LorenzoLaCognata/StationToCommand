@@ -23,7 +23,7 @@ import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
-import stationtocommand.view.stationStructure.StationListView;
+import stationtocommand.view.stationStructure.StationView;
 
 import java.util.List;
 import java.util.Map;
@@ -32,15 +32,35 @@ import java.util.stream.Collectors;
 public class DepartmentView {
 
     private final UtilsView utilsView;
-    private final StationListView stationListView;
+    private final StationView stationView;
 
     public DepartmentView(UtilsView utilsView) {
         this.utilsView = utilsView;
-        this.stationListView = new StationListView(utilsView);
+        this.stationView = new StationView(utilsView);
     }
 
-    public StationListView getStationListView() {
-        return stationListView;
+    public StationView getStationView() {
+        return stationView;
+    }
+
+    public void departmentIcon(Pane pane, Department department) {
+        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, department.getDepartmentType());
+    }
+
+    public void departmentButton(View view, Pane pane, Department department) {
+        utilsView.addButtonToPane(pane, department.toString(), (_ -> show(view, department)));
+    }
+
+    public void organizationDetailsDepartmentEntry(View view, Department department) {
+        Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
+        departmentIcon(horizontalDetailsPane, department);
+        departmentButton(view, horizontalDetailsPane, department);
+    }
+
+    public void organizationMapDepartmentEntry(View view, Department department) {
+        for (Station station : department.getStations()) {
+            stationView.stationUnitsViewMap(view, station);
+        }
     }
 
     public void show(View view, Department department) {
@@ -48,44 +68,44 @@ public class DepartmentView {
         utilsView.addBreadCrumb(view.getBreadCrumbBar(), department);
         view.getNavigationPanel().clearAll();
         view.getWorldMap().clear();
-        showDepartmentDetails(view, department);
-        showDepartmentButtons(view, department);
-        showDepartmentStations(view, department);
+        departmentTitle(view, department);
+        departmentButtons(view, department);
+        departmentStationsView(view, department);
     }
 
-    private void showDepartmentDetails(View view, Department department) {
+    private void departmentTitle(View view, Department department) {
         Pane horizontalTitlePane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
         utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, department.getDepartmentType());
         utilsView.addMainTitleLabel(horizontalTitlePane, department.toString());
     }
 
-    private void showDepartmentButtons(View view, Department department) {
+    private void departmentButtons(View view, Department department) {
         Pane buttonsPane = view.getNavigationPanel().getButtonsPane();
 
         EventHandler<ActionEvent> stationsButtonHandler = event -> {
             utilsView.setPaneButtonsSelectionStyle(event, buttonsPane);
-            showDepartmentStations(view, department);
+            departmentStationsView(view, department);
         };
         Button stationsButton = utilsView.addButtonToHorizontalPane(buttonsPane, "Stations", stationsButtonHandler);
         stationsButton.setGraphic(utilsView.smallIcon(StationType.FIRE_STATION));
 
         EventHandler<ActionEvent> unitsButtonHandler = event -> {
             utilsView.setPaneButtonsSelectionStyle(event, buttonsPane);
-            showDepartmentUnits(view, department);
+            departmentUnitsView(view, department);
         };
         Button unitsButton = utilsView.addButtonToHorizontalPane(buttonsPane, "Units", unitsButtonHandler);
         unitsButton.setGraphic(utilsView.smallIcon(FireUnitType.FIRE_ENGINE));
 
         EventHandler<ActionEvent> vehiclesButtonHandler = event -> {
             utilsView.setPaneButtonsSelectionStyle(event, buttonsPane);
-            showDepartmentVehicles(view, department);
+            departmentVehiclesView(view, department);
         };
         Button vehiclesButton = utilsView.addButtonToHorizontalPane(buttonsPane, "Vehicles", vehiclesButtonHandler);
         vehiclesButton.setGraphic(utilsView.smallIcon(PoliceVehicleType.SUV));
 
         EventHandler<ActionEvent> respondersButtonHandler = event -> {
             utilsView.setPaneButtonsSelectionStyle(event, buttonsPane);
-            showDepartmentResponders(view, department);
+            departmentRespondersView(view, department);
         };
         Button respondersButton = utilsView.addButtonToHorizontalPane(buttonsPane, "Responders", respondersButtonHandler);
         respondersButton.setGraphic(utilsView.smallIcon(AppearanceType.MALE_01));
@@ -93,41 +113,37 @@ public class DepartmentView {
         utilsView.setButtonSelectedStyle(stationsButton);
     }
 
-    private void showDepartmentStations(View view, Department department) {
-        View.viewRunnable = () -> showDepartmentStations(view, department);
-
+    private void departmentStationsView(View view, Department department) {
+        View.viewRunnable = () -> departmentStationsView(view, department);
         view.getNavigationPanel().clearDetails();
-        showDepartmentStationsSidebar(view, department);
-
+        departmentStationsViewDetails(view, department);
         view.getWorldMap().clear();
-        showDepartmentStationsMap(view, department);
+        departmentStationsViewMap(view, department);
     }
 
-    private void showDepartmentStationsSidebar(View view, Department department) {
+    private void departmentStationsViewDetails(View view, Department department) {
         utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
-        view.getWorldMap().clear();
         for (Station station : department.getStations()) {
-            stationListView.showStationSidebar(view, station);
+            stationView.departmentDetailsStationEntry(view, station);
         }
     }
 
-    public void showDepartmentStationsMap(View view, Department department) {
+    public void departmentStationsViewMap(View view, Department department) {
         for (Station station : department.getStations()) {
-            stationListView.getStationView().showStationUnitsMap(view, station);
+            stationView.stationUnitsViewMap(view, station);
         }
     }
 
-    private void showDepartmentUnits(View view, Department department) {
-        View.viewRunnable = () -> showDepartmentUnits(view, department);
+    private void departmentUnitsView(View view, Department department) {
+        View.viewRunnable = () -> departmentUnitsView(view, department);
 
         view.getNavigationPanel().clearDetails();
-        showDepartmentUnitsSidebar(view, department);
+        departmentUnitsViewDetails(view, department);
 
-        view.getWorldMap().clear();
-        showDepartmentUnitsMap(view, department);
+        departmentUnitsViewMap(view, department);
     }
 
-    private void showDepartmentUnitsSidebar(View view, Department department) {
+    private void departmentUnitsViewDetails(View view, Department department) {
         Map<UnitStatus, Long> unitStatusCounts = department.getStations().stream()
                  .flatMap(station -> station.getUnits().stream())
                  .collect(Collectors.groupingBy(
@@ -150,30 +166,31 @@ public class DepartmentView {
         utilsView.addAvailabilityCount(horizontalDetailsPane, unitStatusCounts, unitTypeStatusCounts);
 
         utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
-
         List<Unit> units = department.getStations().stream()
                 .flatMap(station -> station.getUnits().stream())
                 .toList();
-        stationListView.getStationView().getUnitListView().show(view, units);
-    }
-
-    public void showDepartmentUnitsMap(View view, Department department) {
-        for (Station station : department.getStations()) {
-            stationListView.getStationView().showStationUnitsMap(view, station);
+        for (Unit unit : units) {
+            stationView.getUnitView().stationDetailsUnitEntry(view, unit);
         }
     }
 
-    private void showDepartmentVehicles(View view, Department department) {
-        View.viewRunnable = () -> showDepartmentVehicles(view, department);
-
-        view.getNavigationPanel().clearDetails();
-        showDepartmentVehiclesSidebar(view, department);
-
-        view.getWorldMap().clear();
-        showDepartmentVehiclesMap(view, department);
+    public void departmentUnitsViewMap(View view, Department department) {
+        for (Station station : department.getStations()) {
+            stationView.stationUnitsViewMap(view, station);
+        }
     }
 
-    private void showDepartmentVehiclesSidebar(View view, Department department) {
+    private void departmentVehiclesView(View view, Department department) {
+        View.viewRunnable = () -> departmentVehiclesView(view, department);
+
+        view.getNavigationPanel().clearDetails();
+        departmentVehiclesViewDetails(view, department);
+
+        view.getWorldMap().clear();
+        departmentVehiclesViewMap(view, department);
+    }
+
+    private void departmentVehiclesViewDetails(View view, Department department) {
         Map<VehicleStatus, Long> vehicleStatusCounts = department.getStations().stream()
                 .flatMap(station -> station.getUnits().stream())
                 .flatMap(unit -> unit.getVehicles().stream())
@@ -202,27 +219,27 @@ public class DepartmentView {
         List<Vehicle> vehicles = department.getStations().stream()
                 .flatMap(station -> station.getVehicles().stream())
                 .toList();
-        stationListView.getStationView().getVehicleListView().show(view, vehicles);
+        stationView.getVehicleListView().show(view, vehicles);
     }
 
-    public void showDepartmentVehiclesMap(View view, Department department) {
+    public void departmentVehiclesViewMap(View view, Department department) {
         for (Station station : department.getStations()) {
-            stationListView.getStationView().showStationVehiclesMap(view, station);
+            stationView.stationVehiclesViewMap(view, station);
         }
     }
 
-    private void showDepartmentResponders(View view, Department department) {
-        View.viewRunnable = () -> showDepartmentResponders(view, department);
+    private void departmentRespondersView(View view, Department department) {
+        View.viewRunnable = () -> departmentRespondersView(view, department);
 
         view.getNavigationPanel().clearDetails();
-        showDepartmentRespondersSidebar(view, department);
+        departmentRespondersViewDetails(view, department);
 
         view.getWorldMap().clear();
-        showDepartmentRespondersMap(view, department);
+        departmentRespondersViewMap(view, department);
 
     }
 
-    private void showDepartmentRespondersSidebar(View view, Department department) {
+    private void departmentRespondersViewDetails(View view, Department department) {
         Map<ResponderStatus, Long> responderStatusCounts = department.getStations().stream()
                 .flatMap(station -> station.getUnits().stream())
                 .flatMap(unit -> unit.getResponders().stream())
@@ -251,12 +268,12 @@ public class DepartmentView {
         List<Responder> responders = department.getStations().stream()
             .flatMap(station -> station.getResponders().stream())
             .toList();
-        stationListView.getStationView().getResponderListView().show(view, responders);
+        stationView.getResponderListView().show(view, responders);
     }
 
-    public void showDepartmentRespondersMap(View view, Department department) {
+    public void departmentRespondersViewMap(View view, Department department) {
         for (Station station : department.getStations()) {
-            stationListView.getStationView().showStationRespondersMap(view, station);
+            stationView.stationRespondersViewMap(view, station);
         }
     }
 

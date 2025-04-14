@@ -1,4 +1,4 @@
-package stationtocommand.view.missionStructure;
+package stationtocommand.view.missionVehicleStructure;
 
 import javafx.scene.layout.Pane;
 import stationtocommand.model.missionLinkStructure.MissionVehicleLink;
