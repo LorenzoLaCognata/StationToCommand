@@ -2,6 +2,7 @@ package stationtocommand.view.unitStructure;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import stationtocommand.model.departmentStructure.AppearanceType;
@@ -25,11 +26,15 @@ import java.util.stream.Collectors;
 
 public class UnitView {
 
+    private final Unit unit;
+    private final Group vehiclesGroup;
     private final UtilsView utilsView;
     private final ResponderListView responderListView;
     private final VehicleListView vehicleListView;
 
-    public UnitView(UtilsView utilsView) {
+    public UnitView(Unit unit, UtilsView utilsView) {
+        this.unit = unit;
+        this.vehiclesGroup = new Group();
         this.utilsView = utilsView;
         this.responderListView = new ResponderListView(utilsView);
         this.vehicleListView = new VehicleListView(utilsView);
@@ -43,44 +48,44 @@ public class UnitView {
         return vehicleListView;
     }
 
-    public void show(View view, Unit unit) {
-        View.viewRunnable = () -> show(view, unit);
+    public void show(View view) {
+        View.viewRunnable = () -> show(view);
         utilsView.addBreadCrumb(view.getBreadCrumbBar(), unit);
         view.getNavigationPanel().clearAll();
-        showSidebar(view, unit);
+        showSidebar(view);
     }
 
-    private void showSidebar(View view, Unit unit) {
-        showUnitDetails(view, unit);
+    private void showSidebar(View view) {
+        showUnitDetails(view);
 
         Pane buttonsPane = view.getNavigationPanel().getButtonsPane();
 
         EventHandler<ActionEvent> vehiclesButtonHandler = event -> {
             utilsView.setPaneButtonsSelectionStyle(event, buttonsPane);
-            showUnitVehicles(view, unit);
+            showUnitVehicles(view);
         };
         Button vehiclesButton = utilsView.addButtonToHorizontalPane(buttonsPane, "Vehicles", vehiclesButtonHandler);
         vehiclesButton.setGraphic(utilsView.smallIcon(PoliceVehicleType.SUV.getResourcePath(), ""));
 
         EventHandler<ActionEvent> respondersButtonHandler = event -> {
             utilsView.setPaneButtonsSelectionStyle(event, buttonsPane);
-            showUnitResponders(view, unit);
+            showUnitResponders(view);
         };
         Button respondersButton = utilsView.addButtonToHorizontalPane(buttonsPane, "Responders", respondersButtonHandler);
         respondersButton.setGraphic(utilsView.smallIcon(AppearanceType.MALE_01.getResourcePath(), ""));
 
         utilsView.setButtonSelectedStyle(vehiclesButton);
-        showUnitVehicles(view, unit);
+        showUnitVehicles(view);
     }
 
-    private void showUnitDetails(View view, Unit unit) {
+    private void showUnitDetails(View view) {
         Pane horizontalTitlePane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
         utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, unit.getUnitType());
         utilsView.addMainTitleLabel(horizontalTitlePane, unit.toString());
     }
 
-    private void showUnitVehicles(View view, Unit unit) {
-        View.viewRunnable = () -> showUnitVehicles(view, unit);
+    private void showUnitVehicles(View view) {
+        View.viewRunnable = () -> showUnitVehicles(view);
         view.getNavigationPanel().clearDetails();
 
         Map<VehicleStatus, Long> vehicleStatusCounts = unit.getVehicles().stream()
@@ -107,8 +112,8 @@ public class UnitView {
 
     }
 
-    private void showUnitResponders(View view, Unit unit) {
-        View.viewRunnable = () -> showUnitResponders(view, unit);
+    private void showUnitResponders(View view) {
+        View.viewRunnable = () -> showUnitResponders(view);
         view.getNavigationPanel().clearDetails();
 
         Map<ResponderStatus, Long> responderStatusCounts = unit.getResponders().stream()

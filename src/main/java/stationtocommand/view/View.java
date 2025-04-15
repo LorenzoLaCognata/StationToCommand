@@ -210,6 +210,8 @@ public class View {
                 utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
                 organizationView.getDepartmentListView().getDepartmentView().getStationListView().getStationView().show(this, (Station) selectedObject);
             }
+            // TODO: recover
+            /*
             else if (selectedObject instanceof Unit) {
                 utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
                 organizationView.getDepartmentListView().getDepartmentView().getStationListView().getStationView().getUnitListView().getUnitView().show(this, (Unit) selectedObject);
@@ -222,6 +224,7 @@ public class View {
                 utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
                 organizationView.getDepartmentListView().getDepartmentView().getStationListView().getStationView().getUnitListView().getUnitView().getVehicleListView().getVehicleView().show(this, (Vehicle) selectedObject);
             }
+            */
             else if (selectedObject instanceof Mission) {
                 utilsView.resetBreadCrumbBar(breadCrumbBar);
                 dispatchView.getMissionListView().getMissionView().show(this, (Mission) selectedObject);

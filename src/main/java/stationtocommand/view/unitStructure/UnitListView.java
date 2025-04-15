@@ -8,22 +8,29 @@ import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class UnitListView {
 
+    private final List<Unit> units;
     private final UtilsView utilsView;
-    private final UnitView unitView;
+    private final Map<Unit, UnitView> unitViews;
 
-    public UnitListView(UtilsView utilsView) {
+    public UnitListView(List<Unit> units, UtilsView utilsView) {
+        this.units = units;
         this.utilsView = utilsView;
-        this.unitView = new UnitView(utilsView);
+        this.unitViews = units.stream()
+                            .collect(Collectors.toMap(
+                                unit -> unit, unit -> new UnitView(unit, utilsView))
+                            );
     }
 
-    public UnitView getUnitView() {
-        return unitView;
-    }
+//    public UnitView getUnitView() {
+  //      return unitView;
+   // }
 
-    public void show(View view, List<Unit> units) {
+    public void show(View view) {
         for (Unit unit : units) {
             showSidebar(view, unit);
         }
@@ -41,7 +48,7 @@ public class UnitListView {
     }
 
     private void showUnitButton(View view, Pane pane, Unit unit) {
-        utilsView.addButtonToPane(pane, unit.toString(), (_ -> unitView.show(view, unit)));
+        utilsView.addButtonToPane(pane, unit.toString(), (_ -> unitViews.get(unit).show(view)));
     }
 
     private void showUnitStatus(Pane pane, Unit unit) {
