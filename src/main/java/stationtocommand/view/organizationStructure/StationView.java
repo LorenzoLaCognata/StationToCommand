@@ -40,11 +40,11 @@ public class StationView {
     private final Map<Responder, ResponderView> responderViews;
     private final UtilsView utilsView;
 
-    public StationView(Station station, UtilsView utilsView) {
+    public StationView(Station station, View view, UtilsView utilsView) {
         this.station = station;
         this.unitViews = station.getUnits().stream()
                 .collect(Collectors.toMap(
-                        unit -> unit, unit -> new UnitView(unit, utilsView))
+                        unit -> unit, unit -> new UnitView(unit, view, utilsView))
                 );
         this.vehicleViews = station.getVehicles().stream()
                 .collect(Collectors.toMap(
@@ -256,6 +256,7 @@ public class StationView {
     }
 
     public void showStationMap(View view) {
+        // TODO: remove and use new addIconWithLocationToPane
         Point2D point = utilsView.locationToPoint(station.getLocation(), IconType.SMALL);
         ImageView imageView = utilsView.smallShadowIcon(station.getStationType().getResourcePath(), station.getStationType().toString(), utilsView.departmentIconColor(station.getDepartment()));
         Pane mapLayer = view.getWorldMap().getMapElementsLayer();

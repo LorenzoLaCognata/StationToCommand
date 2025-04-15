@@ -33,11 +33,11 @@ public class DepartmentView {
     private final Map<Station, StationView> stationViews;
     private final UtilsView utilsView;
 
-    public DepartmentView(Department department, UtilsView utilsView) {
+    public DepartmentView(Department department, View view, UtilsView utilsView) {
         this.department = department;
         this.stationViews = department.getStations().stream()
                                 .collect(Collectors.toMap(
-                                        station -> station, station -> new StationView(station, utilsView))
+                                        station -> station, station -> new StationView(station, view, utilsView))
                                 );
         this.utilsView = utilsView;
     }

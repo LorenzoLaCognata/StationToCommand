@@ -18,6 +18,7 @@ import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.model.locationStructure.Location;
 import stationtocommand.model.locationStructure.LocationManager;
 import stationtocommand.model.utilsStructure.EnumWithResource;
+import stationtocommand.model.utilsStructure.Utils;
 
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -167,7 +168,15 @@ public class UtilsView {
         }
         double x = normalize(location.longitude(), LocationManager.MIN_LONGITUDE, LocationManager.MAX_LONGITUDE) * WorldMap.MAP_WIDTH;
         double y = (1 - normalize(location.latitude(), LocationManager.MIN_LATITUDE, LocationManager.MAX_LATITUDE)) * WorldMap.MAP_HEIGHT;
-        return new Point2D(x - (iconSize/2.0) , y  - (iconSize/2.0));
+        return new Point2D(x - (iconSize/2.0), y  - (iconSize/2.0));
+    }
+
+    public Point2D locationToRandomPoint(Location location, IconType iconType) {
+        Point2D point = locationToPoint(location, iconType);
+        // TODO: remove this temporary workaround to show all the icons on the same location
+        double randomX = Utils.randomGenerator.nextFloat(-MEDIUM_ICON_SIZE * 2, MEDIUM_ICON_SIZE * 2);
+        double randomY = Utils.randomGenerator.nextFloat(-MEDIUM_ICON_SIZE * 2, MEDIUM_ICON_SIZE * 2);
+        return new Point2D(point.getX() + randomX, point.getY() + randomY);
     }
 
     public ImageView basicIcon(String iconPath, String tooltipText) {
@@ -308,10 +317,26 @@ public class UtilsView {
         return vBox;
     }
 
-    public <T extends EnumWithResource> void addIconToPane(Pane pane, IconType iconType, IconColor iconColor, T enumElement) {
+    public <T extends EnumWithResource> Node createResourceWithRandomLocationIcon(IconType iconType, IconColor iconColor, T resource, Location location) {
+        Node node = createResourceIcon(iconType, iconColor, resource);
+        Point2D point = locationToRandomPoint(location, iconType);
+        node.setLayoutX(point.getX());
+        node.setLayoutY(point.getY());
+        return node;
+    }
+
+    public <T extends EnumWithResource> Node createResourceWithLocationIcon(IconType iconType, IconColor iconColor, T resource, Location location) {
+        Node node = createResourceIcon(iconType, iconColor, resource);
+        Point2D point = locationToPoint(location, iconType);
+        node.setLayoutX(point.getX());
+        node.setLayoutY(point.getY());
+        return node;
+    }
+
+    public <T extends EnumWithResource> Node createResourceIcon(IconType iconType, IconColor iconColor, T resource) {
         Node node;
-        String imagePath = enumElement.getResourcePath();
-        String tooltipText = enumElement.toString();
+        String imagePath = resource.getResourcePath();
+        String tooltipText = resource.toString();
 
         switch (iconType) {
             case IconType.SMALL -> node = smallIcon(imagePath, tooltipText);
@@ -324,6 +349,17 @@ public class UtilsView {
             case IconType.MEDIUM_BORDER -> node = mediumBorderIcon(imagePath, tooltipText, iconColor);
             default -> node = smallIcon(imagePath, tooltipText);
         }
+
+        return node;
+    }
+
+    public <T extends EnumWithResource> void addIconToPane(Pane pane, IconType iconType, IconColor iconColor, T resource) {
+        Node node = createResourceIcon(iconType, iconColor, resource);
+        pane.getChildren().add(node);
+    }
+
+    public <T extends EnumWithResource> void addIconWithLocationToPane(Pane pane, IconType iconType, IconColor iconColor, T resource, Location location) {
+        Node node = createResourceWithLocationIcon(iconType, iconColor, resource, location);
         pane.getChildren().add(node);
     }
 

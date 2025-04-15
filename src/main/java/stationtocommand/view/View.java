@@ -96,7 +96,7 @@ public class View {
     public void initialize(Controller controller) {
         this.controller = controller;
         this.utilsView = new UtilsView();
-        this.organizationView = new OrganizationView(controller.getModel().getDepartmentManager().getDepartments(), utilsView);
+        this.organizationView = new OrganizationView(controller.getModel().getDepartmentManager().getDepartments(), controller.getView(), utilsView);
         this.dispatchView = new DispatchView(utilsView);
         organizationButtonHandler("Organization", controller.getModel().getDepartmentManager().getDepartments());
     }

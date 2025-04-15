@@ -16,10 +16,10 @@ public class OrganizationView {
     private final Map<Department, DepartmentView> departmentViews;
     private final UtilsView utilsView;
 
-    public OrganizationView(List<Department> departments, UtilsView utilsView) {
+    public OrganizationView(List<Department> departments, View view, UtilsView utilsView) {
         this.departmentViews = departments.stream()
                                 .collect(Collectors.toMap(
-                                    department -> department, department -> new DepartmentView(department, utilsView))
+                                    department -> department, department -> new DepartmentView(department, view, utilsView))
                                 );
         this.utilsView = utilsView;
     }
