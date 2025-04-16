@@ -36,7 +36,7 @@ public class UnitView {
         this.unit = unit;
         this.utilsView = utilsView;
         this.vehicleIcons = new Group();
-        this.vehicleViews = unit.getStation().getVehicles().stream()
+        this.vehicleViews = unit.getVehicles().stream()
                                 .map(vehicle -> {
                                     VehicleView vehicleView = new VehicleView(vehicle, utilsView);
                                     Node resourceIcon = utilsView.createResourceWithRandomLocationIcon(IconType.SMALL, IconColor.EMPTY, vehicle.getVehicleType(), vehicle.getLocation());
@@ -47,7 +47,7 @@ public class UnitView {
                                     Map.Entry::getKey, Map.Entry::getValue)
                                 );
         this.responderIcons = new Group();
-        this.responderViews = unit.getStation().getResponders().stream()
+        this.responderViews = unit.getResponders().stream()
                 .map(responder -> {
                     ResponderView responderView = new ResponderView(responder, utilsView);
                     Node resourceIcon = utilsView.createResourceWithRandomLocationIcon(IconType.SMALL, IconColor.EMPTY, responder.getAppearanceType(), responder.getLocation());
@@ -57,6 +57,14 @@ public class UnitView {
                 .collect(Collectors.toMap(
                         Map.Entry::getKey, Map.Entry::getValue)
                 );
+    }
+
+    public Map<Vehicle, VehicleView> getVehicleViews() {
+        return vehicleViews;
+    }
+
+    public Map<Responder, ResponderView> getResponderViews() {
+        return responderViews;
     }
 
     public VehicleView getVehicleView(Vehicle vehicle) {

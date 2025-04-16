@@ -46,14 +46,18 @@ public class StationView {
                 .collect(Collectors.toMap(
                         unit -> unit, unit -> new UnitView(unit, view, utilsView))
                 );
-        this.vehicleViews = station.getVehicles().stream()
+        this.vehicleViews =  this.unitViews.values().stream()
+                .flatMap(unitView -> unitView.getVehicleViews().entrySet().stream())
                 .collect(Collectors.toMap(
-                        vehicle -> vehicle, vehicle -> new VehicleView(vehicle, utilsView))
-                );
-        this.responderViews = station.getResponders().stream()
+                    Map.Entry::getKey,
+                    Map.Entry::getValue
+                ));
+        this.responderViews =  this.unitViews.values().stream()
+                .flatMap(unitView -> unitView.getResponderViews().entrySet().stream())
                 .collect(Collectors.toMap(
-                        responder -> responder, responder -> new ResponderView(responder, utilsView))
-                );
+                        Map.Entry::getKey,
+                        Map.Entry::getValue
+                ));
         this.utilsView = utilsView;
     }
 

@@ -2,12 +2,8 @@ package stationtocommand.model.stationStructure;
 
 import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.model.locationStructure.Location;
-import stationtocommand.model.responderStructure.Responder;
-import stationtocommand.model.responderStructure.ResponderLink;
 import stationtocommand.model.unitStructure.Unit;
 import stationtocommand.model.unitStructure.UnitManager;
-import stationtocommand.model.vehicleStructure.Vehicle;
-import stationtocommand.model.vehicleStructure.VehicleLink;
 
 import java.util.List;
 
@@ -59,20 +55,6 @@ public class Station {
 
     public List<Unit> getUnits() {
         return unitManager.getUnits();
-    }
-
-    public List<Responder> getResponders() {
-        return unitManager.getUnits().stream()
-                .flatMap(unit -> unit.getResponderLinks().stream())
-                .map(ResponderLink::getResponder)
-                .toList();
-    }
-
-    public List<Vehicle> getVehicles() {
-        return unitManager.getUnits().stream()
-                .flatMap(unit -> unit.getVehicleLinks().stream())
-                .map(VehicleLink::getVehicle)
-                .toList();
     }
 
 }
