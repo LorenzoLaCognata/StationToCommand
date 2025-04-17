@@ -21,14 +21,16 @@ import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
 
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 public class UnitView {
 
     private final Unit unit;
     private final UtilsView utilsView;
-    private final Map<Vehicle, VehicleView> vehicleViews;
-    private final Map<Responder, ResponderView> responderViews;
+    private final SortedMap<Vehicle, VehicleView> vehicleViews;
+    private final SortedMap<Responder, ResponderView> responderViews;
     private final Group vehicleIcons;
     private final Group responderIcons;
 
@@ -44,8 +46,11 @@ public class UnitView {
                                     return Map.entry(vehicle, vehicleView);
                                 })
                                 .collect(Collectors.toMap(
-                                    Map.Entry::getKey, Map.Entry::getValue)
-                                );
+                                        Map.Entry::getKey,
+                                        Map.Entry::getValue,
+                                        (_, b) -> b,
+                                        TreeMap::new
+                                ));
         this.responderIcons = new Group();
         this.responderViews = unit.getResponders().stream()
                 .map(responder -> {
@@ -55,15 +60,18 @@ public class UnitView {
                     return Map.entry(responder, responderView);
                 })
                 .collect(Collectors.toMap(
-                        Map.Entry::getKey, Map.Entry::getValue)
-                );
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (_, b) -> b,
+                        TreeMap::new
+                ));
     }
 
-    public Map<Vehicle, VehicleView> getVehicleViews() {
+    public SortedMap<Vehicle, VehicleView> getVehicleViews() {
         return vehicleViews;
     }
 
-    public Map<Responder, ResponderView> getResponderViews() {
+    public SortedMap<Responder, ResponderView> getResponderViews() {
         return responderViews;
     }
 
@@ -73,6 +81,14 @@ public class UnitView {
 
     public ResponderView getResponderView(Responder responder) {
         return responderViews.get(responder);
+    }
+
+    public Group getVehicleIcons() {
+        return vehicleIcons;
+    }
+
+    public Group getResponderIcons() {
+        return responderIcons;
     }
 
     public void addStationDetailsUnit(View view) {
@@ -165,13 +181,13 @@ public class UnitView {
     }
 
     public void showUnitVehiclesMap(View view) {
+        view.getWorldMap().clear();
         responderIcons.setVisible(false);
         Pane mapLayer = view.getWorldMap().getMapElementsLayer();
+        vehicleIcons.setVisible(true);
         if (!mapLayer.getChildren().contains(vehicleIcons)) {
+            System.out.println("x");
             mapLayer.getChildren().add(vehicleIcons);
-        }
-        else {
-            vehicleIcons.setVisible(true);
         }
     }
 
@@ -210,13 +226,12 @@ public class UnitView {
     }
 
     public void showUnitRespondersMap(View view) {
+        view.getWorldMap().clear();
         vehicleIcons.setVisible(false);
         Pane mapLayer = view.getWorldMap().getMapElementsLayer();
+        responderIcons.setVisible(true);
         if (!mapLayer.getChildren().contains(responderIcons)) {
             mapLayer.getChildren().add(responderIcons);
-        }
-        else {
-            responderIcons.setVisible(true);
         }
     }
 

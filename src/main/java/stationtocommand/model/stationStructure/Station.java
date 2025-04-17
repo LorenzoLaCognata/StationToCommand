@@ -7,7 +7,7 @@ import stationtocommand.model.unitStructure.UnitManager;
 
 import java.util.List;
 
-public class Station {
+public class Station implements Comparable<Station> {
 
     private final Department department;
     private final StationType stationType;
@@ -31,6 +31,19 @@ public class Station {
     @Override
     public String toString() {
         return department.getDepartmentType() + " Station " + number;
+    }
+
+    @Override
+    public int compareTo(Station other) {
+        int result = Integer.compare(((Enum<?>) this.stationType).ordinal(), ((Enum<?>) other.getStationType()).ordinal());
+        if (result != 0) {
+            return result;
+        }
+        result = Integer.compare(this.number, other.getNumber());
+        if (result != 0) {
+            return result;
+        }
+        return Integer.compare(System.identityHashCode(this), System.identityHashCode(other));
     }
 
     public Department getDepartment() {

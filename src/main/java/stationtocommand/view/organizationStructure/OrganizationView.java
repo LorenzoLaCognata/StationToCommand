@@ -8,32 +8,37 @@ import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
 
 import java.util.List;
-import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 public class OrganizationView {
 
-    private final Map<Department, DepartmentView> departmentViews;
+    private final SortedMap<Department, DepartmentView> departmentViews;
     private final UtilsView utilsView;
 
     public OrganizationView(List<Department> departments, View view, UtilsView utilsView) {
         this.departmentViews = departments.stream()
                                 .collect(Collectors.toMap(
-                                    department -> department, department -> new DepartmentView(department, view, utilsView))
-                                );
+                                        department -> department,
+                                        department -> new DepartmentView(department, view, utilsView),
+                                        (_, b) -> b,
+                                        TreeMap::new
+                                ));
+
         this.utilsView = utilsView;
+    }
+
+    public DepartmentView getDepartmentView(Department department) {
+        return departmentViews.get(department);
     }
 
     public void showOrganization(View view) {
         addOrganizationTitle(view);
         for (DepartmentView departmentView : departmentViews.values()) {
             departmentView.addOrganizationDetailsDepartment(view);
-            departmentView.showMap(view);
+            departmentView.showDepartmentStationsMap(view);
         }
-    }
-
-    public DepartmentView getDepartmentView(Department department) {
-        return departmentViews.get(department);
     }
 
     private void addOrganizationTitle(View view) {
