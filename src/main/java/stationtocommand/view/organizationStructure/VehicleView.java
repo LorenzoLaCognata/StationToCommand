@@ -17,6 +17,10 @@ public class VehicleView {
         this.utilsView = utilsView;
     }
 
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+
     public void addStationDetailsVehicle(View view) {
         Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
         addVehicleIcon(horizontalDetailsPane);

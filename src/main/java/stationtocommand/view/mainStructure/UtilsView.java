@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
@@ -171,12 +172,33 @@ public class UtilsView {
         return new Point2D(x - (iconSize/2.0), y  - (iconSize/2.0));
     }
 
-    public Point2D locationToRandomPoint(Location location, IconType iconType) {
-        Point2D point = locationToPoint(location, iconType);
-        // TODO: remove this temporary workaround to show all the icons on the same location
-        double randomX = Utils.randomGenerator.nextFloat(-MEDIUM_ICON_SIZE * 2, MEDIUM_ICON_SIZE * 2);
-        double randomY = Utils.randomGenerator.nextFloat(-MEDIUM_ICON_SIZE * 2, MEDIUM_ICON_SIZE * 2);
-        return new Point2D(point.getX() + randomX, point.getY() + randomY);
+    public void distributeResourceIconsByLocation(Point2D nodesCenter, Group group, List<Node> resourceIcons) {
+        int count = resourceIcons.size();
+        int cols = (int) Math.ceil(Math.sqrt(count));
+        double spacing = SMALL_ICON_SIZE;
+
+        if (count == 1) {
+            Node node = resourceIcons.getFirst();
+            node.setLayoutX(nodesCenter.getX());
+            node.setLayoutY(nodesCenter.getY());
+            group.getChildren().add(node);
+        }
+        else {
+            for (int i = 0; i < count; i++) {
+                int row = i / cols;
+                int col = i % cols;
+
+                double offsetX = (col - cols / 2.0) * spacing;
+                double offsetY = (row - (double) count / cols / 2.0) * spacing;
+                System.out.println(count + " - " + offsetX + " - " + offsetY);
+
+                Node node = resourceIcons.get(i);
+                node.setLayoutX(nodesCenter.getX() + offsetX);
+                node.setLayoutY(nodesCenter.getY() + offsetY);
+
+                group.getChildren().add(node);
+            }
+        }
     }
 
     public ImageView basicIcon(String iconPath, String tooltipText) {
@@ -317,15 +339,7 @@ public class UtilsView {
         return vBox;
     }
 
-    public <T extends EnumWithResource> Node createResourceWithRandomLocationIcon(IconType iconType, IconColor iconColor, T resource, Location location) {
-        Node node = createResourceIcon(iconType, iconColor, resource);
-        Point2D point = locationToRandomPoint(location, iconType);
-        node.setLayoutX(point.getX());
-        node.setLayoutY(point.getY());
-        return node;
-    }
-
-    public <T extends EnumWithResource> Node createResourceWithLocationIcon(IconType iconType, IconColor iconColor, T resource, Location location) {
+    public <T extends EnumWithResource> Node createResourceIconWithLocation(IconType iconType, IconColor iconColor, T resource, Location location) {
         Node node = createResourceIcon(iconType, iconColor, resource);
         Point2D point = locationToPoint(location, iconType);
         node.setLayoutX(point.getX());
@@ -359,7 +373,7 @@ public class UtilsView {
     }
 
     public <T extends EnumWithResource> void addIconWithLocationToPane(Pane pane, IconType iconType, IconColor iconColor, T resource, Location location) {
-        Node node = createResourceWithLocationIcon(iconType, iconColor, resource, location);
+        Node node = createResourceIconWithLocation(iconType, iconColor, resource, location);
         pane.getChildren().add(node);
     }
 
