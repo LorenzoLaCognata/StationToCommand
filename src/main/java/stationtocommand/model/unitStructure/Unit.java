@@ -39,7 +39,11 @@ public abstract class Unit implements Comparable<Unit>{
 
     @Override
     public int compareTo(Unit other) {
-        int result = Integer.compare(((Enum<?>) this.unitType).ordinal() * 1000 + this.number, ((Enum<?>) other.getUnitType()).ordinal() * 1000 + other.getNumber());
+        int result = this.getStation().compareTo(other.getStation());
+        if (result != 0) {
+            return result;
+        }
+        result = Integer.compare(((Enum<?>) this.unitType).ordinal() * 1000 + this.number, ((Enum<?>) other.getUnitType()).ordinal() * 1000 + other.getNumber());
         if (result != 0) {
             return result;
         }

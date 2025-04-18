@@ -19,7 +19,6 @@ import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.model.locationStructure.Location;
 import stationtocommand.model.locationStructure.LocationManager;
 import stationtocommand.model.utilsStructure.EnumWithResource;
-import stationtocommand.model.utilsStructure.Utils;
 
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -190,7 +189,6 @@ public class UtilsView {
 
                 double offsetX = (col - cols / 2.0) * spacing;
                 double offsetY = (row - (double) count / cols / 2.0) * spacing;
-                System.out.println(count + " - " + offsetX + " - " + offsetY);
 
                 Node node = resourceIcons.get(i);
                 node.setLayoutX(nodesCenter.getX() + offsetX);

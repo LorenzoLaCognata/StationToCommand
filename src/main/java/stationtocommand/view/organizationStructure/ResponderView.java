@@ -17,6 +17,10 @@ public class ResponderView {
         this.utilsView = utilsView;
     }
 
+    public Responder getResponder() {
+        return responder;
+    }
+
     public void addStationDetailsResponder(View view) {
         Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
         addResponderIcon(horizontalDetailsPane);

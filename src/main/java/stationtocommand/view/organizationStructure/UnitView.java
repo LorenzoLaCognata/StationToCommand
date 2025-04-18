@@ -60,12 +60,14 @@ public class UnitView {
             utilsView.distributeResourceIconsByLocation(nodesCenter, this.vehicleIcons, vehicleLocationNodes.getValue());
         }
 
+        Map<Location, List<Node>> responderNodesByLocation = new HashMap<>();
         this.responderIcons = new Group();
         this.responderViews = unit.getResponders().stream()
                 .map(responder -> {
                     ResponderView responderView = new ResponderView(responder, utilsView);
-                    Node resourceIcon = utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, responder.getAppearanceType(), responder.getLocation());
-                    responderIcons.getChildren().add(resourceIcon);
+                    Location location = responder.getLocation();
+                    Node resourceIcon = utilsView.createResourceIcon(IconType.SMALL, IconColor.EMPTY, responder.getAppearanceType());
+                    responderNodesByLocation.computeIfAbsent(location, _ -> new ArrayList<>()).add(resourceIcon);
                     return Map.entry(responder, responderView);
                 })
                 .collect(Collectors.toMap(
@@ -74,6 +76,16 @@ public class UnitView {
                         (_, b) -> b,
                         TreeMap::new
                 ));
+
+        for (Map.Entry<Location, List<Node>> responderLocationNodes : responderNodesByLocation.entrySet()) {
+            Point2D nodesCenter = utilsView.locationToPoint(responderLocationNodes.getKey(), IconType.SMALL);
+            utilsView.distributeResourceIconsByLocation(nodesCenter, this.responderIcons, responderLocationNodes.getValue());
+        }
+
+    }
+
+    public Unit getUnit() {
+        return unit;
     }
 
     public SortedMap<Vehicle, VehicleView> getVehicleViews() {
@@ -82,22 +94,6 @@ public class UnitView {
 
     public SortedMap<Responder, ResponderView> getResponderViews() {
         return responderViews;
-    }
-
-    public VehicleView getVehicleView(Vehicle vehicle) {
-        return vehicleViews.get(vehicle);
-    }
-
-    public ResponderView getResponderView(Responder responder) {
-        return responderViews.get(responder);
-    }
-
-    public Group getVehicleIcons() {
-        return vehicleIcons;
-    }
-
-    public Group getResponderIcons() {
-        return responderIcons;
     }
 
     public void addStationDetailsUnit(View view) {
@@ -195,7 +191,6 @@ public class UnitView {
         Pane mapLayer = view.getWorldMap().getMapElementsLayer();
         vehicleIcons.setVisible(true);
         if (!mapLayer.getChildren().contains(vehicleIcons)) {
-            System.out.println("x");
             mapLayer.getChildren().add(vehicleIcons);
         }
     }
