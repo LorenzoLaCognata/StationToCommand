@@ -156,7 +156,10 @@ public class UtilsView {
         pane.getChildren().addAll(node);
     }
 
-    public void setGroupVisible(Group group) {
+    public void setGroupVisible(Pane pane, Group group) {
+        if (!pane.getChildren().contains(group)) {
+            pane.getChildren().add(group);
+        }
         group.setVisible(true);
         for (Node node : group.getChildren()) {
             node.setVisible(true);

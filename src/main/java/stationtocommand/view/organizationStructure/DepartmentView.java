@@ -52,14 +52,16 @@ public class DepartmentView {
         this.department = department;
         this.utilsView = utilsView;
 
+        Map<Location, List<Node>> stationNodesByLocation = new HashMap<>();
         this.stationIcons = new Group();
         this.stationNodes = new HashMap<>();
         this.stationViews = department.getStations().stream()
                                 .map(station -> {
                                     StationView stationView = new StationView(station, view, utilsView);
-                                    Node resourceIcon = utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, station.getStationType(), station.getLocation());
+                                    Location location = station.getLocation();
+                                    Node resourceIcon = utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, station.getStationType(), location);
                                     stationNodes.put(station, resourceIcon);
-                                    stationIcons.getChildren().add(resourceIcon);
+                                    stationNodesByLocation.computeIfAbsent(location, _ -> new ArrayList<>()).add(resourceIcon);
                                     return Map.entry(station, stationView);
                                 })
                                 .collect(Collectors.toMap(
@@ -68,6 +70,10 @@ public class DepartmentView {
                                         (_, b) -> b,
                                         TreeMap::new
                                 ));
+        for (Map.Entry<Location, List<Node>> stationLocationNodes : stationNodesByLocation.entrySet()) {
+            Point2D nodesCenter = utilsView.locationToPoint(stationLocationNodes.getKey(), IconType.SMALL);
+            utilsView.distributeResourceIconsByLocation(nodesCenter, this.stationIcons, stationLocationNodes.getValue());
+        }
 
         Map<Location, List<Node>> unitNodesByLocation = new HashMap<>();
         this.unitIcons = new Group();
@@ -171,6 +177,22 @@ public class DepartmentView {
         return stationViews.get(station);
     }
 
+    public Group getStationIcons() {
+        return stationIcons;
+    }
+
+    public Group getUnitIcons() {
+        return unitIcons;
+    }
+
+    public Group getVehicleIcons() {
+        return vehicleIcons;
+    }
+
+    public Group getResponderIcons() {
+        return responderIcons;
+    }
+
     public void addOrganizationDetailsDepartment(View view) {
         Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
         addDepartmentIcon(horizontalDetailsPane);
@@ -195,7 +217,7 @@ public class DepartmentView {
         View.viewRunnable = () -> showDepartment(view);
         utilsView.addBreadCrumb(view.getBreadCrumbBar(), department);
         view.getNavigationPanel().clearAll();
-        view.getWorldMap().clear();
+        view.getWorldMap().setMapElementsNotVisible();
         addDepartmentTitle(view);
 
         Pane buttonsPane = view.getNavigationPanel().getButtonsPane();
@@ -247,15 +269,8 @@ public class DepartmentView {
     }
 
     public void showDepartmentStationsMap(View view) {
-        view.getWorldMap().clear();
-        unitIcons.setVisible(false);
-        vehicleIcons.setVisible(false);
-        responderIcons.setVisible(false);
-        Pane mapLayer = view.getWorldMap().getMapElementsLayer();
-        utilsView.setGroupVisible(stationIcons);
-        if (!mapLayer.getChildren().contains(stationIcons)) {
-            mapLayer.getChildren().add(stationIcons);
-        }
+        view.getWorldMap().setMapElementsNotVisible();
+        utilsView.setGroupVisible(view.getWorldMap().getMapElementsLayer(), stationIcons);
     }
 
     private void showDepartmentUnits(View view) {
@@ -295,15 +310,8 @@ public class DepartmentView {
     }
 
     public void showDepartmentUnitsMap(View view) {
-        view.getWorldMap().clear();
-        stationIcons.setVisible(false);
-        vehicleIcons.setVisible(false);
-        responderIcons.setVisible(false);
-        Pane mapLayer = view.getWorldMap().getMapElementsLayer();
-        utilsView.setGroupVisible(unitIcons);
-        if (!mapLayer.getChildren().contains(unitIcons)) {
-            mapLayer.getChildren().add(unitIcons);
-        }
+        view.getWorldMap().setMapElementsNotVisible();
+        utilsView.setGroupVisible(view.getWorldMap().getMapElementsLayer(), unitIcons);
     }
 
     private void showDepartmentVehicles(View view) {
@@ -345,15 +353,8 @@ public class DepartmentView {
     }
 
     public void showDepartmentVehiclesMap(View view) {
-        view.getWorldMap().clear();
-        stationIcons.setVisible(false);
-        unitIcons.setVisible(false);
-        responderIcons.setVisible(false);
-        Pane mapLayer = view.getWorldMap().getMapElementsLayer();
-        utilsView.setGroupVisible(vehicleIcons);
-        if (!mapLayer.getChildren().contains(vehicleIcons)) {
-            mapLayer.getChildren().add(vehicleIcons);
-        }
+        view.getWorldMap().setMapElementsNotVisible();
+        utilsView.setGroupVisible(view.getWorldMap().getMapElementsLayer(), vehicleIcons);
     }
 
     private void showDepartmentResponders(View view) {
@@ -395,15 +396,8 @@ public class DepartmentView {
     }
 
     public void showDepartmentRespondersMap(View view) {
-        view.getWorldMap().clear();
-        stationIcons.setVisible(false);
-        unitIcons.setVisible(false);
-        vehicleIcons.setVisible(false);
-        Pane mapLayer = view.getWorldMap().getMapElementsLayer();
-        utilsView.setGroupVisible(responderIcons);
-        if (!mapLayer.getChildren().contains(responderIcons)) {
-            mapLayer.getChildren().add(responderIcons);
-        }
+        view.getWorldMap().setMapElementsNotVisible();
+        utilsView.setGroupVisible(view.getWorldMap().getMapElementsLayer(), responderIcons);
     }
 
 }

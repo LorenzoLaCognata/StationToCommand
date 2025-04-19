@@ -209,7 +209,7 @@ public class View {
                 }
             }
             else if (selectedObject instanceof Department department) {
-                worldMap.clear();
+                worldMap.setMapElementsNotVisible();
                 utilsView.resetBreadCrumbBar(breadCrumbBar);
                 organizationView.getDepartmentView(department).showDepartment(this);
             }

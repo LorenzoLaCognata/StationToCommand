@@ -45,7 +45,7 @@ public class MissionDepartmentView {
         View.viewRunnable = () -> show(view, missionDepartmentLink);
         utilsView.addBreadCrumb(view.getBreadCrumbBar(), missionDepartmentLink);
         view.getNavigationPanel().clearAll();
-        view.getWorldMap().clear();
+        view.getWorldMap().setMapElementsNotVisible();
 
         showMissionDepartmentDetails(view, missionDepartmentLink);
 
@@ -97,7 +97,7 @@ public class MissionDepartmentView {
     private void showMissionDepartmentStations(View view, MissionDepartmentLink missionDepartmentLink) {
         View.viewRunnable = () -> showMissionDepartmentStations(view, missionDepartmentLink);
         view.getNavigationPanel().clearDetails();
-        view.getWorldMap().clear();
+        view.getWorldMap().setMapElementsNotVisible();
         missionStationListView.show(view, missionDepartmentLink);
     }
 

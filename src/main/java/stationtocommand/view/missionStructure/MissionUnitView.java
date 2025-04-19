@@ -38,7 +38,7 @@ public class MissionUnitView {
         View.viewRunnable = () -> show(view, missionUnitLink);
         utilsView.addBreadCrumb(view.getBreadCrumbBar(), missionUnitLink);
         view.getNavigationPanel().clearAll();
-        view.getWorldMap().clear();
+        view.getWorldMap().setMapElementsNotVisible();
         showSidebar(view, missionUnitLink);
     }
 

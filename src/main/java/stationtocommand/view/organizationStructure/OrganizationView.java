@@ -14,8 +14,8 @@ import java.util.stream.Collectors;
 
 public class OrganizationView {
 
-    private final SortedMap<Department, DepartmentView> departmentViews;
     private final UtilsView utilsView;
+    private final SortedMap<Department, DepartmentView> departmentViews;
 
     public OrganizationView(List<Department> departments, View view, UtilsView utilsView) {
         this.departmentViews = departments.stream()
@@ -35,9 +35,10 @@ public class OrganizationView {
 
     public void showOrganization(View view) {
         addOrganizationTitle(view);
+        view.getWorldMap().setMapElementsNotVisible();
         for (DepartmentView departmentView : departmentViews.values()) {
             departmentView.addOrganizationDetailsDepartment(view);
-            departmentView.showDepartmentStationsMap(view);
+            utilsView.setGroupVisible(view.getWorldMap().getMapElementsLayer(), departmentView.getStationIcons());
         }
     }
 

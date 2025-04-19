@@ -58,7 +58,6 @@ public class UnitView {
                         (_, b) -> b,
                         TreeMap::new
                 ));
-
         for (Map.Entry<Location, List<Node>> vehicleLocationNodes : vehicleNodesByLocation.entrySet()) {
             Point2D nodesCenter = utilsView.locationToPoint(vehicleLocationNodes.getKey(), IconType.SMALL);
             utilsView.distributeResourceIconsByLocation(nodesCenter, this.vehicleIcons, vehicleLocationNodes.getValue());
@@ -192,13 +191,8 @@ public class UnitView {
     }
 
     public void showUnitVehiclesMap(View view) {
-        view.getWorldMap().clear();
-        responderIcons.setVisible(false);
-        Pane mapLayer = view.getWorldMap().getMapElementsLayer();
-        utilsView.setGroupVisible(vehicleIcons);
-        if (!mapLayer.getChildren().contains(vehicleIcons)) {
-            mapLayer.getChildren().add(vehicleIcons);
-        }
+        view.getWorldMap().setMapElementsNotVisible();
+        utilsView.setGroupVisible(view.getWorldMap().getMapElementsLayer(), vehicleIcons);
     }
 
     private void showUnitResponders(View view) {
@@ -237,13 +231,8 @@ public class UnitView {
     }
 
     public void showUnitRespondersMap(View view) {
-        view.getWorldMap().clear();
-        vehicleIcons.setVisible(false);
-        Pane mapLayer = view.getWorldMap().getMapElementsLayer();
-        utilsView.setGroupVisible(responderIcons);
-        if (!mapLayer.getChildren().contains(responderIcons)) {
-            mapLayer.getChildren().add(responderIcons);
-        }
+        view.getWorldMap().setMapElementsNotVisible();
+        utilsView.setGroupVisible(view.getWorldMap().getMapElementsLayer(), responderIcons);
     }
 
 }
