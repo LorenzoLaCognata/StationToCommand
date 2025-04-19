@@ -33,6 +33,8 @@ public class UnitView {
     private final SortedMap<Responder, ResponderView> responderViews;
     private final Group vehicleIcons;
     private final Group responderIcons;
+    private final Map<Vehicle, Node> vehicleNodes;
+    private final Map<Responder, Node> responderNodes;
 
     public UnitView(Unit unit, View view, UtilsView utilsView) {
         this.unit = unit;
@@ -40,11 +42,13 @@ public class UnitView {
 
         Map<Location, List<Node>> vehicleNodesByLocation = new HashMap<>();
         this.vehicleIcons = new Group();
+        this.vehicleNodes = new HashMap<>();
         this.vehicleViews = unit.getVehicles().stream()
                 .map(vehicle -> {
                     VehicleView vehicleView = new VehicleView(vehicle, utilsView);
                     Location location = vehicle.getLocation();
                     Node resourceIcon = utilsView.createResourceIcon(IconType.SMALL, IconColor.EMPTY, vehicle.getVehicleType());
+                    vehicleNodes.put(vehicle, resourceIcon);
                     vehicleNodesByLocation.computeIfAbsent(location, _ -> new ArrayList<>()).add(resourceIcon);
                     return Map.entry(vehicle, vehicleView);
                 })
@@ -62,11 +66,13 @@ public class UnitView {
 
         Map<Location, List<Node>> responderNodesByLocation = new HashMap<>();
         this.responderIcons = new Group();
+        this.responderNodes = new HashMap<>();
         this.responderViews = unit.getResponders().stream()
                 .map(responder -> {
                     ResponderView responderView = new ResponderView(responder, utilsView);
                     Location location = responder.getLocation();
                     Node resourceIcon = utilsView.createResourceIcon(IconType.SMALL, IconColor.EMPTY, responder.getAppearanceType());
+                    responderNodes.put(responder, resourceIcon);
                     responderNodesByLocation.computeIfAbsent(location, _ -> new ArrayList<>()).add(resourceIcon);
                     return Map.entry(responder, responderView);
                 })
@@ -181,7 +187,7 @@ public class UnitView {
 
         utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
         for (VehicleView vehicleView : vehicleViews.values()) {
-            vehicleView.addStationDetailsVehicle(view);
+            vehicleView.addStationDetailsVehicle(view, vehicleIcons, vehicleNodes.get(vehicleView.getVehicle()));
         }
     }
 
@@ -189,7 +195,7 @@ public class UnitView {
         view.getWorldMap().clear();
         responderIcons.setVisible(false);
         Pane mapLayer = view.getWorldMap().getMapElementsLayer();
-        vehicleIcons.setVisible(true);
+        utilsView.setGroupVisible(vehicleIcons);
         if (!mapLayer.getChildren().contains(vehicleIcons)) {
             mapLayer.getChildren().add(vehicleIcons);
         }
@@ -225,7 +231,8 @@ public class UnitView {
 
         utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
         for (ResponderView responderView : responderViews.values()) {
-            responderView.addStationDetailsResponder(view);
+            responderView.addStationDetailsResponder(view, responderIcons, responderNodes.get(responderView.getResponder()));
+
         }
     }
 
@@ -233,7 +240,7 @@ public class UnitView {
         view.getWorldMap().clear();
         vehicleIcons.setVisible(false);
         Pane mapLayer = view.getWorldMap().getMapElementsLayer();
-        responderIcons.setVisible(true);
+        utilsView.setGroupVisible(responderIcons);
         if (!mapLayer.getChildren().contains(responderIcons)) {
             mapLayer.getChildren().add(responderIcons);
         }

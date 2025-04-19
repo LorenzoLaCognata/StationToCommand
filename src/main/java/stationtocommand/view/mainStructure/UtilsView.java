@@ -156,6 +156,13 @@ public class UtilsView {
         pane.getChildren().addAll(node);
     }
 
+    public void setGroupVisible(Group group) {
+        group.setVisible(true);
+        for (Node node : group.getChildren()) {
+            node.setVisible(true);
+        }
+    }
+
     double normalize(double value, double min, double max) {
         return (value - min) / (max - min);
     }

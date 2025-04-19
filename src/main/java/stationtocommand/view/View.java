@@ -25,6 +25,9 @@ import stationtocommand.view.mainStructure.NavigationPanel;
 import stationtocommand.view.mainStructure.UtilsView;
 import stationtocommand.view.mainStructure.WorldMap;
 import stationtocommand.view.organizationStructure.OrganizationView;
+import stationtocommand.view.organizationStructure.ResponderView;
+import stationtocommand.view.organizationStructure.StationView;
+import stationtocommand.view.organizationStructure.VehicleView;
 
 import java.util.List;
 
@@ -226,14 +229,19 @@ public class View {
                 Station station = unit.getStation();
                 Department department = station.getDepartment();
                 utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
-                organizationView.getDepartmentView(department).getStationView(station).getResponderView(responder).showResponder(this);
+                StationView stationView = organizationView.getDepartmentView(department).getStationView(station);
+                ResponderView responderView = stationView.getResponderView(responder);
+                responderView.showResponder(this, stationView.getResponderIcons(), stationView.getResponderNodes().get(responderView.getResponder()));
+
             }
             else if (selectedObject instanceof Vehicle vehicle) {
                 Unit unit = vehicle.getUnitLink().getUnit();
                 Station station = unit.getStation();
                 Department department = station.getDepartment();
                 utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
-                organizationView.getDepartmentView(department).getStationView(station).getVehicleView(vehicle).showVehicle(this);
+                StationView stationView = organizationView.getDepartmentView(department).getStationView(station);
+                VehicleView vehicleView = stationView.getVehicleView(vehicle);
+                vehicleView.showVehicle(this, stationView.getVehicleIcons(), stationView.getVehicleNodes().get(vehicleView.getVehicle()));
             }
             else if (selectedObject instanceof Mission mission) {
                 utilsView.resetBreadCrumbBar(breadCrumbBar);
