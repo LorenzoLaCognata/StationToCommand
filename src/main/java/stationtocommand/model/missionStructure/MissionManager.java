@@ -66,7 +66,7 @@ public class MissionManager {
         return generateMission(locationManager, randomMissionType);
     }
 
-    public void dispatchMissionToDepartment(Mission mission) {
+    public void dispatchMissionToDepartments(Mission mission) {
 
         if (mission.getDepartmentLinks().isEmpty()) {
             List<DepartmentType> departmentTypes = requiredDepartmentTypes(mission.getMissionType());

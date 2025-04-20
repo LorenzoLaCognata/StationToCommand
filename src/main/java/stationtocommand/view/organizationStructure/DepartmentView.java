@@ -66,7 +66,6 @@ public class DepartmentView {
                 view.getWorldMap().addMapElement(responderView.getNode());
             }
         }
-
     }
 
     public Department getDepartment() {

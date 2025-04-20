@@ -3,35 +3,50 @@ package stationtocommand.view.dispatchStructure;
 import javafx.scene.layout.Pane;
 import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.view.View;
-import stationtocommand.view.mainStructure.IconColor;
-import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
 
 import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 public class DispatchView {
 
     private final UtilsView utilsView;
-    private final MissionListView missionListView;
+    private final SortedMap<Mission, MissionView> missionViews;
 
-    public DispatchView(UtilsView utilsView) {
+    public DispatchView(List<Mission> missions, View view, UtilsView utilsView) {
         this.utilsView = utilsView;
-        this.missionListView = new MissionListView(utilsView);
+        this.missionViews = missions.stream()
+                .collect(Collectors.toMap(
+                        mission -> mission,
+                        mission -> new MissionView(mission, utilsView),
+                        (_, b) -> b,
+                        TreeMap::new
+                ));
     }
 
-    public MissionListView getMissionListView() {
-        return missionListView;
+    public MissionView getMissionView(Mission mission) {
+        return missionViews.get(mission);
     }
 
-    public void show(View view, List<Mission> missions) {
-        showDispatchDetails(view, missions);
-        missionListView.show(view, missions);
+    public void addMissionView(Mission mission) {
+        missionViews.put(mission, new MissionView(mission, utilsView));
     }
 
-    private void showDispatchDetails(View view, List<Mission> missions) {
+    public void showDispatch(View view) {
+        addDispatchTitle(view);
+        view.getWorldMap().setMapElementsNotVisible();
+        for (MissionView missionView : missionViews.values()) {
+            missionView.addDispatchDetailsMission(view);
+            // TODO: restore for map
+            //utilsView.setGroupVisible(view.getWorldMap().getMapElementsLayer(), departmentView.getStationIcons());
+        }
+
+    }
+
+    private void addDispatchTitle(View view) {
         Pane horizontalTitlePane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
-        // TODO: manage if there is no mission active at the start, it will fail
-        utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, missions.getFirst().getMissionType());
         utilsView.addMainTitleLabel(horizontalTitlePane, "Dispatch");
     }
 

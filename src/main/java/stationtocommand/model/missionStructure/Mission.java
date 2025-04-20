@@ -5,6 +5,7 @@ import stationtocommand.model.locationStructure.Location;
 import stationtocommand.model.missionLinkStructure.MissionCivilianLink;
 import stationtocommand.model.missionLinkStructure.MissionDepartmentLink;
 import stationtocommand.model.missionLinkStructure.MissionObjectiveLink;
+import stationtocommand.model.missionLinkStructure.MissionStationLink;
 import stationtocommand.model.objectiveStructure.Objective;
 import stationtocommand.model.personStructure.Civilian;
 import stationtocommand.model.responderStructure.Responder;
@@ -15,7 +16,7 @@ import stationtocommand.model.vehicleStructure.Vehicle;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Mission {
+public class Mission implements Comparable<Mission> {
 
     private final MissionType missionType;
     private final Location location;
@@ -36,6 +37,12 @@ public class Mission {
         return this.missionType.toString();
     }
 
+    @Override
+    public int compareTo(Mission other) {
+        // TODO: add timestamp to the mission and use that here
+        return Integer.compare(System.identityHashCode(this), System.identityHashCode(other));
+    }
+
     public MissionType getMissionType() {
         return missionType;
     }
@@ -46,6 +53,13 @@ public class Mission {
 
     public List<MissionDepartmentLink> getDepartmentLinks() {
         return departmentLinks;
+    }
+
+    public MissionDepartmentLink getDepartmentLink(Department department) {
+        return departmentLinks.stream()
+                .filter(item -> item.getDepartment().equals(department))
+                .findAny()
+                .orElse(null);
     }
 
     public List<MissionCivilianLink> getCivilianLinks() {

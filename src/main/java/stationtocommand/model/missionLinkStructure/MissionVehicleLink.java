@@ -4,7 +4,7 @@ import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.model.vehicleStructure.Vehicle;
 import stationtocommand.model.vehicleStructure.VehicleLink;
 
-public class MissionVehicleLink extends VehicleLink {
+public class MissionVehicleLink extends VehicleLink implements Comparable<MissionVehicleLink>  {
 
   private final Mission mission;
 
@@ -16,6 +16,19 @@ public class MissionVehicleLink extends VehicleLink {
   @Override
   public String toString() {
     return this.getVehicle().toString();
+  }
+
+  @Override
+  public int compareTo(MissionVehicleLink other) {
+    int result = this.mission.compareTo(other.getMission());
+    if (result != 0) {
+      return result;
+    }
+    result = this.getVehicle().compareTo(other.getVehicle());
+    if (result != 0) {
+      return result;
+    }
+    return Integer.compare(System.identityHashCode(this), System.identityHashCode(other));
   }
 
   public Mission getMission() {

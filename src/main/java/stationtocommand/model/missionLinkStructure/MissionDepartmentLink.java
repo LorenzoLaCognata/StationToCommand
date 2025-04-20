@@ -8,7 +8,7 @@ import stationtocommand.model.stationStructure.Station;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MissionDepartmentLink extends DepartmentLink {
+public class MissionDepartmentLink extends DepartmentLink implements Comparable<MissionDepartmentLink> {
 
   private final Mission mission;
   private final List<MissionStationLink> stationLinks;
@@ -22,6 +22,19 @@ public class MissionDepartmentLink extends DepartmentLink {
   @Override
   public String toString() {
     return this.getDepartment().toString();
+  }
+
+  @Override
+  public int compareTo(MissionDepartmentLink other) {
+    int result = this.mission.compareTo(other.getMission());
+    if (result != 0) {
+      return result;
+    }
+    result = this.getDepartment().compareTo(other.getDepartment());
+    if (result != 0) {
+      return result;
+    }
+    return Integer.compare(System.identityHashCode(this), System.identityHashCode(other));
   }
 
   public Mission getMission() {

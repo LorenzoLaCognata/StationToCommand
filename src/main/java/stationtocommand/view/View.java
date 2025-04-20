@@ -21,6 +21,7 @@ import stationtocommand.model.stationStructure.Station;
 import stationtocommand.model.unitStructure.Unit;
 import stationtocommand.model.vehicleStructure.Vehicle;
 import stationtocommand.view.dispatchStructure.DispatchView;
+import stationtocommand.view.dispatchStructure.MissionView;
 import stationtocommand.view.mainStructure.NavigationPanel;
 import stationtocommand.view.mainStructure.UtilsView;
 import stationtocommand.view.mainStructure.WorldMap;
@@ -64,6 +65,14 @@ public class View {
 
     }
 
+    public OrganizationView getOrganizationView() {
+        return organizationView;
+    }
+
+    public DispatchView getDispatchView() {
+        return dispatchView;
+    }
+
     public BreadCrumbBar<Object> getBreadCrumbBar() {
         return breadCrumbBar;
     }
@@ -100,7 +109,7 @@ public class View {
         this.controller = controller;
         this.utilsView = new UtilsView();
         this.organizationView = new OrganizationView(controller.getModel().getDepartmentManager().getDepartments(), controller.getView(), utilsView);
-        this.dispatchView = new DispatchView(utilsView);
+        this.dispatchView = new DispatchView(controller.getModel().getMissionManager().getMissions(), controller.getView(), utilsView);
         organizationButtonHandler("Organization");
     }
 
@@ -157,7 +166,7 @@ public class View {
         organizationButton.setOnAction(_ -> organizationButtonHandler(organizationButton.getText()));
         toolbar.getItems().addAll(organizationButton);
 
-        dispatchButton.setOnAction(_ -> dispatchButtonHandler(dispatchButton.getText(), missions));
+        dispatchButton.setOnAction(_ -> dispatchButtonHandler(dispatchButton.getText()));
         toolbar.getItems().addAll(dispatchButton);
 
         Button quitButton = new Button("Quit");
@@ -204,7 +213,7 @@ public class View {
                         organizationButtonHandler("Organization");
                         break;
                     case "Dispatch":
-                        dispatchButtonHandler("Dispatch", missions);
+                        dispatchButtonHandler("Dispatch");
                         break;
                 }
             }
@@ -244,28 +253,46 @@ public class View {
                 vehicleView.showVehicle(this);
             }
             else if (selectedObject instanceof Mission mission) {
+                MissionView missionView = dispatchView.getMissionView(mission);
                 utilsView.resetBreadCrumbBar(breadCrumbBar);
-                dispatchView.getMissionListView().getMissionView().show(this, mission);
+                missionView.showMission(this);
             }
             else if (selectedObject instanceof MissionDepartmentLink missionDepartmentLink) {
+                Mission mission = missionDepartmentLink.getMission();
+                MissionView missionView = dispatchView.getMissionView(mission);
                 utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
-                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().show(this, missionDepartmentLink);
+                missionView.getMissionDepartmentView(missionDepartmentLink).showMissionDepartment(this);
             }
             else if (selectedObject instanceof MissionStationLink missionStationLink) {
+                Mission mission = missionStationLink.getMission();
+                MissionView missionView = dispatchView.getMissionView(mission);
+                MissionDepartmentLink missionDepartmentLink = mission.getDepartmentLink(missionStationLink.getStation().getDepartment());
                 utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
-                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().show(this, missionStationLink);
+                missionView.getMissionDepartmentView(missionDepartmentLink).getMissionStationView(missionStationLink).showMissionStation(this, missionStationLink);
             }
             else if (selectedObject instanceof MissionUnitLink missionUnitLink) {
+                Mission mission = missionUnitLink.getMission();
+                MissionView missionView = dispatchView.getMissionView(mission);
+                MissionDepartmentLink missionDepartmentLink = mission.getDepartmentLink(missionUnitLink.getUnit().getStation().getDepartment());
+                MissionStationLink missionStationLink = missionDepartmentLink.getStationLink(missionUnitLink.getUnit().getStation());
                 utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
-                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().getMissionUnitListView().getMissionUnitView().show(this, missionUnitLink);
+                missionView.getMissionDepartmentView(missionDepartmentLink).getMissionStationView(missionStationLink).getMissionUnitView(missionUnitLink).showMissionUnit(this);
             }
             else if (selectedObject instanceof MissionResponderLink missionResponderLink) {
+                Mission mission = missionResponderLink.getMission();
+                MissionView missionView = dispatchView.getMissionView(mission);
+                MissionDepartmentLink missionDepartmentLink = mission.getDepartmentLink(missionResponderLink.getResponder().getUnitLink().getUnit().getStation().getDepartment());
+                MissionStationLink missionStationLink = missionDepartmentLink.getStationLink(missionResponderLink.getResponder().getUnitLink().getUnit().getStation());
                 utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
-                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().getMissionResponderListView().getMissionResponderView().show(this, missionResponderLink);
+                missionView.getMissionDepartmentView(missionDepartmentLink).getMissionStationView(missionStationLink).getMissionResponderListView().getMissionResponderView().show(this, missionResponderLink);
             }
             else if (selectedObject instanceof MissionVehicleLink missionVehicleLink) {
+                Mission mission = missionVehicleLink.getMission();
+                MissionView missionView = dispatchView.getMissionView(mission);
+                MissionDepartmentLink missionDepartmentLink = mission.getDepartmentLink(missionVehicleLink.getVehicle().getUnitLink().getUnit().getStation().getDepartment());
+                MissionStationLink missionStationLink = missionDepartmentLink.getStationLink(missionVehicleLink.getVehicle().getUnitLink().getUnit().getStation());
                 utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
-                dispatchView.getMissionListView().getMissionView().getMissionDepartmentListView().getMissionDepartmentView().getMissionStationListView().getMissionStationView().getMissionVehicleListView().getMissionVehicleView().show(this, missionVehicleLink);
+                missionView.getMissionDepartmentView(missionDepartmentLink).getMissionStationView(missionStationLink).getMissionVehicleListView().getMissionVehicleView().show(this, missionVehicleLink);
             }
         });
     }
@@ -279,13 +306,13 @@ public class View {
         organizationView.showOrganization(this);
     }
 
-    public void dispatchButtonHandler(String buttonText, List<Mission> missions) {
-        viewRunnable = () -> dispatchButtonHandler(buttonText, missions);
+    public void dispatchButtonHandler(String buttonText) {
+        viewRunnable = () -> dispatchButtonHandler(buttonText);
         navigationPanel.clearAll();
         worldMap.setMapElementsNotVisible();
         utilsView.resetBreadCrumbBar(breadCrumbBar);
         utilsView.addBreadCrumb(breadCrumbBar, buttonText);
-        dispatchView.show(this, missions);
+        dispatchView.showDispatch(this);
     }
 
     public void refreshUserInterface() {

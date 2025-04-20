@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import stationtocommand.model.missionLinkStructure.MissionResponderLink;
+import stationtocommand.model.missionLinkStructure.MissionStationLink;
 import stationtocommand.model.missionLinkStructure.MissionUnitLink;
 import stationtocommand.model.missionLinkStructure.MissionVehicleLink;
 import stationtocommand.model.personStructure.AppearanceType;
@@ -24,48 +25,81 @@ import java.util.stream.Collectors;
 
 public class MissionUnitView {
 
+    private final MissionUnitLink missionUnitLink;
     private final UtilsView utilsView;
     private final MissionResponderListView missionResponderListView;
     private final MissionVehicleListView missionVehicleListView;
 
-    public MissionUnitView(UtilsView utilsView) {
+    public MissionUnitView(MissionUnitLink missionUnitLink, UtilsView utilsView) {
+        System.out.println("Created MissionUnitView for " + missionUnitLink.getMission() + " - " + missionUnitLink.getUnit());
+        this.missionUnitLink = missionUnitLink;
         this.utilsView = utilsView;
         this.missionResponderListView = new MissionResponderListView(utilsView);
         this.missionVehicleListView = new MissionVehicleListView(utilsView);
     }
 
-    public void show(View view, MissionUnitLink missionUnitLink) {
-        View.viewRunnable = () -> show(view, missionUnitLink);
+    public MissionUnitLink getMissionUnitLink() {
+        return missionUnitLink;
+    }
+
+    public void addMissionDepartmentDetailsMissionUnit(View view) {
+        addMissionStationDetailsMissionUnit(view);
+    }
+
+    public void addMissionStationDetailsMissionUnit(View view) {
+        Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
+        addMissionUnitIcon(horizontalDetailsPane);
+        addMissionUnitButton(view, horizontalDetailsPane);
+    }
+
+    private void addMissionUnitIcon(Pane pane) {
+        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, missionUnitLink.getUnit().getUnitType());
+    }
+
+    private void addMissionUnitButton(View view, Pane pane) {
+        utilsView.addButtonToPane(pane, missionUnitLink.getUnit().toString(), (_ -> showMissionUnit(view)));
+    }
+
+
+
+
+
+
+
+
+
+    public void showMissionUnit(View view) {
+        View.viewRunnable = () -> showMissionUnit(view);
         utilsView.addBreadCrumb(view.getBreadCrumbBar(), missionUnitLink);
         view.getNavigationPanel().clearAll();
         view.getWorldMap().setMapElementsNotVisible();
-        showSidebar(view, missionUnitLink);
+        showSidebar(view);
     }
 
-    private void showSidebar(View view, MissionUnitLink missionUnitLink) {
-        showMissionUnitDetails(view, missionUnitLink);
+    private void showSidebar(View view) {
+        showMissionUnitDetails(view);
 
         Pane buttonsPane = view.getNavigationPanel().getButtonsPane();
 
         EventHandler<ActionEvent> missionVehiclesButtonHandler = event -> {
             utilsView.setPaneButtonsSelectionStyle(event, buttonsPane);
-            showMissionUnitVehicles(view, missionUnitLink);
+            showMissionUnitVehicles(view);
         };
         Button missionVehiclesButton = utilsView.addButtonToHorizontalPane(buttonsPane, "Vehicles", missionVehiclesButtonHandler);
         missionVehiclesButton.setGraphic(utilsView.smallIcon(PoliceVehicleType.PATROL_SEDAN.getResourcePath(), ""));
 
         EventHandler<ActionEvent> missionRespondersButtonHandler = event -> {
             utilsView.setPaneButtonsSelectionStyle(event, buttonsPane);
-            showMissionUnitResponders(view, missionUnitLink);
+            showMissionUnitResponders(view);
         };
         Button missionRespondersButton = utilsView.addButtonToHorizontalPane(buttonsPane, "Responders", missionRespondersButtonHandler);
         missionRespondersButton.setGraphic(utilsView.smallIcon(AppearanceType.MALE_01.getResourcePath(), ""));
 
         utilsView.setButtonSelectedStyle(missionVehiclesButton);
-        showMissionUnitVehicles(view, missionUnitLink);
+        showMissionUnitVehicles(view);
     }
 
-    private void showMissionUnitDetails(View view, MissionUnitLink missionUnitLink) {
+    private void showMissionUnitDetails(View view) {
         Pane titleAndSubtitlePane = utilsView.createVBox(view.getNavigationPanel().getTitlePane());
         Pane horizontalTitlePane = utilsView.createHBox(titleAndSubtitlePane);
         utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, missionUnitLink.getMission().getMissionType());
@@ -75,8 +109,8 @@ public class MissionUnitView {
         utilsView.addMainSubtitleLabel(horizontalSubtitlePane, missionUnitLink.getUnit().toString());
     }
 
-    private void showMissionUnitVehicles(View view, MissionUnitLink missionUnitLink) {
-        View.viewRunnable = () -> showMissionUnitVehicles(view, missionUnitLink);
+    private void showMissionUnitVehicles(View view) {
+        View.viewRunnable = () -> showMissionUnitVehicles(view);
         view.getNavigationPanel().clearDetails();
 
         List<MissionVehicleLink> missionVehicleLinks = missionUnitLink.getVehicleLinks().stream()
@@ -107,8 +141,8 @@ public class MissionUnitView {
 
     }
 
-    private void showMissionUnitResponders(View view, MissionUnitLink missionUnitLink) {
-        View.viewRunnable = () -> showMissionUnitResponders(view, missionUnitLink);
+    private void showMissionUnitResponders(View view) {
+        View.viewRunnable = () -> showMissionUnitResponders(view);
         view.getNavigationPanel().clearDetails();
 
         List<MissionResponderLink> missionResponderLinks = missionUnitLink.getResponderLinks().stream()

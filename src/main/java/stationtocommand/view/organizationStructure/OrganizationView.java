@@ -44,9 +44,6 @@ public class OrganizationView {
 
     private void addOrganizationTitle(View view) {
         Pane horizontalTitlePane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
-        for (DepartmentView departmentView : departmentViews.values()) {
-            utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, departmentView.getDepartment().getDepartmentType());
-        }
         utilsView.addMainTitleLabel(horizontalTitlePane, "Organization");
     }
 
