@@ -58,14 +58,14 @@ public class VehicleView {
         utilsView.addBreadCrumb(view.getBreadCrumbBar(), vehicle);
         view.getNavigationPanel().clearAll();
         showVehicleDetails(view);
-        showVehicleMap();
+        setNodeVisible();
     }
 
     private void showVehicleDetails(View view) {
         addVehicleTitle(view);
     }
 
-    public void showVehicleMap() {
+    public void setNodeVisible() {
         node.setVisible(true);
     }
 

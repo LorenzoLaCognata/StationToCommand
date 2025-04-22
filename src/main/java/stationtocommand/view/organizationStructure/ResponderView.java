@@ -57,7 +57,7 @@ public class ResponderView {
         utilsView.addBreadCrumb(view.getBreadCrumbBar(), responder);
         view.getNavigationPanel().clearAll();
         showResponderDetails(view);
-        showResponderMap();
+        setNodeVisible();
     }
 
     private void showResponderDetails(View view) {
@@ -66,7 +66,7 @@ public class ResponderView {
         utilsView.addBodyLabel(horizontalDetailsPane, responder.getRank().toString());
     }
 
-    public void showResponderMap() {
+    public void setNodeVisible() {
         node.setVisible(true);
     }
 

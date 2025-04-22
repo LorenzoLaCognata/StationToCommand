@@ -6,7 +6,6 @@ import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
-import stationtocommand.view.organizationStructure.VehicleView;
 
 public class MissionVehicleView {
 

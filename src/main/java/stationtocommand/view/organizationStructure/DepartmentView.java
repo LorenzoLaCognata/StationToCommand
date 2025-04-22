@@ -3,7 +3,6 @@ package stationtocommand.view.organizationStructure;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
@@ -28,7 +27,10 @@ import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 public class DepartmentView {
@@ -39,125 +41,34 @@ public class DepartmentView {
     private final SortedMap<Unit, UnitView> unitViews;
     private final SortedMap<Vehicle, VehicleView> vehicleViews;
     private final SortedMap<Responder, ResponderView> responderViews;
-    private final Group stationIcons;
-    private final Group unitIcons;
-    private final Group vehicleIcons;
-    private final Group responderIcons;
-    private final Map<Station, Node> stationNodes;
-    private final Map<Unit, Node> unitNodes;
-    private final Map<Responder, Node> responderNodes;
 
     public DepartmentView(Department department, View view, UtilsView utilsView) {
         this.department = department;
         this.utilsView = utilsView;
 
-        Map<Location, List<Node>> stationNodesByLocation = new HashMap<>();
-        this.stationIcons = new Group();
-        this.stationNodes = new HashMap<>();
-        this.stationViews = department.getStations().stream()
-                                .map(station -> {
-                                    StationView stationView = new StationView(station, view, utilsView);
-                                    Location location = station.getLocation();
-                                    Node resourceIcon = utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, station.getStationType(), location);
-                                    stationNodes.put(station, resourceIcon);
-                                    stationNodesByLocation.computeIfAbsent(location, _ -> new ArrayList<>()).add(resourceIcon);
-                                    return Map.entry(station, stationView);
-                                })
-                                .collect(Collectors.toMap(
-                                        Map.Entry::getKey,
-                                        Map.Entry::getValue,
-                                        (_, b) -> b,
-                                        TreeMap::new
-                                ));
-        for (Map.Entry<Location, List<Node>> stationLocationNodes : stationNodesByLocation.entrySet()) {
-            Point2D nodesCenter = utilsView.locationToPoint(stationLocationNodes.getKey(), IconType.SMALL);
-            utilsView.distributeResourceIconsByLocation(nodesCenter, this.stationIcons, stationLocationNodes.getValue());
+        this.stationViews = new TreeMap<>();
+        for (Station station : department.getStations()) {
+            StationView stationView = new StationView(station, view, utilsView);
+            stationViews.put(station, stationView);
+            view.getWorldMap().addMapElement(stationView.getNode());
         }
 
-        Map<Location, List<Node>> unitNodesByLocation = new HashMap<>();
-        this.unitIcons = new Group();
-        this.unitNodes = new HashMap<>();
-        this.unitViews =  this.stationViews.values().stream()
-                .flatMap(stationView -> stationView.getUnitViews().entrySet().stream())
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        Map.Entry::getValue,
-                        (_, b) -> b,
-                        TreeMap::new
-                ));
-
-        Map<Location, List<UnitView>> unitViewsByLocation = unitViews.values().stream()
-                .collect(Collectors.groupingBy(
-                        u -> u.getUnit().getStation().getLocation())
-                );
-
-        for (Map.Entry<Location, List<UnitView>> unitViewLocationNodes : unitViewsByLocation.entrySet()) {
-            for (UnitView unitView : unitViewLocationNodes.getValue()) {
-                Node resourceIcon = utilsView.createResourceIcon(IconType.SMALL, IconColor.EMPTY, unitView.getUnit().getUnitType());
-                unitNodes.put(unitView.getUnit(), resourceIcon);
-                unitNodesByLocation.computeIfAbsent(unitViewLocationNodes.getKey(), _ -> new ArrayList<>()).add(resourceIcon);
+        this.unitViews = new TreeMap<>();
+        this.vehicleViews = new TreeMap<>();
+        this.responderViews = new TreeMap<>();
+        for (StationView stationView : stationViews.values()) {
+            for (UnitView unitView : stationView.getUnitViews().values()) {
+                unitViews.put(unitView.getUnit(), unitView);
+                view.getWorldMap().addMapElement(unitView.getNode());
             }
-        }
-
-        for (Map.Entry<Location, List<Node>> unitLocationNodes : unitNodesByLocation.entrySet()) {
-            Point2D nodesCenter = utilsView.locationToPoint(unitLocationNodes.getKey(), IconType.SMALL);
-            utilsView.distributeResourceIconsByLocation(nodesCenter, this.unitIcons, unitLocationNodes.getValue());
-        }
-
-        // TODO: change and restore
-        Map<Location, List<Node>> vehicleNodesByLocation = new HashMap<>();
-        this.vehicleIcons = new Group();
-        this.vehicleViews =  this.unitViews.values().stream()
-                .flatMap(unitView -> unitView.getVehicleViews().entrySet().stream())
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        Map.Entry::getValue,
-                        (_, b) -> b,
-                        TreeMap::new
-                ));
-        Map<Location, List<VehicleView>> vehicleViewsByLocation = vehicleViews.values().stream()
-                .collect(Collectors.groupingBy(
-                        v -> v.getVehicle().getLocation())
-                );
-        for (Map.Entry<Location, List<VehicleView>> vehicleViewLocationNodes : vehicleViewsByLocation.entrySet()) {
-            for (VehicleView vehicleView : vehicleViewLocationNodes.getValue()) {
-                Node resourceIcon = utilsView.createResourceIcon(IconType.SMALL, IconColor.EMPTY, vehicleView.getVehicle().getVehicleType());
-                vehicleNodesByLocation.computeIfAbsent(vehicleViewLocationNodes.getKey(), _ -> new ArrayList<>()).add(resourceIcon);
+            for (VehicleView vehicleView : stationView.getVehicleViews().values()) {
+                vehicleViews.put(vehicleView.getVehicle(), vehicleView);
+                view.getWorldMap().addMapElement(vehicleView.getNode());
             }
-        }
-        for (Map.Entry<Location, List<Node>> vehicleLocationNodes : vehicleNodesByLocation.entrySet()) {
-            Point2D nodesCenter = utilsView.locationToPoint(vehicleLocationNodes.getKey(), IconType.SMALL);
-            utilsView.distributeResourceIconsByLocation(nodesCenter, this.vehicleIcons, vehicleLocationNodes.getValue());
-        }
-
-        Map<Location, List<Node>> responderNodesByLocation = new HashMap<>();
-        this.responderIcons = new Group();
-        this.responderNodes = new HashMap<>();
-        this.responderViews =  this.unitViews.values().stream()
-                .flatMap(unitView -> unitView.getResponderViews().entrySet().stream())
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        Map.Entry::getValue,
-                        (_, b) -> b,
-                        TreeMap::new
-                ));
-
-        Map<Location, List<ResponderView>> responderViewsByLocation = responderViews.values().stream()
-                .collect(Collectors.groupingBy(
-                        r -> r.getResponder().getLocation())
-                );
-
-        for (Map.Entry<Location, List<ResponderView>> responderViewLocationNodes : responderViewsByLocation.entrySet()) {
-            for (ResponderView responderView : responderViewLocationNodes.getValue()) {
-                Node resourceIcon = utilsView.createResourceIcon(IconType.SMALL, IconColor.EMPTY, responderView.getResponder().getAppearanceType());
-                responderNodes.put(responderView.getResponder(), resourceIcon);
-                responderNodesByLocation.computeIfAbsent(responderViewLocationNodes.getKey(), _ -> new ArrayList<>()).add(resourceIcon);
+            for (ResponderView responderView : stationView.getResponderViews().values()) {
+                responderViews.put(responderView.getResponder(), responderView);
+                view.getWorldMap().addMapElement(responderView.getNode());
             }
-        }
-
-        for (Map.Entry<Location, List<Node>> responderLocationNodes : responderNodesByLocation.entrySet()) {
-            Point2D nodesCenter = utilsView.locationToPoint(responderLocationNodes.getKey(), IconType.SMALL);
-            utilsView.distributeResourceIconsByLocation(nodesCenter, this.responderIcons, responderLocationNodes.getValue());
         }
 
     }
@@ -166,20 +77,12 @@ public class DepartmentView {
         return department;
     }
 
+    public SortedMap<Station, StationView> getStationViews() {
+        return stationViews;
+    }
+
     public StationView getStationView(Station station) {
         return stationViews.get(station);
-    }
-
-    public Group getStationIcons() {
-        return stationIcons;
-    }
-
-    public Group getUnitIcons() {
-        return unitIcons;
-    }
-
-    public Group getResponderIcons() {
-        return responderIcons;
     }
 
     public void addOrganizationDetailsDepartment(View view) {
@@ -252,14 +155,30 @@ public class DepartmentView {
     private void showDepartmentStationsDetails(View view) {
         view.getNavigationPanel().clearDetails();
         utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
-        for (Station station : department.getStations()) {
-            getStationView(station).addDepartmentDetailsStation(view);
+        for (StationView stationView : stationViews.values()) {
+            stationView.addDepartmentDetailsStation(view);
         }
     }
 
     public void showDepartmentStationsMap(View view) {
         view.getWorldMap().setMapElementsNotVisible();
-        utilsView.setGroupVisible(view.getWorldMap().getMapElementsLayer(), stationIcons);
+
+        Map<Location, List<StationView>> stationViewsByLocation = stationViews.values().stream()
+                .collect(Collectors.groupingBy(
+                        v -> v.getStation().getLocation()
+                ));
+
+        for (Map.Entry<Location, List<StationView>> locationStationViews : stationViewsByLocation.entrySet()) {
+            Point2D nodesCenter = utilsView.locationToPoint(locationStationViews.getKey(), IconType.SMALL);
+            List<Node> locationNodes = locationStationViews.getValue().stream()
+                    .map(StationView::getNode)
+                    .toList();
+            utilsView.distributeResourceIconsByLocation(nodesCenter, locationNodes);
+        }
+
+        for (StationView stationView : stationViews.values()) {
+            stationView.setNodeVisible();
+        }
     }
 
     private void showDepartmentUnits(View view) {
@@ -300,7 +219,23 @@ public class DepartmentView {
 
     public void showDepartmentUnitsMap(View view) {
         view.getWorldMap().setMapElementsNotVisible();
-        utilsView.setGroupVisible(view.getWorldMap().getMapElementsLayer(), unitIcons);
+
+        Map<Location, List<UnitView>> unitViewsByLocation = unitViews.values().stream()
+                .collect(Collectors.groupingBy(
+                        v -> v.getUnit().getStation().getLocation()
+                ));
+
+        for (Map.Entry<Location, List<UnitView>> locationUnitViews : unitViewsByLocation.entrySet()) {
+            Point2D nodesCenter = utilsView.locationToPoint(locationUnitViews.getKey(), IconType.SMALL);
+            List<Node> locationNodes = locationUnitViews.getValue().stream()
+                    .map(UnitView::getNode)
+                    .toList();
+            utilsView.distributeResourceIconsByLocation(nodesCenter, locationNodes);
+        }
+
+        for (UnitView unitView : unitViews.values()) {
+            unitView.setNodeVisible();
+        }
     }
 
     private void showDepartmentVehicles(View view) {
@@ -343,7 +278,23 @@ public class DepartmentView {
 
     public void showDepartmentVehiclesMap(View view) {
         view.getWorldMap().setMapElementsNotVisible();
-        utilsView.setGroupVisible(view.getWorldMap().getMapElementsLayer(), vehicleIcons);
+
+        Map<Location, List<VehicleView>> vehicleViewsByLocation = vehicleViews.values().stream()
+                .collect(Collectors.groupingBy(
+                        v -> v.getVehicle().getLocation()
+                ));
+
+        for (Map.Entry<Location, List<VehicleView>> locationVehicleViews : vehicleViewsByLocation.entrySet()) {
+            Point2D nodesCenter = utilsView.locationToPoint(locationVehicleViews.getKey(), IconType.SMALL);
+            List<Node> locationNodes = locationVehicleViews.getValue().stream()
+                    .map(VehicleView::getNode)
+                    .toList();
+            utilsView.distributeResourceIconsByLocation(nodesCenter, locationNodes);
+        }
+
+        for (VehicleView vehicleView : vehicleViews.values()) {
+            vehicleView.setNodeVisible();
+        }
     }
 
     private void showDepartmentResponders(View view) {
@@ -386,7 +337,23 @@ public class DepartmentView {
 
     public void showDepartmentRespondersMap(View view) {
         view.getWorldMap().setMapElementsNotVisible();
-        utilsView.setGroupVisible(view.getWorldMap().getMapElementsLayer(), responderIcons);
+
+        Map<Location, List<ResponderView>> responderViewsByLocation = responderViews.values().stream()
+                .collect(Collectors.groupingBy(
+                        v -> v.getResponder().getLocation()
+                ));
+
+        for (Map.Entry<Location, List<ResponderView>> locationResponderViews : responderViewsByLocation.entrySet()) {
+            Point2D nodesCenter = utilsView.locationToPoint(locationResponderViews.getKey(), IconType.SMALL);
+            List<Node> locationNodes = locationResponderViews.getValue().stream()
+                    .map(ResponderView::getNode)
+                    .toList();
+            utilsView.distributeResourceIconsByLocation(nodesCenter, locationNodes);
+        }
+
+        for (ResponderView responderView : responderViews.values()) {
+            responderView.setNodeVisible();
+        }
     }
 
 }

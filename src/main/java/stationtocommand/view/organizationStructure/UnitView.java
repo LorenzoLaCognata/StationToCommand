@@ -21,37 +21,46 @@ import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 public class UnitView {
 
     private final Unit unit;
+    private final Node node;
     private final UtilsView utilsView;
     private final SortedMap<Vehicle, VehicleView> vehicleViews;
     private final SortedMap<Responder, ResponderView> responderViews;
 
     public UnitView(Unit unit, View view, UtilsView utilsView) {
         this.unit = unit;
+        this.node = utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, unit.getUnitType(), unit.getStation().getLocation());
         this.utilsView = utilsView;
 
         this.vehicleViews = new TreeMap<>();
         for (Vehicle vehicle : unit.getVehicles()) {
             VehicleView vehicleView = new VehicleView(vehicle, utilsView);
             vehicleViews.put(vehicle, vehicleView);
-            view.getWorldMap().getMapElementsLayer().getChildren().add(vehicleView.getNode());
+            view.getWorldMap().addMapElement(vehicleView.getNode());
         }
 
         this.responderViews = new TreeMap<>();
         for (Responder responder : unit.getResponders()) {
             ResponderView responderView = new ResponderView(responder, utilsView);
             responderViews.put(responder, responderView);
-            view.getWorldMap().getMapElementsLayer().getChildren().add(responderView.getNode());
+            view.getWorldMap().addMapElement(responderView.getNode());
         }
     }
 
     public Unit getUnit() {
         return unit;
+    }
+
+    public Node getNode() {
+        return node;
     }
 
     public SortedMap<Vehicle, VehicleView> getVehicleViews() {
@@ -117,6 +126,10 @@ public class UnitView {
         utilsView.addMainTitleLabel(horizontalTitlePane, unit.toString());
     }
 
+    public void setNodeVisible() {
+        node.setVisible(true);
+    }
+
     private void showUnitVehicles(View view) {
         View.viewRunnable = () -> showUnitVehicles(view);
         showUnitVehiclesDetails(view);
@@ -168,7 +181,7 @@ public class UnitView {
         }
 
         for (VehicleView vehicleView : vehicleViews.values()) {
-            vehicleView.showVehicleMap();
+            vehicleView.setNodeVisible();
         }
     }
 
@@ -224,7 +237,7 @@ public class UnitView {
         }
 
         for (ResponderView responderView : responderViews.values()) {
-            responderView.showResponderMap();
+            responderView.setNodeVisible();
         }
     }
 

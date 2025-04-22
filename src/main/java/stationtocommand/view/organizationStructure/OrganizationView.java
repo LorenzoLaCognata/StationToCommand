@@ -10,7 +10,6 @@ import stationtocommand.view.mainStructure.UtilsView;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 
 public class OrganizationView {
 
@@ -18,13 +17,11 @@ public class OrganizationView {
     private final SortedMap<Department, DepartmentView> departmentViews;
 
     public OrganizationView(List<Department> departments, View view, UtilsView utilsView) {
-        this.departmentViews = departments.stream()
-                                .collect(Collectors.toMap(
-                                        department -> department,
-                                        department -> new DepartmentView(department, view, utilsView),
-                                        (_, b) -> b,
-                                        TreeMap::new
-                                ));
+        this.departmentViews = new TreeMap<>();
+        for (Department department : departments) {
+            DepartmentView departmentView = new DepartmentView(department, view, utilsView);
+            departmentViews.put(department, departmentView);
+        }
 
         this.utilsView = utilsView;
     }
@@ -34,11 +31,14 @@ public class OrganizationView {
     }
 
     public void showOrganization(View view) {
+        showOrganizationDetails(view);
+        showOrganizationMap(view);
+    }
+
+    private void showOrganizationDetails(View view) {
         addOrganizationTitle(view);
-        view.getWorldMap().setMapElementsNotVisible();
         for (DepartmentView departmentView : departmentViews.values()) {
             departmentView.addOrganizationDetailsDepartment(view);
-            utilsView.setGroupVisible(view.getWorldMap().getMapElementsLayer(), departmentView.getStationIcons());
         }
     }
 
@@ -48,6 +48,15 @@ public class OrganizationView {
             utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, departmentView.getDepartment().getDepartmentType());
         }
         utilsView.addMainTitleLabel(horizontalTitlePane, "Organization");
+    }
+
+    private void showOrganizationMap(View view) {
+        view.getWorldMap().setMapElementsNotVisible();
+        for (DepartmentView departmentView : departmentViews.values()) {
+            for (StationView stationView : departmentView.getStationViews().values()) {
+                stationView.setNodeVisible();
+            }
+        }
     }
 
 }
