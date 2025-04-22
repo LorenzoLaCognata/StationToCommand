@@ -28,6 +28,10 @@ public class VehicleView {
         return node;
     }
 
+    public void setNodeVisible() {
+        node.setVisible(true);
+    }
+
     public void addStationDetailsVehicle(View view) {
         Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
         addVehicleIcon(horizontalDetailsPane);
@@ -58,15 +62,16 @@ public class VehicleView {
         utilsView.addBreadCrumb(view.getBreadCrumbBar(), vehicle);
         view.getNavigationPanel().clearAll();
         showVehicleDetails(view);
-        setNodeVisible();
+        showVehicleMap(view);
     }
 
     private void showVehicleDetails(View view) {
         addVehicleTitle(view);
     }
 
-    public void setNodeVisible() {
-        node.setVisible(true);
+    private void showVehicleMap(View view) {
+        view.getWorldMap().setMapElementsNotVisible();
+        setNodeVisible();
     }
 
 }

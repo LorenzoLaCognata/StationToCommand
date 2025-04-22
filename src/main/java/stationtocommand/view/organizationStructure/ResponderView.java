@@ -28,6 +28,10 @@ public class ResponderView {
         return node;
     }
 
+    public void setNodeVisible() {
+        node.setVisible(true);
+    }
+
     public void addStationDetailsResponder(View view) {
         Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
         addResponderIcon(horizontalDetailsPane);
@@ -57,7 +61,7 @@ public class ResponderView {
         utilsView.addBreadCrumb(view.getBreadCrumbBar(), responder);
         view.getNavigationPanel().clearAll();
         showResponderDetails(view);
-        setNodeVisible();
+        showResponderMap(view);
     }
 
     private void showResponderDetails(View view) {
@@ -66,8 +70,9 @@ public class ResponderView {
         utilsView.addBodyLabel(horizontalDetailsPane, responder.getRank().toString());
     }
 
-    public void setNodeVisible() {
-        node.setVisible(true);
+    private void showResponderMap(View view) {
+        view.getWorldMap().setMapElementsNotVisible();
+        setNodeVisible();
     }
 
 }
