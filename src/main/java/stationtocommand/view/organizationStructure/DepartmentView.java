@@ -45,7 +45,6 @@ public class DepartmentView {
     private final Group responderIcons;
     private final Map<Station, Node> stationNodes;
     private final Map<Unit, Node> unitNodes;
-    private final Map<Vehicle, Node> vehicleNodes;
     private final Map<Responder, Node> responderNodes;
 
     public DepartmentView(Department department, View view, UtilsView utilsView) {
@@ -105,11 +104,9 @@ public class DepartmentView {
             utilsView.distributeResourceIconsByLocation(nodesCenter, this.unitIcons, unitLocationNodes.getValue());
         }
 
-
-
+        // TODO: change and restore
         Map<Location, List<Node>> vehicleNodesByLocation = new HashMap<>();
         this.vehicleIcons = new Group();
-        this.vehicleNodes = new HashMap<>();
         this.vehicleViews =  this.unitViews.values().stream()
                 .flatMap(unitView -> unitView.getVehicleViews().entrySet().stream())
                 .collect(Collectors.toMap(
@@ -118,20 +115,16 @@ public class DepartmentView {
                         (_, b) -> b,
                         TreeMap::new
                 ));
-
         Map<Location, List<VehicleView>> vehicleViewsByLocation = vehicleViews.values().stream()
                 .collect(Collectors.groupingBy(
                         v -> v.getVehicle().getLocation())
                 );
-
         for (Map.Entry<Location, List<VehicleView>> vehicleViewLocationNodes : vehicleViewsByLocation.entrySet()) {
             for (VehicleView vehicleView : vehicleViewLocationNodes.getValue()) {
                 Node resourceIcon = utilsView.createResourceIcon(IconType.SMALL, IconColor.EMPTY, vehicleView.getVehicle().getVehicleType());
-                vehicleNodes.put(vehicleView.getVehicle(), resourceIcon);
                 vehicleNodesByLocation.computeIfAbsent(vehicleViewLocationNodes.getKey(), _ -> new ArrayList<>()).add(resourceIcon);
             }
         }
-
         for (Map.Entry<Location, List<Node>> vehicleLocationNodes : vehicleNodesByLocation.entrySet()) {
             Point2D nodesCenter = utilsView.locationToPoint(vehicleLocationNodes.getKey(), IconType.SMALL);
             utilsView.distributeResourceIconsByLocation(nodesCenter, this.vehicleIcons, vehicleLocationNodes.getValue());
@@ -183,10 +176,6 @@ public class DepartmentView {
 
     public Group getUnitIcons() {
         return unitIcons;
-    }
-
-    public Group getVehicleIcons() {
-        return vehicleIcons;
     }
 
     public Group getResponderIcons() {
@@ -348,7 +337,7 @@ public class DepartmentView {
 
         utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
         for (VehicleView vehicleView : vehicleViews.values()) {
-            vehicleView.addStationDetailsVehicle(view, vehicleIcons, vehicleNodes.get(vehicleView.getVehicle()));
+            vehicleView.addStationDetailsVehicle(view);
         }
     }
 
@@ -391,7 +380,7 @@ public class DepartmentView {
 
         utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
         for (ResponderView responderView : responderViews.values()) {
-            responderView.addStationDetailsResponder(view, responderIcons, responderNodes.get(responderView.getResponder()));
+            responderView.addStationDetailsResponder(view);
         }
     }
 

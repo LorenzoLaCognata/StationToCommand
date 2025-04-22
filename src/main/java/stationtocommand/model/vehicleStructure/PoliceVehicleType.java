@@ -3,9 +3,11 @@ package stationtocommand.model.vehicleStructure;
 import java.util.Objects;
 
 public enum PoliceVehicleType implements VehicleType {
-  SEDAN("Police Sedan", "/images/vehicle/sedan.png"),
-  SUV("Police SUV", "/images/vehicle/suv.png"),
-  MOTORCYCLE("Police Motorcycle", "/images/vehicle/motorcycle.png");
+  SEDAN("Police Sedan", "/images/vehicle/policeSedan.png"),
+  PATROL_SEDAN("Patrol Sedan", "/images/vehicle/patrolSedan.png"),
+  SUV("Police SUV", "/images/vehicle/policeSUV.png"),
+  TACTICAL_SUV("Tactical SUV", "/images/vehicle/tacticalSUV.png"),
+  MOTORCYCLE("Police Motorcycle", "/images/vehicle/policeMotorcycle.png");
 
   private final String name;
   private final String resourcePath;

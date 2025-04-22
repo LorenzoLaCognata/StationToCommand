@@ -8,11 +8,13 @@ import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
 import stationtocommand.view.organizationStructure.VehicleView;
 
-public class MissionVehicleView {
+public class MissionVehicleViewV2 {
 
+    private final VehicleView vehicleView;
     private final UtilsView utilsView;
 
-    public MissionVehicleView(UtilsView utilsView) {
+    public MissionVehicleViewV2(VehicleView vehicleView, UtilsView utilsView) {
+        this.vehicleView = vehicleView;
         this.utilsView = utilsView;
     }
 

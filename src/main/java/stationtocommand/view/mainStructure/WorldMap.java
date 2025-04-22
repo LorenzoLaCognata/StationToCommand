@@ -42,10 +42,6 @@ public class WorldMap {
         return mapElementsLayer;
     }
 
-    public void clear() {
-        mapElementsLayer.getChildren().clear();
-    }
-
     public void setMapElementsNotVisible() {
         for (Node node : mapElementsLayer.getChildren()) {
             node.setVisible(false);

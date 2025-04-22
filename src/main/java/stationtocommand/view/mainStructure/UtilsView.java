@@ -209,6 +209,31 @@ public class UtilsView {
         }
     }
 
+    public void distributeResourceIconsByLocation(Point2D nodesCenter, List<Node> resourceIcons) {
+        int count = resourceIcons.size();
+        int cols = (int) Math.ceil(Math.sqrt(count));
+        double spacing = SMALL_ICON_SIZE;
+
+        if (count == 1) {
+            Node node = resourceIcons.getFirst();
+            node.setLayoutX(nodesCenter.getX());
+            node.setLayoutY(nodesCenter.getY());
+        }
+        else {
+            for (int i = 0; i < count; i++) {
+                int row = i / cols;
+                int col = i % cols;
+
+                double offsetX = (col - cols / 2.0) * spacing;
+                double offsetY = (row - (double) count / cols / 2.0) * spacing;
+
+                Node node = resourceIcons.get(i);
+                node.setLayoutX(nodesCenter.getX() + offsetX);
+                node.setLayoutY(nodesCenter.getY() + offsetY);
+            }
+        }
+    }
+
     public ImageView basicIcon(String iconPath, String tooltipText) {
         ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(iconPath)).toExternalForm()));
         if (!tooltipText.isEmpty()) {

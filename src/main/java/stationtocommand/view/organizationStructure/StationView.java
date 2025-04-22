@@ -43,7 +43,6 @@ public class StationView {
     private final Group vehicleIcons;
     private final Group responderIcons;
     private final Map<Unit, Node> unitNodes;
-    private final Map<Vehicle, Node> vehicleNodes;
     private final Map<Responder, Node> responderNodes;
 
     public StationView(Station station, View view, UtilsView utilsView) {
@@ -75,7 +74,6 @@ public class StationView {
 
         Map<Location, List<Node>> vehicleNodesByLocation = new HashMap<>();
         this.vehicleIcons = new Group();
-        this.vehicleNodes = new HashMap<>();
         this.vehicleViews =  this.unitViews.values().stream()
                 .flatMap(unitView -> unitView.getVehicleViews().entrySet().stream())
                 .collect(Collectors.toMap(
@@ -89,15 +87,12 @@ public class StationView {
                 .collect(Collectors.groupingBy(
                         v -> v.getVehicle().getLocation())
                 );
-
         for (Map.Entry<Location, List<VehicleView>> vehicleViewLocationNodes : vehicleViewsByLocation.entrySet()) {
             for (VehicleView vehicleView : vehicleViewLocationNodes.getValue()) {
                 Node resourceIcon = utilsView.createResourceIcon(IconType.SMALL, IconColor.EMPTY, vehicleView.getVehicle().getVehicleType());
-                vehicleNodes.put(vehicleView.getVehicle(), resourceIcon);
                 vehicleNodesByLocation.computeIfAbsent(vehicleViewLocationNodes.getKey(), _ -> new ArrayList<>()).add(resourceIcon);
             }
         }
-
         for (Map.Entry<Location, List<Node>> vehicleLocationNodes : vehicleNodesByLocation.entrySet()) {
             Point2D nodesCenter = utilsView.locationToPoint(vehicleLocationNodes.getKey(), IconType.SMALL);
             utilsView.distributeResourceIconsByLocation(nodesCenter, this.vehicleIcons, vehicleLocationNodes.getValue());
@@ -141,14 +136,6 @@ public class StationView {
 
     public UnitView getUnitView(Unit unit) {
         return unitViews.get(unit);
-    }
-
-    public Group getVehicleIcons() {
-        return vehicleIcons;
-    }
-
-    public Map<Vehicle, Node> getVehicleNodes() {
-        return vehicleNodes;
     }
 
     public VehicleView getVehicleView(Vehicle vehicle) {
@@ -318,7 +305,7 @@ public class StationView {
 
         utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
         for (VehicleView vehicleView : vehicleViews.values()) {
-            vehicleView.addStationDetailsVehicle(view, vehicleIcons, vehicleNodes.get(vehicleView.getVehicle()));
+            vehicleView.addStationDetailsVehicle(view);
         }
     }
 
@@ -359,7 +346,7 @@ public class StationView {
 
         utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
         for (ResponderView responderView : responderViews.values()) {
-            responderView.addStationDetailsResponder(view, responderIcons, responderNodes.get(responderView.getResponder()));
+            responderView.addStationDetailsResponder(view);
         }
     }
 

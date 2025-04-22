@@ -44,7 +44,7 @@ public class Controller {
         this.model = model;
         this.view = view;
         view.initialize(this);
-        view.generateHomePage(model.getDepartmentManager().getDepartments(), model.getMissionManager().getMissions());
+        view.generateHomePage(model.getMissionManager().getMissions());
         scheduler.scheduleEventChecker(view.getGameClockLabel(), view.getUtilsView().getDateFormat());
         modelSampleInitialization();
         missionGenerator();
@@ -64,6 +64,7 @@ public class Controller {
             department.getShiftManager().initShifts(department, model.getWatchManager(), model.getResponderManager());
         }
 
+        /*
         for (Department department : model.getDepartmentManager().getDepartments()) {
             System.out.println("\n" + department);
 
@@ -75,11 +76,6 @@ public class Controller {
 
                     for (Responder responder : model.getResponderManager().getResponders()) {
                         if (responder.getUnitLink().getUnit().equals(unit)) {
-                            // TODO: temporary random movement to visualize responders differently on map
-                            float randomLatitude = Utils.randomGenerator.nextFloat(LocationManager.MIN_LATITUDE, LocationManager.MAX_LATITUDE);
-                            float randomLongitude = Utils.randomGenerator.nextFloat(LocationManager.MIN_LONGITUDE, LocationManager.MAX_LONGITUDE);
-                            Location location  = new Location(randomLatitude, randomLongitude);
-                            responder.setLocation(location);
                             System.out.println("\t\t\t\t\t\t- " + responder);
                         }
                     }
@@ -91,21 +87,24 @@ public class Controller {
                 }
             }
         }
+        */
 
         Mission sampleMission = model.getMissionManager().generateMission(model.getLocationManager(), MissionType.VEHICLE_FIRE);
 
         List<Task> sampleTasks = model.getTaskManager().generateTasks(sampleMission);
 
+        /*
         for (Task sampleTask : sampleTasks) {
             System.out.println("\t- " + sampleTask);
         }
+        */
 
         Civilian civilian = new Civilian(sampleMission.getLocation());
         model.getCivilianManager().addCivilian(civilian);
 
         sampleMission.linkCivilian(civilian);
 
-        System.out.println("\t- " + sampleMission.getCivilianLinks().getFirst().getCivilian());
+        //System.out.println("\t- " + sampleMission.getCivilianLinks().getFirst().getCivilian());
 
         Department department = model.getDepartmentManager().getDepartment(DepartmentType.FIRE_DEPARTMENT);
         sampleMission.linkDepartment(department);
@@ -120,8 +119,7 @@ public class Controller {
         }
 
         sampleMission.linkObjective(new Objective(ObjectiveType.EVACUATE_CIVILIANS));
-
-        System.out.println(sampleMission + " has objective " + sampleMission.getObjectiveLinks().getFirst().getObjective());
+        //System.out.println(sampleMission + " has objective " + sampleMission.getObjectiveLinks().getFirst().getObjective());
 
         List<Unit> sampleMissionUnits = sampleMission.getDepartmentLinks().stream()
                 .flatMap(item -> item.getStationLinks().stream())
@@ -134,32 +132,29 @@ public class Controller {
             for (Responder responder : missionUnit.getResponders()) {
                 responder.setResponderStatus(ResponderStatus.DISPATCHED);
                 sampleMission.linkResponder(responder);
-                System.out.println(sampleMission + " assigned to " + responder);
+                //System.out.println(sampleMission + " assigned to " + responder);
 
                 sampleTasks.getFirst().linkResponder(responder);
-                System.out.println(sampleTasks.getFirst() + " assigned to " + responder);
+                //System.out.println(sampleTasks.getFirst() + " assigned to " + responder);
             }
 
             Vehicle vehicle = model.getVehicleManager().getVehicles(missionUnit).getFirst();
             vehicle.setVehicleStatus(VehicleStatus.DISPATCHED);
             sampleMission.linkVehicle(vehicle);
-            System.out.println(sampleMission + " assigned to " + vehicle);
+            //System.out.println(sampleMission + " assigned to " + vehicle);
         }
 
         Training training = model.getTrainingManager().getTraining(TrainingType.FIRST_AID);
         model.getResponderManager().getPlayer().linkTraining(training);
-
-        System.out.println(model.getResponderManager().getPlayer() + " completes " + model.getResponderManager().getPlayer().getTrainingLinks().getFirst().getTraining());
+        //System.out.println(model.getResponderManager().getPlayer() + " completes " + model.getResponderManager().getPlayer().getTrainingLinks().getFirst().getTraining());
 
         Skill skill = model.getSkillManager().getSkill(SkillType.SELF_DEFENSE);
         model.getResponderManager().getPlayer().linkSkill(skill);
-
-        System.out.println(model.getResponderManager().getPlayer() + " obtains " + model.getResponderManager().getPlayer().getSkillLinks().getFirst().getSkill());
+        //System.out.println(model.getResponderManager().getPlayer() + " obtains " + model.getResponderManager().getPlayer().getSkillLinks().getFirst().getSkill());
 
         Action action = new Action(ActionType.SETUP_PERIMETER, model.getResponderManager().getPlayer(), null, null, null, null);
         model.getActionManager().addAction(action);
-
-        System.out.println(model.getActionManager().getActions().getFirst().getResponderLink().getResponder() + " performs " + model.getActionManager().getActions().getFirst());
+        //System.out.println(model.getActionManager().getActions().getFirst().getResponderLink().getResponder() + " performs " + model.getActionManager().getActions().getFirst());
 
     }
 

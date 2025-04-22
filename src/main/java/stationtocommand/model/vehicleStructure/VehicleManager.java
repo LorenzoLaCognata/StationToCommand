@@ -21,9 +21,11 @@ public class VehicleManager {
 	public static final float TOWER_RATIO = 0.30f;
 	public static final float RESCUE_RATIO = 1.00f;
 	public static final float HEAVY_RESCUE_RATIO = 0.50f;
-	public static final float SEDAN_RATIO = 1.00f;
-	public static final float SUV_RATIO = 1.00f;
-	public static final float MOTORCYCLE_RATIO = 0.30f;
+	public static final float PATROL_SEDAN_RATIO = 1.00f;
+	public static final float POLICE_SEDAN_RATIO = 0.80f;
+	public static final float POLICE_SUV_RATIO = 0.80f;
+	public static final float TACTICAL_SUV_RATIO = 1.00f;
+	public static final float POLICE_MOTORCYCLE_RATIO = 0.20f;
 	public static final float BLS_AMBULANCE_RATIO = 1.00f;
 	public static final float ALS_AMBULANCE_RATIO = 1.00f;
 
@@ -103,26 +105,34 @@ public class VehicleManager {
 							}
 						}
 						case PoliceUnitType.PATROL_UNIT -> {
-							int sedanCount = Utils.randomIntegerFromRatio(SEDAN_RATIO);
-							for (int i = 0; i< sedanCount; i++) {
-								addVehicle(new Vehicle(PoliceVehicleType.SEDAN, unit));
+							int patrolSedanCount = Utils.randomIntegerFromRatio(PATROL_SEDAN_RATIO);
+							for (int i = 0; i< patrolSedanCount; i++) {
+								addVehicle(new Vehicle(PoliceVehicleType.PATROL_SEDAN, unit));
 							}
-							int motorcycleCount = Utils.randomIntegerFromRatio(MOTORCYCLE_RATIO);
+							int motorcycleCount = Utils.randomIntegerFromRatio(POLICE_MOTORCYCLE_RATIO);
 							for (int i = 0; i< motorcycleCount; i++) {
 								addVehicle(new Vehicle(PoliceVehicleType.MOTORCYCLE, unit));
 								addVehicle(new Vehicle(PoliceVehicleType.MOTORCYCLE, unit));
 							}
 						}
 						case PoliceUnitType.HOMICIDE_UNIT, PoliceUnitType.NARCOTICS_UNIT, PoliceUnitType.VICE_UNIT -> {
-							int sedanCount = Utils.randomIntegerFromRatio(SEDAN_RATIO);
-							for (int i = 0; i< sedanCount; i++) {
+							int policeSedanCount = Utils.randomIntegerFromRatio(POLICE_SEDAN_RATIO);
+							for (int i = 0; i< policeSedanCount; i++) {
 								addVehicle(new Vehicle(PoliceVehicleType.SEDAN, unit));
+							}
+							int policeSuvCount = Utils.randomIntegerFromRatio(POLICE_SUV_RATIO);
+							for (int i = 0; i< policeSuvCount; i++) {
+								addVehicle(new Vehicle(PoliceVehicleType.SUV, unit));
 							}
 						}
 						case PoliceUnitType.DETECTIVE_UNIT -> {
-							int suvCount = Utils.randomIntegerFromRatio(SUV_RATIO);
-							for (int i = 0; i< suvCount; i++) {
+							int policeSuvCount = Utils.randomIntegerFromRatio(POLICE_SUV_RATIO);
+							for (int i = 0; i< policeSuvCount; i++) {
 								addVehicle(new Vehicle(PoliceVehicleType.SUV, unit));
+							}
+							int tacticalSuvCount = Utils.randomIntegerFromRatio(TACTICAL_SUV_RATIO);
+							for (int i = 0; i< tacticalSuvCount; i++) {
+								addVehicle(new Vehicle(PoliceVehicleType.TACTICAL_SUV, unit));
 							}
 						}
                         case MedicUnitType.PRIMARY_CARE_UNIT -> {

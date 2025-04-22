@@ -101,10 +101,10 @@ public class View {
         this.utilsView = new UtilsView();
         this.organizationView = new OrganizationView(controller.getModel().getDepartmentManager().getDepartments(), controller.getView(), utilsView);
         this.dispatchView = new DispatchView(utilsView);
-        organizationButtonHandler("Organization", controller.getModel().getDepartmentManager().getDepartments());
+        organizationButtonHandler("Organization");
     }
 
-    public void generateHomePage(List<Department> departments, List<Mission> missions) {
+    public void generateHomePage(List<Mission> missions) {
 
         hud.setSpacing(15);
         hud.setPadding(new Insets(15));
@@ -154,7 +154,7 @@ public class View {
 
         gridPane.getRowConstraints().addAll(firstRow, secondRow, thirdRow, fourthRow);
 
-        organizationButton.setOnAction(_ -> organizationButtonHandler(organizationButton.getText(), departments));
+        organizationButton.setOnAction(_ -> organizationButtonHandler(organizationButton.getText()));
         toolbar.getItems().addAll(organizationButton);
 
         dispatchButton.setOnAction(_ -> dispatchButtonHandler(dispatchButton.getText(), missions));
@@ -186,7 +186,7 @@ public class View {
         toolbar.getItems().addAll(speed0Button, speed1Button, speed2Button, speed3Button);
 
         breadCrumbBar.setStyle("-fx-background-color: #222; -fx-padding: 5px;");
-        breadCrumbActions(departments, missions);
+        breadCrumbActions(missions);
 
         Timeline userInterfaceUpdater = new Timeline(new KeyFrame(Duration.seconds(1), _ -> refreshUserInterface()));
         userInterfaceUpdater.setCycleCount(Animation.INDEFINITE);
@@ -194,14 +194,14 @@ public class View {
 
     }
 
-    private void breadCrumbActions(List<Department> departments, List<Mission> missions) {
+    private void breadCrumbActions(List<Mission> missions) {
         breadCrumbBar.setOnCrumbAction(event -> {
             Object selectedObject = event.getSelectedCrumb().getValue();
 
             if (selectedObject instanceof String string) {
                 switch (string) {
                     case "Organization":
-                        organizationButtonHandler("Organization", departments);
+                        organizationButtonHandler("Organization");
                         break;
                     case "Dispatch":
                         dispatchButtonHandler("Dispatch", missions);
@@ -231,7 +231,7 @@ public class View {
                 utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
                 StationView stationView = organizationView.getDepartmentView(department).getStationView(station);
                 ResponderView responderView = stationView.getResponderView(responder);
-                responderView.showResponder(this, stationView.getResponderIcons(), stationView.getResponderNodes().get(responderView.getResponder()));
+                responderView.showResponder(this);
 
             }
             else if (selectedObject instanceof Vehicle vehicle) {
@@ -241,7 +241,7 @@ public class View {
                 utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
                 StationView stationView = organizationView.getDepartmentView(department).getStationView(station);
                 VehicleView vehicleView = stationView.getVehicleView(vehicle);
-                vehicleView.showVehicle(this, stationView.getVehicleIcons(), stationView.getVehicleNodes().get(vehicleView.getVehicle()));
+                vehicleView.showVehicle(this);
             }
             else if (selectedObject instanceof Mission mission) {
                 utilsView.resetBreadCrumbBar(breadCrumbBar);
@@ -270,10 +270,10 @@ public class View {
         });
     }
 
-    public void organizationButtonHandler(String buttonText, List<Department> departments) {
-        viewRunnable = () -> organizationButtonHandler(buttonText, departments);
+    public void organizationButtonHandler(String buttonText) {
+        viewRunnable = () -> organizationButtonHandler(buttonText);
         navigationPanel.clearAll();
-        worldMap.clear();
+        worldMap.setMapElementsNotVisible();
         utilsView.resetBreadCrumbBar(breadCrumbBar);
         utilsView.addBreadCrumb(breadCrumbBar, buttonText);
         organizationView.showOrganization(this);
@@ -282,7 +282,7 @@ public class View {
     public void dispatchButtonHandler(String buttonText, List<Mission> missions) {
         viewRunnable = () -> dispatchButtonHandler(buttonText, missions);
         navigationPanel.clearAll();
-        worldMap.clear();
+        worldMap.setMapElementsNotVisible();
         utilsView.resetBreadCrumbBar(breadCrumbBar);
         utilsView.addBreadCrumb(breadCrumbBar, buttonText);
         dispatchView.show(this, missions);
