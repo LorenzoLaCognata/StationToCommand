@@ -1,5 +1,7 @@
 package stationtocommand.view.mainStructure;
 
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
@@ -41,8 +43,26 @@ public class WorldMap {
         return mapElementsLayer;
     }
 
-    public void clear() {
-        mapElementsLayer.getChildren().clear();
+    public void setMapElementsNotVisible() {
+        for (Node node : mapElementsLayer.getChildren()) {
+            node.setVisible(false);
+        }
+    }
+
+    public void addMapElement(Node node) {
+        if (!mapElementsLayer.getChildren().contains(node)) {
+            mapElementsLayer.getChildren().add(node);
+        }
+    }
+
+    public void setMapElementsGroupVisible(Group group) {
+        if (!mapElementsLayer.getChildren().contains(group)) {
+            mapElementsLayer.getChildren().add(group);
+        }
+        group.setVisible(true);
+        for (Node node : group.getChildren()) {
+            node.setVisible(true);
+        }
     }
 
 }

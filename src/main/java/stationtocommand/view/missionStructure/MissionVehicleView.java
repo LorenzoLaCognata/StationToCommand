@@ -19,7 +19,7 @@ public class MissionVehicleView {
         View.viewRunnable = () -> show(view, missionVehicleLink);
         utilsView.addBreadCrumb(view.getBreadCrumbBar(), missionVehicleLink);
         view.getNavigationPanel().clearAll();
-        view.getWorldMap().clear();
+        view.getWorldMap().setMapElementsNotVisible();
         showSidebar(view, missionVehicleLink);
     }
 

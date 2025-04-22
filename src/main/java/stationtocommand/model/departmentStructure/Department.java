@@ -7,7 +7,7 @@ import stationtocommand.model.stationStructure.StationManager;
 
 import java.util.List;
 
-public class Department {
+public class Department implements Comparable<Department> {
 
     private final DepartmentType departmentType;
     private final StationManager stationManager;
@@ -24,6 +24,11 @@ public class Department {
     @Override
     public String toString() {
         return departmentType + " Department";
+    }
+
+    @Override
+    public int compareTo(Department other) {
+        return Integer.compare(((Enum<?>) this.departmentType).ordinal(), ((Enum<?>) other.getDepartmentType()).ordinal());
     }
 
     public DepartmentType getDepartmentType() {

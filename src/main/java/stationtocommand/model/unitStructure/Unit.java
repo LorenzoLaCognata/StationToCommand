@@ -12,7 +12,7 @@ import stationtocommand.model.vehicleStructure.VehicleLink;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Unit {
+public abstract class Unit implements Comparable<Unit>{
 
     private final Station station;
     private final UnitType unitType;
@@ -35,6 +35,19 @@ public abstract class Unit {
     @Override
     public String toString() {
         return unitType + " " + number;
+    }
+
+    @Override
+    public int compareTo(Unit other) {
+        int result = this.getStation().compareTo(other.getStation());
+        if (result != 0) {
+            return result;
+        }
+        result = Integer.compare(((Enum<?>) this.unitType).ordinal() * 1000 + this.number, ((Enum<?>) other.getUnitType()).ordinal() * 1000 + other.getNumber());
+        if (result != 0) {
+            return result;
+        }
+        return Integer.compare(System.identityHashCode(this), System.identityHashCode(other));
     }
 
     public Station getStation() {

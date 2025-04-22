@@ -33,12 +33,14 @@ public class EventProcessor {
     public void processEvent(ScheduledEvent event) {
         if (event == null) return;
 
+        /*
         if (event.eventObject() != null) {
             System.out.println(controller.getScheduler().getSimulationDateTime(event.eventTime()) + ": " + event.eventType() + " - " + event.eventObject());
         }
         else {
             System.out.println(controller.getScheduler().getSimulationDateTime(event.eventTime()) + ": " + event.eventType());
         }
+        */
 
         long nextEventTime;
         ScheduledEventType nextEventType;

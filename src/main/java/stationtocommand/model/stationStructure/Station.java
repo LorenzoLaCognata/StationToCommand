@@ -2,16 +2,12 @@ package stationtocommand.model.stationStructure;
 
 import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.model.locationStructure.Location;
-import stationtocommand.model.responderStructure.Responder;
-import stationtocommand.model.responderStructure.ResponderLink;
 import stationtocommand.model.unitStructure.Unit;
 import stationtocommand.model.unitStructure.UnitManager;
-import stationtocommand.model.vehicleStructure.Vehicle;
-import stationtocommand.model.vehicleStructure.VehicleLink;
 
 import java.util.List;
 
-public class Station {
+public class Station implements Comparable<Station> {
 
     private final Department department;
     private final StationType stationType;
@@ -37,6 +33,19 @@ public class Station {
         return department.getDepartmentType() + " Station " + number;
     }
 
+    @Override
+    public int compareTo(Station other) {
+        int result = Integer.compare(((Enum<?>) this.stationType).ordinal(), ((Enum<?>) other.getStationType()).ordinal());
+        if (result != 0) {
+            return result;
+        }
+        result = Integer.compare(this.number, other.getNumber());
+        if (result != 0) {
+            return result;
+        }
+        return Integer.compare(System.identityHashCode(this), System.identityHashCode(other));
+    }
+
     public Department getDepartment() {
         return department;
     }
@@ -59,20 +68,6 @@ public class Station {
 
     public List<Unit> getUnits() {
         return unitManager.getUnits();
-    }
-
-    public List<Responder> getResponders() {
-        return unitManager.getUnits().stream()
-                .flatMap(unit -> unit.getResponderLinks().stream())
-                .map(ResponderLink::getResponder)
-                .toList();
-    }
-
-    public List<Vehicle> getVehicles() {
-        return unitManager.getUnits().stream()
-                .flatMap(unit -> unit.getVehicleLinks().stream())
-                .map(VehicleLink::getVehicle)
-                .toList();
     }
 
 }
