@@ -159,7 +159,7 @@ public class StationView {
             showStationVehicles(view);
         };
         Button vehiclesButton = utilsView.addButtonToHorizontalPane(buttonsPane, "Vehicles", vehiclesButtonHandler);
-        vehiclesButton.setGraphic(utilsView.smallIcon(PoliceVehicleType.SUV.getResourcePath(), ""));
+        vehiclesButton.setGraphic(utilsView.smallIcon(PoliceVehicleType.PATROL_SEDAN.getResourcePath(), ""));
 
         EventHandler<ActionEvent> respondersButtonHandler = event -> {
             utilsView.setPaneButtonsSelectionStyle(event, buttonsPane);
