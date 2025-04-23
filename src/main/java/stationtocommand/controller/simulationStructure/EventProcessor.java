@@ -4,8 +4,6 @@ import javafx.scene.media.AudioClip;
 import stationtocommand.controller.Controller;
 import stationtocommand.model.departmentStructure.DepartmentType;
 import stationtocommand.model.missionLinkStructure.MissionDepartmentLink;
-import stationtocommand.model.missionLinkStructure.MissionStationLink;
-import stationtocommand.model.missionLinkStructure.MissionUnitLink;
 import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.model.utilsStructure.Utils;
 import stationtocommand.view.dispatchStructure.MissionDepartmentView;
@@ -60,7 +58,7 @@ public class EventProcessor {
                 break;
             case MISSION_GENERATION:
                 Mission missionGenerated = controller.getModel().getMissionManager().generateMission(controller.getModel().getLocationManager());
-                controller.getView().getDispatchView().addMissionView(missionGenerated);
+                controller.getView().getDispatchView().addMissionView(controller.getView(), controller.getView().getUtilsView(), missionGenerated);
                 // TODO: re-enable sounds
                 //newMissionSound.play();
                 nextEventTime = event.eventTime() + DISPATCH_DEPARTMENT_DELAY;
@@ -74,9 +72,7 @@ public class EventProcessor {
                     List<DepartmentType> departmentTypes = controller.getModel().getMissionManager().requiredDepartmentTypes(missionToDispatchToDepartment.getMissionType());
                     controller.getModel().getMissionManager().dispatchMissionToDepartments(missionToDispatchToDepartment);
                     MissionView missionView = controller.getView().getDispatchView().getMissionView(missionToDispatchToDepartment);
-                    for (MissionDepartmentLink missionDepartmentLink : missionToDispatchToDepartment.getDepartmentLinks()) {
-                        missionView.addMissionDepartmentView(missionDepartmentLink);
-                    }
+                    missionView.addMissionDepartmentViews(controller.getView(), controller.getView().getUtilsView());
                     // TODO: re-enable sounds
                     /*
                     for (DepartmentType departmentType : departmentTypes) {
@@ -100,12 +96,9 @@ public class EventProcessor {
                     for (MissionDepartmentLink missionDepartmentLink : missionToDispatchToUnit.getDepartmentLinks()) {
                         controller.getModel().getMissionManager().dispatchMissionToUnit(missionDepartmentLink);
                         MissionDepartmentView missionDepartmentView = missionView.getMissionDepartmentView(missionDepartmentLink);
-                        for (MissionStationLink missionStationLink : missionDepartmentLink.getStationLinks()) {
-                            missionDepartmentView.addMissionStationView(missionStationLink);
-                            MissionStationView missionStationView = missionDepartmentView.getMissionStationView(missionStationLink);
-                            for (MissionUnitLink missionUnitLink : missionStationLink.getUnitLinks()) {
-                                missionStationView.addMissionUnitView(missionUnitLink);
-                            }
+                        missionDepartmentView.addMissionStationViews(controller.getView(), controller.getView().getUtilsView());
+                        for (MissionStationView missionStationView : missionDepartmentView.getMissionStationViews().values()) {
+                            missionStationView.addMissionUnitViews(controller.getView(), controller.getView().getUtilsView());
                         }
                     }
                 }

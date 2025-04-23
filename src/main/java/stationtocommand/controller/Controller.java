@@ -7,11 +7,6 @@ import stationtocommand.model.actionStructure.Action;
 import stationtocommand.model.actionStructure.ActionType;
 import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.model.departmentStructure.DepartmentType;
-import stationtocommand.model.locationStructure.Location;
-import stationtocommand.model.locationStructure.LocationManager;
-import stationtocommand.model.missionLinkStructure.MissionDepartmentLink;
-import stationtocommand.model.missionLinkStructure.MissionStationLink;
-import stationtocommand.model.missionLinkStructure.MissionUnitLink;
 import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.model.missionStructure.MissionType;
 import stationtocommand.model.objectiveStructure.Objective;
@@ -34,7 +29,6 @@ import stationtocommand.model.vehicleStructure.VehicleStatus;
 import stationtocommand.view.View;
 import stationtocommand.view.dispatchStructure.MissionDepartmentView;
 import stationtocommand.view.dispatchStructure.MissionStationView;
-import stationtocommand.view.dispatchStructure.MissionUnitView;
 import stationtocommand.view.dispatchStructure.MissionView;
 
 import java.util.List;
@@ -95,8 +89,6 @@ public class Controller {
         */
 
         Mission sampleMission = model.getMissionManager().generateMission(model.getLocationManager(), MissionType.VEHICLE_FIRE);
-        view.getDispatchView().addMissionView(sampleMission);
-        MissionView sampleMissionView = view.getDispatchView().getMissionView(sampleMission);
 
         List<Task> sampleTasks = model.getTaskManager().generateTasks(sampleMission);
 
@@ -115,26 +107,25 @@ public class Controller {
 
         Department department = model.getDepartmentManager().getDepartment(DepartmentType.FIRE_DEPARTMENT);
         sampleMission.linkDepartment(department);
-        MissionDepartmentLink sampleMissionDepartmentLink = sampleMission.getDepartmentLink(department);
-
-        sampleMissionView.addMissionDepartmentView(sampleMissionDepartmentLink);
-        MissionDepartmentView sampleMissionDepartmentView = sampleMissionView.getMissionDepartmentView(sampleMissionDepartmentLink);
 
         Station station = department.getStationManager().getStation(1);
         sampleMission.linkStation(station);
-        MissionStationLink sampleMissionStationLink = sampleMissionDepartmentLink.getStationLink(station);
-
-        sampleMissionDepartmentView.addMissionStationView(sampleMissionStationLink);
-        MissionStationView sampleMissionStationView = sampleMissionDepartmentView.getMissionStationView(sampleMissionStationLink);
 
         if (!station.getUnitManager().getUnits(FireUnitType.FIRE_ENGINE).isEmpty()) {
             Unit unit = station.getUnitManager().getUnits(FireUnitType.FIRE_ENGINE).getFirst();
             unit.setUnitStatus(UnitStatus.DISPATCHED);
             sampleMission.linkUnit(unit);
-            MissionUnitLink sampleMissionUnitLink = sampleMissionStationLink.getUnitLink(unit);
+        }
 
-            sampleMissionStationView.addMissionUnitView(sampleMissionUnitLink);
-            MissionUnitView sampleMissionUnitView = sampleMissionStationView.getMissionUnitView(sampleMissionUnitLink);
+
+        view.getDispatchView().addMissionView(view, view.getUtilsView(), sampleMission);
+        MissionView sampleMissionView = view.getDispatchView().getMissionView(sampleMission);
+        sampleMissionView.addMissionDepartmentViews(view, view.getUtilsView());
+        for (MissionDepartmentView sampleMissionDepartmentView : sampleMissionView.getMissionDepartmentViews().values()) {
+            sampleMissionDepartmentView.addMissionStationViews(view, view.getUtilsView());
+            for (MissionStationView sampleMissionStationView : sampleMissionDepartmentView.getMissionStationViews().values()) {
+                sampleMissionStationView.addMissionUnitViews(view, view.getUtilsView());
+            }
         }
 
         sampleMission.linkObjective(new Objective(ObjectiveType.EVACUATE_CIVILIANS));

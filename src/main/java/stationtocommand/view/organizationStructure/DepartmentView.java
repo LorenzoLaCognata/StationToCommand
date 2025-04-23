@@ -228,7 +228,7 @@ public class DepartmentView {
 
         utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
         for (UnitView unitView : unitViews.values()) {
-            unitView.addStationDetailsUnit(view);
+            unitView.addDepartmentDetailsUnit(view);
         }
     }
 

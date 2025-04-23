@@ -22,7 +22,6 @@ public class OrganizationView {
             DepartmentView departmentView = new DepartmentView(department, view, utilsView);
             departmentViews.put(department, departmentView);
         }
-
         this.utilsView = utilsView;
     }
 

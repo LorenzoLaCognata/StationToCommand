@@ -65,6 +65,10 @@ public class UnitView {
         return responderViews;
     }
 
+    public void addDepartmentDetailsUnit(View view) {
+        addStationDetailsUnit(view);
+    }
+
     public void addStationDetailsUnit(View view) {
         Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
         addUnitIcon(horizontalDetailsPane);

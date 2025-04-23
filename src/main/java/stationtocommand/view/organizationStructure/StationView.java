@@ -71,6 +71,10 @@ public class StationView {
         return node;
     }
 
+    public void setNodeVisible() {
+        node.setVisible(true);
+    }
+
     public SortedMap<Unit, UnitView> getUnitViews() {
         return unitViews;
     }
@@ -100,6 +104,12 @@ public class StationView {
         addStationIcon(horizontalDetailsPane);
         addStationButton(view, horizontalDetailsPane);
         addStationUnitTypesIcons(horizontalDetailsPane);
+    }
+
+    private void addStationTitle(View view) {
+        Pane horizontalTitlePane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
+        utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, station.getStationType());
+        utilsView.addMainTitleLabel(horizontalTitlePane, station.toString());
     }
 
     private void addStationIcon(Pane pane) {
@@ -182,16 +192,6 @@ public class StationView {
 
         utilsView.setButtonSelectedStyle(unitsButton);
         showStationUnits(view);
-    }
-
-    private void addStationTitle(View view) {
-        Pane horizontalTitlePane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
-        utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, station.getStationType());
-        utilsView.addMainTitleLabel(horizontalTitlePane, station.toString());
-    }
-
-    public void setNodeVisible() {
-        node.setVisible(true);
     }
 
     private void showStationUnits(View view) {

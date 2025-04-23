@@ -2,6 +2,7 @@ package stationtocommand.view.dispatchStructure;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import stationtocommand.model.missionLinkStructure.MissionResponderLink;
@@ -19,6 +20,7 @@ import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -26,6 +28,7 @@ import java.util.stream.Collectors;
 public class MissionUnitView {
 
     private final MissionUnitLink missionUnitLink;
+    private final Node node;
     private final UtilsView utilsView;
     private final MissionResponderListView missionResponderListView;
     private final MissionVehicleListView missionVehicleListView;
@@ -33,6 +36,7 @@ public class MissionUnitView {
     public MissionUnitView(MissionUnitLink missionUnitLink, UtilsView utilsView) {
         System.out.println("Created MissionUnitView for " + missionUnitLink.getMission() + " - " + missionUnitLink.getUnit());
         this.missionUnitLink = missionUnitLink;
+        this.node = utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, missionUnitLink.getUnit().getUnitType(), missionUnitLink.getUnit().getStation().getLocation());
         this.utilsView = utilsView;
         this.missionResponderListView = new MissionResponderListView(utilsView);
         this.missionVehicleListView = new MissionVehicleListView(utilsView);
@@ -40,6 +44,14 @@ public class MissionUnitView {
 
     public MissionUnitLink getMissionUnitLink() {
         return missionUnitLink;
+    }
+
+    public Node getNode() {
+        return node;
+    }
+
+    public void setNodeVisible() {
+        node.setVisible(true);
     }
 
     public void addMissionDepartmentDetailsMissionUnit(View view) {
@@ -86,14 +98,24 @@ public class MissionUnitView {
             showMissionUnitVehicles(view);
         };
         Button missionVehiclesButton = utilsView.addButtonToHorizontalPane(buttonsPane, "Vehicles", missionVehiclesButtonHandler);
-        missionVehiclesButton.setGraphic(utilsView.smallIcon(PoliceVehicleType.PATROL_SEDAN.getResourcePath(), ""));
+        VehicleType vehicleType = switch(missionUnitLink.getUnit().getStation().getDepartment().getDepartmentType()) {
+            case FIRE_DEPARTMENT -> FireVehicleType.values()[0];
+            case POLICE_DEPARTMENT -> PoliceVehicleType.values()[0];
+            case MEDIC_DEPARTMENT -> MedicVehicleType.values()[0];
+        };
+        missionVehiclesButton.setGraphic(utilsView.smallIcon(vehicleType.getResourcePath(), ""));
 
         EventHandler<ActionEvent> missionRespondersButtonHandler = event -> {
             utilsView.setPaneButtonsSelectionStyle(event, buttonsPane);
             showMissionUnitResponders(view);
         };
         Button missionRespondersButton = utilsView.addButtonToHorizontalPane(buttonsPane, "Responders", missionRespondersButtonHandler);
-        missionRespondersButton.setGraphic(utilsView.smallIcon(AppearanceType.MALE_01.getResourcePath(), ""));
+        Responder chiefResponder = missionUnitLink.getUnit().getStation().getDepartment().getStations().stream()
+                .flatMap(station -> station.getUnits().stream())
+                .flatMap(unit -> unit.getResponders().stream())
+                .min(Comparator.naturalOrder())
+                .orElse(null);
+        missionRespondersButton.setGraphic(utilsView.smallIcon(chiefResponder != null ? chiefResponder.getAppearanceType().getResourcePath() : AppearanceType.MALE_01.getResourcePath(), ""));
 
         utilsView.setButtonSelectedStyle(missionVehiclesButton);
         showMissionUnitVehicles(view);

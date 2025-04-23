@@ -1,55 +1,62 @@
 package stationtocommand.view.dispatchStructure;
 
-import javafx.geometry.Point2D;
-import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import stationtocommand.model.locationStructure.Location;
 import stationtocommand.model.missionLinkStructure.MissionDepartmentLink;
 import stationtocommand.model.missionLinkStructure.MissionStationLink;
 import stationtocommand.model.missionLinkStructure.MissionUnitLink;
 import stationtocommand.model.missionStructure.Mission;
-import stationtocommand.model.stationStructure.Station;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
-import stationtocommand.view.organizationStructure.StationView;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class MissionView {
 
     private final Mission mission;
+    private final Node node;
     private final UtilsView utilsView;
     private final SortedMap<MissionDepartmentLink, MissionDepartmentView> missionDepartmentViews;
 
-    public MissionView(Mission mission, UtilsView utilsView) {
+    public MissionView(Mission mission, View view, UtilsView utilsView) {
         System.out.println("Created MissionView for " + mission);
         this.mission = mission;
+        this.node = utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, mission.getMissionType(), mission.getLocation());
         this.utilsView = utilsView;
 
-        this.missionDepartmentViews = mission.getDepartmentLinks().stream()
-                .map(departmentLink -> {
-                    MissionDepartmentView missionDepartmentView = new MissionDepartmentView(departmentLink, utilsView);
-                    return Map.entry(departmentLink, missionDepartmentView);
-                })
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        Map.Entry::getValue,
-                        (_, b) -> b,
-                        TreeMap::new
-                ));
+        this.missionDepartmentViews = new TreeMap<>();
+        addMissionDepartmentViews(view, utilsView);
+    }
+
+    public Node getNode() {
+        return node;
+    }
+
+    public void setNodeVisible() {
+        node.setVisible(true);
+    }
+
+    public SortedMap<MissionDepartmentLink, MissionDepartmentView> getMissionDepartmentViews() {
+        return missionDepartmentViews;
     }
 
     public MissionDepartmentView getMissionDepartmentView(MissionDepartmentLink missionDepartmentLink) {
         return missionDepartmentViews.get(missionDepartmentLink);
     }
 
-    public void addMissionDepartmentView(MissionDepartmentLink missionDepartmentLink) {
-        missionDepartmentViews.put(missionDepartmentLink, new MissionDepartmentView(missionDepartmentLink, utilsView));
+    public void addMissionDepartmentViews(View view, UtilsView utilsView) {
+        for (MissionDepartmentLink missionDepartmentLink : mission.getDepartmentLinks()) {
+            addMissionDepartmentView(view, utilsView, missionDepartmentLink);
+        }
+    }
+
+    private void addMissionDepartmentView(View view, UtilsView utilsView, MissionDepartmentLink missionDepartmentLink) {
+        if (!missionDepartmentViews.containsKey(missionDepartmentLink)) {
+            MissionDepartmentView missionDepartmentView = new MissionDepartmentView(missionDepartmentLink, view, utilsView);
+            missionDepartmentViews.put(missionDepartmentLink, missionDepartmentView);
+        }
     }
 
     public void addDispatchDetailsMission(View view) {
@@ -93,22 +100,20 @@ public class MissionView {
         utilsView.addBreadCrumb(view.getBreadCrumbBar(), mission);
         view.getNavigationPanel().clearAll();
         view.getWorldMap().setMapElementsNotVisible();
+        showMissionDetails(view);
+        showMissionMap(view);
+    }
+
+    private void showMissionDetails(View view) {
         addMissionTitle(view);
         for (MissionDepartmentView missionDepartmentView : missionDepartmentViews.values()) {
             missionDepartmentView.addMissionDetailsMissionDepartment(view);
         }
-        // TODO: replace showMap
-        //showMap(view, mission);
     }
 
-    // TODO: replace showMap
-    /*
-    public void showMap(View view, Mission mission) {
-        Point2D point = utilsView.locationToPoint(mission.getLocation(), IconType.SMALL);
-        ImageView imageView = utilsView.smallIcon(mission.getMissionType().getResourcePath(), mission.getMissionType().toString());
-        Pane mapLayer = view.getWorldMap().getMapElementsLayer();
-        utilsView.addNodeToPane(mapLayer, imageView, point);
+    public void showMissionMap(View view) {
+        view.getWorldMap().setMapElementsNotVisible();
+        setNodeVisible();
     }
-    */
 
 }

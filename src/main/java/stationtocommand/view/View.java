@@ -268,7 +268,7 @@ public class View {
                 MissionView missionView = dispatchView.getMissionView(mission);
                 MissionDepartmentLink missionDepartmentLink = mission.getDepartmentLink(missionStationLink.getStation().getDepartment());
                 utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
-                missionView.getMissionDepartmentView(missionDepartmentLink).getMissionStationView(missionStationLink).showMissionStation(this, missionStationLink);
+                missionView.getMissionDepartmentView(missionDepartmentLink).getMissionStationView(missionStationLink).showMissionStation(this);
             }
             else if (selectedObject instanceof MissionUnitLink missionUnitLink) {
                 Mission mission = missionUnitLink.getMission();
