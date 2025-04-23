@@ -66,8 +66,12 @@ public class ResponderView {
 
     private void showResponderDetails(View view) {
         addResponderTitle(view);
-        Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
-        utilsView.addBodyLabel(horizontalDetailsPane, responder.getRank().toString());
+        Pane horizontalGenderPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
+        utilsView.addBodyLabel(horizontalGenderPane, "Gender");
+        utilsView.addSectionTitleLabel(horizontalGenderPane, responder.getGender().toString());
+        Pane horizontalRankPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
+        utilsView.addBodyLabel(horizontalRankPane, "Rank");
+        utilsView.addIconToPane(horizontalRankPane, IconType.SMALL, IconColor.EMPTY, responder.getRank().getRankType());
     }
 
     private void showResponderMap(View view) {

@@ -91,12 +91,7 @@ public class UtilsView {
             -fx-text-fill: white;
             -fx-font-size: 14px;
             -fx-font-weight: bold;
-            -fx-padding: 7px 12px;
-            -fx-background-color: rgba(60, 60, 60, 0.9);
-            -fx-background-radius: 6px;
-            -fx-border-color: #777;
-            -fx-border-width: 1px;
-            -fx-border-radius: 6px;
+            -fx-padding: 10px 15px;
             -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 5, 0.3, 0, 0);
         """);
         pane.getChildren().add(label);

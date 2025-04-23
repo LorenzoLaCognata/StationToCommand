@@ -1,6 +1,5 @@
 package stationtocommand.model.personStructure;
 
-import stationtocommand.model.departmentStructure.AppearanceType;
 import stationtocommand.model.locationStructure.Location;
 import stationtocommand.model.utilsStructure.Utils;
 

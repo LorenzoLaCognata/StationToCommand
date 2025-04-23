@@ -6,9 +6,9 @@ import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
-import stationtocommand.model.departmentStructure.AppearanceType;
 import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.model.locationStructure.Location;
+import stationtocommand.model.personStructure.AppearanceType;
 import stationtocommand.model.rankTypeStructure.RankType;
 import stationtocommand.model.responderStructure.Responder;
 import stationtocommand.model.responderStructure.ResponderStatus;
@@ -17,20 +17,16 @@ import stationtocommand.model.stationStructure.StationType;
 import stationtocommand.model.unitStructure.Unit;
 import stationtocommand.model.unitStructure.UnitStatus;
 import stationtocommand.model.unitTypeStructure.FireUnitType;
+import stationtocommand.model.unitTypeStructure.MedicUnitType;
+import stationtocommand.model.unitTypeStructure.PoliceUnitType;
 import stationtocommand.model.unitTypeStructure.UnitType;
-import stationtocommand.model.vehicleStructure.PoliceVehicleType;
-import stationtocommand.model.vehicleStructure.Vehicle;
-import stationtocommand.model.vehicleStructure.VehicleStatus;
-import stationtocommand.model.vehicleStructure.VehicleType;
+import stationtocommand.model.vehicleStructure.*;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
 
-import java.util.List;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class DepartmentView {
@@ -119,28 +115,48 @@ public class DepartmentView {
             showDepartmentStations(view);
         };
         Button stationsButton = utilsView.addButtonToHorizontalPane(buttonsPane, "Stations", stationsButtonHandler);
-        stationsButton.setGraphic(utilsView.smallIcon(StationType.FIRE_STATION.getResourcePath(), ""));
+        StationType stationType = switch(department.getDepartmentType()) {
+            case FIRE_DEPARTMENT -> StationType.FIRE_STATION;
+            case POLICE_DEPARTMENT -> StationType.POLICE_STATION;
+            case MEDIC_DEPARTMENT -> StationType.MEDIC_STATION;
+        };
+        stationsButton.setGraphic(utilsView.smallIcon(stationType.getResourcePath(), ""));
 
         EventHandler<ActionEvent> unitsButtonHandler = event -> {
             utilsView.setPaneButtonsSelectionStyle(event, buttonsPane);
             showDepartmentUnits(view);
         };
         Button unitsButton = utilsView.addButtonToHorizontalPane(buttonsPane, "Units", unitsButtonHandler);
-        unitsButton.setGraphic(utilsView.smallIcon(FireUnitType.FIRE_ENGINE.getResourcePath(), ""));
+        UnitType unitType = switch(department.getDepartmentType()) {
+            case FIRE_DEPARTMENT -> FireUnitType.values()[0];
+            case POLICE_DEPARTMENT -> PoliceUnitType.values()[0];
+            case MEDIC_DEPARTMENT -> MedicUnitType.values()[0];
+        };
+        unitsButton.setGraphic(utilsView.smallIcon(unitType.getResourcePath(), ""));
 
         EventHandler<ActionEvent> vehiclesButtonHandler = event -> {
             utilsView.setPaneButtonsSelectionStyle(event, buttonsPane);
             showDepartmentVehicles(view);
         };
         Button vehiclesButton = utilsView.addButtonToHorizontalPane(buttonsPane, "Vehicles", vehiclesButtonHandler);
-        vehiclesButton.setGraphic(utilsView.smallIcon(PoliceVehicleType.PATROL_SEDAN.getResourcePath(), ""));
+        VehicleType vehicleType = switch(department.getDepartmentType()) {
+            case FIRE_DEPARTMENT -> FireVehicleType.values()[0];
+            case POLICE_DEPARTMENT -> PoliceVehicleType.values()[0];
+            case MEDIC_DEPARTMENT -> MedicVehicleType.values()[0];
+        };
+        vehiclesButton.setGraphic(utilsView.smallIcon(vehicleType.getResourcePath(), ""));
 
         EventHandler<ActionEvent> respondersButtonHandler = event -> {
             utilsView.setPaneButtonsSelectionStyle(event, buttonsPane);
             showDepartmentResponders(view);
         };
         Button respondersButton = utilsView.addButtonToHorizontalPane(buttonsPane, "Responders", respondersButtonHandler);
-        respondersButton.setGraphic(utilsView.smallIcon(AppearanceType.MALE_01.getResourcePath(), ""));
+        Responder chiefResponder = department.getStations().stream()
+                .flatMap(station -> station.getUnits().stream())
+                .flatMap(unit -> unit.getResponders().stream())
+                .min(Comparator.naturalOrder())
+                .orElse(null);
+        respondersButton.setGraphic(utilsView.smallIcon(chiefResponder != null ? chiefResponder.getAppearanceType().getResourcePath() : AppearanceType.MALE_01.getResourcePath(), ""));
 
         utilsView.setButtonSelectedStyle(stationsButton);
         showDepartmentStations(view);

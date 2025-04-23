@@ -1,4 +1,4 @@
-package stationtocommand.model.departmentStructure;
+package stationtocommand.model.personStructure;
 
 import stationtocommand.model.utilsStructure.EnumWithResource;
 

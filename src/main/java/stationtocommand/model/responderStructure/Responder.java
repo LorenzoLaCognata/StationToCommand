@@ -58,7 +58,7 @@ public class Responder extends Person implements Comparable<Responder> {
 
     @Override
     public String toString() {
-        return getGender() + " " + getFirstName() + " " + getLastName();
+        return getFirstName() + " " + getLastName();
     }
 
     @Override

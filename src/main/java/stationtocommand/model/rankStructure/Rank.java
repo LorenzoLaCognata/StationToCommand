@@ -22,9 +22,8 @@ public class Rank {
 	}
 
 	@Override
-	// TODO: associate appropriate symbols/images to ranks
 	public String toString() {
-		return "\uD83C\uDF96".repeat(rankType.getLevel()) + " " + rankType;
+		return rankType.toString();
 	}
 
 	public RankType getRankType() {

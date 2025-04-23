@@ -92,10 +92,15 @@ public class ResponderManager {
 						Location location = station.getLocation();
 						Responder responder = new Responder(location, nextResponderId(), experience, rank, unit);
 						addResponder(responder);
-
 					}
 				}
 			}
+			Rank rank = department.getRankManager().getRank(7);
+			// TODO: distribute experience according to ranks
+			Experience experience = new Experience(1);
+			Location location = department.getStations().getFirst().getLocation();
+			Responder responder = new Responder(location, nextResponderId(), experience, rank, department.getStations().getFirst().getUnits().getFirst());
+			addResponder(responder);
 		}
 
 		Department playerDepartment = departmentManager.getDepartment(DepartmentType.FIRE_DEPARTMENT);
