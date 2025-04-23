@@ -1,9 +1,11 @@
-package stationtocommand.view.mainStructure;
+package stationtocommand.view.dispatchStructure;
 
 import javafx.scene.layout.Pane;
 import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.view.View;
-import stationtocommand.view.missionStructure.MissionListView;
+import stationtocommand.view.mainStructure.IconColor;
+import stationtocommand.view.mainStructure.IconType;
+import stationtocommand.view.mainStructure.UtilsView;
 
 import java.util.List;
 

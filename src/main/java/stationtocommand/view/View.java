@@ -20,7 +20,7 @@ import stationtocommand.model.responderStructure.Responder;
 import stationtocommand.model.stationStructure.Station;
 import stationtocommand.model.unitStructure.Unit;
 import stationtocommand.model.vehicleStructure.Vehicle;
-import stationtocommand.view.mainStructure.DispatchView;
+import stationtocommand.view.dispatchStructure.DispatchView;
 import stationtocommand.view.mainStructure.NavigationPanel;
 import stationtocommand.view.mainStructure.UtilsView;
 import stationtocommand.view.mainStructure.WorldMap;
