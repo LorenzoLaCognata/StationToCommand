@@ -2,9 +2,11 @@ package stationtocommand.view.dispatchStructure;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import stationtocommand.model.locationStructure.Location;
 import stationtocommand.model.missionLinkStructure.MissionResponderLink;
 import stationtocommand.model.missionLinkStructure.MissionUnitLink;
 import stationtocommand.model.missionLinkStructure.MissionVehicleLink;
@@ -203,7 +205,25 @@ public class MissionUnitView {
 
     private void showMissionUnitVehiclesMap(View view) {
         view.getWorldMap().setMapElementsNotVisible();
-        // TODO
+
+        Map<Location, List<MissionVehicleView>> missionVehicleViewsByLocation = missionVehicleViews.values().stream()
+                .collect(Collectors.groupingBy(
+                        v -> v.getMissionVehicleLink().getVehicle().getLocation()
+                ));
+
+        for (Map.Entry<Location, List<MissionVehicleView>> locationMissionVehicleViews : missionVehicleViewsByLocation.entrySet()) {
+            Point2D nodesCenter = utilsView.locationToPoint(locationMissionVehicleViews.getKey(), IconType.SMALL);
+            List<Node> locationNodes = locationMissionVehicleViews.getValue().stream()
+                    .map(MissionVehicleView::getNode)
+                    .toList();
+            utilsView.distributeResourceIconsByLocation(nodesCenter, locationNodes);
+        }
+
+        MissionView missionView = view.getDispatchView().getMissionView(missionUnitLink.getMission());
+        missionView.setNodeVisible();
+        for (MissionVehicleView missionVehicleView : missionVehicleViews.values()) {
+            missionVehicleView.setNodeVisible();
+        }
     }
 
     private void showMissionUnitResponders(View view) {
@@ -246,7 +266,25 @@ public class MissionUnitView {
 
     private void showMissionUnitRespondersMap(View view) {
         view.getWorldMap().setMapElementsNotVisible();
-        // TODO
+
+        Map<Location, List<MissionResponderView>> missionResponderViewsByLocation = missionResponderViews.values().stream()
+                .collect(Collectors.groupingBy(
+                        v -> v.getMissionResponderLink().getResponder().getLocation()
+                ));
+
+        for (Map.Entry<Location, List<MissionResponderView>> locationMissionResponderViews : missionResponderViewsByLocation.entrySet()) {
+            Point2D nodesCenter = utilsView.locationToPoint(locationMissionResponderViews.getKey(), IconType.SMALL);
+            List<Node> locationNodes = locationMissionResponderViews.getValue().stream()
+                    .map(MissionResponderView::getNode)
+                    .toList();
+            utilsView.distributeResourceIconsByLocation(nodesCenter, locationNodes);
+        }
+
+        MissionView missionView = view.getDispatchView().getMissionView(missionUnitLink.getMission());
+        missionView.setNodeVisible();
+        for (MissionResponderView missionResponderView : missionResponderViews.values()) {
+            missionResponderView.setNodeVisible();
+        }
     }
 
 }

@@ -1,6 +1,8 @@
 package stationtocommand.view.dispatchStructure;
 
+import javafx.geometry.Point2D;
 import javafx.scene.Node;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import stationtocommand.model.missionLinkStructure.MissionVehicleLink;
 import stationtocommand.view.View;
@@ -38,10 +40,11 @@ public class MissionVehicleView {
         utilsView.addBreadCrumb(view.getBreadCrumbBar(), missionVehicleLink);
         view.getNavigationPanel().clearAll();
         view.getWorldMap().setMapElementsNotVisible();
-        showSidebar(view, missionVehicleLink);
+        showSidebar(view);
+        showMap(view);
     }
 
-    private void showSidebar(View view, MissionVehicleLink missionVehicleLink) {
+    private void showSidebar(View view) {
         showMissionVehicleDetails(view);
     }
 
@@ -53,6 +56,10 @@ public class MissionVehicleView {
         Pane horizontalSubtitlePane = utilsView.createHBox(titleAndSubtitlePane);
         utilsView.addIconToPane(horizontalSubtitlePane, IconType.SMALL, IconColor.EMPTY, missionVehicleLink.getVehicle().getVehicleType());
         utilsView.addMainSubtitleLabel(horizontalSubtitlePane, missionVehicleLink.getVehicle().toString());
+    }
+
+    public void addMissionDepartmentDetailsVehicle(View view) {
+        addMissionUnitDetailsVehicle(view);
     }
 
     public void addMissionStationDetailsVehicle(View view) {
@@ -71,6 +78,16 @@ public class MissionVehicleView {
 
     private void addMissionVehicleButton(View view, Pane pane) {
         utilsView.addButtonToPane(pane, missionVehicleLink.getVehicle().toString(), (_ -> show(view)));
+    }
+
+    public void showMap(View view) {
+        Point2D point = utilsView.locationToPoint(missionVehicleLink.getVehicle().getLocation(), IconType.SMALL);
+        ImageView imageView = utilsView.smallIcon(missionVehicleLink.getVehicle().getVehicleType().getResourcePath(), "");
+        Pane mapLayer = view.getWorldMap().getMapElementsLayer();
+        utilsView.addNodeToPane(mapLayer, imageView, point);
+
+        MissionView missionView = view.getDispatchView().getMissionView(missionVehicleLink.getMission());
+        missionView.setNodeVisible();
     }
 
 }

@@ -56,16 +56,14 @@ public class MissionDepartmentView {
                 missionUnitViews.put(missionUnitView.getMissionUnitLink(), missionUnitView);
                 view.getWorldMap().addMapElement(missionUnitView.getNode());
             }
-            /*
             for (MissionVehicleView missionVehicleView : missionStationView.getMissionVehicleViews().values()) {
-                missionVehicleViews.put(missionVehicleView.getVehicle(), missionVehicleView);
+                missionVehicleViews.put(missionVehicleView.getMissionVehicleLink(), missionVehicleView);
                 view.getWorldMap().addMapElement(missionVehicleView.getNode());
             }
             for (MissionResponderView missionResponderView : missionStationView.getMissionResponderViews().values()) {
-                missionResponderViews.put(missionResponderView.getResponder(), missionResponderView);
+                missionResponderViews.put(missionResponderView.getMissionResponderLink(), missionResponderView);
                 view.getWorldMap().addMapElement(missionResponderView.getNode());
             }
-            */
         }
     }
 
@@ -282,13 +280,18 @@ public class MissionDepartmentView {
 
     private void showMissionDepartmentVehicles(View view) {
         View.viewRunnable = () -> showMissionDepartmentVehicles(view);
+        showMissionDepartmentVehiclesDetails(view);
+        showMissionDepartmentVehiclesMap(view);
+    }
+
+    private void showMissionDepartmentVehiclesDetails(View view) {
         view.getNavigationPanel().clearDetails();
 
         List<MissionStationLink> missionStationLinks = missionDepartmentLink.getStationLinks().stream()
                 .toList();
         List<MissionVehicleLink> missionVehicleLinks = missionStationLinks.stream()
-                .flatMap(stationLink -> stationLink.getUnitLinks().stream())
-                .flatMap(unitLink -> unitLink.getVehicleLinks().stream())
+                .flatMap(missionStationLink -> missionStationLink.getUnitLinks().stream())
+                .flatMap(missionUnitLink -> missionUnitLink.getVehicleLinks().stream())
                 .toList();
 
         Map<VehicleStatus, Long> vehicleStatusCounts = missionVehicleLinks.stream()
@@ -313,21 +316,52 @@ public class MissionDepartmentView {
         utilsView.addTotalCount(horizontalDetailsPane, vehicleStatusCounts, vehicleTypeStatusCounts);
 
         utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
-        // TODO: replace
-        //missionStationListView.getMissionStationView().getMissionVehicleListView().show(view, missionVehicleLinks);
+        for (MissionVehicleView missionVehicleView : missionVehicleViews.values()) {
+            missionVehicleView.addMissionDepartmentDetailsVehicle(view);
+        }
+    }
 
+    private void showMissionDepartmentVehiclesMap(View view) {
+        view.getWorldMap().setMapElementsNotVisible();
+
+        Map<Location, List<MissionVehicleView>> missionVehicleViewsByLocation = missionVehicleViews.values().stream()
+                .collect(Collectors.groupingBy(
+                        v -> v.getMissionVehicleLink().getVehicle().getLocation()
+                ));
+
+        for (Map.Entry<Location, List<MissionVehicleView>> locationMissionVehicleViews : missionVehicleViewsByLocation.entrySet()) {
+            Point2D nodesCenter = utilsView.locationToPoint(locationMissionVehicleViews.getKey(), IconType.SMALL);
+            List<Node> locationNodes = locationMissionVehicleViews.getValue().stream()
+                    .map(MissionVehicleView::getNode)
+                    .toList();
+            utilsView.distributeResourceIconsByLocation(nodesCenter, locationNodes);
+        }
+
+        MissionView missionView = view.getDispatchView().getMissionView(missionDepartmentLink.getMission());
+        missionView.setNodeVisible();
+        for (MissionVehicleView missionVehicleView : missionVehicleViews.values()) {
+            missionVehicleView.setNodeVisible();
+        }
     }
 
     private void showMissionDepartmentResponders(View view) {
         View.viewRunnable = () -> showMissionDepartmentResponders(view);
+        showMissionDepartmentRespondersDetails(view);
+        showMissionDepartmentRespondersMap(view);
+    }
+
+    private void showMissionDepartmentRespondersDetails(View view) {
+        System.out.println("YYY");
         view.getNavigationPanel().clearDetails();
 
         List<MissionStationLink> missionStationLinks = missionDepartmentLink.getStationLinks().stream()
                 .toList();
+        System.out.println(missionStationLinks.size());
         List<MissionResponderLink> missionResponderLinks = missionStationLinks.stream()
                 .flatMap(stationLink -> stationLink.getUnitLinks().stream())
                 .flatMap(unitLink -> unitLink.getResponderLinks().stream())
                 .toList();
+        System.out.println(missionResponderLinks.size());
 
         Map<ResponderStatus, Long> responderStatusCounts = missionResponderLinks.stream()
                 .map(ResponderLink::getResponder)
@@ -351,9 +385,34 @@ public class MissionDepartmentView {
         utilsView.addTotalCount(horizontalDetailsPane, responderStatusCounts, responderTypeStatusCounts);
 
         utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
-        // TODO: replace
-        //missionStationListView.getMissionStationView().getMissionResponderListView().show(view, missionResponderLinks);
+        System.out.println(missionResponderViews.size());
+        for (MissionResponderView missionResponderView : missionResponderViews.values()) {
+            System.out.println(missionResponderView.getMissionResponderLink().getResponder());
+            missionResponderView.addMissionDepartmentDetailsResponder(view);
+        }
+    }
 
+    private void showMissionDepartmentRespondersMap(View view) {
+        view.getWorldMap().setMapElementsNotVisible();
+
+        Map<Location, List<MissionResponderView>> missionResponderViewsByLocation = missionResponderViews.values().stream()
+                .collect(Collectors.groupingBy(
+                        v -> v.getMissionResponderLink().getResponder().getLocation()
+                ));
+
+        for (Map.Entry<Location, List<MissionResponderView>> locationMissionResponderViews : missionResponderViewsByLocation.entrySet()) {
+            Point2D nodesCenter = utilsView.locationToPoint(locationMissionResponderViews.getKey(), IconType.SMALL);
+            List<Node> locationNodes = locationMissionResponderViews.getValue().stream()
+                    .map(MissionResponderView::getNode)
+                    .toList();
+            utilsView.distributeResourceIconsByLocation(nodesCenter, locationNodes);
+        }
+
+        MissionView missionView = view.getDispatchView().getMissionView(missionDepartmentLink.getMission());
+        missionView.setNodeVisible();
+        for (MissionResponderView missionResponderView : missionResponderViews.values()) {
+            missionResponderView.setNodeVisible();
+        }
     }
 
 }

@@ -57,6 +57,10 @@ public class MissionResponderView {
         utilsView.addMainSubtitleLabel(horizontalSubtitlePane, missionResponderLink.getResponder().toString());
     }
 
+    public void addMissionDepartmentDetailsResponder(View view) {
+        addMissionUnitDetailsResponder(view);
+    }
+
     public void addMissionStationDetailsResponder(View view) {
         addMissionUnitDetailsResponder(view);
     }
@@ -80,6 +84,9 @@ public class MissionResponderView {
         ImageView imageView = utilsView.smallIcon(missionResponderLink.getResponder().getAppearanceType().getResourcePath(), "");
         Pane mapLayer = view.getWorldMap().getMapElementsLayer();
         utilsView.addNodeToPane(mapLayer, imageView, point);
+
+        MissionView missionView = view.getDispatchView().getMissionView(missionResponderLink.getMission());
+        missionView.setNodeVisible();
     }
 
 }
