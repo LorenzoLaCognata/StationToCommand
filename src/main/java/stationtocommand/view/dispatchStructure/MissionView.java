@@ -31,6 +31,10 @@ public class MissionView {
         addMissionDepartmentViews(view, utilsView);
     }
 
+    public Mission getMission() {
+        return mission;
+    }
+
     public Node getNode() {
         return node;
     }
@@ -61,14 +65,15 @@ public class MissionView {
     }
 
     public void addDispatchDetailsMission(View view) {
-        Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
+        Pane horizontalDetailsPane = utilsView.createHBox(view.getDetailsPane());
         addMissionIcon(horizontalDetailsPane);
         addMissionButton(view, horizontalDetailsPane);
-        showMissionDepartments(horizontalDetailsPane);
+        // TODO: testing removal of this part
+        // showMissionDepartments(horizontalDetailsPane);
     }
 
     private void addMissionTitle(View view) {
-        Pane horizontalTitlePane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
+        Pane horizontalTitlePane = utilsView.createHBox(view.getTitlePane());
         utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, mission.getMissionType());
         utilsView.addMainTitleLabel(horizontalTitlePane, mission.toString());
     }
@@ -99,8 +104,8 @@ public class MissionView {
     public void showMission(View view) {
         View.viewRunnable = () -> showMission(view);
         utilsView.addBreadCrumb(view.getBreadCrumbBar(), mission);
-        view.getNavigationPanel().clearAll();
-        view.getWorldMap().setMapElementsNotVisible();
+        view.clearNavigationPanel();
+        view.hideMap();
         showMissionDetails(view);
         showMissionMap(view);
     }
@@ -113,7 +118,7 @@ public class MissionView {
     }
 
     public void showMissionMap(View view) {
-        view.getWorldMap().setMapElementsNotVisible();
+        view.hideMap();
         setNodeVisible();
     }
 

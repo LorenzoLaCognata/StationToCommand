@@ -38,8 +38,8 @@ public class MissionVehicleView {
     public void show(View view) {
         View.viewRunnable = () -> show(view);
         utilsView.addBreadCrumb(view.getBreadCrumbBar(), missionVehicleLink);
-        view.getNavigationPanel().clearAll();
-        view.getWorldMap().setMapElementsNotVisible();
+        view.clearNavigationPanel();
+        view.hideMap();
         showSidebar(view);
         showMap(view);
     }
@@ -49,7 +49,7 @@ public class MissionVehicleView {
     }
 
     private void showMissionVehicleDetails(View view) {
-        Pane titleAndSubtitlePane = utilsView.createVBox(view.getNavigationPanel().getTitlePane());
+        Pane titleAndSubtitlePane = utilsView.createVBox(view.getTitlePane());
         Pane horizontalTitlePane = utilsView.createHBox(titleAndSubtitlePane);
         utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, missionVehicleLink.getMission().getMissionType());
         utilsView.addMainTitleLabel(horizontalTitlePane, missionVehicleLink.getMission().toString());
@@ -67,7 +67,7 @@ public class MissionVehicleView {
     }
 
     public void addMissionUnitDetailsVehicle(View view) {
-        Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
+        Pane horizontalDetailsPane = utilsView.createHBox(view.getDetailsPane());
         addMissionVehicleIcon(horizontalDetailsPane);
         addMissionVehicleButton(view, horizontalDetailsPane);
     }

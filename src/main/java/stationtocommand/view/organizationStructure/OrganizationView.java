@@ -40,15 +40,15 @@ public class OrganizationView {
     }
 
     private void addOrganizationTitle(View view) {
-        Pane horizontalTitlePane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
+        Pane horizontalTitlePane = utilsView.createHBox(view.getTitlePane());
         utilsView.addMainTitleLabel(horizontalTitlePane, "Organization");
     }
 
     private void showOrganizationMap(View view) {
-        view.getWorldMap().setMapElementsNotVisible();
+        view.hideMap();
         for (DepartmentView departmentView : departmentViews.values()) {
             for (StationView stationView : departmentView.getStationViews().values()) {
-                stationView.setNodeVisible();
+                stationView.showNode();
             }
         }
     }

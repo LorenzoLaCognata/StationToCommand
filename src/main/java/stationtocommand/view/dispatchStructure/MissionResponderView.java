@@ -37,8 +37,8 @@ public class MissionResponderView {
     public void show(View view) {
         View.viewRunnable = () -> show(view);
         utilsView.addBreadCrumb(view.getBreadCrumbBar(), missionResponderLink);
-        view.getNavigationPanel().clearAll();
-        view.getWorldMap().setMapElementsNotVisible();
+        view.clearNavigationPanel();
+        view.hideMap();
         showSidebar(view);
         showMap(view);
     }
@@ -48,7 +48,7 @@ public class MissionResponderView {
     }
 
     private void showMissionResponderDetails(View view) {
-        Pane titleAndSubtitlePane = utilsView.createVBox(view.getNavigationPanel().getTitlePane());
+        Pane titleAndSubtitlePane = utilsView.createVBox(view.getTitlePane());
         Pane horizontalTitlePane = utilsView.createHBox(titleAndSubtitlePane);
         utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, missionResponderLink.getMission().getMissionType());
         utilsView.addMainTitleLabel(horizontalTitlePane, missionResponderLink.getMission().toString());
@@ -66,7 +66,7 @@ public class MissionResponderView {
     }
 
     public void addMissionUnitDetailsResponder(View view) {
-        Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
+        Pane horizontalDetailsPane = utilsView.createHBox(view.getDetailsPane());
         addMissionResponderIcon(horizontalDetailsPane);
         addMissionResponderButton(view, horizontalDetailsPane);
     }

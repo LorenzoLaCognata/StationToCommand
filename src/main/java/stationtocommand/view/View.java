@@ -5,10 +5,12 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToolBar;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 import org.controlsfx.control.BreadCrumbBar;
@@ -34,7 +36,8 @@ import java.util.List;
 
 public class View {
 
-    private Controller controller;
+    // TODO: change back to private
+    public Controller controller;
     private UtilsView utilsView;
     private OrganizationView organizationView;
     private DispatchView dispatchView;
@@ -89,8 +92,58 @@ public class View {
         return navigationPanel;
     }
 
+    public HBox getTitlePane() {
+        return navigationPanel.getTitlePane();
+    }
+
+    public HBox getButtonsPane() {
+        return navigationPanel.getButtonsPane();
+    }
+
+    public VBox getDetailsPane() {
+        return navigationPanel.getDetailsPane();
+    }
+
+    public void clearNavigationPanel() {
+        navigationPanel.getTitlePane().getChildren().clear();
+        navigationPanel.getButtonsPane().getChildren().clear();
+        navigationPanel.getDetailsPane().getChildren().clear();
+    }
+
+    public void clearDetailsPane() {
+        navigationPanel.getDetailsPane().getChildren().clear();
+    }
+
     public WorldMap getWorldMap() {
         return worldMap;
+    }
+
+    public void addToMap(Node node) {
+        if (!worldMap.getMapElementsLayer().getChildren().contains(node)) {
+            worldMap.getMapElementsLayer().getChildren().add(node);
+        }
+        else {
+            node.setVisible(true);
+        }
+    }
+
+    // TODO: fix and remove this version
+    public void addToMapDISABLED(Node node) {
+        System.out.println("K1");
+        if (!worldMap.getMapElementsLayer().getChildren().contains(node)) {
+            System.out.println("K2");
+            System.out.println(node);
+            System.out.println(((ImageView) node).getImage().getUrl());
+            System.out.println("K3");
+            //worldMap.getMapElementsLayer().getChildren().add(node);
+        }
+        System.out.println("K4");
+    }
+
+    public void hideMap() {
+        for (Node node : worldMap.getMapElementsLayer().getChildren()) {
+            node.setVisible(false);
+        }
     }
 
     public HBox getHud() {
@@ -218,20 +271,20 @@ public class View {
                 }
             }
             else if (selectedObject instanceof Department department) {
-                worldMap.setMapElementsNotVisible();
+                hideMap();
                 utilsView.resetBreadCrumbBar(breadCrumbBar);
                 organizationView.getDepartmentView(department).showDepartment(this);
             }
             else if (selectedObject instanceof Station station) {
                 Department department = station.getDepartment();
                 utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
-                organizationView.getDepartmentView(department).getStationView(station).showStation(this);
+                organizationView.getDepartmentView(department).getStationView(station).show(this);
             }
             else if (selectedObject instanceof Unit unit) {
                 Station station = unit.getStation();
                 Department department = station.getDepartment();
                 utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
-                organizationView.getDepartmentView(department).getStationView(station).getUnitView(unit).showUnit(this);
+                organizationView.getDepartmentView(department).getStationView(station).getUnitView(unit).show(this);
             }
             else if (selectedObject instanceof Responder responder) {
                 Unit unit = responder.getUnitLink().getUnit();
@@ -240,7 +293,7 @@ public class View {
                 utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
                 StationView stationView = organizationView.getDepartmentView(department).getStationView(station);
                 ResponderView responderView = stationView.getResponderView(responder);
-                responderView.showResponder(this);
+                responderView.show(this);
 
             }
             else if (selectedObject instanceof Vehicle vehicle) {
@@ -250,7 +303,7 @@ public class View {
                 utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
                 StationView stationView = organizationView.getDepartmentView(department).getStationView(station);
                 VehicleView vehicleView = stationView.getVehicleView(vehicle);
-                vehicleView.showVehicle(this);
+                vehicleView.show(this);
             }
             else if (selectedObject instanceof Mission mission) {
                 MissionView missionView = dispatchView.getMissionView(mission);
@@ -301,8 +354,8 @@ public class View {
 
     public void organizationButtonHandler(String buttonText) {
         viewRunnable = () -> organizationButtonHandler(buttonText);
-        navigationPanel.clearAll();
-        worldMap.setMapElementsNotVisible();
+        clearNavigationPanel();
+        hideMap();
         utilsView.resetBreadCrumbBar(breadCrumbBar);
         utilsView.addBreadCrumb(breadCrumbBar, buttonText);
         organizationView.showOrganization(this);
@@ -310,8 +363,8 @@ public class View {
 
     public void dispatchButtonHandler(String buttonText) {
         viewRunnable = () -> dispatchButtonHandler(buttonText);
-        navigationPanel.clearAll();
-        worldMap.setMapElementsNotVisible();
+        clearNavigationPanel();
+        hideMap();
         utilsView.resetBreadCrumbBar(breadCrumbBar);
         utilsView.addBreadCrumb(breadCrumbBar, buttonText);
         dispatchView.showDispatch(this);

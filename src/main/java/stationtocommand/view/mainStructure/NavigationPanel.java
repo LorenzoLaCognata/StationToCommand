@@ -39,14 +39,4 @@ public class NavigationPanel {
         return detailsPane;
     }
 
-    public void clearAll() {
-        titlePane.getChildren().clear();
-        buttonsPane.getChildren().clear();
-        detailsPane.getChildren().clear();
-    }
-
-    public void clearDetails() {
-        detailsPane.getChildren().clear();
-    }
-
 }

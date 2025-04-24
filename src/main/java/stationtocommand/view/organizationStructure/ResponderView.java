@@ -1,7 +1,6 @@
 package stationtocommand.view.organizationStructure;
 
 import javafx.scene.Node;
-import javafx.scene.layout.Pane;
 import stationtocommand.model.responderStructure.Responder;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
@@ -28,55 +27,35 @@ public class ResponderView {
         return node;
     }
 
-    public void setNodeVisible() {
+    public void showNode() {
         node.setVisible(true);
     }
 
-    public void addStationDetailsResponder(View view) {
-        Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
-        addResponderIcon(horizontalDetailsPane);
-        addResponderButton(view, horizontalDetailsPane);
-        addResponderStatusIcon(horizontalDetailsPane);
+    public void showOnlyNode(View view) {
+        view.hideMap();
+        showNode();
     }
 
-    private void addResponderTitle(View view) {
-        Pane horizontalTitlePane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
-        utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, responder.getAppearanceType());
-        utilsView.addMainTitleLabel(horizontalTitlePane, responder.toString());
-    }
-    private void addResponderIcon(Pane pane) {
-        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, responder.getAppearanceType());
+    public void addListDetails(View view) {
+        utilsView.addIconAndButtonAndIcon(view.getDetailsPane(), responder.getAppearanceType(), responder.toString(), (_ -> show(view)), responder.getResponderStatus());
     }
 
-    private void addResponderButton(View view, Pane pane) {
-        utilsView.addButtonToPane(pane, responder.toString(), (_ -> showResponder(view)));
+    public void show(View view) {
+        View.viewRunnable = () -> show(view);
+        showNavigationPanel(view);
+        showMap(view);
     }
 
-    private void addResponderStatusIcon(Pane pane) {
-        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, responder.getResponderStatus());
-    }
-
-    public void showResponder(View view) {
-        View.viewRunnable = () -> showResponder(view);
+    private void showNavigationPanel(View view) {
         utilsView.addBreadCrumb(view.getBreadCrumbBar(), responder);
-        view.getNavigationPanel().clearAll();
-        showResponderDetails(view);
-        showResponderMap(view);
+        view.clearNavigationPanel();
+        utilsView.addIconAndTitle(view.getTitlePane(), responder.getAppearanceType(), responder.toString());
+        utilsView.addLabelAndText(view.getDetailsPane(), "Gender", responder.getGender().toString());
+        utilsView.addLabelAndIcon(view.getDetailsPane(), "Rank", responder.getRank().getRankType());
     }
 
-    private void showResponderDetails(View view) {
-        addResponderTitle(view);
-        Pane horizontalGenderPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
-        utilsView.addBodyLabel(horizontalGenderPane, "Gender");
-        utilsView.addSectionTitleLabel(horizontalGenderPane, responder.getGender().toString());
-        Pane horizontalRankPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
-        utilsView.addBodyLabel(horizontalRankPane, "Rank");
-        utilsView.addIconToPane(horizontalRankPane, IconType.SMALL, IconColor.EMPTY, responder.getRank().getRankType());
-    }
-
-    private void showResponderMap(View view) {
-        view.getWorldMap().setMapElementsNotVisible();
-        setNodeVisible();
+    private void showMap(View view) {
+        showOnlyNode(view);
     }
 
 }

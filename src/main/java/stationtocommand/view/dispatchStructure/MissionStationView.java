@@ -86,7 +86,8 @@ public class MissionStationView {
     private void addMissionUnitView(View view, UtilsView utilsView, MissionUnitLink missionUnitLink) {
         MissionUnitView missionUnitView = new MissionUnitView(missionUnitLink, view, utilsView);
         missionUnitViews.put(missionUnitLink, missionUnitView);
-        view.getWorldMap().addMapElement(missionUnitView.getNode());
+        // TODO: restore after solving app freeze issue
+        view.addToMapDISABLED(missionUnitView.getNode());
     }
 
     public SortedMap<MissionVehicleLink, MissionVehicleView> getMissionVehicleViews() {
@@ -108,7 +109,8 @@ public class MissionStationView {
     private void addMissionVehicleView(View view, UtilsView utilsView, MissionVehicleLink missionVehicleLink) {
         MissionVehicleView missionVehicleView = new MissionVehicleView(missionVehicleLink, view, utilsView);
         missionVehicleViews.put(missionVehicleLink, missionVehicleView);
-        view.getWorldMap().addMapElement(missionVehicleView.getNode());
+        // TODO: restore after solving app freeze issue
+        view.addToMapDISABLED(missionVehicleView.getNode());
     }
 
     public SortedMap<MissionResponderLink, MissionResponderView> getMissionResponderViews() {
@@ -130,16 +132,17 @@ public class MissionStationView {
     private void addMissionResponderView(View view, UtilsView utilsView, MissionResponderLink missionResponderLink) {
         MissionResponderView missionResponderView = new MissionResponderView(missionResponderLink, view, utilsView);
         missionResponderViews.put(missionResponderLink, missionResponderView);
-        view.getWorldMap().addMapElement(missionResponderView.getNode());
+        // TODO: restore after solving app freeze issue
+        view.addToMapDISABLED(missionResponderView.getNode());
     }
     public void addMissionDepartmentDetailsMissionStation(View view) {
-        Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
+        Pane horizontalDetailsPane = utilsView.createHBox(view.getDetailsPane());
         addMissionStationIcon(horizontalDetailsPane);
         addMissionStationButton(view, horizontalDetailsPane);
     }
 
     private void addMissionStationTitle(View view) {
-        Pane titleAndSubtitlePane = utilsView.createVBox(view.getNavigationPanel().getTitlePane());
+        Pane titleAndSubtitlePane = utilsView.createVBox(view.getTitlePane());
         Pane horizontalTitlePane = utilsView.createHBox(titleAndSubtitlePane);
         utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, missionStationLink.getMission().getMissionType());
         utilsView.addMainTitleLabel(horizontalTitlePane, missionStationLink.getMission().toString());
@@ -159,14 +162,14 @@ public class MissionStationView {
     public void showMissionStation(View view) {
         View.viewRunnable = () -> showMissionStation(view);
         utilsView.addBreadCrumb(view.getBreadCrumbBar(), missionStationLink);
-        view.getNavigationPanel().clearAll();
+        view.clearNavigationPanel();
         showMissionStationDetails(view);
     }
 
     private void showMissionStationDetails(View view) {
         addMissionStationTitle(view);
 
-        Pane buttonsPane = view.getNavigationPanel().getButtonsPane();
+        Pane buttonsPane = view.getButtonsPane();
 
         List<MissionUnitLink> missionUnitLinks = missionStationLink.getUnitLinks().stream()
                   .toList();
@@ -175,7 +178,7 @@ public class MissionStationView {
             utilsView.setPaneButtonsSelectionStyle(event, buttonsPane);
             showMissionStationUnits(view);
         };
-        Button missionUnitsButton = utilsView.addButtonToHorizontalPane(buttonsPane, "Units", missionUnitsButtonHandler);
+        Button missionUnitsButton = utilsView.addHorizontalButtonToPane(buttonsPane, "Units", missionUnitsButtonHandler);
         UnitType unitType = switch(missionStationLink.getStation().getDepartment().getDepartmentType()) {
             case FIRE_DEPARTMENT -> FireUnitType.values()[0];
             case POLICE_DEPARTMENT -> PoliceUnitType.values()[0];
@@ -187,7 +190,7 @@ public class MissionStationView {
             utilsView.setPaneButtonsSelectionStyle(event, buttonsPane);
             showMissionStationVehicles(view);
         };
-        Button missionVehiclesButton = utilsView.addButtonToHorizontalPane(buttonsPane, "Vehicles", missionVehiclesButtonHandler);
+        Button missionVehiclesButton = utilsView.addHorizontalButtonToPane(buttonsPane, "Vehicles", missionVehiclesButtonHandler);
         VehicleType vehicleType = switch(missionStationLink.getStation().getDepartment().getDepartmentType()) {
             case FIRE_DEPARTMENT -> FireVehicleType.values()[0];
             case POLICE_DEPARTMENT -> PoliceVehicleType.values()[0];
@@ -199,7 +202,7 @@ public class MissionStationView {
             utilsView.setPaneButtonsSelectionStyle(event, buttonsPane);
             showMissionStationResponders(view);
         };
-        Button missionRespondersButton = utilsView.addButtonToHorizontalPane(buttonsPane, "Responders", missionRespondersButtonHandler);
+        Button missionRespondersButton = utilsView.addHorizontalButtonToPane(buttonsPane, "Responders", missionRespondersButtonHandler);
         Responder chiefResponder = missionStationLink.getStation().getDepartment().getStations().stream()
                 .flatMap(station -> station.getUnits().stream())
                 .flatMap(unit -> unit.getResponders().stream())
@@ -218,7 +221,7 @@ public class MissionStationView {
     }
 
     private void showMissionStationUnitsDetails(View view) {
-        view.getNavigationPanel().clearDetails();
+        view.clearDetailsPane();
 
         Map<UnitStatus, Long> unitStatusCounts = missionStationLink.getUnitLinks().stream()
                 .map(UnitLink::getUnit)
@@ -237,18 +240,18 @@ public class MissionStationView {
                         )
                 );
 
-        utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
-        Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
+        utilsView.addSeparatorToPane(view.getDetailsPane());
+        Pane horizontalDetailsPane = utilsView.createHBox(view.getDetailsPane());
         utilsView.addTotalCount(horizontalDetailsPane, unitStatusCounts, unitTypeStatusCounts);
 
-        utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
+        utilsView.addSeparatorToPane(view.getDetailsPane());
         for (MissionUnitView missionUnitView : missionUnitViews.values()) {
             missionUnitView.addMissionStationDetailsMissionUnit(view);
         }
     }
 
     private void showMissionStationUnitsMap(View view) {
-        view.getWorldMap().setMapElementsNotVisible();
+        view.hideMap();
 
         Map<Location, List<MissionUnitView>> missionUnitViewsByLocation = missionUnitViews.values().stream()
                 .collect(Collectors.groupingBy(
@@ -256,11 +259,10 @@ public class MissionStationView {
                 ));
 
         for (Map.Entry<Location, List<MissionUnitView>> locationMissionUnitViews : missionUnitViewsByLocation.entrySet()) {
-            Point2D nodesCenter = utilsView.locationToPoint(locationMissionUnitViews.getKey(), IconType.SMALL);
             List<Node> locationNodes = locationMissionUnitViews.getValue().stream()
                     .map(MissionUnitView::getNode)
                     .toList();
-            utilsView.distributeResourceIconsByLocation(nodesCenter, locationNodes);
+            utilsView.distributeResourceIconsByLocation(locationMissionUnitViews.getKey(), locationNodes);
         }
 
         MissionView missionView = view.getDispatchView().getMissionView(missionStationLink.getMission());
@@ -277,7 +279,7 @@ public class MissionStationView {
     }
 
     private void showMissionStationVehiclesDetails(View view) {
-        view.getNavigationPanel().clearDetails();
+        view.clearDetailsPane();
 
         List<MissionVehicleLink> missionVehicleLinks = missionStationLink.getUnitLinks().stream()
                 .flatMap(unitLink -> unitLink.getVehicleLinks().stream())
@@ -300,18 +302,18 @@ public class MissionStationView {
                         )
                 );
 
-        utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
-        Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
+        utilsView.addSeparatorToPane(view.getDetailsPane());
+        Pane horizontalDetailsPane = utilsView.createHBox(view.getDetailsPane());
         utilsView.addTotalCount(horizontalDetailsPane, vehicleStatusCounts, vehicleTypeStatusCounts);
 
-        utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
+        utilsView.addSeparatorToPane(view.getDetailsPane());
         for (MissionVehicleView missionVehicleView : missionVehicleViews.values()) {
             missionVehicleView.addMissionStationDetailsVehicle(view);
         }
     }
 
     private void showMissionStationVehiclesMap(View view) {
-        view.getWorldMap().setMapElementsNotVisible();
+        view.hideMap();
 
         Map<Location, List<MissionVehicleView>> missionVehicleViewsByLocation = missionVehicleViews.values().stream()
                 .collect(Collectors.groupingBy(
@@ -319,11 +321,10 @@ public class MissionStationView {
                 ));
 
         for (Map.Entry<Location, List<MissionVehicleView>> locationMissionVehicleViews : missionVehicleViewsByLocation.entrySet()) {
-            Point2D nodesCenter = utilsView.locationToPoint(locationMissionVehicleViews.getKey(), IconType.SMALL);
             List<Node> locationNodes = locationMissionVehicleViews.getValue().stream()
                     .map(MissionVehicleView::getNode)
                     .toList();
-            utilsView.distributeResourceIconsByLocation(nodesCenter, locationNodes);
+            utilsView.distributeResourceIconsByLocation(locationMissionVehicleViews.getKey(), locationNodes);
         }
 
         MissionView missionView = view.getDispatchView().getMissionView(missionStationLink.getMission());
@@ -340,7 +341,7 @@ public class MissionStationView {
     }
 
     private void showMissionStationRespondersDetails(View view) {
-        view.getNavigationPanel().clearDetails();
+        view.clearDetailsPane();
 
         List<MissionResponderLink> missionResponderLinks = missionStationLink.getUnitLinks().stream()
                 .flatMap(unitLink -> unitLink.getResponderLinks().stream())
@@ -363,18 +364,18 @@ public class MissionStationView {
                         )
                 );
 
-        utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
-        Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
+        utilsView.addSeparatorToPane(view.getDetailsPane());
+        Pane horizontalDetailsPane = utilsView.createHBox(view.getDetailsPane());
         utilsView.addTotalCount(horizontalDetailsPane, responderStatusCounts, responderRankStatusCounts);
 
-        utilsView.addSeparatorToPane(view.getNavigationPanel().getDetailsPane());
+        utilsView.addSeparatorToPane(view.getDetailsPane());
         for (MissionResponderView missionResponderView : missionResponderViews.values()) {
             missionResponderView.addMissionStationDetailsResponder(view);
         }
     }
 
     private void showMissionStationRespondersMap(View view) {
-        view.getWorldMap().setMapElementsNotVisible();
+        view.hideMap();
 
         Map<Location, List<MissionResponderView>> missionResponderViewsByLocation = missionResponderViews.values().stream()
                 .collect(Collectors.groupingBy(
@@ -382,11 +383,10 @@ public class MissionStationView {
                 ));
 
         for (Map.Entry<Location, List<MissionResponderView>> locationMissionResponderViews : missionResponderViewsByLocation.entrySet()) {
-            Point2D nodesCenter = utilsView.locationToPoint(locationMissionResponderViews.getKey(), IconType.SMALL);
             List<Node> locationNodes = locationMissionResponderViews.getValue().stream()
                     .map(MissionResponderView::getNode)
                     .toList();
-            utilsView.distributeResourceIconsByLocation(nodesCenter, locationNodes);
+            utilsView.distributeResourceIconsByLocation(locationMissionResponderViews.getKey(), locationNodes);
         }
 
         MissionView missionView = view.getDispatchView().getMissionView(missionStationLink.getMission());

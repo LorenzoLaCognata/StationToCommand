@@ -1,9 +1,14 @@
 package stationtocommand.view.dispatchStructure;
 
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import stationtocommand.model.departmentStructure.Department;
+import stationtocommand.model.departmentStructure.DepartmentType;
 import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.UtilsView;
+import stationtocommand.view.organizationStructure.DepartmentView;
+import stationtocommand.view.organizationStructure.StationView;
 
 import java.util.List;
 import java.util.SortedMap;
@@ -37,15 +42,23 @@ public class DispatchView {
     }
 
     public void addMissionView(View view, UtilsView utilsView, Mission mission) {
+        System.out.println("X0");
         if (!missionViews.containsKey(mission)) {
+            System.out.println("X1");
             MissionView missionView = new MissionView(mission, view, utilsView);
+            System.out.println("X2");
             missionViews.put(mission, missionView);
-            view.getWorldMap().addMapElement(missionView.getNode());
+            System.out.println("X3 " + missionView.getMission() + " - " + ((ImageView) missionView.getNode()).getImage().getUrl());
+            // TODO: restore after solving app freeze issue
+            //view.addToMapDISABLED(missionView.getNode());
+            System.out.println("X4");
+            System.out.println("X5");
         }
+        System.out.println("X6");
     }
 
     private void addDispatchTitle(View view) {
-        Pane horizontalTitlePane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
+        Pane horizontalTitlePane = utilsView.createHBox(view.getTitlePane());
         utilsView.addMainTitleLabel(horizontalTitlePane, "Dispatch");
     }
 
@@ -62,7 +75,7 @@ public class DispatchView {
     }
 
     private void showDispatchMap(View view) {
-        view.getWorldMap().setMapElementsNotVisible();
+        view.hideMap();
         for (MissionView missionView : missionViews.values()) {
             missionView.setNodeVisible();
         }
