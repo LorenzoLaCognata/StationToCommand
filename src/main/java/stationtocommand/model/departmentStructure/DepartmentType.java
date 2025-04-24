@@ -1,6 +1,10 @@
 package stationtocommand.model.departmentStructure;
 
 import stationtocommand.model.utilsStructure.EnumWithResource;
+import stationtocommand.model.vehicleStructure.FireVehicleType;
+import stationtocommand.model.vehicleStructure.MedicVehicleType;
+import stationtocommand.model.vehicleStructure.PoliceVehicleType;
+import stationtocommand.model.vehicleStructure.VehicleType;
 
 import java.util.Objects;
 
