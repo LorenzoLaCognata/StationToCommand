@@ -283,16 +283,18 @@ public class View {
                 MissionView missionView = dispatchView.getMissionView(mission);
                 MissionDepartmentLink missionDepartmentLink = mission.getDepartmentLink(missionResponderLink.getResponder().getUnitLink().getUnit().getStation().getDepartment());
                 MissionStationLink missionStationLink = missionDepartmentLink.getStationLink(missionResponderLink.getResponder().getUnitLink().getUnit().getStation());
+                MissionUnitLink missionUnitLink = missionStationLink.getUnitLink(missionResponderLink.getResponder().getUnitLink().getUnit());
                 utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
-                missionView.getMissionDepartmentView(missionDepartmentLink).getMissionStationView(missionStationLink).getMissionResponderListView().getMissionResponderView().show(this, missionResponderLink);
+                missionView.getMissionDepartmentView(missionDepartmentLink).getMissionStationView(missionStationLink).getMissionUnitView(missionUnitLink).getMissionResponderView(missionResponderLink).show(this);
             }
             else if (selectedObject instanceof MissionVehicleLink missionVehicleLink) {
                 Mission mission = missionVehicleLink.getMission();
                 MissionView missionView = dispatchView.getMissionView(mission);
                 MissionDepartmentLink missionDepartmentLink = mission.getDepartmentLink(missionVehicleLink.getVehicle().getUnitLink().getUnit().getStation().getDepartment());
                 MissionStationLink missionStationLink = missionDepartmentLink.getStationLink(missionVehicleLink.getVehicle().getUnitLink().getUnit().getStation());
+                MissionUnitLink missionUnitLink = missionStationLink.getUnitLink(missionVehicleLink.getVehicle().getUnitLink().getUnit());
                 utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
-                missionView.getMissionDepartmentView(missionDepartmentLink).getMissionStationView(missionStationLink).getMissionVehicleListView().getMissionVehicleView().show(this, missionVehicleLink);
+                missionView.getMissionDepartmentView(missionDepartmentLink).getMissionStationView(missionStationLink).getMissionUnitView(missionUnitLink).getMissionVehicleView(missionVehicleLink).show(this);
             }
         });
     }

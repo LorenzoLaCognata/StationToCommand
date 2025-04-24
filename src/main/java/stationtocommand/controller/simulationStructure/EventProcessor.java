@@ -8,6 +8,7 @@ import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.model.utilsStructure.Utils;
 import stationtocommand.view.dispatchStructure.MissionDepartmentView;
 import stationtocommand.view.dispatchStructure.MissionStationView;
+import stationtocommand.view.dispatchStructure.MissionUnitView;
 import stationtocommand.view.dispatchStructure.MissionView;
 
 import java.util.List;
@@ -94,11 +95,18 @@ public class EventProcessor {
                 if (missionToDispatchToUnit != null) {
                     MissionView missionView = controller.getView().getDispatchView().getMissionView(missionToDispatchToUnit);
                     for (MissionDepartmentLink missionDepartmentLink : missionToDispatchToUnit.getDepartmentLinks()) {
+                        System.out.println("A1 " + missionDepartmentLink);
                         controller.getModel().getMissionManager().dispatchMissionToUnit(missionDepartmentLink);
                         MissionDepartmentView missionDepartmentView = missionView.getMissionDepartmentView(missionDepartmentLink);
                         missionDepartmentView.addMissionStationViews(controller.getView(), controller.getView().getUtilsView());
                         for (MissionStationView missionStationView : missionDepartmentView.getMissionStationViews().values()) {
+                            System.out.println("A2 " + missionStationView);
                             missionStationView.addMissionUnitViews(controller.getView(), controller.getView().getUtilsView());
+                            for (MissionUnitView missionUnitView : missionStationView.getMissionUnitViews().values()) {
+                                System.out.println("A3 " + missionUnitView);
+                                missionUnitView.addMissionVehicleViews(controller.getView(), controller.getView().getUtilsView());
+                                missionUnitView.addMissionResponderViews(controller.getView(), controller.getView().getUtilsView());
+                            }
                         }
                     }
                 }

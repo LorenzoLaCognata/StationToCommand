@@ -29,6 +29,7 @@ import stationtocommand.model.vehicleStructure.VehicleStatus;
 import stationtocommand.view.View;
 import stationtocommand.view.dispatchStructure.MissionDepartmentView;
 import stationtocommand.view.dispatchStructure.MissionStationView;
+import stationtocommand.view.dispatchStructure.MissionUnitView;
 import stationtocommand.view.dispatchStructure.MissionView;
 
 import java.util.List;
@@ -117,20 +118,6 @@ public class Controller {
             sampleMission.linkUnit(unit);
         }
 
-
-        view.getDispatchView().addMissionView(view, view.getUtilsView(), sampleMission);
-        MissionView sampleMissionView = view.getDispatchView().getMissionView(sampleMission);
-        sampleMissionView.addMissionDepartmentViews(view, view.getUtilsView());
-        for (MissionDepartmentView sampleMissionDepartmentView : sampleMissionView.getMissionDepartmentViews().values()) {
-            sampleMissionDepartmentView.addMissionStationViews(view, view.getUtilsView());
-            for (MissionStationView sampleMissionStationView : sampleMissionDepartmentView.getMissionStationViews().values()) {
-                sampleMissionStationView.addMissionUnitViews(view, view.getUtilsView());
-            }
-        }
-
-        sampleMission.linkObjective(new Objective(ObjectiveType.EVACUATE_CIVILIANS));
-        //System.out.println(sampleMission + " has objective " + sampleMission.getObjectiveLinks().getFirst().getObjective());
-
         List<Unit> sampleMissionUnits = sampleMission.getDepartmentLinks().stream()
                 .flatMap(item -> item.getStationLinks().stream())
                 .flatMap(item -> item.getUnitLinks().stream())
@@ -143,7 +130,6 @@ public class Controller {
                 responder.setResponderStatus(ResponderStatus.DISPATCHED);
                 sampleMission.linkResponder(responder);
                 //System.out.println(sampleMission + " assigned to " + responder);
-                // TODO: addMissionResponderView
 
                 sampleTasks.getFirst().linkResponder(responder);
                 //System.out.println(sampleTasks.getFirst() + " assigned to " + responder);
@@ -153,8 +139,25 @@ public class Controller {
             vehicle.setVehicleStatus(VehicleStatus.DISPATCHED);
             sampleMission.linkVehicle(vehicle);
             //System.out.println(sampleMission + " assigned to " + vehicle);
-            // TODO: addMissionVehicleView
         }
+
+        view.getDispatchView().addMissionView(view, view.getUtilsView(), sampleMission);
+        MissionView sampleMissionView = view.getDispatchView().getMissionView(sampleMission);
+        sampleMissionView.addMissionDepartmentViews(view, view.getUtilsView());
+        for (MissionDepartmentView sampleMissionDepartmentView : sampleMissionView.getMissionDepartmentViews().values()) {
+            sampleMissionDepartmentView.addMissionStationViews(view, view.getUtilsView());
+            for (MissionStationView sampleMissionStationView : sampleMissionDepartmentView.getMissionStationViews().values()) {
+                sampleMissionStationView.addMissionUnitViews(view, view.getUtilsView());
+                for (MissionUnitView sampleMissionUnitView : sampleMissionStationView.getMissionUnitViews().values()) {
+                    sampleMissionUnitView.addMissionVehicleViews(view, view.getUtilsView());
+                    sampleMissionUnitView.addMissionResponderViews(view, view.getUtilsView());
+                }
+            }
+        }
+
+
+        sampleMission.linkObjective(new Objective(ObjectiveType.EVACUATE_CIVILIANS));
+        //System.out.println(sampleMission + " has objective " + sampleMission.getObjectiveLinks().getFirst().getObjective());
 
         Training training = model.getTrainingManager().getTraining(TrainingType.FIRST_AID);
         model.getResponderManager().getPlayer().linkTraining(training);

@@ -11,7 +11,8 @@ import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
 
-import java.util.*;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 public class MissionView {
 

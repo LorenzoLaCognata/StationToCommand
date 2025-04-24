@@ -5,7 +5,6 @@ import stationtocommand.model.locationStructure.Location;
 import stationtocommand.model.missionLinkStructure.MissionCivilianLink;
 import stationtocommand.model.missionLinkStructure.MissionDepartmentLink;
 import stationtocommand.model.missionLinkStructure.MissionObjectiveLink;
-import stationtocommand.model.missionLinkStructure.MissionStationLink;
 import stationtocommand.model.objectiveStructure.Objective;
 import stationtocommand.model.personStructure.Civilian;
 import stationtocommand.model.responderStructure.Responder;

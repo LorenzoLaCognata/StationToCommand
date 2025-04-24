@@ -57,6 +57,10 @@ public class UnitView {
         return node;
     }
 
+    public void setNodeVisible() {
+        node.setVisible(true);
+    }
+
     public SortedMap<Vehicle, VehicleView> getVehicleViews() {
         return vehicleViews;
     }
@@ -132,10 +136,6 @@ public class UnitView {
         Pane horizontalTitlePane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
         utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, unit.getUnitType());
         utilsView.addMainTitleLabel(horizontalTitlePane, unit.toString());
-    }
-
-    public void setNodeVisible() {
-        node.setVisible(true);
     }
 
     private void showUnitVehicles(View view) {

@@ -3,8 +3,6 @@ package stationtocommand.view.organizationStructure;
 import javafx.scene.layout.Pane;
 import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.view.View;
-import stationtocommand.view.mainStructure.IconColor;
-import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
 
 import java.util.List;
