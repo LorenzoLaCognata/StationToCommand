@@ -136,6 +136,18 @@ public class UtilsView {
         addMainTitleLabel(horizontalPane, title);
     }
 
+    public <T extends EnumWithResource> void addIconAndSubtitle(Pane pane, T resource, String subtitle) {
+        Pane horizontalPane = createHBox(pane);
+        addIconToPane(horizontalPane, IconType.MEDIUM, IconColor.EMPTY, resource);
+        addMainSubtitleLabel(horizontalPane, subtitle);
+    }
+
+    public <T extends EnumWithResource> void addIconAndTitleWithSubtitle(Pane pane, T resourceTitle, String title, T resourceSubtitle, String subtitle) {
+        Pane verticalPane = createVBox(pane);
+        addIconAndTitle(verticalPane, resourceTitle, title);
+        addIconAndSubtitle(verticalPane, resourceSubtitle, subtitle);
+    }
+
     public <T extends EnumWithResource> void addIconAndButtonAndIcon(Pane pane, T resource1, String label, EventHandler<ActionEvent> eventHandler, T resource2) {
         Pane horizontalPane = addIconAndButton(pane, resource1, label, eventHandler);
         addIconToPane(horizontalPane, IconType.SMALL, IconColor.EMPTY, resource2);
@@ -389,8 +401,7 @@ public class UtilsView {
         return button;
     }
 
-    // TODO: remove NEW from the name and remove the other version
-    public  <T extends EnumWithResource, S extends EnumWithResource> void addAvailableResourcesNEW(Pane pane, Map<S, Long> statusCounts, Map<T, Map<S, Long>> typeStatusCounts) {
+    public  <T extends EnumWithResource, S extends EnumWithResource> void addAvailableResources(Pane pane, Map<S, Long> statusCounts, Map<T, Map<S, Long>> typeStatusCounts) {
         addSeparatorToPane(pane);
         Pane horizontalPane = createHBox(pane);
         Pane verticalPane = createVBox(horizontalPane);
@@ -401,13 +412,15 @@ public class UtilsView {
         addSeparatorToPane(pane);
     }
 
-    public  <T extends EnumWithResource, S extends EnumWithResource> void addAvailabilityCount(Pane pane, Map<S, Long> statusCounts, Map<T, Map<S, Long>> typeStatusCounts) {
-        Pane verticalDetailPane = createVBox(pane);
-        addPieChart(statusCounts, verticalDetailPane);
-        addSeparatorToPane(verticalDetailPane);
-        Pane horizontalDetailsPane = createHBox(verticalDetailPane);
-        addAvailabilityTypeCounts(horizontalDetailsPane, typeStatusCounts, typeStatusCounts.keySet().iterator().next(), statusCounts.keySet().iterator().next());
-
+    public  <T extends EnumWithResource, S extends EnumWithResource> void addTotalResources(Pane pane, Map<S, Long> statusCounts, Map<T, Map<S, Long>> typeStatusCounts) {
+        addSeparatorToPane(pane);
+        Pane horizontalPane = createHBox(pane);
+        Pane verticalPane = createVBox(horizontalPane);
+        addPieChart(statusCounts, verticalPane);
+        addSeparatorToPane(verticalPane);
+        Pane horizontalDetailsPane = createHBox(verticalPane);
+        addTotalTypeCounts(horizontalDetailsPane, typeStatusCounts, typeStatusCounts.keySet().iterator().next());
+        addSeparatorToPane(pane);
     }
 
     public  <T extends EnumWithResource, S extends EnumWithResource> void addTotalCount(Pane pane, Map<S, Long> statusCounts, Map<T, Map<S, Long>> typeStatusCounts) {

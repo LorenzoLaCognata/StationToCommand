@@ -159,7 +159,7 @@ public class DepartmentView {
 
     private void showNavigationPanelUnits(View view) {
         view.clearDetailsPane();
-        utilsView.addAvailableResourcesNEW(view.getDetailsPane(), department.unitsByStatus(), department.unitsByTypeAndStatus());
+        utilsView.addAvailableResources(view.getDetailsPane(), department.unitsByStatus(), department.unitsByTypeAndStatus());
         for (UnitView unitView : unitViews.values()) {
             unitView.addListDetails(view);
         }
@@ -181,7 +181,7 @@ public class DepartmentView {
 
     private void showNavigationPanelVehicles(View view) {
         view.clearDetailsPane();
-        utilsView.addAvailableResourcesNEW(view.getDetailsPane(), department.vehiclesByStatus(), department.vehiclesByTypeAndStatus());
+        utilsView.addAvailableResources(view.getDetailsPane(), department.vehiclesByStatus(), department.vehiclesByTypeAndStatus());
         for (VehicleView vehicleView : vehicleViews.values()) {
             vehicleView.addListDetails(view);
         }
@@ -203,7 +203,7 @@ public class DepartmentView {
 
     private void showNavigationPanelResponders(View view) {
         view.clearDetailsPane();
-        utilsView.addAvailableResourcesNEW(view.getDetailsPane(), department.respondersByStatus(), department.respondersByRankAndStatus());
+        utilsView.addAvailableResources(view.getDetailsPane(), department.respondersByStatus(), department.respondersByRankAndStatus());
         for (ResponderView responderView : responderViews.values()) {
             responderView.addListDetails(view);
         }

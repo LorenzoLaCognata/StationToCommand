@@ -31,11 +31,6 @@ public class ResponderView {
         node.setVisible(true);
     }
 
-    public void showOnlyNode(View view) {
-        view.hideMap();
-        showNode();
-    }
-
     public void addListDetails(View view) {
         utilsView.addIconAndButtonAndIcon(view.getDetailsPane(), responder.getAppearanceType(), responder.toString(), (_ -> show(view)), responder.getResponderStatus());
     }
@@ -55,7 +50,8 @@ public class ResponderView {
     }
 
     private void showMap(View view) {
-        showOnlyNode(view);
+        view.hideMap();
+        showNode();
     }
 
 }

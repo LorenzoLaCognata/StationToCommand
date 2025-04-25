@@ -245,7 +245,7 @@ public class MissionStationView {
 
         utilsView.addSeparatorToPane(view.getDetailsPane());
         for (MissionUnitView missionUnitView : missionUnitViews.values()) {
-            missionUnitView.addMissionStationDetailsMissionUnit(view);
+            missionUnitView.addListDetails(view);
         }
     }
 
@@ -267,7 +267,7 @@ public class MissionStationView {
         MissionView missionView = view.getDispatchView().getMissionView(missionStationLink.getMission());
         missionView.setNodeVisible();
         for (MissionUnitView missionUnitView : missionUnitViews.values()) {
-            missionUnitView.setNodeVisible();
+            missionUnitView.showNode();
         }
     }
 
@@ -307,7 +307,7 @@ public class MissionStationView {
 
         utilsView.addSeparatorToPane(view.getDetailsPane());
         for (MissionVehicleView missionVehicleView : missionVehicleViews.values()) {
-            missionVehicleView.addMissionStationDetailsVehicle(view);
+            missionVehicleView.addListDetails(view);
         }
     }
 
@@ -329,7 +329,7 @@ public class MissionStationView {
         MissionView missionView = view.getDispatchView().getMissionView(missionStationLink.getMission());
         missionView.setNodeVisible();
         for (MissionVehicleView missionVehicleView : missionVehicleViews.values()) {
-            missionVehicleView.setNodeVisible();
+            missionVehicleView.showNode();
         }
     }
 
@@ -369,7 +369,7 @@ public class MissionStationView {
 
         utilsView.addSeparatorToPane(view.getDetailsPane());
         for (MissionResponderView missionResponderView : missionResponderViews.values()) {
-            missionResponderView.addMissionStationDetailsResponder(view);
+            missionResponderView.addListDetails(view);
         }
     }
 
@@ -391,7 +391,7 @@ public class MissionStationView {
         MissionView missionView = view.getDispatchView().getMissionView(missionStationLink.getMission());
         missionView.setNodeVisible();
         for (MissionResponderView missionResponderView : missionResponderViews.values()) {
-            missionResponderView.setNodeVisible();
+            missionResponderView.showNode();
         }
     }
 

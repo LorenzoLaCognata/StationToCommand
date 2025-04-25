@@ -31,11 +31,6 @@ public class VehicleView {
         node.setVisible(true);
     }
 
-    public void showOnlyNode(View view) {
-        view.hideMap();
-        showNode();
-    }
-
     public void addListDetails(View view) {
         utilsView.addIconAndButtonAndIcon(view.getDetailsPane(), vehicle.getVehicleType(), vehicle.toString(), (_ -> show(view)), vehicle.getVehicleStatus());
     }
@@ -53,7 +48,8 @@ public class VehicleView {
     }
 
     private void showMap(View view) {
-        showOnlyNode(view);
+        view.hideMap();
+        showNode();
         view.addToMap(view.getDispatchView().getMissionViews().values().stream().toList().getFirst().getNode());
     }
 

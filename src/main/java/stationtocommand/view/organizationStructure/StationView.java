@@ -66,11 +66,6 @@ public class StationView {
         node.setVisible(true);
     }
 
-    public void showOnlyNode(View view) {
-        view.hideMap();
-        showNode();
-    }
-
     public SortedMap<Unit, UnitView> getUnitViews() {
         return unitViews;
     }
@@ -162,7 +157,7 @@ public class StationView {
 
     private void showNavigationPanelUnits(View view) {
         view.clearDetailsPane();
-        utilsView.addAvailableResourcesNEW(view.getDetailsPane(), station.unitsByStatus(), station.unitsByTypeAndStatus());
+        utilsView.addAvailableResources(view.getDetailsPane(), station.unitsByStatus(), station.unitsByTypeAndStatus());
         for (UnitView unitView : unitViews.values()) {
             unitView.addListDetails(view);
         }
@@ -184,7 +179,7 @@ public class StationView {
 
     private void showNavigationPanelVehicles(View view) {
         view.clearDetailsPane();
-        utilsView.addAvailableResourcesNEW(view.getDetailsPane(), station.vehiclesByStatus(), station.vehiclesByTypeAndStatus());
+        utilsView.addAvailableResources(view.getDetailsPane(), station.vehiclesByStatus(), station.vehiclesByTypeAndStatus());
         for (VehicleView vehicleView : vehicleViews.values()) {
             vehicleView.addListDetails(view);
         }
@@ -206,7 +201,7 @@ public class StationView {
 
     private void showNavigationPanelResponders(View view) {
         view.clearDetailsPane();
-        utilsView.addAvailableResourcesNEW(view.getDetailsPane(), station.respondersByStatus(), station.respondersByRankAndStatus());
+        utilsView.addAvailableResources(view.getDetailsPane(), station.respondersByStatus(), station.respondersByRankAndStatus());
         for (ResponderView responderView : responderViews.values()) {
             responderView.addListDetails(view);
         }

@@ -1,9 +1,6 @@
 package stationtocommand.view.dispatchStructure;
 
-import javafx.geometry.Point2D;
 import javafx.scene.Node;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
 import stationtocommand.model.missionLinkStructure.MissionVehicleLink;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
@@ -17,7 +14,6 @@ public class MissionVehicleView {
     private final UtilsView utilsView;
 
     public MissionVehicleView(MissionVehicleLink missionVehicleLink, View view, UtilsView utilsView) {
-        System.out.println("Created MissionVehicleView for " + missionVehicleLink.getMission() + " - " + missionVehicleLink.getVehicle());
         this.missionVehicleLink = missionVehicleLink;
         this.node = utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, missionVehicleLink.getVehicle().getVehicleType(), missionVehicleLink.getVehicle().getLocation());
         this.utilsView = utilsView;
@@ -31,61 +27,32 @@ public class MissionVehicleView {
         return node;
     }
 
-    public void setNodeVisible() {
+    public void showNode() {
         node.setVisible(true);
+    }
+
+    public void addListDetails(View view) {
+        utilsView.addIconAndButton(view.getDetailsPane(), missionVehicleLink.getVehicle().getVehicleType(), missionVehicleLink.getVehicle().toString(), (_ -> show(view)));
     }
 
     public void show(View view) {
         View.viewRunnable = () -> show(view);
-        utilsView.addBreadCrumb(view.getBreadCrumbBar(), missionVehicleLink);
-        view.clearNavigationPanel();
-        view.hideMap();
-        showSidebar(view);
+        showNavigationPanel(view);
         showMap(view);
     }
 
-    private void showSidebar(View view) {
-        showMissionVehicleDetails(view);
-    }
-
-    private void showMissionVehicleDetails(View view) {
-        Pane titleAndSubtitlePane = utilsView.createVBox(view.getTitlePane());
-        Pane horizontalTitlePane = utilsView.createHBox(titleAndSubtitlePane);
-        utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, missionVehicleLink.getMission().getMissionType());
-        utilsView.addMainTitleLabel(horizontalTitlePane, missionVehicleLink.getMission().toString());
-        Pane horizontalSubtitlePane = utilsView.createHBox(titleAndSubtitlePane);
-        utilsView.addIconToPane(horizontalSubtitlePane, IconType.SMALL, IconColor.EMPTY, missionVehicleLink.getVehicle().getVehicleType());
-        utilsView.addMainSubtitleLabel(horizontalSubtitlePane, missionVehicleLink.getVehicle().toString());
-    }
-
-    public void addMissionDepartmentDetailsVehicle(View view) {
-        addMissionUnitDetailsVehicle(view);
-    }
-
-    public void addMissionStationDetailsVehicle(View view) {
-        addMissionUnitDetailsVehicle(view);
-    }
-
-    public void addMissionUnitDetailsVehicle(View view) {
-        Pane horizontalDetailsPane = utilsView.createHBox(view.getDetailsPane());
-        addMissionVehicleIcon(horizontalDetailsPane);
-        addMissionVehicleButton(view, horizontalDetailsPane);
-    }
-
-    private void addMissionVehicleIcon(Pane pane) {
-        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, missionVehicleLink.getVehicle().getVehicleType());
-    }
-
-    private void addMissionVehicleButton(View view, Pane pane) {
-        utilsView.addButtonToPane(pane, missionVehicleLink.getVehicle().toString(), (_ -> show(view)));
+    private void showNavigationPanel(View view) {
+        utilsView.addBreadCrumb(view.getBreadCrumbBar(), missionVehicleLink);
+        view.clearNavigationPanel();
+        utilsView.addIconAndTitleWithSubtitle(view.getTitlePane(),
+                missionVehicleLink.getMission().getMissionType(), missionVehicleLink.getMission().toString(),
+                missionVehicleLink.getVehicle().getVehicleType(), missionVehicleLink.getVehicle().toString()
+        );
     }
 
     public void showMap(View view) {
-        Point2D point = utilsView.locationToPoint(missionVehicleLink.getVehicle().getLocation(), IconType.SMALL);
-        ImageView imageView = utilsView.smallIcon(missionVehicleLink.getVehicle().getVehicleType().getResourcePath(), "");
-        Pane mapLayer = view.getWorldMap().getMapElementsLayer();
-        utilsView.addNodeToPane(mapLayer, imageView, point);
-
+        view.hideMap();
+        showNode();
         MissionView missionView = view.getDispatchView().getMissionView(missionVehicleLink.getMission());
         missionView.setNodeVisible();
     }

@@ -253,7 +253,7 @@ public class MissionDepartmentView {
 
         utilsView.addSeparatorToPane(view.getDetailsPane());
         for (MissionUnitView missionUnitView : missionUnitViews.values()) {
-            missionUnitView.addMissionDepartmentDetailsMissionUnit(view);
+            missionUnitView.addListDetails(view);
         }
     }
 
@@ -275,7 +275,7 @@ public class MissionDepartmentView {
         MissionView missionView = view.getDispatchView().getMissionView(missionDepartmentLink.getMission());
         missionView.setNodeVisible();
         for (MissionUnitView missionUnitView : missionUnitViews.values()) {
-            missionUnitView.setNodeVisible();
+            missionUnitView.showNode();
         }
     }
 
@@ -318,7 +318,7 @@ public class MissionDepartmentView {
 
         utilsView.addSeparatorToPane(view.getDetailsPane());
         for (MissionVehicleView missionVehicleView : missionVehicleViews.values()) {
-            missionVehicleView.addMissionDepartmentDetailsVehicle(view);
+            missionVehicleView.addListDetails(view);
         }
     }
 
@@ -340,7 +340,7 @@ public class MissionDepartmentView {
         MissionView missionView = view.getDispatchView().getMissionView(missionDepartmentLink.getMission());
         missionView.setNodeVisible();
         for (MissionVehicleView missionVehicleView : missionVehicleViews.values()) {
-            missionVehicleView.setNodeVisible();
+            missionVehicleView.showNode();
         }
     }
 
@@ -388,7 +388,7 @@ public class MissionDepartmentView {
         System.out.println(missionResponderViews.size());
         for (MissionResponderView missionResponderView : missionResponderViews.values()) {
             System.out.println(missionResponderView.getMissionResponderLink().getResponder());
-            missionResponderView.addMissionDepartmentDetailsResponder(view);
+            missionResponderView.addListDetails(view);
         }
     }
 
@@ -410,7 +410,7 @@ public class MissionDepartmentView {
         MissionView missionView = view.getDispatchView().getMissionView(missionDepartmentLink.getMission());
         missionView.setNodeVisible();
         for (MissionResponderView missionResponderView : missionResponderViews.values()) {
-            missionResponderView.setNodeVisible();
+            missionResponderView.showNode();
         }
     }
 
