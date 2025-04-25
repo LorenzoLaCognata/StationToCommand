@@ -2,21 +2,25 @@ package stationtocommand.model.departmentStructure;
 
 import stationtocommand.model.personStructure.AppearanceType;
 import stationtocommand.model.rankStructure.RankManager;
+import stationtocommand.model.rankTypeStructure.RankType;
 import stationtocommand.model.responderStructure.Responder;
+import stationtocommand.model.responderStructure.ResponderStatus;
 import stationtocommand.model.shiftStructure.ShiftManager;
 import stationtocommand.model.stationStructure.Station;
 import stationtocommand.model.stationStructure.StationManager;
+import stationtocommand.model.stationStructure.StationType;
+import stationtocommand.model.unitStructure.Unit;
+import stationtocommand.model.unitStructure.UnitStatus;
 import stationtocommand.model.unitTypeStructure.FireUnitType;
 import stationtocommand.model.unitTypeStructure.MedicUnitType;
 import stationtocommand.model.unitTypeStructure.PoliceUnitType;
 import stationtocommand.model.unitTypeStructure.UnitType;
-import stationtocommand.model.vehicleStructure.FireVehicleType;
-import stationtocommand.model.vehicleStructure.MedicVehicleType;
-import stationtocommand.model.vehicleStructure.PoliceVehicleType;
-import stationtocommand.model.vehicleStructure.VehicleType;
+import stationtocommand.model.vehicleStructure.*;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Department implements Comparable<Department> {
 
@@ -62,6 +66,14 @@ public class Department implements Comparable<Department> {
         return shiftManager;
     }
 
+    public StationType defaultStationType() {
+        return switch(departmentType) {
+                case FIRE_DEPARTMENT -> StationType.FIRE_STATION;
+                case POLICE_DEPARTMENT -> StationType.POLICE_STATION;
+                case MEDIC_DEPARTMENT -> StationType.MEDIC_STATION;
+            };
+    }
+
     public UnitType defaultUnitType() {
         return switch(departmentType) {
             case FIRE_DEPARTMENT -> FireUnitType.values()[0];
@@ -94,5 +106,73 @@ public class Department implements Comparable<Department> {
             case DepartmentType.MEDIC_DEPARTMENT -> List.of(MedicUnitType.values());
         };
     }
+
+    public Map<UnitStatus, Long> unitsByStatus() {
+        return getStations().stream()
+                .flatMap(station -> station.getUnits().stream())
+                .collect(Collectors.groupingBy(
+                        Unit::getUnitStatus,
+                        Collectors.counting())
+                );
+    }
+
+    public Map<UnitType, Map<UnitStatus, Long>> unitsByTypeAndStatus() {
+        return getStations().stream()
+                .flatMap(station -> station.getUnits().stream())
+                .collect(Collectors.groupingBy(
+                                Unit::getUnitType,
+                                Collectors.groupingBy(
+                                        Unit::getUnitStatus,
+                                        Collectors.counting())
+                        )
+                );
+    }
+
+    public Map<VehicleStatus, Long> vehiclesByStatus() {
+        return getStations().stream()
+                .flatMap(station -> station.getUnits().stream())
+                .flatMap(unit -> unit.getVehicles().stream())
+                .collect(Collectors.groupingBy(
+                        Vehicle::getVehicleStatus,
+                        Collectors.counting())
+                );
+    }
+
+    public Map<VehicleType, Map<VehicleStatus, Long>> vehiclesByTypeAndStatus() {
+        return getStations().stream()
+                .flatMap(station -> station.getUnits().stream())
+                .flatMap(unit -> unit.getVehicles().stream())
+                .collect(Collectors.groupingBy(
+                                Vehicle::getVehicleType,
+                                Collectors.groupingBy(
+                                        Vehicle::getVehicleStatus,
+                                        Collectors.counting())
+                        )
+                );
+    }
+
+    public Map<ResponderStatus, Long> respondersByStatus() {
+        return getStations().stream()
+                .flatMap(station -> station.getUnits().stream())
+                .flatMap(unit -> unit.getResponders().stream())
+                .collect(Collectors.groupingBy(
+                        Responder::getResponderStatus,
+                        Collectors.counting())
+                );
+    }
+
+    public Map<RankType, Map<ResponderStatus, Long>> respondersByRankAndStatus() {
+        return getStations().stream()
+                .flatMap(station -> station.getUnits().stream())
+                .flatMap(unit -> unit.getResponders().stream())
+                .collect(Collectors.groupingBy(
+                                responder -> responder.getRank().getRankType(),
+                                Collectors.groupingBy(
+                                        Responder::getResponderStatus,
+                                        Collectors.counting())
+                        )
+                );
+    }
+
 
 }

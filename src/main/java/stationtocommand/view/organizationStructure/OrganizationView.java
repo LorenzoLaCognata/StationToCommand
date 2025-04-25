@@ -1,6 +1,5 @@
 package stationtocommand.view.organizationStructure;
 
-import javafx.scene.layout.Pane;
 import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.UtilsView;
@@ -27,24 +26,19 @@ public class OrganizationView {
         return departmentViews.get(department);
     }
 
-    public void showOrganization(View view) {
-        showOrganizationDetails(view);
-        showOrganizationMap(view);
+    public void show(View view) {
+        showNavigationPanel(view);
+        showMap(view);
     }
 
-    private void showOrganizationDetails(View view) {
-        addOrganizationTitle(view);
+    private void showNavigationPanel(View view) {
+        utilsView.addTitle(view.getTitlePane(), "Organization");
         for (DepartmentView departmentView : departmentViews.values()) {
-            departmentView.addOrganizationDetailsDepartment(view);
+            departmentView.addListDetails(view);
         }
     }
 
-    private void addOrganizationTitle(View view) {
-        Pane horizontalTitlePane = utilsView.createHBox(view.getTitlePane());
-        utilsView.addMainTitleLabel(horizontalTitlePane, "Organization");
-    }
-
-    private void showOrganizationMap(View view) {
+    private void showMap(View view) {
         view.hideMap();
         for (DepartmentView departmentView : departmentViews.values()) {
             for (StationView stationView : departmentView.getStationViews().values()) {

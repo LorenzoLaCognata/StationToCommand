@@ -1,7 +1,5 @@
 package stationtocommand.view.mainStructure;
 
-import javafx.animation.Animation;
-import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
@@ -12,15 +10,16 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.util.Duration;
 import org.controlsfx.control.BreadCrumbBar;
-import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.model.locationStructure.Location;
 import stationtocommand.model.locationStructure.LocationManager;
 import stationtocommand.model.utilsStructure.EnumWithResource;
 
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class UtilsView {
 
@@ -124,6 +123,11 @@ public class UtilsView {
 
     public void addNodeToPane(Pane pane, Node node) {
         pane.getChildren().addAll(node);
+    }
+
+    public void addTitle(Pane pane, String title) {
+        Pane horizontalPane = createHBox(pane);
+        addMainTitleLabel(horizontalPane, title);
     }
 
     public <T extends EnumWithResource> void addIconAndTitle(Pane pane, T resource, String title) {

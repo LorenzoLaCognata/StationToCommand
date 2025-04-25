@@ -7,13 +7,16 @@ import stationtocommand.model.responderStructure.Responder;
 import stationtocommand.model.stationStructure.Station;
 import stationtocommand.model.unitStructure.Unit;
 import stationtocommand.model.unitTypeStructure.UnitType;
-import stationtocommand.model.vehicleStructure.*;
+import stationtocommand.model.vehicleStructure.Vehicle;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 public class StationView {
@@ -174,10 +177,10 @@ public class StationView {
     }
 
     private void showVehicles(View view) {
-        View.viewRunnable = () -> showVehicles(view);
-        showNavigationPanelVehicles(view);
-        showMapVehicles(view);
-    }
+            View.viewRunnable = () -> showVehicles(view);
+            showNavigationPanelVehicles(view);
+            showMapVehicles(view);
+        }
 
     private void showNavigationPanelVehicles(View view) {
         view.clearDetailsPane();

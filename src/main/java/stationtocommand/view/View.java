@@ -273,7 +273,7 @@ public class View {
             else if (selectedObject instanceof Department department) {
                 hideMap();
                 utilsView.resetBreadCrumbBar(breadCrumbBar);
-                organizationView.getDepartmentView(department).showDepartment(this);
+                organizationView.getDepartmentView(department).show(this);
             }
             else if (selectedObject instanceof Station station) {
                 Department department = station.getDepartment();
@@ -358,7 +358,7 @@ public class View {
         hideMap();
         utilsView.resetBreadCrumbBar(breadCrumbBar);
         utilsView.addBreadCrumb(breadCrumbBar, buttonText);
-        organizationView.showOrganization(this);
+        organizationView.show(this);
     }
 
     public void dispatchButtonHandler(String buttonText) {

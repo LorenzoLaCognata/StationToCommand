@@ -2,13 +2,9 @@ package stationtocommand.view.dispatchStructure;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import stationtocommand.model.departmentStructure.Department;
-import stationtocommand.model.departmentStructure.DepartmentType;
 import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.UtilsView;
-import stationtocommand.view.organizationStructure.DepartmentView;
-import stationtocommand.view.organizationStructure.StationView;
 
 import java.util.List;
 import java.util.SortedMap;

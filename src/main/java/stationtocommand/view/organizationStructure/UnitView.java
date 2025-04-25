@@ -4,13 +4,16 @@ import javafx.scene.Node;
 import stationtocommand.model.locationStructure.Location;
 import stationtocommand.model.responderStructure.Responder;
 import stationtocommand.model.unitStructure.Unit;
-import stationtocommand.model.vehicleStructure.*;
+import stationtocommand.model.vehicleStructure.Vehicle;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 public class UnitView {
