@@ -1,6 +1,5 @@
 package stationtocommand.view.dispatchStructure;
 
-import javafx.scene.image.ImageView;
 import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.UtilsView;
@@ -15,6 +14,7 @@ public class DispatchView {
     private final SortedMap<Mission, MissionView> missionViews;
 
     public DispatchView(List<Mission> missions, View view, UtilsView utilsView) {
+        System.out.println("DispatchView");
         this.missionViews = new TreeMap<>();
         for (Mission mission : missions) {
             addMissionView(mission, view, utilsView);
@@ -31,18 +31,12 @@ public class DispatchView {
     }
 
     public void addMissionView(Mission mission, View view, UtilsView utilsView) {
-        System.out.println("X1");
         if (!missionViews.containsKey(mission)) {
-            System.out.println("X2");
             MissionView missionView = new MissionView(mission, view, utilsView);
-            System.out.println("X3");
             missionViews.put(mission, missionView);
-            System.out.println("X4 " + missionView.getMission() + " - " + ((ImageView) missionView.getNode()).getImage().getUrl());
             // TODO: restore after solving app freeze issue
-            view.addToMapDISABLED(missionView.getNode());
-            System.out.println("X5");
+            view.addToMapLOGGING(missionView.getNode());
         }
-        System.out.println("X6");
     }
 
     public void show(View view) {

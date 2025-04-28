@@ -20,6 +20,7 @@ public class MissionDepartmentView {
     private final SortedMap<MissionStationLink, MissionStationView> missionStationViews;
 
     public MissionDepartmentView(MissionDepartmentLink missionDepartmentLink, View view, UtilsView utilsView) {
+        System.out.println("MissionDepartmentView " + missionDepartmentLink.getMission() + " " + missionDepartmentLink.getDepartment());
         this.missionDepartmentLink = missionDepartmentLink;
         this.utilsView = utilsView;
 
@@ -47,7 +48,7 @@ public class MissionDepartmentView {
             MissionStationView missionStationView = new MissionStationView(missionStationLink, view, utilsView);
             missionStationViews.put(missionStationLink, missionStationView);
             // TODO: restore after solving app freeze issue
-            view.addToMapDISABLED(missionStationView.getNode());
+            view.addToMapLOGGING(missionStationView.getNode());
         }
     }
 
@@ -164,8 +165,8 @@ public class MissionDepartmentView {
     private void showMapStations(View view) {
         view.hideMap();
         missionStationNodesByLocation().forEach(utilsView::distributeResourceIconsByLocation);
-        for (MissionUnitView missionUnitView : getMissionUnitViews().values()) {
-            missionUnitView.showNode();
+        for (MissionStationView missionStationView : getMissionStationViews().values()) {
+            missionStationView.showNode();
         }
         MissionView missionView = view.getDispatchView().getMissionView(missionDepartmentLink.getMission());
         missionView.showNode();

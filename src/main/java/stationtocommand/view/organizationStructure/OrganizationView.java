@@ -14,6 +14,7 @@ public class OrganizationView {
     private final SortedMap<Department, DepartmentView> departmentViews;
 
     public OrganizationView(List<Department> departments, View view, UtilsView utilsView) {
+        System.out.println("OrganizationView");
         this.departmentViews = new TreeMap<>();
         for (Department department : departments) {
             addDepartmentView(department, view, utilsView);

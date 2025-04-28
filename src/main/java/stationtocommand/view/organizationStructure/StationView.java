@@ -25,26 +25,17 @@ public class StationView {
     private final Node node;
     private final UtilsView utilsView;
     private final SortedMap<Unit, UnitView> unitViews;
-    private final SortedMap<Vehicle, VehicleView> vehicleViews;
-    private final SortedMap<Responder, ResponderView> responderViews;
 
     public StationView(Station station, View view, UtilsView utilsView) {
+        System.out.println("StationView " + station);
         this.station = station;
         this.node = utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, station.getStationType(), station.getLocation());
         this.utilsView = utilsView;
 
         this.unitViews = new TreeMap<>();
-        this.vehicleViews = new TreeMap<>();
-        this.responderViews = new TreeMap<>();
 
         for (Unit unit : station.getUnits()) {
             addUnitView(unit, view);
-            for (Vehicle vehicle : unit.getVehicles()) {
-                addVehicleView(vehicle, view);
-            }
-            for (Responder responder : unit.getResponders()) {
-                addResponderView(responder, view);
-            }
         }
     }
 
@@ -76,22 +67,6 @@ public class StationView {
         }
     }
 
-    private void addVehicleView(Vehicle vehicle, View view) {
-        if (!vehicleViews.containsKey(vehicle)) {
-            VehicleView vehicleView = new VehicleView(vehicle, utilsView);
-            vehicleViews.put(vehicle, vehicleView);
-            view.addToMapDISABLED(vehicleView.getNode());
-        }
-    }
-
-    private void addResponderView(Responder responder, View view) {
-        if (!responderViews.containsKey(responder)) {
-            ResponderView responderView = new ResponderView(responder, utilsView);
-            responderViews.put(responder, responderView);
-            view.addToMapDISABLED(responderView.getNode());
-        }
-    }
-
     public Map<Location, List<Node>> unitNodesByLocation() {
         return unitViews.values().stream()
                 .collect(Collectors.groupingBy(
@@ -104,15 +79,22 @@ public class StationView {
     }
 
     public SortedMap<Vehicle, VehicleView> getVehicleViews() {
-        return vehicleViews;
+        return unitViews.values().stream()
+                .flatMap(unitView -> unitView.getVehicleViews().entrySet().stream())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (existing, _) -> existing,
+                        TreeMap::new
+                ));
     }
 
     public VehicleView getVehicleView(Vehicle vehicle) {
-        return vehicleViews.get(vehicle);
+        return getVehicleViews().get(vehicle);
     }
 
     public Map<Location, List<Node>> vehicleNodesByLocation() {
-        return vehicleViews.values().stream()
+        return getVehicleViews().values().stream()
                 .collect(Collectors.groupingBy(
                         v -> v.getVehicle().getLocation(),
                         Collectors.mapping(
@@ -123,15 +105,22 @@ public class StationView {
     }
 
     public SortedMap<Responder, ResponderView> getResponderViews() {
-        return responderViews;
+        return unitViews.values().stream()
+                .flatMap(unitView -> unitView.getResponderViews().entrySet().stream())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (existing, _) -> existing,
+                        TreeMap::new
+                ));
     }
 
     public ResponderView getResponderView(Responder responder) {
-        return responderViews.get(responder);
+        return getResponderViews().get(responder);
     }
 
     public Map<Location, List<Node>> responderNodesByLocation() {
-        return responderViews.values().stream()
+        return getResponderViews().values().stream()
                 .collect(Collectors.groupingBy(
                         v -> v.getResponder().getLocation(),
                         Collectors.mapping(
@@ -198,7 +187,7 @@ public class StationView {
     private void showNavigationPanelVehicles(View view) {
         view.clearDetailsPane();
         utilsView.addAvailableResources(view.getDetailsPane(), station.vehiclesByStatus(), station.vehiclesByTypeAndStatus());
-        for (VehicleView vehicleView : vehicleViews.values()) {
+        for (VehicleView vehicleView : getVehicleViews().values()) {
             vehicleView.addListDetails(view);
         }
     }
@@ -206,7 +195,7 @@ public class StationView {
     public void showMapVehicles(View view) {
         view.hideMap();
         vehicleNodesByLocation().forEach(utilsView::distributeResourceIconsByLocation);
-        for (VehicleView vehicleView : vehicleViews.values()) {
+        for (VehicleView vehicleView : getVehicleViews().values()) {
             vehicleView.showNode();
         }
     }
@@ -220,7 +209,7 @@ public class StationView {
     private void showNavigationPanelResponders(View view) {
         view.clearDetailsPane();
         utilsView.addAvailableResources(view.getDetailsPane(), station.respondersByStatus(), station.respondersByRankAndStatus());
-        for (ResponderView responderView : responderViews.values()) {
+        for (ResponderView responderView : getResponderViews().values()) {
             responderView.addListDetails(view);
         }
     }
@@ -228,7 +217,7 @@ public class StationView {
     public void showMapResponders(View view) {
         view.hideMap();
         responderNodesByLocation().forEach(utilsView::distributeResourceIconsByLocation);
-        for (ResponderView responderView : responderViews.values()) {
+        for (ResponderView responderView : getResponderViews().values()) {
             responderView.showNode();
         }
     }

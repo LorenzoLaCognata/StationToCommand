@@ -25,6 +25,7 @@ public class MissionStationView {
     private final SortedMap<MissionUnitLink, MissionUnitView> missionUnitViews;
 
     public MissionStationView(MissionStationLink missionStationLink, View view, UtilsView utilsView) {
+        System.out.println("MissionStationView " + missionStationLink.getMission() + " " + missionStationLink.getStation());
         this.missionStationLink = missionStationLink;
         this.node = utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, missionStationLink.getStation().getStationType(), missionStationLink.getStation().getLocation());
         this.utilsView = utilsView;
@@ -115,7 +116,7 @@ public class MissionStationView {
             MissionUnitView missionUnitView = new MissionUnitView(missionUnitLink, view, utilsView);
             missionUnitViews.put(missionUnitLink, missionUnitView);
             // TODO: restore after solving app freeze issue
-            view.addToMapDISABLED(missionUnitView.getNode());
+            view.addToMapLOGGING(missionUnitView.getNode());
         }
     }
 

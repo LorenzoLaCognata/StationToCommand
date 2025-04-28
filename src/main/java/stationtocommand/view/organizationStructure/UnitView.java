@@ -25,6 +25,7 @@ public class UnitView {
     private final SortedMap<Responder, ResponderView> responderViews;
 
     public UnitView(Unit unit, View view, UtilsView utilsView) {
+        System.out.println("UnitView " + unit);
         this.unit = unit;
         this.node = utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, unit.getUnitType(), unit.getStation().getLocation());
         this.utilsView = utilsView;

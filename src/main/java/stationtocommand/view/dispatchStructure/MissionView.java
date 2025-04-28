@@ -19,6 +19,7 @@ public class MissionView {
     private final SortedMap<MissionDepartmentLink, MissionDepartmentView> missionDepartmentViews;
 
     public MissionView(Mission mission, View view, UtilsView utilsView) {
+        System.out.println("MissionView " + mission);
         this.mission = mission;
         this.node = utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, mission.getMissionType(), mission.getLocation());
         this.utilsView = utilsView;

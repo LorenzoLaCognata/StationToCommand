@@ -14,6 +14,7 @@ public class VehicleView {
     private final UtilsView utilsView;
 
     public VehicleView(Vehicle vehicle, UtilsView utilsView) {
+        System.out.println("VehicleView " + vehicle);
         this.vehicle = vehicle;
         this.node = utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, vehicle.getVehicleType(), vehicle.getLocation());
         this.utilsView = utilsView;

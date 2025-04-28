@@ -14,6 +14,7 @@ public class MissionVehicleView {
     private final UtilsView utilsView;
 
     public MissionVehicleView(MissionVehicleLink missionVehicleLink, View view, UtilsView utilsView) {
+        System.out.println("MissionVehicleView " + missionVehicleLink.getMission() + " " + missionVehicleLink.getVehicle());
         this.missionVehicleLink = missionVehicleLink;
         this.node = utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, missionVehicleLink.getVehicle().getVehicleType(), missionVehicleLink.getVehicle().getLocation());
         this.utilsView = utilsView;

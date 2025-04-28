@@ -33,6 +33,7 @@ public class Scheduler {
         schedulerService.scheduleAtFixedRate(() -> {
             long currentSimTime = gameClock.getCurrentSimulationTime();
             Platform.runLater(() -> {
+                System.out.println(gameClock.getCurrentSimulationTime());
                 gameClockLabel.setText(getSimulationDateTime(gameClock.getCurrentSimulationTime()).format(dateFormat));
                 gameClockLabel.requestLayout();
             });

@@ -58,7 +58,6 @@ public class EventProcessor {
                 break;
             case MISSION_GENERATION:
                 Mission missionGenerated = controller.getModel().getMissionManager().generateMission(controller.getModel().getLocationManager());
-                System.out.println("Mission Generation: " + missionGenerated);
                 controller.getView().getDispatchView().addMissionView(missionGenerated, controller.getView(), controller.getView().getUtilsView());
                 // TODO: re-enable sounds
                 //newMissionSound.play();

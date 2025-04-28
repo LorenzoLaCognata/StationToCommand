@@ -125,28 +125,21 @@ public class View {
             worldMap.getMapElementsLayer().getChildren().add(node);
             //System.out.println("Add 3 - " + node + " - " + ((ImageView) node).getImage().getUrl());
         }
-        else {
-            //System.out.println("Add 4 - " + node + " - " + ((ImageView) node).getImage().getUrl());
-            node.setVisible(true);
-            //System.out.println("Add 5 - " + node + " - " + ((ImageView) node).getImage().getUrl());
-        }
         //System.out.println("Add 6 - " + node + " - " + ((ImageView) node).getImage().getUrl());
     }
 
     // TODO: fix and remove this version
     public void addToMapLOGGING(Node node) {
-        System.out.println("Add to Map 1 - " + node + " - " + ((ImageView) node).getImage().getUrl());
-        if (!worldMap.getMapElementsLayer().getChildren().contains(node)) {
-            System.out.println("Add to Map 2 - " + node + " - " + ((ImageView) node).getImage().getUrl());
-            worldMap.getMapElementsLayer().getChildren().add(node);
-            System.out.println("Add to Map 3 - " + node + " - " + ((ImageView) node).getImage().getUrl());
-        }
-        else {
-            System.out.println("Add to Map 4 - " + node + " - " + ((ImageView) node).getImage().getUrl());
-            node.setVisible(true);
-            System.out.println("Add to Map 5 - " + node + " - " + ((ImageView) node).getImage().getUrl());
-        }
-        System.out.println("Add to Map 6 - " + node + " - " + ((ImageView) node).getImage().getUrl());
+        //System.out.println("Add to Map 0 - " + node + " - " + ((ImageView) node).getImage().getUrl());
+        Platform.runLater(() -> {
+            if (!worldMap.getMapElementsLayer().getChildren().contains(node)) {
+                System.out.println("Add to Map 1 - " + worldMap.getMapElementsLayer().getChildren().size() + " " + node + " - " + ((ImageView) node).getImage().getUrl());
+                node.setVisible(false);
+                worldMap.getMapElementsLayer().getChildren().add(node);
+                System.out.println("Add to Map 2 - " + worldMap.getMapElementsLayer().getChildren().size() + " " + node + " - " + ((ImageView) node).getImage().getUrl());
+            }
+        });
+        //System.out.println("Add to Map 5 - " + node + " - " + ((ImageView) node).getImage().getUrl());
     }
 
     // TODO: fix and remove this version
@@ -156,11 +149,6 @@ public class View {
             //System.out.println("Add Disabled 2 - " + node + " - " + ((ImageView) node).getImage().getUrl());
             //worldMap.getMapElementsLayer().getChildren().add(node);
             //System.out.println("Add Disabled 3 - " + node + " - " + ((ImageView) node).getImage().getUrl());
-        }
-        else {
-            //System.out.println("Add Disabled 4 - " + node + " - " + ((ImageView) node).getImage().getUrl());
-            //node.setVisible(true);
-            //System.out.println("Add Disabled 5 - " + node + " - " + ((ImageView) node).getImage().getUrl());
         }
         //System.out.println("Add Disabled 6 - " + node + " - " + ((ImageView) node).getImage().getUrl());
     }
