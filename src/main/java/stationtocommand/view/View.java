@@ -119,25 +119,50 @@ public class View {
     }
 
     public void addToMap(Node node) {
+        //System.out.println("Add 1 - " + node + " - " + ((ImageView) node).getImage().getUrl());
         if (!worldMap.getMapElementsLayer().getChildren().contains(node)) {
+            //System.out.println("Add 2 - " + node + " - " + ((ImageView) node).getImage().getUrl());
             worldMap.getMapElementsLayer().getChildren().add(node);
+            //System.out.println("Add 3 - " + node + " - " + ((ImageView) node).getImage().getUrl());
         }
         else {
+            //System.out.println("Add 4 - " + node + " - " + ((ImageView) node).getImage().getUrl());
             node.setVisible(true);
+            //System.out.println("Add 5 - " + node + " - " + ((ImageView) node).getImage().getUrl());
         }
+        //System.out.println("Add 6 - " + node + " - " + ((ImageView) node).getImage().getUrl());
+    }
+
+    // TODO: fix and remove this version
+    public void addToMapLOGGING(Node node) {
+        System.out.println("Add to Map 1 - " + node + " - " + ((ImageView) node).getImage().getUrl());
+        if (!worldMap.getMapElementsLayer().getChildren().contains(node)) {
+            System.out.println("Add to Map 2 - " + node + " - " + ((ImageView) node).getImage().getUrl());
+            worldMap.getMapElementsLayer().getChildren().add(node);
+            System.out.println("Add to Map 3 - " + node + " - " + ((ImageView) node).getImage().getUrl());
+        }
+        else {
+            System.out.println("Add to Map 4 - " + node + " - " + ((ImageView) node).getImage().getUrl());
+            node.setVisible(true);
+            System.out.println("Add to Map 5 - " + node + " - " + ((ImageView) node).getImage().getUrl());
+        }
+        System.out.println("Add to Map 6 - " + node + " - " + ((ImageView) node).getImage().getUrl());
     }
 
     // TODO: fix and remove this version
     public void addToMapDISABLED(Node node) {
-        System.out.println("K1");
+        //System.out.println("Add Disabled 1 - " + node + " - " + ((ImageView) node).getImage().getUrl());
         if (!worldMap.getMapElementsLayer().getChildren().contains(node)) {
-            System.out.println("K2");
-            System.out.println(node);
-            System.out.println(((ImageView) node).getImage().getUrl());
-            System.out.println("K3");
+            //System.out.println("Add Disabled 2 - " + node + " - " + ((ImageView) node).getImage().getUrl());
             //worldMap.getMapElementsLayer().getChildren().add(node);
+            //System.out.println("Add Disabled 3 - " + node + " - " + ((ImageView) node).getImage().getUrl());
         }
-        System.out.println("K4");
+        else {
+            //System.out.println("Add Disabled 4 - " + node + " - " + ((ImageView) node).getImage().getUrl());
+            //node.setVisible(true);
+            //System.out.println("Add Disabled 5 - " + node + " - " + ((ImageView) node).getImage().getUrl());
+        }
+        //System.out.println("Add Disabled 6 - " + node + " - " + ((ImageView) node).getImage().getUrl());
     }
 
     public void hideMap() {
@@ -308,20 +333,20 @@ public class View {
             else if (selectedObject instanceof Mission mission) {
                 MissionView missionView = dispatchView.getMissionView(mission);
                 utilsView.resetBreadCrumbBar(breadCrumbBar);
-                missionView.showMission(this);
+                missionView.show(this);
             }
             else if (selectedObject instanceof MissionDepartmentLink missionDepartmentLink) {
                 Mission mission = missionDepartmentLink.getMission();
                 MissionView missionView = dispatchView.getMissionView(mission);
                 utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
-                missionView.getMissionDepartmentView(missionDepartmentLink).showMissionDepartment(this);
+                missionView.getMissionDepartmentView(missionDepartmentLink).show(this);
             }
             else if (selectedObject instanceof MissionStationLink missionStationLink) {
                 Mission mission = missionStationLink.getMission();
                 MissionView missionView = dispatchView.getMissionView(mission);
                 MissionDepartmentLink missionDepartmentLink = mission.getDepartmentLink(missionStationLink.getStation().getDepartment());
                 utilsView.addBreadCrumb(breadCrumbBar, selectedObject);
-                missionView.getMissionDepartmentView(missionDepartmentLink).getMissionStationView(missionStationLink).showMissionStation(this);
+                missionView.getMissionDepartmentView(missionDepartmentLink).getMissionStationView(missionStationLink).show(this);
             }
             else if (selectedObject instanceof MissionUnitLink missionUnitLink) {
                 Mission mission = missionUnitLink.getMission();
@@ -367,7 +392,7 @@ public class View {
         hideMap();
         utilsView.resetBreadCrumbBar(breadCrumbBar);
         utilsView.addBreadCrumb(breadCrumbBar, buttonText);
-        dispatchView.showDispatch(this);
+        dispatchView.show(this);
     }
 
     public void refreshUserInterface() {

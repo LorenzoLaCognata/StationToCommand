@@ -49,11 +49,7 @@ public class Station implements Comparable<Station> {
         if (result != 0) {
             return result;
         }
-        result = Integer.compare(this.number, other.getNumber());
-        if (result != 0) {
-            return result;
-        }
-        return Integer.compare(System.identityHashCode(this), System.identityHashCode(other));
+        return Integer.compare(this.number, other.getNumber());
     }
 
     public Department getDepartment() {

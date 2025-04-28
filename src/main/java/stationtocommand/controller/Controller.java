@@ -7,6 +7,9 @@ import stationtocommand.model.actionStructure.Action;
 import stationtocommand.model.actionStructure.ActionType;
 import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.model.departmentStructure.DepartmentType;
+import stationtocommand.model.missionLinkStructure.MissionDepartmentLink;
+import stationtocommand.model.missionLinkStructure.MissionStationLink;
+import stationtocommand.model.missionLinkStructure.MissionUnitLink;
 import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.model.missionStructure.MissionType;
 import stationtocommand.model.objectiveStructure.Objective;
@@ -29,7 +32,6 @@ import stationtocommand.model.vehicleStructure.VehicleStatus;
 import stationtocommand.view.View;
 import stationtocommand.view.dispatchStructure.MissionDepartmentView;
 import stationtocommand.view.dispatchStructure.MissionStationView;
-import stationtocommand.view.dispatchStructure.MissionUnitView;
 import stationtocommand.view.dispatchStructure.MissionView;
 
 import java.util.List;
@@ -141,20 +143,20 @@ public class Controller {
             //System.out.println(sampleMission + " assigned to " + vehicle);
         }
 
-        view.getDispatchView().addMissionView(view, view.getUtilsView(), sampleMission);
+        view.getDispatchView().addMissionView(sampleMission, view, view.getUtilsView());
         MissionView sampleMissionView = view.getDispatchView().getMissionView(sampleMission);
-        sampleMissionView.addMissionDepartmentViews(view, view.getUtilsView());
-        for (MissionDepartmentView sampleMissionDepartmentView : sampleMissionView.getMissionDepartmentViews().values()) {
-            sampleMissionDepartmentView.addMissionStationViews(view, view.getUtilsView());
-            for (MissionStationView sampleMissionStationView : sampleMissionDepartmentView.getMissionStationViews().values()) {
-                sampleMissionStationView.addMissionUnitViews(view, view.getUtilsView());
-                for (MissionUnitView sampleMissionUnitView : sampleMissionStationView.getMissionUnitViews().values()) {
-                    sampleMissionUnitView.addMissionVehicleViews(view, view.getUtilsView());
-                    sampleMissionUnitView.addMissionResponderViews(view, view.getUtilsView());
+
+        for (MissionDepartmentLink sampleMissionDepartmentLink : sampleMission.getDepartmentLinks()) {
+            sampleMissionView.addMissionDepartmentView(sampleMissionDepartmentLink, view, view.getUtilsView());
+            MissionDepartmentView sampleMissionDepartmentView = sampleMissionView.getMissionDepartmentView(sampleMissionDepartmentLink);
+            for (MissionStationLink sampleMissionStationLink : sampleMissionDepartmentLink.getStationLinks()) {
+                sampleMissionDepartmentView.addMissionStationView(sampleMissionStationLink, view, view.getUtilsView());
+                MissionStationView sampleMissionStationView = sampleMissionDepartmentView.getMissionStationView(sampleMissionStationLink);
+                for (MissionUnitLink sampleMissionUnitLink : sampleMissionStationLink.getUnitLinks()) {
+                    sampleMissionStationView.addMissionUnitView(sampleMissionUnitLink, view, view.getUtilsView());
                 }
             }
         }
-
 
         sampleMission.linkObjective(new Objective(ObjectiveType.EVACUATE_CIVILIANS));
         //System.out.println(sampleMission + " has objective " + sampleMission.getObjectiveLinks().getFirst().getObjective());

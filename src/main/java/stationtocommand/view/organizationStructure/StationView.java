@@ -34,22 +34,16 @@ public class StationView {
         this.utilsView = utilsView;
 
         this.unitViews = new TreeMap<>();
-        for (Unit unit : station.getUnits()) {
-            UnitView unitView = new UnitView(unit, view, utilsView);
-            unitViews.put(unit, unitView);
-            view.addToMap(unitView.getNode());
-        }
-
         this.vehicleViews = new TreeMap<>();
         this.responderViews = new TreeMap<>();
-        for (UnitView unitView : unitViews.values()) {
-            for (VehicleView vehicleView : unitView.getVehicleViews().values()) {
-                vehicleViews.put(vehicleView.getVehicle(), vehicleView);
-                view.addToMap(vehicleView.getNode());
+
+        for (Unit unit : station.getUnits()) {
+            addUnitView(unit, view);
+            for (Vehicle vehicle : unit.getVehicles()) {
+                addVehicleView(vehicle, view);
             }
-            for (ResponderView responderView : unitView.getResponderViews().values()) {
-                responderViews.put(responderView.getResponder(), responderView);
-                view.addToMap(responderView.getNode());
+            for (Responder responder : unit.getResponders()) {
+                addResponderView(responder, view);
             }
         }
     }
@@ -72,6 +66,30 @@ public class StationView {
 
     public UnitView getUnitView(Unit unit) {
         return unitViews.get(unit);
+    }
+
+    private void addUnitView(Unit unit, View view) {
+        if (!unitViews.containsKey(unit)) {
+            UnitView unitView = new UnitView(unit, view, utilsView);
+            unitViews.put(unit, unitView);
+            view.addToMapDISABLED(unitView.getNode());
+        }
+    }
+
+    private void addVehicleView(Vehicle vehicle, View view) {
+        if (!vehicleViews.containsKey(vehicle)) {
+            VehicleView vehicleView = new VehicleView(vehicle, utilsView);
+            vehicleViews.put(vehicle, vehicleView);
+            view.addToMapDISABLED(vehicleView.getNode());
+        }
+    }
+
+    private void addResponderView(Responder responder, View view) {
+        if (!responderViews.containsKey(responder)) {
+            ResponderView responderView = new ResponderView(responder, utilsView);
+            responderViews.put(responder, responderView);
+            view.addToMapDISABLED(responderView.getNode());
+        }
     }
 
     public Map<Location, List<Node>> unitNodesByLocation() {

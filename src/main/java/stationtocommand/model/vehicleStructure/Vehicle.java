@@ -28,11 +28,7 @@ public class Vehicle implements Comparable<Vehicle> {
 
 	@Override
 	public int compareTo(Vehicle other) {
-		int result = Integer.compare(((Enum<?>) this.vehicleType).ordinal(), ((Enum<?>) other.getVehicleType()).ordinal());
-		if (result != 0) {
-			return result;
-		}
-		return Integer.compare(System.identityHashCode(this), System.identityHashCode(other));
+		return Integer.compare(((Enum<?>) this.vehicleType).ordinal(), ((Enum<?>) other.getVehicleType()).ordinal());
 	}
 
 	public VehicleType getVehicleType() {

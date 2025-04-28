@@ -30,11 +30,7 @@ public class MissionDepartmentLink extends DepartmentLink implements Comparable<
     if (result != 0) {
       return result;
     }
-    result = this.getDepartment().compareTo(other.getDepartment());
-    if (result != 0) {
-      return result;
-    }
-    return Integer.compare(System.identityHashCode(this), System.identityHashCode(other));
+    return this.getDepartment().compareTo(other.getDepartment());
   }
 
   public Mission getMission() {

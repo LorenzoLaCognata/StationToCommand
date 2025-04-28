@@ -24,11 +24,7 @@ public class MissionResponderLink extends ResponderLink implements Comparable<Mi
     if (result != 0) {
       return result;
     }
-    result = this.getResponder().compareTo(other.getResponder());
-    if (result != 0) {
-      return result;
-    }
-    return Integer.compare(System.identityHashCode(this), System.identityHashCode(other));
+    return this.getResponder().compareTo(other.getResponder());
   }
 
   public Mission getMission() {

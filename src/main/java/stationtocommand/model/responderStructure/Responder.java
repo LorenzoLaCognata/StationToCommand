@@ -71,11 +71,7 @@ public class Responder extends Person implements Comparable<Responder> {
         if (result != 0) {
             return result;
         }
-        result = this.getFirstName().compareTo(other.getFirstName());
-        if (result != 0) {
-            return result;
-        }
-        return Integer.compare(System.identityHashCode(this), System.identityHashCode(other));
+        return this.getFirstName().compareTo(other.getFirstName());
     }
 
     public int getId() {

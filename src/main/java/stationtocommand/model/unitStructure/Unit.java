@@ -49,11 +49,7 @@ public abstract class Unit implements Comparable<Unit> {
         if (result != 0) {
             return result;
         }
-        result = Integer.compare(((Enum<?>) this.unitType).ordinal() * 1000 + this.number, ((Enum<?>) other.getUnitType()).ordinal() * 1000 + other.getNumber());
-        if (result != 0) {
-            return result;
-        }
-        return Integer.compare(System.identityHashCode(this), System.identityHashCode(other));
+        return Integer.compare(((Enum<?>) this.unitType).ordinal() * 1000 + this.number, ((Enum<?>) other.getUnitType()).ordinal() * 1000 + other.getNumber());
     }
 
     public Station getStation() {

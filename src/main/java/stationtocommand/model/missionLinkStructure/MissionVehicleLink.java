@@ -24,11 +24,7 @@ public class MissionVehicleLink extends VehicleLink implements Comparable<Missio
     if (result != 0) {
       return result;
     }
-    result = this.getVehicle().compareTo(other.getVehicle());
-    if (result != 0) {
-      return result;
-    }
-    return Integer.compare(System.identityHashCode(this), System.identityHashCode(other));
+    return this.getVehicle().compareTo(other.getVehicle());
   }
 
   public Mission getMission() {

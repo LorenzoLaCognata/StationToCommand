@@ -30,26 +30,35 @@ public class MissionUnitView {
         this.utilsView = utilsView;
 
         this.missionVehicleViews = new TreeMap<>();
-        addMissionVehicleViews(view, utilsView);
-
         this.missionResponderViews = new TreeMap<>();
-        addMissionResponderViews(view, utilsView);
-    }
 
-    public void addMissionVehicleViews(View view, UtilsView utilsView) {
         for (MissionVehicleLink missionVehicleLink : missionUnitLink.getVehicleLinks()) {
-            MissionVehicleView missionVehicleView = new MissionVehicleView(missionVehicleLink, view, utilsView);
-            missionVehicleViews.put(missionVehicleLink, missionVehicleView);
-            // TODO: restore after solving app freeze issue
-            view.addToMapDISABLED(missionVehicleView.getNode());
+            addMissionVehicleView(missionVehicleLink, view, utilsView);
+        }
+        for (MissionResponderLink missionResponderLink : missionUnitLink.getResponderLinks()) {
+            addMissionResponderView(missionResponderLink, view, utilsView);
         }
     }
 
-    public void addMissionResponderViews(View view, UtilsView utilsView) {
-        for (MissionResponderLink missionResponderLink : missionUnitLink.getResponderLinks()) {
+    public void addMissionVehicleView(MissionVehicleLink missionVehicleLink, View view, UtilsView utilsView) {
+        System.out.println("MissionUnitView (" + this + " - " + missionVehicleLink + " - " + missionVehicleLink.hashCode() + ") - addMissionVehicleView - Start " + missionVehicleLink.getVehicle());
+        System.out.println("MissionUnitView - addMissionVehicleView - Start " + missionVehicleLink.getVehicle());
+        if (!missionVehicleViews.containsKey(missionVehicleLink)) {
+            System.out.println("MissionUnitView - addMissionVehicleView - missionVehicleLink not found in Unit " + missionVehicleLink.getVehicle());
+            MissionVehicleView missionVehicleView = new MissionVehicleView(missionVehicleLink, view, utilsView);
+            System.out.println("MissionUnitView - addMissionVehicleView - MissionVehicleView created " + missionVehicleLink.getVehicle());
+            missionVehicleViews.put(missionVehicleLink, missionVehicleView);
+            System.out.println("MissionUnitView - addMissionVehicleView - Added MissionVehicleView to Station " + missionVehicleLink.getVehicle());
+            view.addToMapLOGGING(missionVehicleView.getNode());
+            System.out.println("MissionUnitView - addMissionVehicleView - MissionVehicleView added to map " + missionVehicleLink.getVehicle());
+        }
+        System.out.println("MissionUnitView (" + this + " - " + missionVehicleLink + " - " + missionVehicleLink.hashCode() + ") - addMissionVehicleView - End " + missionVehicleLink.getVehicle());
+    }
+
+    public void addMissionResponderView(MissionResponderLink missionResponderLink, View view, UtilsView utilsView) {
+        if (!missionResponderViews.containsKey(missionResponderLink)) {
             MissionResponderView missionResponderView = new MissionResponderView(missionResponderLink, view, utilsView);
             missionResponderViews.put(missionResponderLink, missionResponderView);
-            // TODO: restore after solving app freeze issue
             view.addToMapDISABLED(missionResponderView.getNode());
         }
     }
@@ -112,9 +121,10 @@ public class MissionUnitView {
         View.viewRunnable = () -> show(view);
         utilsView.addBreadCrumb(view.getBreadCrumbBar(), missionUnitLink);
         view.clearNavigationPanel();
-        utilsView.addIconAndTitleWithSubtitle(view.getTitlePane(),
-                missionUnitLink.getMission().getMissionType(), missionUnitLink.getMission().toString(),
-                missionUnitLink.getUnit().getUnitType(), missionUnitLink.getUnit().toString()
+        utilsView.addIconAndTitleWithSubtitle(
+            view.getTitlePane(),
+            missionUnitLink.getMission().getMissionType(), missionUnitLink.getMission().toString(),
+            missionUnitLink.getUnit().getUnitType(), missionUnitLink.getUnit().toString()
         );
         utilsView.addSelectedButtonWithGraphic(view.getButtonsPane(), missionUnitLink.getUnit().getStation().getDepartment().defaultVehicleType(), "Vehicles", () -> showVehicles(view));
         utilsView.addButtonWithGraphic(view.getButtonsPane(), missionUnitLink.getUnit().getStation().getDepartment().defaultAppearanceType(), "Responders", () -> showResponders(view));
@@ -141,7 +151,7 @@ public class MissionUnitView {
             missionVehicleView.showNode();
         }
         MissionView missionView = view.getDispatchView().getMissionView(missionUnitLink.getMission());
-        missionView.setNodeVisible();
+        missionView.showNode();
     }
 
     private void showResponders(View view) {
@@ -164,6 +174,8 @@ public class MissionUnitView {
         for (MissionResponderView missionResponderView : missionResponderViews.values()) {
             missionResponderView.showNode();
         }
+        MissionView missionView = view.getDispatchView().getMissionView(missionUnitLink.getMission());
+        missionView.showNode();
     }
 
 }

@@ -30,17 +30,13 @@ public class UnitView {
         this.utilsView = utilsView;
 
         this.vehicleViews = new TreeMap<>();
-        for (Vehicle vehicle : unit.getVehicles()) {
-            VehicleView vehicleView = new VehicleView(vehicle, utilsView);
-            vehicleViews.put(vehicle, vehicleView);
-            view.addToMap(vehicleView.getNode());
-        }
-
         this.responderViews = new TreeMap<>();
+
+        for (Vehicle vehicle : unit.getVehicles()) {
+            addVehicleView(vehicle, view);
+        }
         for (Responder responder : unit.getResponders()) {
-            ResponderView responderView = new ResponderView(responder, utilsView);
-            responderViews.put(responder, responderView);
-            view.addToMap(responderView.getNode());
+            addResponderView(responder, view);
         }
     }
 
@@ -84,6 +80,22 @@ public class UnitView {
                                 Collectors.toList()
                         )
                 ));
+    }
+
+    private void addVehicleView(Vehicle vehicle, View view) {
+        if (!vehicleViews.containsKey(vehicle)) {
+            VehicleView vehicleView = new VehicleView(vehicle, utilsView);
+            vehicleViews.put(vehicle, vehicleView);
+            view.addToMapDISABLED(vehicleView.getNode());
+        }
+    }
+
+    private void addResponderView(Responder responder, View view) {
+        if (!responderViews.containsKey(responder)) {
+            ResponderView responderView = new ResponderView(responder, utilsView);
+            responderViews.put(responder, responderView);
+            view.addToMapDISABLED(responderView.getNode());
+        }
     }
 
     public void addListDetails(View view) {

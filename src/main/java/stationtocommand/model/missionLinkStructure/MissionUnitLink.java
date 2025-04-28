@@ -33,11 +33,7 @@ public class MissionUnitLink extends UnitLink implements Comparable<MissionUnitL
     if (result != 0) {
       return result;
     }
-    result = this.getUnit().compareTo(other.getUnit());
-    if (result != 0) {
-      return result;
-    }
-    return Integer.compare(System.identityHashCode(this), System.identityHashCode(other));
+    return this.getUnit().compareTo(other.getUnit());
   }
 
   public Mission getMission() {

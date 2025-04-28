@@ -30,11 +30,7 @@ public class MissionStationLink extends StationLink implements Comparable<Missio
     if (result != 0) {
       return result;
     }
-    result = this.getStation().compareTo(other.getStation());
-    if (result != 0) {
-      return result;
-    }
-    return Integer.compare(System.identityHashCode(this), System.identityHashCode(other));
+    return this.getStation().compareTo(other.getStation());
   }
 
   public Mission getMission() {

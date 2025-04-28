@@ -1,10 +1,7 @@
 package stationtocommand.view.dispatchStructure;
 
 import javafx.scene.Node;
-import javafx.scene.layout.Pane;
 import stationtocommand.model.missionLinkStructure.MissionDepartmentLink;
-import stationtocommand.model.missionLinkStructure.MissionStationLink;
-import stationtocommand.model.missionLinkStructure.MissionUnitLink;
 import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
@@ -22,13 +19,14 @@ public class MissionView {
     private final SortedMap<MissionDepartmentLink, MissionDepartmentView> missionDepartmentViews;
 
     public MissionView(Mission mission, View view, UtilsView utilsView) {
-        System.out.println("Created MissionView for " + mission);
         this.mission = mission;
         this.node = utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, mission.getMissionType(), mission.getLocation());
         this.utilsView = utilsView;
 
         this.missionDepartmentViews = new TreeMap<>();
-        addMissionDepartmentViews(view, utilsView);
+        for (MissionDepartmentLink missionDepartmentLink : mission.getDepartmentLinks()) {
+            addMissionDepartmentView(missionDepartmentLink, view, utilsView);
+        }
     }
 
     public Mission getMission() {
@@ -39,7 +37,7 @@ public class MissionView {
         return node;
     }
 
-    public void setNodeVisible() {
+    public void showNode() {
         node.setVisible(true);
     }
 
@@ -51,41 +49,20 @@ public class MissionView {
         return missionDepartmentViews.get(missionDepartmentLink);
     }
 
-    public void addMissionDepartmentViews(View view, UtilsView utilsView) {
-        for (MissionDepartmentLink missionDepartmentLink : mission.getDepartmentLinks()) {
-            addMissionDepartmentView(view, utilsView, missionDepartmentLink);
-        }
-    }
-
-    private void addMissionDepartmentView(View view, UtilsView utilsView, MissionDepartmentLink missionDepartmentLink) {
+    public void addMissionDepartmentView(MissionDepartmentLink missionDepartmentLink, View view, UtilsView utilsView) {
         if (!missionDepartmentViews.containsKey(missionDepartmentLink)) {
             MissionDepartmentView missionDepartmentView = new MissionDepartmentView(missionDepartmentLink, view, utilsView);
             missionDepartmentViews.put(missionDepartmentLink, missionDepartmentView);
         }
     }
 
-    public void addDispatchDetailsMission(View view) {
-        Pane horizontalDetailsPane = utilsView.createHBox(view.getDetailsPane());
-        addMissionIcon(horizontalDetailsPane);
-        addMissionButton(view, horizontalDetailsPane);
-        // TODO: testing removal of this part
+    public void addListDetails(View view) {
+        utilsView.addIconAndButton(view.getDetailsPane(), mission.getMissionType(), mission.toString(), (_ -> show(view)));
+        // TODO: testing removal of this part -- could be refactored in case!
         // showMissionDepartments(horizontalDetailsPane);
     }
 
-    private void addMissionTitle(View view) {
-        Pane horizontalTitlePane = utilsView.createHBox(view.getTitlePane());
-        utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, mission.getMissionType());
-        utilsView.addMainTitleLabel(horizontalTitlePane, mission.toString());
-    }
-
-    private void addMissionIcon(Pane pane) {
-        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, mission.getMissionType());
-    }
-
-    private void addMissionButton(View view, Pane pane) {
-        utilsView.addButtonToPane(pane, mission.toString(), (_ -> showMission(view)));
-    }
-
+    /*
     private void showMissionDepartments(Pane pane) {
         if (!mission.getDepartmentLinks().isEmpty()) {
             for (MissionDepartmentLink missionDepartmentLink : mission.getDepartmentLinks()) {
@@ -100,26 +77,26 @@ public class MissionView {
             }
         }
     }
+    */
 
-    public void showMission(View view) {
-        View.viewRunnable = () -> showMission(view);
+    public void show(View view) {
+        View.viewRunnable = () -> show(view);
         utilsView.addBreadCrumb(view.getBreadCrumbBar(), mission);
         view.clearNavigationPanel();
-        view.hideMap();
-        showMissionDetails(view);
-        showMissionMap(view);
+        showNavigationPanel(view);
+        showMap(view);
     }
 
-    private void showMissionDetails(View view) {
-        addMissionTitle(view);
+    private void showNavigationPanel(View view) {
+        utilsView.addIconAndTitle(view.getTitlePane(), mission.getMissionType(), mission.toString());
         for (MissionDepartmentView missionDepartmentView : missionDepartmentViews.values()) {
-            missionDepartmentView.addMissionDetailsMissionDepartment(view);
+            missionDepartmentView.addListDetails(view);
         }
     }
 
-    public void showMissionMap(View view) {
+    public void showMap(View view) {
         view.hideMap();
-        setNodeVisible();
+        showNode();
     }
 
 }

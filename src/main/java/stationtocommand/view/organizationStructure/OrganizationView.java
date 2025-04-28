@@ -16,10 +16,16 @@ public class OrganizationView {
     public OrganizationView(List<Department> departments, View view, UtilsView utilsView) {
         this.departmentViews = new TreeMap<>();
         for (Department department : departments) {
+            addDepartmentView(department, view, utilsView);
+        }
+        this.utilsView = utilsView;
+    }
+
+    private void addDepartmentView(Department department, View view, UtilsView utilsView) {
+        if (!departmentViews.containsKey(department)) {
             DepartmentView departmentView = new DepartmentView(department, view, utilsView);
             departmentViews.put(department, departmentView);
         }
-        this.utilsView = utilsView;
     }
 
     public DepartmentView getDepartmentView(Department department) {

@@ -30,28 +30,53 @@ public class DepartmentView {
         this.utilsView = utilsView;
 
         this.stationViews = new TreeMap<>();
-        for (Station station : department.getStations()) {
-            StationView stationView = new StationView(station, view, utilsView);
-            stationViews.put(station, stationView);
-            view.addToMap(stationView.getNode());
-        }
-
         this.unitViews = new TreeMap<>();
         this.vehicleViews = new TreeMap<>();
         this.responderViews = new TreeMap<>();
-        for (StationView stationView : stationViews.values()) {
-            for (UnitView unitView : stationView.getUnitViews().values()) {
-                unitViews.put(unitView.getUnit(), unitView);
-                view.addToMap(unitView.getNode());
+
+        for (Station station : department.getStations()) {
+            addStationView(station, view, utilsView);
+            for (Unit unit : station.getUnits()) {
+                addUnitView(unit, view);
+                for (Vehicle vehicle : unit.getVehicles()) {
+                    addVehicleView(vehicle, view);
+                }
+                for (Responder responder : unit.getResponders()) {
+                    addResponderView(responder, view);
+                }
             }
-            for (VehicleView vehicleView : stationView.getVehicleViews().values()) {
-                vehicleViews.put(vehicleView.getVehicle(), vehicleView);
-                view.addToMap(vehicleView.getNode());
-            }
-            for (ResponderView responderView : stationView.getResponderViews().values()) {
-                responderViews.put(responderView.getResponder(), responderView);
-                view.addToMap(responderView.getNode());
-            }
+        }
+    }
+
+    private void addStationView(Station station, View view, UtilsView utilsView) {
+        if (!stationViews.containsKey(station)) {
+            StationView stationView = new StationView(station, view, utilsView);
+            stationViews.put(station, stationView);
+            view.addToMapDISABLED(stationView.getNode());
+        }
+    }
+
+    private void addUnitView(Unit unit, View view) {
+        if (!unitViews.containsKey(unit)) {
+            UnitView unitView = new UnitView(unit, view, utilsView);
+            unitViews.put(unit, unitView);
+            view.addToMapDISABLED(unitView.getNode());
+        }
+    }
+
+    private void addVehicleView(Vehicle vehicle, View view) {
+        if (!vehicleViews.containsKey(vehicle)) {
+            VehicleView vehicleView = new VehicleView(vehicle, utilsView);
+            vehicleViews.put(vehicle, vehicleView);
+            view.addToMapDISABLED(vehicleView.getNode());
+        }
+    }
+
+    private void addResponderView(Responder responder, View view) {
+        if (!responderViews.containsKey(responder)) {
+            ResponderView responderView = new ResponderView(responder, utilsView);
+            responderViews.put(responder, responderView);
+            view.addToMapDISABLED(responderView.getNode());
         }
     }
 

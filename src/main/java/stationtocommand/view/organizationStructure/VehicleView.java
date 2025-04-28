@@ -50,7 +50,6 @@ public class VehicleView {
     private void showMap(View view) {
         view.hideMap();
         showNode();
-        view.addToMap(view.getDispatchView().getMissionViews().values().stream().toList().getFirst().getNode());
     }
 
 }

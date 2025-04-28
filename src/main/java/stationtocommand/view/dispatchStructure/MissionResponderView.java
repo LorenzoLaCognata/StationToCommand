@@ -54,7 +54,7 @@ public class MissionResponderView {
         view.hideMap();
         showNode();
         MissionView missionView = view.getDispatchView().getMissionView(missionResponderLink.getMission());
-        missionView.setNodeVisible();
+        missionView.showNode();
     }
 
 }
