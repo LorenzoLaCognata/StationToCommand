@@ -29,10 +29,6 @@ public class MissionDepartmentView {
         }
     }
 
-    public MissionDepartmentLink getMissionDepartmentLink() {
-        return missionDepartmentLink;
-    }
-
     public Map<MissionStationLink, MissionStationView> getMissionStationViews() {
         return missionStationViews;
     }

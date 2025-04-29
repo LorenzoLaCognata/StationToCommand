@@ -9,23 +9,23 @@ import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
+import stationtocommand.view.mainStructure.ViewWithNode;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class MissionUnitView {
+public class MissionUnitView extends ViewWithNode {
 
     private final MissionUnitLink missionUnitLink;
-    private final Node node;
     private final UtilsView utilsView;
     private final Map<MissionVehicleLink, MissionVehicleView> missionVehicleViews;
     private final Map<MissionResponderLink, MissionResponderView> missionResponderViews;
 
     public MissionUnitView(MissionUnitLink missionUnitLink, View view, UtilsView utilsView) {
+        super(utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, missionUnitLink.getUnit().getUnitType(), missionUnitLink.getUnit().getStation().getLocation()));
         this.missionUnitLink = missionUnitLink;
-        this.node = utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, missionUnitLink.getUnit().getUnitType(), missionUnitLink.getUnit().getStation().getLocation());
         this.utilsView = utilsView;
 
         this.missionVehicleViews = new LinkedHashMap<>();
@@ -57,14 +57,6 @@ public class MissionUnitView {
 
     public MissionUnitLink getMissionUnitLink() {
         return missionUnitLink;
-    }
-
-    public Node getNode() {
-        return node;
-    }
-
-    public void showNode() {
-        node.setVisible(true);
     }
 
     public Map<MissionVehicleLink, MissionVehicleView> getMissionVehicleViews() {

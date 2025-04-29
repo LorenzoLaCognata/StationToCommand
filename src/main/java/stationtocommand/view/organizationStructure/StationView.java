@@ -12,22 +12,22 @@ import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
+import stationtocommand.view.mainStructure.ViewWithNode;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class StationView {
+public class StationView extends ViewWithNode {
 
     private final Station station;
-    private final Node node;
     private final UtilsView utilsView;
     private final Map<Unit, UnitView> unitViews;
 
     public StationView(Station station, View view, UtilsView utilsView) {
+        super(utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, station.getStationType(), station.getLocation()));
         this.station = station;
-        this.node = utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, station.getStationType(), station.getLocation());
         this.utilsView = utilsView;
 
         this.unitViews = new LinkedHashMap<>();
@@ -38,14 +38,6 @@ public class StationView {
 
     public Station getStation() {
         return station;
-    }
-
-    public Node getNode() {
-        return node;
-    }
-
-    public void showNode() {
-        node.setVisible(true);
     }
 
     public Map<Unit, UnitView> getUnitViews() {

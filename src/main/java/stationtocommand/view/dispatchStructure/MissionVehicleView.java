@@ -1,34 +1,25 @@
 package stationtocommand.view.dispatchStructure;
 
-import javafx.scene.Node;
 import stationtocommand.model.missionLinkStructure.MissionVehicleLink;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
+import stationtocommand.view.mainStructure.ViewWithNode;
 
-public class MissionVehicleView {
+public class MissionVehicleView extends ViewWithNode {
 
     private final MissionVehicleLink missionVehicleLink;
-    private final Node node;
     private final UtilsView utilsView;
 
     public MissionVehicleView(MissionVehicleLink missionVehicleLink, View view, UtilsView utilsView) {
+        super(utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, missionVehicleLink.getVehicle().getVehicleType(), missionVehicleLink.getVehicle().getLocation()));
         this.missionVehicleLink = missionVehicleLink;
-        this.node = utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, missionVehicleLink.getVehicle().getVehicleType(), missionVehicleLink.getVehicle().getLocation());
         this.utilsView = utilsView;
     }
 
     public MissionVehicleLink getMissionVehicleLink() {
         return missionVehicleLink;
-    }
-
-    public Node getNode() {
-        return node;
-    }
-
-    public void showNode() {
-        node.setVisible(true);
     }
 
     public void addListDetails(View view) {

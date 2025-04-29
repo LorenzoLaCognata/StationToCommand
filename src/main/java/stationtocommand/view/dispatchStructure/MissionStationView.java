@@ -10,103 +10,30 @@ import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
+import stationtocommand.view.mainStructure.ViewWithNode;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class MissionStationView {
+public class MissionStationView extends ViewWithNode {
 
     private final MissionStationLink missionStationLink;
-    private final Node node;
     private final UtilsView utilsView;
     private final Map<MissionUnitLink, MissionUnitView> missionUnitViews;
 
+    // Constructor
+
     public MissionStationView(MissionStationLink missionStationLink, View view, UtilsView utilsView) {
+        super(utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, missionStationLink.getStation().getStationType(), missionStationLink.getStation().getLocation()));
         this.missionStationLink = missionStationLink;
-        this.node = utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, missionStationLink.getStation().getStationType(), missionStationLink.getStation().getLocation());
         this.utilsView = utilsView;
 
         this.missionUnitViews = new LinkedHashMap<>();
         for (MissionUnitLink missionUnitLink : missionStationLink.getUnitLinks()) {
             addMissionUnitView(missionUnitLink, view, utilsView);
         }
-    }
-
-    public MissionStationLink getMissionStationLink() {
-        return missionStationLink;
-    }
-
-    public Node getNode() {
-        return node;
-    }
-
-    public void showNode() {
-        node.setVisible(true);
-    }
-
-    public Map<MissionUnitLink, MissionUnitView> getMissionUnitViews() {
-        return missionUnitViews;
-    }
-
-    public MissionUnitView getMissionUnitView(MissionUnitLink missionUnitLink) {
-        return missionUnitViews.get(missionUnitLink);
-    }
-
-    public Map<Location, List<Node>> missionUnitNodesByLocation() {
-        return missionUnitViews.values().stream()
-                .collect(Collectors.groupingBy(
-                        v -> v.getMissionUnitLink().getUnit().getStation().getLocation(),
-                        Collectors.mapping(
-                                MissionUnitView::getNode,
-                                Collectors.toList()
-                        )
-                ));
-    }
-
-    public Map<MissionVehicleLink, MissionVehicleView> getMissionVehicleViews() {
-        return missionUnitViews.values().stream()
-                    .flatMap(missionUnitView -> missionUnitView.getMissionVehicleViews().entrySet().stream())
-                    .collect(Collectors.toMap(
-                            Map.Entry::getKey,
-                            Map.Entry::getValue,
-                            (existing, _) -> existing,
-                            LinkedHashMap::new
-                    ));
-    }
-
-    public Map<Location, List<Node>> missionVehicleNodesByLocation() {
-        return getMissionVehicleViews().values().stream()
-                .collect(Collectors.groupingBy(
-                        v -> v.getMissionVehicleLink().getVehicle().getLocation(),
-                        Collectors.mapping(
-                                MissionVehicleView::getNode,
-                                Collectors.toList()
-                        )
-                ));
-    }
-
-    public Map<MissionResponderLink, MissionResponderView> getMissionResponderViews() {
-        return missionUnitViews.values().stream()
-                .flatMap(missionUnitView -> missionUnitView.getMissionResponderViews().entrySet().stream())
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        Map.Entry::getValue,
-                        (existing, _) -> existing,
-                        LinkedHashMap::new
-                ));
-    }
-
-    public Map<Location, List<Node>> missionResponderNodesByLocation() {
-        return getMissionResponderViews().values().stream()
-                .collect(Collectors.groupingBy(
-                        v -> v.getMissionResponderLink().getResponder().getLocation(),
-                        Collectors.mapping(
-                                MissionResponderView::getNode,
-                                Collectors.toList()
-                        )
-                ));
     }
 
     public void addMissionUnitView(MissionUnitLink missionUnitLink, View view, UtilsView utilsView) {
@@ -116,6 +43,8 @@ public class MissionStationView {
             view.addToMap(missionUnitView.getNode());
         }
     }
+
+    // Methods
 
     public void addListDetails(View view) {
         utilsView.addIconAndButton(view.getDetailsPane(), missionStationLink.getStation().getStationType(), missionStationLink.getStation().toString(), (_ -> show(view)));
@@ -133,6 +62,26 @@ public class MissionStationView {
         utilsView.addSelectedButtonWithGraphic(view.getButtonsPane(), missionStationLink.getStation().getDepartment().defaultUnitType(), "Units", () -> showUnits(view));
         utilsView.addButtonWithGraphic(view.getButtonsPane(), missionStationLink.getStation().getDepartment().defaultVehicleType(), "Vehicles", () -> showVehicles(view));
         utilsView.addButtonWithGraphic(view.getButtonsPane(), missionStationLink.getStation().getDepartment().defaultAppearanceType(), "Responders", () -> showResponders(view));
+    }
+
+    // Mission Station
+
+    public MissionStationLink getMissionStationLink() {
+        return missionStationLink;
+    }
+
+    // Mission Unit
+
+    public Map<MissionUnitLink, MissionUnitView> getMissionUnitViews() {
+        return missionUnitViews;
+    }
+
+    public MissionUnitView getMissionUnitView(MissionUnitLink missionUnitLink) {
+        return missionUnitViews.get(missionUnitLink);
+    }
+
+    public Map<Location, List<Node>> missionUnitNodesByLocation() {
+        return nodesByLocation(missionUnitViews, v -> v.getMissionUnitLink().getUnit().getStation().getLocation());
     }
 
     private void showUnits(View view) {
@@ -159,6 +108,23 @@ public class MissionStationView {
         missionView.showNode();
     }
 
+    // Mission Vehicle
+
+    public Map<Location, List<Node>> missionVehicleNodesByLocation() {
+        return nodesByLocation(getMissionVehicleViews(), v -> v.getMissionVehicleLink().getVehicle().getLocation());
+        }
+
+    public Map<MissionVehicleLink, MissionVehicleView> getMissionVehicleViews() {
+        return missionUnitViews.values().stream()
+                    .flatMap(missionUnitView -> missionUnitView.getMissionVehicleViews().entrySet().stream())
+                    .collect(Collectors.toMap(
+                            Map.Entry::getKey,
+                            Map.Entry::getValue,
+                            (existing, _) -> existing,
+                            LinkedHashMap::new
+                    ));
+    }
+
     private void showVehicles(View view) {
         View.viewRunnable = () -> showVehicles(view);
         showNavigationPanelVehicles(view);
@@ -181,6 +147,23 @@ public class MissionStationView {
         }
         MissionView missionView = view.getDispatchView().getMissionView(missionStationLink.getMission());
         missionView.showNode();
+    }
+
+    // Mission Responder
+
+    public Map<MissionResponderLink, MissionResponderView> getMissionResponderViews() {
+        return missionUnitViews.values().stream()
+                .flatMap(missionUnitView -> missionUnitView.getMissionResponderViews().entrySet().stream())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (existing, _) -> existing,
+                        LinkedHashMap::new
+                ));
+    }
+
+    public Map<Location, List<Node>> missionResponderNodesByLocation() {
+        return nodesByLocation(getMissionResponderViews(), v -> v.getMissionResponderLink().getResponder().getLocation());
     }
 
     private void showResponders(View view) {

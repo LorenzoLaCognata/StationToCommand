@@ -1,34 +1,25 @@
 package stationtocommand.view.organizationStructure;
 
-import javafx.scene.Node;
 import stationtocommand.model.vehicleStructure.Vehicle;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
+import stationtocommand.view.mainStructure.ViewWithNode;
 
-public class VehicleView {
+public class VehicleView extends ViewWithNode {
 
     private final Vehicle vehicle;
-    private final Node node;
     private final UtilsView utilsView;
 
     public VehicleView(Vehicle vehicle, UtilsView utilsView) {
+        super(utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, vehicle.getVehicleType(), vehicle.getLocation()));
         this.vehicle = vehicle;
-        this.node = utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, vehicle.getVehicleType(), vehicle.getLocation());
         this.utilsView = utilsView;
     }
 
     public Vehicle getVehicle() {
         return vehicle;
-    }
-
-    public Node getNode() {
-        return node;
-    }
-
-    public void showNode() {
-        node.setVisible(true);
     }
 
     public void addListDetails(View view) {

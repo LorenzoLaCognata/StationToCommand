@@ -1,34 +1,25 @@
 package stationtocommand.view.organizationStructure;
 
-import javafx.scene.Node;
 import stationtocommand.model.responderStructure.Responder;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
+import stationtocommand.view.mainStructure.ViewWithNode;
 
-public class ResponderView {
+public class ResponderView extends ViewWithNode {
 
     private final Responder responder;
-    private final Node node;
     private final UtilsView utilsView;
 
     public ResponderView(Responder responder, UtilsView utilsView) {
+        super(utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, responder.getAppearanceType(), responder.getLocation()));
         this.responder = responder;
-        this.node = utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, responder.getAppearanceType(), responder.getLocation());
         this.utilsView = utilsView;
     }
 
     public Responder getResponder() {
         return responder;
-    }
-
-    public Node getNode() {
-        return node;
-    }
-
-    public void showNode() {
-        node.setVisible(true);
     }
 
     public void addListDetails(View view) {

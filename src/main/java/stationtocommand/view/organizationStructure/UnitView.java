@@ -9,23 +9,23 @@ import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
+import stationtocommand.view.mainStructure.ViewWithNode;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class UnitView {
+public class UnitView extends ViewWithNode {
 
     private final Unit unit;
-    private final Node node;
     private final UtilsView utilsView;
     private final Map<Vehicle, VehicleView> vehicleViews;
     private final Map<Responder, ResponderView> responderViews;
 
     public UnitView(Unit unit, View view, UtilsView utilsView) {
+        super(utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, unit.getUnitType(), unit.getStation().getLocation()));
         this.unit = unit;
-        this.node = utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, unit.getUnitType(), unit.getStation().getLocation());
         this.utilsView = utilsView;
 
         this.vehicleViews = new LinkedHashMap<>();
@@ -41,14 +41,6 @@ public class UnitView {
 
     public Unit getUnit() {
         return unit;
-    }
-
-    public Node getNode() {
-        return node;
-    }
-
-    public void showNode() {
-        node.setVisible(true);
     }
 
     public Map<Vehicle, VehicleView> getVehicleViews() {
