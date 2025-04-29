@@ -6,10 +6,9 @@ import stationtocommand.model.missionLinkStructure.*;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.UtilsView;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 
@@ -17,14 +16,13 @@ public class MissionDepartmentView {
 
     private final MissionDepartmentLink missionDepartmentLink;
     private final UtilsView utilsView;
-    private final SortedMap<MissionStationLink, MissionStationView> missionStationViews;
+    private final Map<MissionStationLink, MissionStationView> missionStationViews;
 
     public MissionDepartmentView(MissionDepartmentLink missionDepartmentLink, View view, UtilsView utilsView) {
-        System.out.println("MissionDepartmentView " + missionDepartmentLink.getMission() + " " + missionDepartmentLink.getDepartment());
         this.missionDepartmentLink = missionDepartmentLink;
         this.utilsView = utilsView;
 
-        this.missionStationViews = new TreeMap<>();
+        this.missionStationViews = new LinkedHashMap<>();
 
         for (MissionStationLink missionStationLink : missionDepartmentLink.getStationLinks()) {
             addMissionStationView(missionStationLink, view, utilsView);
@@ -35,7 +33,7 @@ public class MissionDepartmentView {
         return missionDepartmentLink;
     }
 
-    public SortedMap<MissionStationLink, MissionStationView> getMissionStationViews() {
+    public Map<MissionStationLink, MissionStationView> getMissionStationViews() {
         return missionStationViews;
     }
 
@@ -47,8 +45,7 @@ public class MissionDepartmentView {
         if (!missionStationViews.containsKey(missionStationLink)) {
             MissionStationView missionStationView = new MissionStationView(missionStationLink, view, utilsView);
             missionStationViews.put(missionStationLink, missionStationView);
-            // TODO: restore after solving app freeze issue
-            view.addToMapLOGGING(missionStationView.getNode());
+            view.addToMap(missionStationView.getNode());
         }
     }
 
@@ -74,36 +71,36 @@ public class MissionDepartmentView {
                 ));
     }
 
-    public SortedMap<MissionUnitLink, MissionUnitView> getMissionUnitViews() {
+    public Map<MissionUnitLink, MissionUnitView> getMissionUnitViews() {
         return missionStationViews.values().stream()
                 .flatMap(missionStationView -> missionStationView.getMissionUnitViews().entrySet().stream())
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         Map.Entry::getValue,
                         (existing, _) -> existing,
-                        TreeMap::new
+                        LinkedHashMap::new
                 ));
     }
 
-    public SortedMap<MissionVehicleLink, MissionVehicleView> getMissionVehicleViews() {
+    public Map<MissionVehicleLink, MissionVehicleView> getMissionVehicleViews() {
         return getMissionUnitViews().values().stream()
                 .flatMap(missionUnitView -> missionUnitView.getMissionVehicleViews().entrySet().stream())
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         Map.Entry::getValue,
                         (existing, _) -> existing,
-                        TreeMap::new
+                        LinkedHashMap::new
                 ));
     }
 
-    public SortedMap<MissionResponderLink, MissionResponderView> getMissionResponderViews() {
+    public Map<MissionResponderLink, MissionResponderView> getMissionResponderViews() {
         return getMissionUnitViews().values().stream()
                 .flatMap(missionResponderView -> missionResponderView.getMissionResponderViews().entrySet().stream())
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         Map.Entry::getValue,
                         (existing, _) -> existing,
-                        TreeMap::new
+                        LinkedHashMap::new
                 ));
     }
 
@@ -180,7 +177,7 @@ public class MissionDepartmentView {
 
     private void showNavigationPanelUnits(View view) {
         view.clearDetailsPane();
-        utilsView.addTotalResources(view.getDetailsPane(), missionDepartmentLink.getDepartment().unitsByStatus(), missionDepartmentLink.getDepartment().unitsByTypeAndStatus());
+        utilsView.addTotalResources(view.getDetailsPane(), missionDepartmentLink.missionUnitsByStatus(), missionDepartmentLink.missionUnitsByTypeAndStatus());
         for (MissionUnitView missionUnitView : getMissionUnitViews().values()) {
             missionUnitView.addListDetails(view);
         }
@@ -204,7 +201,7 @@ public class MissionDepartmentView {
 
     private void showNavigationPanelVehicles(View view) {
         view.clearDetailsPane();
-        utilsView.addTotalResources(view.getDetailsPane(), missionDepartmentLink.getDepartment().vehiclesByStatus(), missionDepartmentLink.getDepartment().vehiclesByTypeAndStatus());
+        utilsView.addTotalResources(view.getDetailsPane(), missionDepartmentLink.missionVehiclesByStatus(), missionDepartmentLink.missionVehiclesByTypeAndStatus());
         for (MissionVehicleView missionVehicleView : getMissionVehicleViews().values()) {
             missionVehicleView.addListDetails(view);
         }
@@ -228,7 +225,7 @@ public class MissionDepartmentView {
 
     private void showNavigationPanelResponders(View view) {
         view.clearDetailsPane();
-        utilsView.addTotalResources(view.getDetailsPane(), missionDepartmentLink.getDepartment().respondersByStatus(), missionDepartmentLink.getDepartment().respondersByRankAndStatus());
+        utilsView.addTotalResources(view.getDetailsPane(), missionDepartmentLink.missionRespondersByStatus(), missionDepartmentLink.missionRespondersByRankAndStatus());
         for (MissionResponderView missionResponderView : getMissionResponderViews().values()) {
             missionResponderView.addListDetails(view);
         }

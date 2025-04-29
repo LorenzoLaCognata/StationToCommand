@@ -14,7 +14,6 @@ public class MissionResponderView {
     private final UtilsView utilsView;
 
     public MissionResponderView(MissionResponderLink missionResponderLink, View view, UtilsView utilsView) {
-        System.out.println("MissionResponderView " + missionResponderLink.getMission() + " " + missionResponderLink.getResponder());
         this.missionResponderLink = missionResponderLink;
         this.node = utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, missionResponderLink.getResponder().getAppearanceType(), missionResponderLink.getResponder().getLocation());
         this.utilsView = utilsView;

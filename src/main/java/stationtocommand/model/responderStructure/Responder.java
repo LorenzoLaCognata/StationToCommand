@@ -15,7 +15,7 @@ import stationtocommand.model.unitStructure.UnitLink;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Responder extends Person implements Comparable<Responder> {
+public class Responder extends Person {
 
     private final int id;
     private final boolean isPlayer;
@@ -59,19 +59,6 @@ public class Responder extends Person implements Comparable<Responder> {
     @Override
     public String toString() {
         return getFirstName() + " " + getLastName();
-    }
-
-    @Override
-    public int compareTo(Responder other) {
-        int result = Integer.compare(((Enum<?>) other.getRank().getRankType()).ordinal(), ((Enum<?>) this.rank.getRankType()).ordinal());
-        if (result != 0) {
-            return result;
-        }
-        result = this.getLastName().compareTo(other.getLastName());
-        if (result != 0) {
-            return result;
-        }
-        return this.getFirstName().compareTo(other.getFirstName());
     }
 
     public int getId() {

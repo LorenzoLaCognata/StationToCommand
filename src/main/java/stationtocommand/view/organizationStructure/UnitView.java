@@ -10,10 +10,9 @@ import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 public class UnitView {
@@ -21,17 +20,16 @@ public class UnitView {
     private final Unit unit;
     private final Node node;
     private final UtilsView utilsView;
-    private final SortedMap<Vehicle, VehicleView> vehicleViews;
-    private final SortedMap<Responder, ResponderView> responderViews;
+    private final Map<Vehicle, VehicleView> vehicleViews;
+    private final Map<Responder, ResponderView> responderViews;
 
     public UnitView(Unit unit, View view, UtilsView utilsView) {
-        System.out.println("UnitView " + unit);
         this.unit = unit;
         this.node = utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, unit.getUnitType(), unit.getStation().getLocation());
         this.utilsView = utilsView;
 
-        this.vehicleViews = new TreeMap<>();
-        this.responderViews = new TreeMap<>();
+        this.vehicleViews = new LinkedHashMap<>();
+        this.responderViews = new LinkedHashMap<>();
 
         for (Vehicle vehicle : unit.getVehicles()) {
             addVehicleView(vehicle, view);
@@ -53,7 +51,7 @@ public class UnitView {
         node.setVisible(true);
     }
 
-    public SortedMap<Vehicle, VehicleView> getVehicleViews() {
+    public Map<Vehicle, VehicleView> getVehicleViews() {
         return vehicleViews;
     }
 
@@ -68,7 +66,7 @@ public class UnitView {
                     ));
     }
 
-    public SortedMap<Responder, ResponderView> getResponderViews() {
+    public Map<Responder, ResponderView> getResponderViews() {
         return responderViews;
     }
 
@@ -87,7 +85,7 @@ public class UnitView {
         if (!vehicleViews.containsKey(vehicle)) {
             VehicleView vehicleView = new VehicleView(vehicle, utilsView);
             vehicleViews.put(vehicle, vehicleView);
-            view.addToMapDISABLED(vehicleView.getNode());
+            view.addToMap(vehicleView.getNode());
         }
     }
 
@@ -95,7 +93,7 @@ public class UnitView {
         if (!responderViews.containsKey(responder)) {
             ResponderView responderView = new ResponderView(responder, utilsView);
             responderViews.put(responder, responderView);
-            view.addToMapDISABLED(responderView.getNode());
+            view.addToMap(responderView.getNode());
         }
     }
 

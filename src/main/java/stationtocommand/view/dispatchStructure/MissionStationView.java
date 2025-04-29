@@ -11,10 +11,9 @@ import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 public class MissionStationView {
@@ -22,15 +21,14 @@ public class MissionStationView {
     private final MissionStationLink missionStationLink;
     private final Node node;
     private final UtilsView utilsView;
-    private final SortedMap<MissionUnitLink, MissionUnitView> missionUnitViews;
+    private final Map<MissionUnitLink, MissionUnitView> missionUnitViews;
 
     public MissionStationView(MissionStationLink missionStationLink, View view, UtilsView utilsView) {
-        System.out.println("MissionStationView " + missionStationLink.getMission() + " " + missionStationLink.getStation());
         this.missionStationLink = missionStationLink;
         this.node = utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, missionStationLink.getStation().getStationType(), missionStationLink.getStation().getLocation());
         this.utilsView = utilsView;
 
-        this.missionUnitViews = new TreeMap<>();
+        this.missionUnitViews = new LinkedHashMap<>();
         for (MissionUnitLink missionUnitLink : missionStationLink.getUnitLinks()) {
             addMissionUnitView(missionUnitLink, view, utilsView);
         }
@@ -48,7 +46,7 @@ public class MissionStationView {
         node.setVisible(true);
     }
 
-    public SortedMap<MissionUnitLink, MissionUnitView> getMissionUnitViews() {
+    public Map<MissionUnitLink, MissionUnitView> getMissionUnitViews() {
         return missionUnitViews;
     }
 
@@ -67,14 +65,14 @@ public class MissionStationView {
                 ));
     }
 
-    public SortedMap<MissionVehicleLink, MissionVehicleView> getMissionVehicleViews() {
+    public Map<MissionVehicleLink, MissionVehicleView> getMissionVehicleViews() {
         return missionUnitViews.values().stream()
                     .flatMap(missionUnitView -> missionUnitView.getMissionVehicleViews().entrySet().stream())
                     .collect(Collectors.toMap(
                             Map.Entry::getKey,
                             Map.Entry::getValue,
                             (existing, _) -> existing,
-                            TreeMap::new
+                            LinkedHashMap::new
                     ));
     }
 
@@ -89,14 +87,14 @@ public class MissionStationView {
                 ));
     }
 
-    public SortedMap<MissionResponderLink, MissionResponderView> getMissionResponderViews() {
+    public Map<MissionResponderLink, MissionResponderView> getMissionResponderViews() {
         return missionUnitViews.values().stream()
                 .flatMap(missionUnitView -> missionUnitView.getMissionResponderViews().entrySet().stream())
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         Map.Entry::getValue,
                         (existing, _) -> existing,
-                        TreeMap::new
+                        LinkedHashMap::new
                 ));
     }
 
@@ -115,8 +113,7 @@ public class MissionStationView {
         if (!missionUnitViews.containsKey(missionUnitLink)) {
             MissionUnitView missionUnitView = new MissionUnitView(missionUnitLink, view, utilsView);
             missionUnitViews.put(missionUnitLink, missionUnitView);
-            // TODO: restore after solving app freeze issue
-            view.addToMapLOGGING(missionUnitView.getNode());
+            view.addToMap(missionUnitView.getNode());
         }
     }
 
@@ -146,7 +143,7 @@ public class MissionStationView {
 
     private void showNavigationPanelUnits(View view) {
         view.clearDetailsPane();
-        utilsView.addTotalResources(view.getDetailsPane(), missionStationLink.getStation().unitsByStatus(), missionStationLink.getStation().unitsByTypeAndStatus());
+        utilsView.addTotalResources(view.getDetailsPane(), missionStationLink.missionUnitsByStatus(), missionStationLink.missionUnitsByTypeAndStatus());
         for (MissionUnitView missionUnitView : missionUnitViews.values()) {
             missionUnitView.addListDetails(view);
         }
@@ -170,7 +167,7 @@ public class MissionStationView {
 
     private void showNavigationPanelVehicles(View view) {
         view.clearDetailsPane();
-        utilsView.addTotalResources(view.getDetailsPane(), missionStationLink.getStation().vehiclesByStatus(), missionStationLink.getStation().vehiclesByTypeAndStatus());
+        utilsView.addTotalResources(view.getDetailsPane(), missionStationLink.missionVehiclesByStatus(), missionStationLink.missionVehiclesByTypeAndStatus());
         for (MissionVehicleView missionVehicleView : getMissionVehicleViews().values()) {
             missionVehicleView.addListDetails(view);
         }
@@ -194,7 +191,7 @@ public class MissionStationView {
 
     private void showNavigationPanelResponders(View view) {
         view.clearDetailsPane();
-        utilsView.addTotalResources(view.getDetailsPane(), missionStationLink.getStation().respondersByStatus(), missionStationLink.getStation().respondersByRankAndStatus());
+        utilsView.addTotalResources(view.getDetailsPane(), missionStationLink.missionRespondersByStatus(), missionStationLink.missionRespondersByRankAndStatus());
         for (MissionResponderView missionResponderView : getMissionResponderViews().values()) {
             missionResponderView.addListDetails(view);
         }

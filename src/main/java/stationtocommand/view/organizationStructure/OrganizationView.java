@@ -4,18 +4,17 @@ import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.UtilsView;
 
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.Map;
 
 public class OrganizationView {
 
     private final UtilsView utilsView;
-    private final SortedMap<Department, DepartmentView> departmentViews;
+    private final Map<Department, DepartmentView> departmentViews;
 
     public OrganizationView(List<Department> departments, View view, UtilsView utilsView) {
-        System.out.println("OrganizationView");
-        this.departmentViews = new TreeMap<>();
+        this.departmentViews = new LinkedHashMap<>();
         for (Department department : departments) {
             addDepartmentView(department, view, utilsView);
         }

@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class Department implements Comparable<Department> {
+public class Department {
 
     private final DepartmentType departmentType;
     private final StationManager stationManager;
@@ -39,11 +39,6 @@ public class Department implements Comparable<Department> {
     @Override
     public String toString() {
         return departmentType + " Department";
-    }
-
-    @Override
-    public int compareTo(Department other) {
-        return Integer.compare(this.departmentType.ordinal(), other.getDepartmentType().ordinal());
     }
 
     public DepartmentType getDepartmentType() {
@@ -94,7 +89,7 @@ public class Department implements Comparable<Department> {
         Responder chiefResponder = getStations().stream()
                 .flatMap(station -> station.getUnits().stream())
                 .flatMap(unit -> unit.getResponders().stream())
-                .min(Comparator.naturalOrder())
+                .max(Comparator.comparing(responder -> responder.getRank().getRankType().getLevel()))
                 .orElse(null);
         return chiefResponder != null ? chiefResponder.getAppearanceType() : AppearanceType.MALE_01;
     }
@@ -173,6 +168,5 @@ public class Department implements Comparable<Department> {
                         )
                 );
     }
-
 
 }

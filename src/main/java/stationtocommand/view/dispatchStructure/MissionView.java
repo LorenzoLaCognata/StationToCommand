@@ -1,30 +1,32 @@
 package stationtocommand.view.dispatchStructure;
 
 import javafx.scene.Node;
+import javafx.scene.layout.Pane;
 import stationtocommand.model.missionLinkStructure.MissionDepartmentLink;
+import stationtocommand.model.missionLinkStructure.MissionStationLink;
+import stationtocommand.model.missionLinkStructure.MissionUnitLink;
 import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
 
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class MissionView {
 
     private final Mission mission;
     private final Node node;
     private final UtilsView utilsView;
-    private final SortedMap<MissionDepartmentLink, MissionDepartmentView> missionDepartmentViews;
+    private final Map<MissionDepartmentLink, MissionDepartmentView> missionDepartmentViews;
 
     public MissionView(Mission mission, View view, UtilsView utilsView) {
-        System.out.println("MissionView " + mission);
         this.mission = mission;
         this.node = utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, mission.getMissionType(), mission.getLocation());
         this.utilsView = utilsView;
 
-        this.missionDepartmentViews = new TreeMap<>();
+        this.missionDepartmentViews = new LinkedHashMap<>();
         for (MissionDepartmentLink missionDepartmentLink : mission.getDepartmentLinks()) {
             addMissionDepartmentView(missionDepartmentLink, view, utilsView);
         }
@@ -42,7 +44,7 @@ public class MissionView {
         node.setVisible(true);
     }
 
-    public SortedMap<MissionDepartmentLink, MissionDepartmentView> getMissionDepartmentViews() {
+    public Map<MissionDepartmentLink, MissionDepartmentView> getMissionDepartmentViews() {
         return missionDepartmentViews;
     }
 
@@ -58,27 +60,20 @@ public class MissionView {
     }
 
     public void addListDetails(View view) {
-        utilsView.addIconAndButton(view.getDetailsPane(), mission.getMissionType(), mission.toString(), (_ -> show(view)));
-        // TODO: testing removal of this part -- could be refactored in case!
-        // showMissionDepartments(horizontalDetailsPane);
-    }
-
-    /*
-    private void showMissionDepartments(Pane pane) {
+        Pane horizontalPane = utilsView.addIconAndButton(view.getDetailsPane(), mission.getMissionType(), mission.toString(), (_ -> show(view)));
         if (!mission.getDepartmentLinks().isEmpty()) {
             for (MissionDepartmentLink missionDepartmentLink : mission.getDepartmentLinks()) {
-                utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, missionDepartmentLink.getDepartment().getDepartmentType());
+                utilsView.addIconToPane(horizontalPane, IconType.SMALL, IconColor.EMPTY, missionDepartmentLink.getDepartment().getDepartmentType());
                 for (MissionStationLink missionStationLink : missionDepartmentLink.getStationLinks()) {
                     if (!missionStationLink.getUnitLinks().isEmpty()) {
                         for (MissionUnitLink missionUnitLink : missionStationLink.getUnitLinks()) {
-                            utilsView.addBodyLabel(pane, missionUnitLink.getUnit().toString());
+                            utilsView.addBodyLabel(horizontalPane, missionUnitLink.getUnit().toString());
                         }
                     }
                 }
             }
         }
     }
-    */
 
     public void show(View view) {
         View.viewRunnable = () -> show(view);

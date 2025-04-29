@@ -36,15 +36,6 @@ public class EventProcessor {
     public void processEvent(ScheduledEvent event) {
         if (event == null) return;
 
-        /*
-        if (event.eventObject() != null) {
-            System.out.println(controller.getScheduler().getSimulationDateTime(event.eventTime()) + ": " + event.eventType() + " - " + event.eventObject());
-        }
-        else {
-            System.out.println(controller.getScheduler().getSimulationDateTime(event.eventTime()) + ": " + event.eventType());
-        }
-        */
-
         long nextEventTime;
         ScheduledEventType nextEventType;
         Object nextEventObject;
@@ -59,8 +50,7 @@ public class EventProcessor {
             case MISSION_GENERATION:
                 Mission missionGenerated = controller.getModel().getMissionManager().generateMission(controller.getModel().getLocationManager());
                 controller.getView().getDispatchView().addMissionView(missionGenerated, controller.getView(), controller.getView().getUtilsView());
-                // TODO: re-enable sounds
-                //newMissionSound.play();
+                newMissionSound.play();
                 nextEventTime = event.eventTime() + DISPATCH_DEPARTMENT_DELAY;
                 nextEventType = ScheduledEventType.MISSION_DISPATCH_DEPARTMENT;
                 nextEventObject = missionGenerated;
@@ -75,8 +65,6 @@ public class EventProcessor {
                     for (MissionDepartmentLink sampleMissionDepartmentLink : missionToDispatchToDepartment.getDepartmentLinks()) {
                         missionView.addMissionDepartmentView(sampleMissionDepartmentLink, controller.getView(), controller.getView().getUtilsView());
                     }
-                    // TODO: re-enable sounds
-                    /*
                     for (DepartmentType departmentType : departmentTypes) {
                         switch(departmentType) {
                             case FIRE_DEPARTMENT -> dispatchFireSound.play();
@@ -84,7 +72,6 @@ public class EventProcessor {
                             case MEDIC_DEPARTMENT -> dispatchMedicSound.play();
                         }
                     }
-                    */
                 }
                 nextEventTime = event.eventTime() + DISPATCH_UNIT_DELAY;
                 nextEventType = ScheduledEventType.MISSION_DISPATCH_UNIT;

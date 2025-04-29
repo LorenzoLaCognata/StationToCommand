@@ -1,15 +1,23 @@
 package stationtocommand.model.missionLinkStructure;
 
 import stationtocommand.model.missionStructure.Mission;
+import stationtocommand.model.rankTypeStructure.RankType;
 import stationtocommand.model.responderStructure.Responder;
+import stationtocommand.model.responderStructure.ResponderLink;
+import stationtocommand.model.responderStructure.ResponderStatus;
 import stationtocommand.model.unitStructure.Unit;
 import stationtocommand.model.unitStructure.UnitLink;
 import stationtocommand.model.vehicleStructure.Vehicle;
+import stationtocommand.model.vehicleStructure.VehicleLink;
+import stationtocommand.model.vehicleStructure.VehicleStatus;
+import stationtocommand.model.vehicleStructure.VehicleType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
-public class MissionUnitLink extends UnitLink implements Comparable<MissionUnitLink>  {
+public class MissionUnitLink extends UnitLink {
 
   private final Mission mission;
   private final List<MissionResponderLink> responderLinks;
@@ -25,15 +33,6 @@ public class MissionUnitLink extends UnitLink implements Comparable<MissionUnitL
   @Override
   public String toString() {
     return this.getUnit().toString();
-  }
-
-  @Override
-  public int compareTo(MissionUnitLink other) {
-    int result = this.mission.compareTo(other.getMission());
-    if (result != 0) {
-      return result;
-    }
-    return this.getUnit().compareTo(other.getUnit());
   }
 
   public Mission getMission() {
@@ -62,6 +61,48 @@ public class MissionUnitLink extends UnitLink implements Comparable<MissionUnitL
       MissionVehicleLink missionVehicleLink = new MissionVehicleLink(mission, vehicle);
       vehicleLinks.add(missionVehicleLink);
     }
+  }
+
+  public Map<VehicleStatus, Long> missionVehiclesByStatus() {
+    return getVehicleLinks().stream()
+            .map(VehicleLink::getVehicle)
+            .collect(Collectors.groupingBy(
+                    Vehicle::getVehicleStatus,
+                    Collectors.counting())
+            );
+  }
+
+  public Map<VehicleType, Map<VehicleStatus, Long>> missionVehiclesByTypeAndStatus() {
+    return getVehicleLinks().stream()
+            .map(VehicleLink::getVehicle)
+            .collect(Collectors.groupingBy(
+                            Vehicle::getVehicleType,
+                            Collectors.groupingBy(
+                                    Vehicle::getVehicleStatus,
+                                    Collectors.counting())
+                    )
+            );
+  }
+
+  public Map<ResponderStatus, Long> missionRespondersByStatus() {
+    return getResponderLinks().stream()
+            .map(ResponderLink::getResponder)
+            .collect(Collectors.groupingBy(
+                    Responder::getResponderStatus,
+                    Collectors.counting())
+            );
+  }
+
+  public Map<RankType, Map<ResponderStatus, Long>> missionRespondersByRankAndStatus() {
+    return getResponderLinks().stream()
+            .map(ResponderLink::getResponder)
+            .collect(Collectors.groupingBy(
+                            responder -> responder.getRank().getRankType(),
+                            Collectors.groupingBy(
+                                    Responder::getResponderStatus,
+                                    Collectors.counting())
+                    )
+            );
   }
 
 }

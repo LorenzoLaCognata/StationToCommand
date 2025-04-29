@@ -4,25 +4,24 @@ import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.UtilsView;
 
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.Map;
 
 public class DispatchView {
 
     private final UtilsView utilsView;
-    private final SortedMap<Mission, MissionView> missionViews;
+    private final Map<Mission, MissionView> missionViews;
 
     public DispatchView(List<Mission> missions, View view, UtilsView utilsView) {
-        System.out.println("DispatchView");
-        this.missionViews = new TreeMap<>();
+        this.missionViews = new LinkedHashMap<>();
         for (Mission mission : missions) {
             addMissionView(mission, view, utilsView);
         }
         this.utilsView = utilsView;
     }
 
-    public SortedMap<Mission, MissionView> getMissionViews() {
+    public Map<Mission, MissionView> getMissionViews() {
         return missionViews;
     }
 
@@ -34,8 +33,7 @@ public class DispatchView {
         if (!missionViews.containsKey(mission)) {
             MissionView missionView = new MissionView(mission, view, utilsView);
             missionViews.put(mission, missionView);
-            // TODO: restore after solving app freeze issue
-            view.addToMapLOGGING(missionView.getNode());
+            view.addToMap(missionView.getNode());
         }
     }
 

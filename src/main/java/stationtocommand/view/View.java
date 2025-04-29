@@ -10,7 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ToolBar;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.util.Duration;
 import org.controlsfx.control.BreadCrumbBar;
@@ -36,8 +35,7 @@ import java.util.List;
 
 public class View {
 
-    // TODO: change back to private
-    public Controller controller;
+    private Controller controller;
     private UtilsView utilsView;
     private OrganizationView organizationView;
     private DispatchView dispatchView;
@@ -119,38 +117,12 @@ public class View {
     }
 
     public void addToMap(Node node) {
-        //System.out.println("Add 1 - " + node + " - " + ((ImageView) node).getImage().getUrl());
-        if (!worldMap.getMapElementsLayer().getChildren().contains(node)) {
-            //System.out.println("Add 2 - " + node + " - " + ((ImageView) node).getImage().getUrl());
-            worldMap.getMapElementsLayer().getChildren().add(node);
-            //System.out.println("Add 3 - " + node + " - " + ((ImageView) node).getImage().getUrl());
-        }
-        //System.out.println("Add 6 - " + node + " - " + ((ImageView) node).getImage().getUrl());
-    }
-
-    // TODO: fix and remove this version
-    public void addToMapLOGGING(Node node) {
-        //System.out.println("Add to Map 0 - " + node + " - " + ((ImageView) node).getImage().getUrl());
         Platform.runLater(() -> {
             if (!worldMap.getMapElementsLayer().getChildren().contains(node)) {
-                System.out.println("Add to Map 1 - " + worldMap.getMapElementsLayer().getChildren().size() + " " + node + " - " + ((ImageView) node).getImage().getUrl());
                 node.setVisible(false);
                 worldMap.getMapElementsLayer().getChildren().add(node);
-                System.out.println("Add to Map 2 - " + worldMap.getMapElementsLayer().getChildren().size() + " " + node + " - " + ((ImageView) node).getImage().getUrl());
             }
         });
-        //System.out.println("Add to Map 5 - " + node + " - " + ((ImageView) node).getImage().getUrl());
-    }
-
-    // TODO: fix and remove this version
-    public void addToMapDISABLED(Node node) {
-        //System.out.println("Add Disabled 1 - " + node + " - " + ((ImageView) node).getImage().getUrl());
-        if (!worldMap.getMapElementsLayer().getChildren().contains(node)) {
-            //System.out.println("Add Disabled 2 - " + node + " - " + ((ImageView) node).getImage().getUrl());
-            //worldMap.getMapElementsLayer().getChildren().add(node);
-            //System.out.println("Add Disabled 3 - " + node + " - " + ((ImageView) node).getImage().getUrl());
-        }
-        //System.out.println("Add Disabled 6 - " + node + " - " + ((ImageView) node).getImage().getUrl());
     }
 
     public void hideMap() {

@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class Station implements Comparable<Station> {
+public class Station {
 
     private final Department department;
     private final StationType stationType;
@@ -41,15 +41,6 @@ public class Station implements Comparable<Station> {
     @Override
     public String toString() {
         return department.getDepartmentType() + " Station " + number;
-    }
-
-    @Override
-    public int compareTo(Station other) {
-        int result = Integer.compare(this.stationType.ordinal(), other.getStationType().ordinal());
-        if (result != 0) {
-            return result;
-        }
-        return Integer.compare(this.number, other.getNumber());
     }
 
     public Department getDepartment() {

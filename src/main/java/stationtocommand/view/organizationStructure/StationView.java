@@ -13,10 +13,9 @@ import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 public class StationView {
@@ -24,16 +23,14 @@ public class StationView {
     private final Station station;
     private final Node node;
     private final UtilsView utilsView;
-    private final SortedMap<Unit, UnitView> unitViews;
+    private final Map<Unit, UnitView> unitViews;
 
     public StationView(Station station, View view, UtilsView utilsView) {
-        System.out.println("StationView " + station);
         this.station = station;
         this.node = utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, station.getStationType(), station.getLocation());
         this.utilsView = utilsView;
 
-        this.unitViews = new TreeMap<>();
-
+        this.unitViews = new LinkedHashMap<>();
         for (Unit unit : station.getUnits()) {
             addUnitView(unit, view);
         }
@@ -51,7 +48,7 @@ public class StationView {
         node.setVisible(true);
     }
 
-    public SortedMap<Unit, UnitView> getUnitViews() {
+    public Map<Unit, UnitView> getUnitViews() {
         return unitViews;
     }
 
@@ -63,7 +60,7 @@ public class StationView {
         if (!unitViews.containsKey(unit)) {
             UnitView unitView = new UnitView(unit, view, utilsView);
             unitViews.put(unit, unitView);
-            view.addToMapDISABLED(unitView.getNode());
+            view.addToMap(unitView.getNode());
         }
     }
 
@@ -78,14 +75,14 @@ public class StationView {
                 ));
     }
 
-    public SortedMap<Vehicle, VehicleView> getVehicleViews() {
+    public Map<Vehicle, VehicleView> getVehicleViews() {
         return unitViews.values().stream()
                 .flatMap(unitView -> unitView.getVehicleViews().entrySet().stream())
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         Map.Entry::getValue,
                         (existing, _) -> existing,
-                        TreeMap::new
+                        LinkedHashMap::new
                 ));
     }
 
@@ -104,14 +101,14 @@ public class StationView {
                 ));
     }
 
-    public SortedMap<Responder, ResponderView> getResponderViews() {
+    public Map<Responder, ResponderView> getResponderViews() {
         return unitViews.values().stream()
                 .flatMap(unitView -> unitView.getResponderViews().entrySet().stream())
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
                         Map.Entry::getValue,
                         (existing, _) -> existing,
-                        TreeMap::new
+                        LinkedHashMap::new
                 ));
     }
 

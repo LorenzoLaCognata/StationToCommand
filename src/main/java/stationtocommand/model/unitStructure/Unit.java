@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public abstract class Unit implements Comparable<Unit> {
+public abstract class Unit {
 
     private final Station station;
     private final UnitType unitType;
@@ -41,15 +41,6 @@ public abstract class Unit implements Comparable<Unit> {
     @Override
     public String toString() {
         return unitType + " " + number;
-    }
-
-    @Override
-    public int compareTo(Unit other) {
-        int result = this.getStation().compareTo(other.getStation());
-        if (result != 0) {
-            return result;
-        }
-        return Integer.compare(((Enum<?>) this.unitType).ordinal() * 1000 + this.number, ((Enum<?>) other.getUnitType()).ordinal() * 1000 + other.getNumber());
     }
 
     public Station getStation() {

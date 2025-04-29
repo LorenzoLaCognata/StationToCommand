@@ -4,7 +4,7 @@ import stationtocommand.model.locationStructure.Location;
 import stationtocommand.model.unitStructure.Unit;
 import stationtocommand.model.unitStructure.UnitLink;
 
-public class Vehicle implements Comparable<Vehicle> {
+public class Vehicle {
 
 	private final VehicleType vehicleType;
 	private VehicleStatus vehicleStatus;
@@ -24,11 +24,6 @@ public class Vehicle implements Comparable<Vehicle> {
 	@Override
 	public String toString() {
 		return vehicleType.toString();
-	}
-
-	@Override
-	public int compareTo(Vehicle other) {
-		return Integer.compare(((Enum<?>) this.vehicleType).ordinal(), ((Enum<?>) other.getVehicleType()).ordinal());
 	}
 
 	public VehicleType getVehicleType() {

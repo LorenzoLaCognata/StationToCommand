@@ -15,7 +15,7 @@ import stationtocommand.model.vehicleStructure.Vehicle;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Mission implements Comparable<Mission> {
+public class Mission {
 
     private final MissionType missionType;
     private final Location location;
@@ -34,12 +34,6 @@ public class Mission implements Comparable<Mission> {
     @Override
     public String toString() {
         return this.missionType.toString();
-    }
-
-    @Override
-    public int compareTo(Mission other) {
-        // TODO: add timestamp to the mission and use that here
-        return Integer.compare(System.identityHashCode(this), System.identityHashCode(other));
     }
 
     public MissionType getMissionType() {
@@ -120,7 +114,6 @@ public class Mission implements Comparable<Mission> {
                 .findAny()).flatMap(missionStationLink -> missionStationLink.getUnitLinks().stream()
                     .filter(item -> item.getUnit().equals(vehicle.getUnitLink().getUnit()))
                     .findAny()).ifPresent(missionUnitLink -> missionUnitLink.linkVehicle(vehicle));
-
     }
 
     public void linkObjective(Objective objective) {
