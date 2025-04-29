@@ -1,53 +1,98 @@
 package stationtocommand.view.dispatchStructure;
 
-import javafx.geometry.Point2D;
-import javafx.scene.image.ImageView;
+import javafx.scene.Node;
 import javafx.scene.layout.Pane;
+import stationtocommand.model.missionLinkStructure.MissionDepartmentLink;
+import stationtocommand.model.missionLinkStructure.MissionStationLink;
+import stationtocommand.model.missionLinkStructure.MissionUnitLink;
 import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class MissionView {
 
+    private final Mission mission;
+    private final Node node;
     private final UtilsView utilsView;
-    private final MissionDepartmentListView missionDepartmentListView;
+    private final Map<MissionDepartmentLink, MissionDepartmentView> missionDepartmentViews;
 
-    public MissionView(UtilsView utilsView) {
+    public MissionView(Mission mission, View view, UtilsView utilsView) {
+        this.mission = mission;
+        this.node = utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, mission.getMissionType(), mission.getLocation());
         this.utilsView = utilsView;
-        this.missionDepartmentListView = new MissionDepartmentListView(utilsView);
+
+        this.missionDepartmentViews = new LinkedHashMap<>();
+        for (MissionDepartmentLink missionDepartmentLink : mission.getDepartmentLinks()) {
+            addMissionDepartmentView(missionDepartmentLink, view, utilsView);
+        }
     }
 
-    public MissionDepartmentListView getMissionDepartmentListView() {
-        return missionDepartmentListView;
+    public Mission getMission() {
+        return mission;
     }
 
-    public void show(View view, Mission mission) {
-        View.viewRunnable = () -> show(view, mission);
+    public Node getNode() {
+        return node;
+    }
+
+    public void showNode() {
+        node.setVisible(true);
+    }
+
+    public Map<MissionDepartmentLink, MissionDepartmentView> getMissionDepartmentViews() {
+        return missionDepartmentViews;
+    }
+
+    public MissionDepartmentView getMissionDepartmentView(MissionDepartmentLink missionDepartmentLink) {
+        return missionDepartmentViews.get(missionDepartmentLink);
+    }
+
+    public void addMissionDepartmentView(MissionDepartmentLink missionDepartmentLink, View view, UtilsView utilsView) {
+        if (!missionDepartmentViews.containsKey(missionDepartmentLink)) {
+            MissionDepartmentView missionDepartmentView = new MissionDepartmentView(missionDepartmentLink, view, utilsView);
+            missionDepartmentViews.put(missionDepartmentLink, missionDepartmentView);
+        }
+    }
+
+    public void addListDetails(View view) {
+        Pane horizontalPane = utilsView.addIconAndButton(view.getDetailsPane(), mission.getMissionType(), mission.toString(), (_ -> show(view)));
+        if (!mission.getDepartmentLinks().isEmpty()) {
+            for (MissionDepartmentLink missionDepartmentLink : mission.getDepartmentLinks()) {
+                utilsView.addIconToPane(horizontalPane, IconType.SMALL, IconColor.EMPTY, missionDepartmentLink.getDepartment().getDepartmentType());
+                for (MissionStationLink missionStationLink : missionDepartmentLink.getStationLinks()) {
+                    if (!missionStationLink.getUnitLinks().isEmpty()) {
+                        for (MissionUnitLink missionUnitLink : missionStationLink.getUnitLinks()) {
+                            utilsView.addBodyLabel(horizontalPane, missionUnitLink.getUnit().toString());
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void show(View view) {
+        View.viewRunnable = () -> show(view);
         utilsView.addBreadCrumb(view.getBreadCrumbBar(), mission);
-        view.getNavigationPanel().clearAll();
-        view.getWorldMap().setMapElementsNotVisible();
-        showSidebar(view, mission);
-        showMap(view, mission);
+        view.clearNavigationPanel();
+        showNavigationPanel(view);
+        showMap(view);
     }
 
-    private void showSidebar(View view, Mission mission) {
-        showMissionDetails(view, mission);
-        missionDepartmentListView.show(view, mission);
+    private void showNavigationPanel(View view) {
+        utilsView.addIconAndTitle(view.getTitlePane(), mission.getMissionType(), mission.toString());
+        for (MissionDepartmentView missionDepartmentView : missionDepartmentViews.values()) {
+            missionDepartmentView.addListDetails(view);
+        }
     }
 
-    private void showMissionDetails(View view, Mission mission) {
-        Pane horizontalTitlePane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
-        utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, mission.getMissionType());
-        utilsView.addMainTitleLabel(horizontalTitlePane, mission.toString());
-    }
-
-    public void showMap(View view, Mission mission) {
-        Point2D point = utilsView.locationToPoint(mission.getLocation(), IconType.SMALL);
-        ImageView imageView = utilsView.smallIcon(mission.getMissionType().getResourcePath(), mission.getMissionType().toString());
-        Pane mapLayer = view.getWorldMap().getMapElementsLayer();
-        utilsView.addNodeToPane(mapLayer, imageView, point);
+    public void showMap(View view) {
+        view.hideMap();
+        showNode();
     }
 
 }

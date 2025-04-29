@@ -48,6 +48,13 @@ public class Mission {
         return departmentLinks;
     }
 
+    public MissionDepartmentLink getDepartmentLink(Department department) {
+        return departmentLinks.stream()
+                .filter(item -> item.getDepartment().equals(department))
+                .findAny()
+                .orElse(null);
+    }
+
     public List<MissionCivilianLink> getCivilianLinks() {
         return civilianLinks;
     }
@@ -107,7 +114,6 @@ public class Mission {
                 .findAny()).flatMap(missionStationLink -> missionStationLink.getUnitLinks().stream()
                     .filter(item -> item.getUnit().equals(vehicle.getUnitLink().getUnit()))
                     .findAny()).ifPresent(missionUnitLink -> missionUnitLink.linkVehicle(vehicle));
-
     }
 
     public void linkObjective(Objective objective) {

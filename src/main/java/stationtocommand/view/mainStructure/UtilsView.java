@@ -1,27 +1,25 @@
 package stationtocommand.view.mainStructure;
 
-import javafx.animation.Animation;
-import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.util.Duration;
 import org.controlsfx.control.BreadCrumbBar;
-import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.model.locationStructure.Location;
 import stationtocommand.model.locationStructure.LocationManager;
 import stationtocommand.model.utilsStructure.EnumWithResource;
 
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class UtilsView {
 
@@ -33,32 +31,8 @@ public class UtilsView {
     public UtilsView() {
     }
 
-    public List<Node> resetAndAddToPane(Pane pane, List<Node> nodes, Node newNode) {
-        pane.getChildren().clear();
-        pane.getChildren().addAll(nodes);
-        pane.getChildren().add(newNode);
-        List<Node> newNodeList = new ArrayList<>(nodes);
-        newNodeList.add(newNode);
-        return newNodeList;
-    }
-
     public DateTimeFormatter getDateFormat() {
         return dateFormat;
-    }
-
-    public void clearPane(Pane pane) {
-        pane.getChildren().clear();
-    }
-
-    public void addToSidebar(Pane pane, Button button, String text1, String text2) {
-        button.setText(text1);
-        button.setAlignment(Pos.CENTER_LEFT);
-        button.setMinWidth(200);
-        Label label = new Label(text2);
-        HBox hBox = new HBox(10);
-        hBox.setAlignment(Pos.CENTER_LEFT);
-        hBox.getChildren().addAll(button, label);
-        pane.getChildren().addAll(hBox);
     }
 
     public void addMainTitleLabel(Pane pane, String text) {
@@ -151,6 +125,69 @@ public class UtilsView {
         pane.getChildren().addAll(node);
     }
 
+    public void addTitle(Pane pane, String title) {
+        Pane horizontalPane = createHBox(pane);
+        addMainTitleLabel(horizontalPane, title);
+    }
+
+    public <T extends EnumWithResource> void addIconAndTitle(Pane pane, T resource, String title) {
+        Pane horizontalPane = createHBox(pane);
+        addIconToPane(horizontalPane, IconType.MEDIUM, IconColor.EMPTY, resource);
+        addMainTitleLabel(horizontalPane, title);
+    }
+
+    public <T extends EnumWithResource> void addIconAndSubtitle(Pane pane, T resource, String subtitle) {
+        Pane horizontalPane = createHBox(pane);
+        addIconToPane(horizontalPane, IconType.MEDIUM, IconColor.EMPTY, resource);
+        addMainSubtitleLabel(horizontalPane, subtitle);
+    }
+
+    public <T extends EnumWithResource> void addIconAndTitleWithSubtitle(Pane pane, T resourceTitle, String title, T resourceSubtitle, String subtitle) {
+        Pane verticalPane = createVBox(pane);
+        addIconAndTitle(verticalPane, resourceTitle, title);
+        addIconAndSubtitle(verticalPane, resourceSubtitle, subtitle);
+    }
+
+    public <T extends EnumWithResource> void addIconAndButtonAndIcon(Pane pane, T resource1, String label, EventHandler<ActionEvent> eventHandler, T resource2) {
+        Pane horizontalPane = addIconAndButton(pane, resource1, label, eventHandler);
+        addIconToPane(horizontalPane, IconType.SMALL, IconColor.EMPTY, resource2);
+    }
+
+    public <T extends EnumWithResource> Pane addIconAndButton(Pane pane, T resource, String label, EventHandler<ActionEvent> eventHandler) {
+        Pane horizontalPane = createHBox(pane);
+        addIconToPane(horizontalPane, IconType.SMALL, IconColor.EMPTY, resource);
+        addButtonToPane(horizontalPane, label, eventHandler);
+        return horizontalPane;
+    }
+
+    public <T extends EnumWithResource> void addLabelAndIcon(Pane pane, String label, T resource) {
+        Pane horizontalPane = createHBox(pane);
+        addBodyLabel(horizontalPane, label);
+        addIconToPane(horizontalPane, IconType.SMALL, IconColor.EMPTY, resource);
+    }
+
+    public void addLabelAndText(Pane pane, String label, String text) {
+        Pane horizontalPane = createHBox(pane);
+        addBodyLabel(horizontalPane, label);
+        addSectionTitleLabel(horizontalPane, text);
+    }
+
+    public <T extends EnumWithResource> Button addButtonWithGraphic(Pane pane, T resource, String label, Runnable action) {
+        EventHandler<ActionEvent> buttonHandler = event -> {
+            setPaneButtonsSelectionStyle(event, pane);
+            action.run();
+        };
+        Button button = addHorizontalButtonToPane(pane, label, buttonHandler);
+        button.setGraphic(smallIcon(resource.getResourcePath(), ""));
+        return button;
+    }
+
+    public <T extends EnumWithResource> void addSelectedButtonWithGraphic(Pane pane, T resource, String label, Runnable action) {
+        Button button = addButtonWithGraphic(pane, resource, label, action);
+        setButtonSelectedStyle(button);
+        action.run();
+    }
+
     double normalize(double value, double min, double max) {
         return (value - min) / (max - min);
     }
@@ -166,35 +203,8 @@ public class UtilsView {
         return new Point2D(x - (iconSize/2.0), y  - (iconSize/2.0));
     }
 
-    public void distributeResourceIconsByLocation(Point2D nodesCenter, Group group, List<Node> resourceIcons) {
-        int count = resourceIcons.size();
-        int cols = (int) Math.ceil(Math.sqrt(count));
-        double spacing = SMALL_ICON_SIZE;
-
-        if (count == 1) {
-            Node node = resourceIcons.getFirst();
-            node.setLayoutX(nodesCenter.getX());
-            node.setLayoutY(nodesCenter.getY());
-            group.getChildren().add(node);
-        }
-        else {
-            for (int i = 0; i < count; i++) {
-                int row = i / cols;
-                int col = i % cols;
-
-                double offsetX = (col - cols / 2.0) * spacing;
-                double offsetY = (row - (double) count / cols / 2.0) * spacing;
-
-                Node node = resourceIcons.get(i);
-                node.setLayoutX(nodesCenter.getX() + offsetX);
-                node.setLayoutY(nodesCenter.getY() + offsetY);
-
-                group.getChildren().add(node);
-            }
-        }
-    }
-
-    public void distributeResourceIconsByLocation(Point2D nodesCenter, List<Node> resourceIcons) {
+    public void distributeResourceIconsByLocation(Location location, List<Node> resourceIcons) {
+        Point2D nodesCenter = locationToPoint(location, IconType.SMALL);
         int count = resourceIcons.size();
         int cols = (int) Math.ceil(Math.sqrt(count));
         double spacing = SMALL_ICON_SIZE;
@@ -282,33 +292,6 @@ public class UtilsView {
         return imageContainer;
     }
 
-    public FadeTransition iconTransition(ImageView stationIcon) {
-        FadeTransition flash = new FadeTransition(Duration.seconds(0.5), stationIcon);
-        flash.setFromValue(1.0);
-        flash.setToValue(0.5);
-        flash.setCycleCount(Animation.INDEFINITE);
-        flash.setAutoReverse(true);
-
-        return flash;
-    }
-
-    public IconColor departmentIconColor(Department department) {
-        IconColor iconColor;
-        switch (department.getDepartmentType()) {
-            case FIRE_DEPARTMENT -> iconColor = IconColor.PERSIAN_RED;
-            case POLICE_DEPARTMENT -> iconColor = IconColor.DARK_BLUE;
-            case MEDIC_DEPARTMENT -> iconColor = IconColor.CRIMSON_RED;
-            default -> iconColor = IconColor.WHITE;
-        }
-        return iconColor;
-    }
-
-    public Pane createPane(Pane pane) {
-        Pane pane2 = new Pane();
-        pane.getChildren().add(pane2);
-        return pane2;
-    }
-
     public HBox createHBox(Pane pane) {
         HBox hBox = new HBox(10);
         pane.getChildren().add(hBox);
@@ -327,22 +310,6 @@ public class UtilsView {
     public void addSeparatorToPane(Pane pane) {
         Separator separator = createSeparator();
         pane.getChildren().add(separator);
-    }
-
-    /*
-    public void addSeparatorBeforeNode(Pane pane, Node node) {
-        Separator separator = createSeparator();
-        int index = pane.getChildren().indexOf(node);
-        if (index > -1) {
-            pane.getChildren().add(index, separator);
-        }
-    }
-    */
-
-    public HBox createHBox(Pane pane, Pos pos) {
-        HBox hBox = createHBox(pane);
-        hBox.setAlignment(pos);
-        return hBox;
     }
 
     public VBox createVBox(Pane pane) {
@@ -427,20 +394,33 @@ public class UtilsView {
         return button;
     }
 
-    public Button addButtonToHorizontalPane(Pane pane, String string, EventHandler<ActionEvent> eventHandler) {
+    public Button addHorizontalButtonToPane(Pane pane, String string, EventHandler<ActionEvent> eventHandler) {
         Button button = addButtonToPane(pane, string, eventHandler);
         HBox.setHgrow(button, Priority.ALWAYS);
         button.setMaxWidth(Double.MAX_VALUE);
         return button;
     }
 
-    public  <T extends EnumWithResource, S extends EnumWithResource> void addAvailabilityCount(Pane pane, Map<S, Long> statusCounts, Map<T, Map<S, Long>> typeStatusCounts) {
-        Pane verticalDetailPane = createVBox(pane);
-        addPieChart(statusCounts, verticalDetailPane);
-        addSeparatorToPane(verticalDetailPane);
-        Pane horizontalDetailsPane = createHBox(verticalDetailPane);
+    public  <T extends EnumWithResource, S extends EnumWithResource> void addAvailableResources(Pane pane, Map<S, Long> statusCounts, Map<T, Map<S, Long>> typeStatusCounts) {
+        addSeparatorToPane(pane);
+        Pane horizontalPane = createHBox(pane);
+        Pane verticalPane = createVBox(horizontalPane);
+        addPieChart(statusCounts, verticalPane);
+        addSeparatorToPane(verticalPane);
+        Pane horizontalDetailsPane = createHBox(verticalPane);
         addAvailabilityTypeCounts(horizontalDetailsPane, typeStatusCounts, typeStatusCounts.keySet().iterator().next(), statusCounts.keySet().iterator().next());
+        addSeparatorToPane(pane);
+    }
 
+    public  <T extends EnumWithResource, S extends EnumWithResource> void addTotalResources(Pane pane, Map<S, Long> statusCounts, Map<T, Map<S, Long>> typeStatusCounts) {
+        addSeparatorToPane(pane);
+        Pane horizontalPane = createHBox(pane);
+        Pane verticalPane = createVBox(horizontalPane);
+        addPieChart(statusCounts, verticalPane);
+        addSeparatorToPane(verticalPane);
+        Pane horizontalDetailsPane = createHBox(verticalPane);
+        addTotalTypeCounts(horizontalDetailsPane, typeStatusCounts, typeStatusCounts.keySet().iterator().next());
+        addSeparatorToPane(pane);
     }
 
     public  <T extends EnumWithResource, S extends EnumWithResource> void addTotalCount(Pane pane, Map<S, Long> statusCounts, Map<T, Map<S, Long>> typeStatusCounts) {

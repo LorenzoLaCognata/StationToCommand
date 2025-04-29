@@ -1,60 +1,54 @@
 package stationtocommand.view.organizationStructure;
 
-import javafx.scene.layout.Pane;
 import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.view.View;
-import stationtocommand.view.mainStructure.IconColor;
-import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
 
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.Map;
 
 public class OrganizationView {
 
     private final UtilsView utilsView;
-    private final SortedMap<Department, DepartmentView> departmentViews;
+    private final Map<Department, DepartmentView> departmentViews;
 
     public OrganizationView(List<Department> departments, View view, UtilsView utilsView) {
-        this.departmentViews = new TreeMap<>();
+        this.departmentViews = new LinkedHashMap<>();
         for (Department department : departments) {
+            addDepartmentView(department, view, utilsView);
+        }
+        this.utilsView = utilsView;
+    }
+
+    private void addDepartmentView(Department department, View view, UtilsView utilsView) {
+        if (!departmentViews.containsKey(department)) {
             DepartmentView departmentView = new DepartmentView(department, view, utilsView);
             departmentViews.put(department, departmentView);
         }
-
-        this.utilsView = utilsView;
     }
 
     public DepartmentView getDepartmentView(Department department) {
         return departmentViews.get(department);
     }
 
-    public void showOrganization(View view) {
-        showOrganizationDetails(view);
-        showOrganizationMap(view);
+    public void show(View view) {
+        showNavigationPanel(view);
+        showMap(view);
     }
 
-    private void showOrganizationDetails(View view) {
-        addOrganizationTitle(view);
+    private void showNavigationPanel(View view) {
+        utilsView.addTitle(view.getTitlePane(), "Organization");
         for (DepartmentView departmentView : departmentViews.values()) {
-            departmentView.addOrganizationDetailsDepartment(view);
+            departmentView.addListDetails(view);
         }
     }
 
-    private void addOrganizationTitle(View view) {
-        Pane horizontalTitlePane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
-        for (DepartmentView departmentView : departmentViews.values()) {
-            utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, departmentView.getDepartment().getDepartmentType());
-        }
-        utilsView.addMainTitleLabel(horizontalTitlePane, "Organization");
-    }
-
-    private void showOrganizationMap(View view) {
-        view.getWorldMap().setMapElementsNotVisible();
+    private void showMap(View view) {
+        view.hideMap();
         for (DepartmentView departmentView : departmentViews.values()) {
             for (StationView stationView : departmentView.getStationViews().values()) {
-                stationView.setNodeVisible();
+                stationView.showNode();
             }
         }
     }

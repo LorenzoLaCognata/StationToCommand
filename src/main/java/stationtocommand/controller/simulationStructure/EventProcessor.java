@@ -4,8 +4,11 @@ import javafx.scene.media.AudioClip;
 import stationtocommand.controller.Controller;
 import stationtocommand.model.departmentStructure.DepartmentType;
 import stationtocommand.model.missionLinkStructure.MissionDepartmentLink;
+import stationtocommand.model.missionLinkStructure.MissionStationLink;
 import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.model.utilsStructure.Utils;
+import stationtocommand.view.dispatchStructure.MissionDepartmentView;
+import stationtocommand.view.dispatchStructure.MissionView;
 
 import java.util.List;
 import java.util.Objects;
@@ -33,15 +36,6 @@ public class EventProcessor {
     public void processEvent(ScheduledEvent event) {
         if (event == null) return;
 
-        /*
-        if (event.eventObject() != null) {
-            System.out.println(controller.getScheduler().getSimulationDateTime(event.eventTime()) + ": " + event.eventType() + " - " + event.eventObject());
-        }
-        else {
-            System.out.println(controller.getScheduler().getSimulationDateTime(event.eventTime()) + ": " + event.eventType());
-        }
-        */
-
         long nextEventTime;
         ScheduledEventType nextEventType;
         Object nextEventObject;
@@ -55,6 +49,7 @@ public class EventProcessor {
                 break;
             case MISSION_GENERATION:
                 Mission missionGenerated = controller.getModel().getMissionManager().generateMission(controller.getModel().getLocationManager());
+                controller.getView().getDispatchView().addMissionView(missionGenerated, controller.getView(), controller.getView().getUtilsView());
                 newMissionSound.play();
                 nextEventTime = event.eventTime() + DISPATCH_DEPARTMENT_DELAY;
                 nextEventType = ScheduledEventType.MISSION_DISPATCH_DEPARTMENT;
@@ -62,10 +57,14 @@ public class EventProcessor {
                 eventQueue.scheduleEvent(nextEventTime, nextEventType, nextEventObject);
                 break;
             case MISSION_DISPATCH_DEPARTMENT:
-                Mission missionDispatchedDepartment = (Mission) event.eventObject();
-                if (missionDispatchedDepartment != null) {
-                    List<DepartmentType> departmentTypes = controller.getModel().getMissionManager().requiredDepartmentTypes(missionDispatchedDepartment.getMissionType());
-                    controller.getModel().getMissionManager().dispatchMissionToDepartment(missionDispatchedDepartment);
+                Mission missionToDispatchToDepartment = (Mission) event.eventObject();
+                if (missionToDispatchToDepartment != null) {
+                    List<DepartmentType> departmentTypes = controller.getModel().getMissionManager().requiredDepartmentTypes(missionToDispatchToDepartment.getMissionType());
+                    controller.getModel().getMissionManager().dispatchMissionToDepartments(missionToDispatchToDepartment);
+                    MissionView missionView = controller.getView().getDispatchView().getMissionView(missionToDispatchToDepartment);
+                    for (MissionDepartmentLink sampleMissionDepartmentLink : missionToDispatchToDepartment.getDepartmentLinks()) {
+                        missionView.addMissionDepartmentView(sampleMissionDepartmentLink, controller.getView(), controller.getView().getUtilsView());
+                    }
                     for (DepartmentType departmentType : departmentTypes) {
                         switch(departmentType) {
                             case FIRE_DEPARTMENT -> dispatchFireSound.play();
@@ -80,10 +79,16 @@ public class EventProcessor {
                 eventQueue.scheduleEvent(nextEventTime, nextEventType, nextEventObject);
                 break;
             case MISSION_DISPATCH_UNIT:
-                Mission missionDispatchedUnit = (Mission) event.eventObject();
-                if (missionDispatchedUnit != null) {
-                    for (MissionDepartmentLink missionDepartmentLink : missionDispatchedUnit.getDepartmentLinks()) {
+                Mission missionToDispatchToUnit = (Mission) event.eventObject();
+                if (missionToDispatchToUnit != null) {
+                    MissionView missionView = controller.getView().getDispatchView().getMissionView(missionToDispatchToUnit);
+                    for (MissionDepartmentLink missionDepartmentLink : missionToDispatchToUnit.getDepartmentLinks()) {
                         controller.getModel().getMissionManager().dispatchMissionToUnit(missionDepartmentLink);
+                        MissionDepartmentView missionDepartmentView = missionView.getMissionDepartmentView(missionDepartmentLink);
+
+                        for (MissionStationLink missionStationLink : missionDepartmentLink.getStationLinks()) {
+                            missionDepartmentView.addMissionStationView(missionStationLink, controller.getView(), controller.getView().getUtilsView());
+                        }
                     }
                 }
                 break;

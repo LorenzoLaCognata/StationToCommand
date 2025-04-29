@@ -1,7 +1,6 @@
 package stationtocommand.view.organizationStructure;
 
 import javafx.scene.Node;
-import javafx.scene.layout.Pane;
 import stationtocommand.model.vehicleStructure.Vehicle;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
@@ -28,50 +27,29 @@ public class VehicleView {
         return node;
     }
 
-    public void setNodeVisible() {
+    public void showNode() {
         node.setVisible(true);
     }
 
-    public void addStationDetailsVehicle(View view) {
-        Pane horizontalDetailsPane = utilsView.createHBox(view.getNavigationPanel().getDetailsPane());
-        addVehicleIcon(horizontalDetailsPane);
-        addVehicleButton(view, horizontalDetailsPane);
-        addVehicleStatusIcon(horizontalDetailsPane);
+    public void addListDetails(View view) {
+        utilsView.addIconAndButtonAndIcon(view.getDetailsPane(), vehicle.getVehicleType(), vehicle.toString(), (_ -> show(view)), vehicle.getVehicleStatus());
     }
 
-    private void addVehicleTitle(View view) {
-        Pane horizontalTitlePane = utilsView.createHBox(view.getNavigationPanel().getTitlePane());
-        utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, vehicle.getVehicleType());
-        utilsView.addMainTitleLabel(horizontalTitlePane, vehicle.toString());
+    public void show(View view) {
+        View.viewRunnable = () -> show(view);
+        showNavigationPanel(view);
+        showMap(view);
     }
 
-    private void addVehicleIcon(Pane pane) {
-        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, vehicle.getVehicleType());
-    }
-
-    private void addVehicleButton(View view, Pane pane) {
-        utilsView.addButtonToPane(pane, vehicle.toString(), (_ -> showVehicle(view)));
-    }
-
-    private void addVehicleStatusIcon(Pane pane) {
-        utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, vehicle.getVehicleStatus());
-    }
-
-    public void showVehicle(View view) {
-        View.viewRunnable = () -> showVehicle(view);
+    private void showNavigationPanel(View view) {
         utilsView.addBreadCrumb(view.getBreadCrumbBar(), vehicle);
-        view.getNavigationPanel().clearAll();
-        showVehicleDetails(view);
-        showVehicleMap(view);
+        view.clearNavigationPanel();
+        utilsView.addIconAndTitle(view.getTitlePane(), vehicle.getVehicleType(), vehicle.toString());
     }
 
-    private void showVehicleDetails(View view) {
-        addVehicleTitle(view);
-    }
-
-    private void showVehicleMap(View view) {
-        view.getWorldMap().setMapElementsNotVisible();
-        setNodeVisible();
+    private void showMap(View view) {
+        view.hideMap();
+        showNode();
     }
 
 }

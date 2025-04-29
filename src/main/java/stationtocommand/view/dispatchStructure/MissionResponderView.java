@@ -1,8 +1,6 @@
 package stationtocommand.view.dispatchStructure;
 
-import javafx.geometry.Point2D;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.Pane;
+import javafx.scene.Node;
 import stationtocommand.model.missionLinkStructure.MissionResponderLink;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
@@ -11,40 +9,52 @@ import stationtocommand.view.mainStructure.UtilsView;
 
 public class MissionResponderView {
 
+    private final MissionResponderLink missionResponderLink;
+    private final Node node;
     private final UtilsView utilsView;
 
-    public MissionResponderView(UtilsView utilsView) {
+    public MissionResponderView(MissionResponderLink missionResponderLink, View view, UtilsView utilsView) {
+        this.missionResponderLink = missionResponderLink;
+        this.node = utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, missionResponderLink.getResponder().getAppearanceType(), missionResponderLink.getResponder().getLocation());
         this.utilsView = utilsView;
     }
 
-    public void show(View view, MissionResponderLink missionResponderLink) {
-        View.viewRunnable = () -> show(view, missionResponderLink);
+    public MissionResponderLink getMissionResponderLink() {
+        return missionResponderLink;
+    }
+
+    public Node getNode() {
+        return node;
+    }
+
+    public void showNode() {
+        node.setVisible(true);
+    }
+
+    public void addListDetails(View view) {
+        utilsView.addIconAndButton(view.getDetailsPane(), missionResponderLink.getResponder().getAppearanceType(), missionResponderLink.getResponder().toString(), (_ -> show(view)));
+    }
+
+    public void show(View view) {
+        View.viewRunnable = () -> show(view);
+        showNavigationPanel(view);
+        showMap(view);
+    }
+
+    private void showNavigationPanel(View view) {
         utilsView.addBreadCrumb(view.getBreadCrumbBar(), missionResponderLink);
-        view.getNavigationPanel().clearAll();
-        view.getWorldMap().setMapElementsNotVisible();
-        showSidebar(view, missionResponderLink);
-        showMap(view, missionResponderLink);
+        view.clearNavigationPanel();
+        utilsView.addIconAndTitleWithSubtitle(view.getTitlePane(),
+                missionResponderLink.getMission().getMissionType(), missionResponderLink.getMission().toString(),
+                missionResponderLink.getResponder().getAppearanceType(), missionResponderLink.getResponder().toString()
+        );
     }
 
-    private void showSidebar(View view, MissionResponderLink missionResponderLink) {
-        showMissionResponderDetails(view, missionResponderLink);
-    }
-
-    private void showMissionResponderDetails(View view, MissionResponderLink missionResponderLink) {
-        Pane titleAndSubtitlePane = utilsView.createVBox(view.getNavigationPanel().getTitlePane());
-        Pane horizontalTitlePane = utilsView.createHBox(titleAndSubtitlePane);
-        utilsView.addIconToPane(horizontalTitlePane, IconType.MEDIUM, IconColor.EMPTY, missionResponderLink.getMission().getMissionType());
-        utilsView.addMainTitleLabel(horizontalTitlePane, missionResponderLink.getMission().toString());
-        Pane horizontalSubtitlePane = utilsView.createHBox(titleAndSubtitlePane);
-        utilsView.addIconToPane(horizontalSubtitlePane, IconType.SMALL, IconColor.EMPTY, missionResponderLink.getResponder().getAppearanceType());
-        utilsView.addMainSubtitleLabel(horizontalSubtitlePane, missionResponderLink.getResponder().toString());
-    }
-
-    public void showMap(View view, MissionResponderLink missionResponderLink) {
-        Point2D point = utilsView.locationToPoint(missionResponderLink.getResponder().getLocation(), IconType.SMALL);
-        ImageView imageView = utilsView.smallIcon(missionResponderLink.getResponder().getAppearanceType().getResourcePath(), "");
-        Pane mapLayer = view.getWorldMap().getMapElementsLayer();
-        utilsView.addNodeToPane(mapLayer, imageView, point);
+    public void showMap(View view) {
+        view.hideMap();
+        showNode();
+        MissionView missionView = view.getDispatchView().getMissionView(missionResponderLink.getMission());
+        missionView.showNode();
     }
 
 }
