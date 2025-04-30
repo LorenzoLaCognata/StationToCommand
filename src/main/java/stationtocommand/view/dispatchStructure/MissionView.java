@@ -1,6 +1,5 @@
 package stationtocommand.view.dispatchStructure;
 
-import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import stationtocommand.model.missionLinkStructure.MissionDepartmentLink;
 import stationtocommand.model.missionLinkStructure.MissionStationLink;
@@ -10,20 +9,22 @@ import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
+import stationtocommand.view.mainStructure.ViewWithNode;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class MissionView {
+public class MissionView extends ViewWithNode {
 
     private final Mission mission;
-    private final Node node;
     private final UtilsView utilsView;
     private final Map<MissionDepartmentLink, MissionDepartmentView> missionDepartmentViews;
 
+    // Constructor
+
     public MissionView(Mission mission, View view, UtilsView utilsView) {
+        super(utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, mission.getMissionType(), mission.getLocation()));
         this.mission = mission;
-        this.node = utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, mission.getMissionType(), mission.getLocation());
         this.utilsView = utilsView;
 
         this.missionDepartmentViews = new LinkedHashMap<>();
@@ -32,32 +33,26 @@ public class MissionView {
         }
     }
 
-    public Mission getMission() {
-        return mission;
-    }
-
-    public Node getNode() {
-        return node;
-    }
-
-    public void showNode() {
-        node.setVisible(true);
-    }
-
-    public Map<MissionDepartmentLink, MissionDepartmentView> getMissionDepartmentViews() {
-        return missionDepartmentViews;
-    }
-
-    public MissionDepartmentView getMissionDepartmentView(MissionDepartmentLink missionDepartmentLink) {
-        return missionDepartmentViews.get(missionDepartmentLink);
-    }
-
     public void addMissionDepartmentView(MissionDepartmentLink missionDepartmentLink, View view, UtilsView utilsView) {
         if (!missionDepartmentViews.containsKey(missionDepartmentLink)) {
             MissionDepartmentView missionDepartmentView = new MissionDepartmentView(missionDepartmentLink, view, utilsView);
             missionDepartmentViews.put(missionDepartmentLink, missionDepartmentView);
         }
     }
+
+
+    // Getter
+
+    public Mission getMission() {
+        return mission;
+    }
+
+    public MissionDepartmentView getMissionDepartmentView(MissionDepartmentLink missionDepartmentLink) {
+        return missionDepartmentViews.get(missionDepartmentLink);
+    }
+
+
+    // Methods
 
     public void addListDetails(View view) {
         Pane horizontalPane = utilsView.addIconAndButton(view.getDetailsPane(), mission.getMissionType(), mission.toString(), (_ -> show(view)));

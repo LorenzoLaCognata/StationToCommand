@@ -21,6 +21,8 @@ public class DepartmentView {
     private final UtilsView utilsView;
     private final Map<Station, StationView> stationViews;
 
+    // Constructor
+
     public DepartmentView(Department department, View view, UtilsView utilsView) {
         this.department = department;
         this.utilsView = utilsView;
@@ -39,6 +41,9 @@ public class DepartmentView {
             view.addToMap(stationView.getNode());
         }
     }
+
+
+    // Getter
 
     public Department getDepartment() {
         return department;
@@ -64,11 +69,6 @@ public class DepartmentView {
     }
 
     public Map<Vehicle, VehicleView> getVehicleViews() {
-        List<VehicleView> list = stationViews.values().stream()
-                .flatMap(stationView -> stationView.getUnitViews().values().stream())
-                .flatMap(unitView -> unitView.getVehicleViews().values().stream())
-                .toList();
-
         return stationViews.values().stream()
                 .flatMap(stationView -> stationView.getUnitViews().values().stream())
                 .flatMap(unitView -> unitView.getVehicleViews().entrySet().stream())
@@ -93,50 +93,8 @@ public class DepartmentView {
                 ));
     }
 
-    public Map<Location, List<Node>> stationNodesByLocation() {
-        return stationViews.values().stream()
-                .collect(Collectors.groupingBy(
-                        v -> v.getStation().getLocation(),
-                        Collectors.mapping(
-                                StationView::getNode,
-                                Collectors.toList()
-                        )
-                ));
-    }
 
-    public Map<Location, List<Node>> unitNodesByLocation() {
-        return getUnitViews().values().stream()
-                .collect(Collectors.groupingBy(
-                        v -> v.getUnit().getStation().getLocation(),
-                        Collectors.mapping(
-                                UnitView::getNode,
-                                Collectors.toList()
-                        )
-                ));
-    }
-
-    public Map<Location, List<Node>> vehicleNodesByLocation() {
-        return getVehicleViews().values().stream()
-                .collect(Collectors.groupingBy(
-                        v -> v.getVehicle().getLocation(),
-                        Collectors.mapping(
-                                VehicleView::getNode,
-                                Collectors.toList()
-                        )
-                ));
-    }
-
-    public Map<Location, List<Node>> responderNodesByLocation() {
-        return getResponderViews().values().stream()
-                .collect(Collectors.groupingBy(
-                        v -> v.getResponder().getLocation(),
-                        Collectors.mapping(
-                                ResponderView::getNode,
-                                Collectors.toList()
-                        )
-                ));
-    }
-
+    // Methods
 
     public void addListDetails(View view) {
         utilsView.addIconAndButton(view.getDetailsPane(), department.getDepartmentType(), department.toString(), (_ -> show(view)));
@@ -153,6 +111,13 @@ public class DepartmentView {
         utilsView.addButtonWithGraphic(view.getButtonsPane(), department.defaultAppearanceType(), "Responders", () -> showResponders(view));
 
 
+    }
+
+
+    // Stations
+
+    public Map<Location, List<Node>> stationNodesByLocation() {
+        return utilsView.nodesByLocation(stationViews, v -> v.getStation().getLocation());
     }
 
     private void showStations(View view) {
@@ -177,6 +142,13 @@ public class DepartmentView {
         }
     }
 
+
+    // Units
+
+    public Map<Location, List<Node>> unitNodesByLocation() {
+        return utilsView.nodesByLocation(getUnitViews(), v -> v.getUnit().getStation().getLocation());
+    }
+
     private void showUnits(View view) {
         View.viewRunnable = () -> showUnits(view);
         showNavigationPanelUnits(view);
@@ -199,6 +171,13 @@ public class DepartmentView {
         }
     }
 
+
+    // Vehicles
+
+    public Map<Location, List<Node>> vehicleNodesByLocation() {
+        return utilsView.nodesByLocation(getVehicleViews(), v -> v.getVehicle().getLocation());
+    }
+
     private void showVehicles(View view) {
         View.viewRunnable = () -> showVehicles(view);
         showNavigationPanelVehicles(view);
@@ -219,6 +198,13 @@ public class DepartmentView {
         for (VehicleView vehicleView : getVehicleViews().values()) {
             vehicleView.showNode();
         }
+    }
+
+
+    // Responders
+
+    public Map<Location, List<Node>> responderNodesByLocation() {
+        return utilsView.nodesByLocation(getResponderViews(), v -> v.getResponder().getLocation());
     }
 
     private void showResponders(View view) {

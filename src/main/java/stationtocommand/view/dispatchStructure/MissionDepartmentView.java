@@ -18,6 +18,8 @@ public class MissionDepartmentView {
     private final UtilsView utilsView;
     private final Map<MissionStationLink, MissionStationView> missionStationViews;
 
+    // Constructor
+
     public MissionDepartmentView(MissionDepartmentLink missionDepartmentLink, View view, UtilsView utilsView) {
         this.missionDepartmentLink = missionDepartmentLink;
         this.utilsView = utilsView;
@@ -29,18 +31,6 @@ public class MissionDepartmentView {
         }
     }
 
-    public MissionDepartmentLink getMissionDepartmentLink() {
-        return missionDepartmentLink;
-    }
-
-    public Map<MissionStationLink, MissionStationView> getMissionStationViews() {
-        return missionStationViews;
-    }
-
-    public MissionStationView getMissionStationView(MissionStationLink missionStationLink) {
-        return missionStationViews.get(missionStationLink);
-    }
-
     public void addMissionStationView(MissionStationLink missionStationLink, View view, UtilsView utilsView) {
         if (!missionStationViews.containsKey(missionStationLink)) {
             MissionStationView missionStationView = new MissionStationView(missionStationLink, view, utilsView);
@@ -49,26 +39,15 @@ public class MissionDepartmentView {
         }
     }
 
-    public Map<Location, List<Node>> missionStationNodesByLocation() {
-        return missionStationViews.values().stream()
-                .collect(Collectors.groupingBy(
-                        v -> v.getMissionStationLink().getStation().getLocation(),
-                        Collectors.mapping(
-                                MissionStationView::getNode,
-                                Collectors.toList()
-                        )
-                ));
+
+    // Getter
+
+    public Map<MissionStationLink, MissionStationView> getMissionStationViews() {
+        return missionStationViews;
     }
 
-    public Map<Location, List<Node>> missionUnitNodesByLocation() {
-        return getMissionUnitViews().values().stream()
-                .collect(Collectors.groupingBy(
-                        v -> v.getMissionUnitLink().getUnit().getStation().getLocation(),
-                        Collectors.mapping(
-                                MissionUnitView::getNode,
-                                Collectors.toList()
-                        )
-                ));
+    public MissionStationView getMissionStationView(MissionStationLink missionStationLink) {
+        return missionStationViews.get(missionStationLink);
     }
 
     public Map<MissionUnitLink, MissionUnitView> getMissionUnitViews() {
@@ -104,27 +83,8 @@ public class MissionDepartmentView {
                 ));
     }
 
-    public Map<Location, List<Node>> missionVehicleNodesByLocation() {
-        return getMissionVehicleViews().values().stream()
-                .collect(Collectors.groupingBy(
-                        v -> v.getMissionVehicleLink().getVehicle().getLocation(),
-                        Collectors.mapping(
-                                MissionVehicleView::getNode,
-                                Collectors.toList()
-                        )
-                ));
-    }
 
-    public Map<Location, List<Node>> missionResponderNodesByLocation() {
-        return getMissionResponderViews().values().stream()
-                .collect(Collectors.groupingBy(
-                        v -> v.getMissionResponderLink().getResponder().getLocation(),
-                        Collectors.mapping(
-                                MissionResponderView::getNode,
-                                Collectors.toList()
-                        )
-                ));
-    }
+    // Methods
 
     public void addListDetails(View view) {
         utilsView.addIconAndButton(view.getDetailsPane(), missionDepartmentLink.getDepartment().getDepartmentType(), missionDepartmentLink.getDepartment().toString(), (_ -> show(view)));
@@ -143,6 +103,12 @@ public class MissionDepartmentView {
         utilsView.addButtonWithGraphic(view.getButtonsPane(), missionDepartmentLink.getDepartment().defaultUnitType(), "Units", () -> showUnits(view));
         utilsView.addButtonWithGraphic(view.getButtonsPane(), missionDepartmentLink.getDepartment().defaultVehicleType(), "Vehicles", () -> showVehicles(view));
         utilsView.addButtonWithGraphic(view.getButtonsPane(), missionDepartmentLink.getDepartment().defaultAppearanceType(), "Responders", () -> showResponders(view));
+    }
+
+
+    // Mission Stations
+    public Map<Location, List<Node>> missionStationNodesByLocation() {
+        return utilsView.nodesByLocation(missionStationViews, v -> v.getMissionStationLink().getStation().getLocation());
     }
 
     private void showStations(View view) {
@@ -169,6 +135,12 @@ public class MissionDepartmentView {
         missionView.showNode();
     }
 
+
+    // Mission Units
+    public Map<Location, List<Node>> missionUnitNodesByLocation() {
+        return utilsView.nodesByLocation(getMissionUnitViews(), v -> v.getMissionUnitLink().getUnit().getStation().getLocation());
+    }
+
     private void showUnits(View view) {
         View.viewRunnable = () -> showUnits(view);
         showNavigationPanelUnits(view);
@@ -193,6 +165,13 @@ public class MissionDepartmentView {
         missionView.showNode();
     }
 
+
+    // Mission Vehicles
+
+    public Map<Location, List<Node>> missionVehicleNodesByLocation() {
+        return utilsView.nodesByLocation(getMissionVehicleViews(), v -> v.getMissionVehicleLink().getVehicle().getLocation());
+    }
+
     private void showVehicles(View view) {
         View.viewRunnable = () -> showVehicles(view);
         showNavigationPanelVehicles(view);
@@ -215,6 +194,13 @@ public class MissionDepartmentView {
         }
         MissionView missionView = view.getDispatchView().getMissionView(missionDepartmentLink.getMission());
         missionView.showNode();
+    }
+
+
+    // Mission Responders
+
+    public Map<Location, List<Node>> missionResponderNodesByLocation() {
+        return utilsView.nodesByLocation(getMissionResponderViews(), v -> v.getMissionResponderLink().getResponder().getLocation());
     }
 
     private void showResponders(View view) {

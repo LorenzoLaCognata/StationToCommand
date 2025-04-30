@@ -1,35 +1,34 @@
 package stationtocommand.view.dispatchStructure;
 
-import javafx.scene.Node;
 import stationtocommand.model.missionLinkStructure.MissionResponderLink;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
+import stationtocommand.view.mainStructure.ViewWithNode;
 
-public class MissionResponderView {
+public class MissionResponderView extends ViewWithNode {
 
     private final MissionResponderLink missionResponderLink;
-    private final Node node;
     private final UtilsView utilsView;
 
+    // Constructor
+
     public MissionResponderView(MissionResponderLink missionResponderLink, View view, UtilsView utilsView) {
+        super(utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, missionResponderLink.getResponder().getAppearanceType(), missionResponderLink.getResponder().getLocation()));
         this.missionResponderLink = missionResponderLink;
-        this.node = utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, missionResponderLink.getResponder().getAppearanceType(), missionResponderLink.getResponder().getLocation());
         this.utilsView = utilsView;
     }
+
+
+    // Getter
 
     public MissionResponderLink getMissionResponderLink() {
         return missionResponderLink;
     }
 
-    public Node getNode() {
-        return node;
-    }
 
-    public void showNode() {
-        node.setVisible(true);
-    }
+    // Methods
 
     public void addListDetails(View view) {
         utilsView.addIconAndButton(view.getDetailsPane(), missionResponderLink.getResponder().getAppearanceType(), missionResponderLink.getResponder().toString(), (_ -> show(view)));

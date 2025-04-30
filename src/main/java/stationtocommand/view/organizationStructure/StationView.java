@@ -12,48 +12,30 @@ import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.IconColor;
 import stationtocommand.view.mainStructure.IconType;
 import stationtocommand.view.mainStructure.UtilsView;
+import stationtocommand.view.mainStructure.ViewWithNode;
 
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class StationView {
+public class StationView extends ViewWithNode {
 
     private final Station station;
-    private final Node node;
     private final UtilsView utilsView;
     private final Map<Unit, UnitView> unitViews;
 
+    // Constructor
+
     public StationView(Station station, View view, UtilsView utilsView) {
+        super(utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, station.getStationType(), station.getLocation()));
         this.station = station;
-        this.node = utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, station.getStationType(), station.getLocation());
         this.utilsView = utilsView;
 
         this.unitViews = new LinkedHashMap<>();
         for (Unit unit : station.getUnits()) {
             addUnitView(unit, view);
         }
-    }
-
-    public Station getStation() {
-        return station;
-    }
-
-    public Node getNode() {
-        return node;
-    }
-
-    public void showNode() {
-        node.setVisible(true);
-    }
-
-    public Map<Unit, UnitView> getUnitViews() {
-        return unitViews;
-    }
-
-    public UnitView getUnitView(Unit unit) {
-        return unitViews.get(unit);
     }
 
     private void addUnitView(Unit unit, View view) {
@@ -64,15 +46,19 @@ public class StationView {
         }
     }
 
-    public Map<Location, List<Node>> unitNodesByLocation() {
-        return unitViews.values().stream()
-                .collect(Collectors.groupingBy(
-                        v -> v.getUnit().getStation().getLocation(),
-                        Collectors.mapping(
-                                UnitView::getNode,
-                                Collectors.toList()
-                        )
-                ));
+
+    // Getter
+
+    public Station getStation() {
+        return station;
+    }
+
+    public Map<Unit, UnitView> getUnitViews() {
+        return unitViews;
+    }
+
+    public UnitView getUnitView(Unit unit) {
+        return unitViews.get(unit);
     }
 
     public Map<Vehicle, VehicleView> getVehicleViews() {
@@ -90,17 +76,6 @@ public class StationView {
         return getVehicleViews().get(vehicle);
     }
 
-    public Map<Location, List<Node>> vehicleNodesByLocation() {
-        return getVehicleViews().values().stream()
-                .collect(Collectors.groupingBy(
-                        v -> v.getVehicle().getLocation(),
-                        Collectors.mapping(
-                                VehicleView::getNode,
-                                Collectors.toList()
-                        )
-                ));
-    }
-
     public Map<Responder, ResponderView> getResponderViews() {
         return unitViews.values().stream()
                 .flatMap(unitView -> unitView.getResponderViews().entrySet().stream())
@@ -116,27 +91,8 @@ public class StationView {
         return getResponderViews().get(responder);
     }
 
-    public Map<Location, List<Node>> responderNodesByLocation() {
-        return getResponderViews().values().stream()
-                .collect(Collectors.groupingBy(
-                        v -> v.getResponder().getLocation(),
-                        Collectors.mapping(
-                                ResponderView::getNode,
-                                Collectors.toList()
-                        )
-                ));
-    }
 
-    private void addUnitTypesIcons(Pane pane) {
-        for (UnitType unitType : station.getDepartment().unitTypesList()) {
-            if (station.getUnitManager().getUnits(unitType).isEmpty()) {
-                utilsView.addIconToPane(pane, IconType.SMALL_FADED, IconColor.EMPTY, unitType);
-            }
-            else {
-                utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, unitType);
-            }
-        }
-    }
+    // Methods
 
     public void addListDetails(View view) {
         Pane horizontalPane = utilsView.addIconAndButton(view.getDetailsPane(), station.getStationType(), station.toString(), (_ -> show(view)));
@@ -151,6 +107,24 @@ public class StationView {
         utilsView.addSelectedButtonWithGraphic(view.getButtonsPane(), station.getDepartment().defaultUnitType(), "Units", () -> showUnits(view));
         utilsView.addButtonWithGraphic(view.getButtonsPane(), station.getDepartment().defaultVehicleType(), "Vehicles", () -> showVehicles(view));
         utilsView.addButtonWithGraphic(view.getButtonsPane(), station.getDepartment().defaultAppearanceType(), "Responders", () -> showResponders(view));
+    }
+
+
+    // Units
+
+    public Map<Location, List<Node>> unitNodesByLocation() {
+        return utilsView.nodesByLocation(unitViews, v -> v.getUnit().getStation().getLocation());
+    }
+
+    private void addUnitTypesIcons(Pane pane) {
+        for (UnitType unitType : station.getDepartment().unitTypesList()) {
+            if (station.getUnitManager().getUnits(unitType).isEmpty()) {
+                utilsView.addIconToPane(pane, IconType.SMALL_FADED, IconColor.EMPTY, unitType);
+            }
+            else {
+                utilsView.addIconToPane(pane, IconType.SMALL, IconColor.EMPTY, unitType);
+            }
+        }
     }
 
     private void showUnits(View view) {
@@ -175,11 +149,18 @@ public class StationView {
         }
     }
 
+
+    // Vehicles
+
+    public Map<Location, List<Node>> vehicleNodesByLocation() {
+        return utilsView.nodesByLocation(getVehicleViews(), v -> v.getVehicle().getLocation());
+    }
+
     private void showVehicles(View view) {
-            View.viewRunnable = () -> showVehicles(view);
-            showNavigationPanelVehicles(view);
-            showMapVehicles(view);
-        }
+        View.viewRunnable = () -> showVehicles(view);
+        showNavigationPanelVehicles(view);
+        showMapVehicles(view);
+    }
 
     private void showNavigationPanelVehicles(View view) {
         view.clearDetailsPane();
@@ -195,6 +176,13 @@ public class StationView {
         for (VehicleView vehicleView : getVehicleViews().values()) {
             vehicleView.showNode();
         }
+    }
+
+
+    // Responders
+
+    public Map<Location, List<Node>> responderNodesByLocation() {
+        return utilsView.nodesByLocation(getResponderViews(), v -> v.getResponder().getLocation());
     }
 
     private void showResponders(View view) {

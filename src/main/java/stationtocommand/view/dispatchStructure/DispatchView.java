@@ -13,20 +13,14 @@ public class DispatchView {
     private final UtilsView utilsView;
     private final Map<Mission, MissionView> missionViews;
 
+    // Constructor
+
     public DispatchView(List<Mission> missions, View view, UtilsView utilsView) {
         this.missionViews = new LinkedHashMap<>();
         for (Mission mission : missions) {
             addMissionView(mission, view, utilsView);
         }
         this.utilsView = utilsView;
-    }
-
-    public Map<Mission, MissionView> getMissionViews() {
-        return missionViews;
-    }
-
-    public MissionView getMissionView(Mission mission) {
-        return missionViews.get(mission);
     }
 
     public void addMissionView(Mission mission, View view, UtilsView utilsView) {
@@ -36,6 +30,16 @@ public class DispatchView {
             view.addToMap(missionView.getNode());
         }
     }
+
+
+    // Getter
+
+    public MissionView getMissionView(Mission mission) {
+        return missionViews.get(mission);
+    }
+
+
+    // Methods
 
     public void show(View view) {
         showNavigationPanel(view);
