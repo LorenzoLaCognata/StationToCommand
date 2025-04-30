@@ -12,15 +12,23 @@ public class ResponderView extends ViewWithNode {
     private final Responder responder;
     private final UtilsView utilsView;
 
+    // Constructor
+
     public ResponderView(Responder responder, UtilsView utilsView) {
         super(utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, responder.getAppearanceType(), responder.getLocation()));
         this.responder = responder;
         this.utilsView = utilsView;
     }
 
+
+    // Getter
+
     public Responder getResponder() {
         return responder;
     }
+
+
+    // Methods
 
     public void addListDetails(View view) {
         utilsView.addIconAndButtonAndIcon(view.getDetailsPane(), responder.getAppearanceType(), responder.toString(), (_ -> show(view)), responder.getResponderStatus());

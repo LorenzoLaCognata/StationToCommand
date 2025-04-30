@@ -20,6 +20,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class UtilsView {
 
@@ -498,6 +500,17 @@ public class UtilsView {
         addIconToPane(verticalDetailsPane, IconType.SMALL, IconColor.EMPTY, type);
         long total = statusCounts.values().stream().mapToLong(Long::longValue).sum();
         addBodySmallLabel(verticalDetailsPane, String.valueOf(total));
+    }
+
+    public <X, Y extends ViewWithNode> Map<Location, List<Node>> nodesByLocation(Map<X, Y> viewWithNode, Function<Y, Location> viewLocationFunction) {
+        return viewWithNode.values().stream()
+                .collect(Collectors.groupingBy(
+                        viewLocationFunction,
+                        Collectors.mapping(
+                                Y::getNode,
+                                Collectors.toList()
+                        )
+                ));
     }
 
 }

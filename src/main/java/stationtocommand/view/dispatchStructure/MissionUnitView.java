@@ -14,7 +14,6 @@ import stationtocommand.view.mainStructure.ViewWithNode;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class MissionUnitView extends ViewWithNode {
 
@@ -22,6 +21,8 @@ public class MissionUnitView extends ViewWithNode {
     private final UtilsView utilsView;
     private final Map<MissionVehicleLink, MissionVehicleView> missionVehicleViews;
     private final Map<MissionResponderLink, MissionResponderView> missionResponderViews;
+
+    // Constructor
 
     public MissionUnitView(MissionUnitLink missionUnitLink, View view, UtilsView utilsView) {
         super(utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, missionUnitLink.getUnit().getUnitType(), missionUnitLink.getUnit().getStation().getLocation()));
@@ -55,6 +56,9 @@ public class MissionUnitView extends ViewWithNode {
         }
     }
 
+
+    // Getter
+
     public MissionUnitLink getMissionUnitLink() {
         return missionUnitLink;
     }
@@ -67,17 +71,6 @@ public class MissionUnitView extends ViewWithNode {
         return missionVehicleViews.get(missionVehicleLink);
     }
 
-    public Map<Location, List<Node>> missionVehicleNodesByLocation() {
-        return missionVehicleViews.values().stream()
-                .collect(Collectors.groupingBy(
-                        v -> v.getMissionVehicleLink().getVehicle().getLocation(),
-                        Collectors.mapping(
-                                MissionVehicleView::getNode,
-                                Collectors.toList()
-                        )
-                ));
-    }
-
     public Map<MissionResponderLink, MissionResponderView> getMissionResponderViews() {
         return missionResponderViews;
     }
@@ -86,17 +79,8 @@ public class MissionUnitView extends ViewWithNode {
         return missionResponderViews.get(missionResponderLink);
     }
 
-    public Map<Location, List<Node>> missionResponderNodesByLocation() {
-        return missionResponderViews.values().stream()
-                .collect(Collectors.groupingBy(
-                        v -> v.getMissionResponderLink().getResponder().getLocation(),
-                        Collectors.mapping(
-                                MissionResponderView::getNode,
-                                Collectors.toList()
-                        )
-                ));
-    }
 
+    // Methods
     public void addListDetails(View view) {
         utilsView.addIconAndButton(view.getDetailsPane(), missionUnitLink.getUnit().getUnitType(), missionUnitLink.getUnit().toString(), (_ -> show(view)));
     }
@@ -106,12 +90,19 @@ public class MissionUnitView extends ViewWithNode {
         utilsView.addBreadCrumb(view.getBreadCrumbBar(), missionUnitLink);
         view.clearNavigationPanel();
         utilsView.addIconAndTitleWithSubtitle(
-            view.getTitlePane(),
-            missionUnitLink.getMission().getMissionType(), missionUnitLink.getMission().toString(),
-            missionUnitLink.getUnit().getUnitType(), missionUnitLink.getUnit().toString()
+                view.getTitlePane(),
+                missionUnitLink.getMission().getMissionType(), missionUnitLink.getMission().toString(),
+                missionUnitLink.getUnit().getUnitType(), missionUnitLink.getUnit().toString()
         );
         utilsView.addSelectedButtonWithGraphic(view.getButtonsPane(), missionUnitLink.getUnit().getStation().getDepartment().defaultVehicleType(), "Vehicles", () -> showVehicles(view));
         utilsView.addButtonWithGraphic(view.getButtonsPane(), missionUnitLink.getUnit().getStation().getDepartment().defaultAppearanceType(), "Responders", () -> showResponders(view));
+    }
+
+
+    // Vehicles
+
+    public Map<Location, List<Node>> missionVehicleNodesByLocation() {
+        return utilsView.nodesByLocation(missionVehicleViews, v -> v.getMissionVehicleLink().getVehicle().getLocation());
     }
 
     private void showVehicles(View view) {
@@ -136,6 +127,13 @@ public class MissionUnitView extends ViewWithNode {
         }
         MissionView missionView = view.getDispatchView().getMissionView(missionUnitLink.getMission());
         missionView.showNode();
+    }
+
+
+    // Responders
+
+    public Map<Location, List<Node>> missionResponderNodesByLocation() {
+        return utilsView.nodesByLocation(missionResponderViews, v -> v.getMissionResponderLink().getResponder().getLocation());
     }
 
     private void showResponders(View view) {

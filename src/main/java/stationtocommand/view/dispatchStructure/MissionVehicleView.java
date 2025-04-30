@@ -12,15 +12,23 @@ public class MissionVehicleView extends ViewWithNode {
     private final MissionVehicleLink missionVehicleLink;
     private final UtilsView utilsView;
 
+    // Constructor
+
     public MissionVehicleView(MissionVehicleLink missionVehicleLink, View view, UtilsView utilsView) {
         super(utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, missionVehicleLink.getVehicle().getVehicleType(), missionVehicleLink.getVehicle().getLocation()));
         this.missionVehicleLink = missionVehicleLink;
         this.utilsView = utilsView;
     }
 
+
+    // Getter
+
     public MissionVehicleLink getMissionVehicleLink() {
         return missionVehicleLink;
     }
+
+
+    // Methods
 
     public void addListDetails(View view) {
         utilsView.addIconAndButton(view.getDetailsPane(), missionVehicleLink.getVehicle().getVehicleType(), missionVehicleLink.getVehicle().toString(), (_ -> show(view)));

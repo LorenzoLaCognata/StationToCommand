@@ -44,6 +44,44 @@ public class MissionStationView extends ViewWithNode {
         }
     }
 
+
+    // Getter
+
+    public MissionStationLink getMissionStationLink() {
+        return missionStationLink;
+    }
+
+    public Map<MissionUnitLink, MissionUnitView> getMissionUnitViews() {
+        return missionUnitViews;
+    }
+
+    public MissionUnitView getMissionUnitView(MissionUnitLink missionUnitLink) {
+        return missionUnitViews.get(missionUnitLink);
+    }
+
+    public Map<MissionVehicleLink, MissionVehicleView> getMissionVehicleViews() {
+        return missionUnitViews.values().stream()
+                .flatMap(missionUnitView -> missionUnitView.getMissionVehicleViews().entrySet().stream())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (existing, _) -> existing,
+                        LinkedHashMap::new
+                ));
+    }
+
+    public Map<MissionResponderLink, MissionResponderView> getMissionResponderViews() {
+        return missionUnitViews.values().stream()
+                .flatMap(missionUnitView -> missionUnitView.getMissionResponderViews().entrySet().stream())
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (existing, _) -> existing,
+                        LinkedHashMap::new
+                ));
+    }
+
+
     // Methods
 
     public void addListDetails(View view) {
@@ -64,24 +102,11 @@ public class MissionStationView extends ViewWithNode {
         utilsView.addButtonWithGraphic(view.getButtonsPane(), missionStationLink.getStation().getDepartment().defaultAppearanceType(), "Responders", () -> showResponders(view));
     }
 
-    // Mission Station
 
-    public MissionStationLink getMissionStationLink() {
-        return missionStationLink;
-    }
-
-    // Mission Unit
-
-    public Map<MissionUnitLink, MissionUnitView> getMissionUnitViews() {
-        return missionUnitViews;
-    }
-
-    public MissionUnitView getMissionUnitView(MissionUnitLink missionUnitLink) {
-        return missionUnitViews.get(missionUnitLink);
-    }
+    // Mission Units
 
     public Map<Location, List<Node>> missionUnitNodesByLocation() {
-        return nodesByLocation(missionUnitViews, v -> v.getMissionUnitLink().getUnit().getStation().getLocation());
+        return utilsView.nodesByLocation(missionUnitViews, v -> v.getMissionUnitLink().getUnit().getStation().getLocation());
     }
 
     private void showUnits(View view) {
@@ -108,22 +133,12 @@ public class MissionStationView extends ViewWithNode {
         missionView.showNode();
     }
 
-    // Mission Vehicle
+
+    // Mission Vehicles
 
     public Map<Location, List<Node>> missionVehicleNodesByLocation() {
-        return nodesByLocation(getMissionVehicleViews(), v -> v.getMissionVehicleLink().getVehicle().getLocation());
+        return utilsView.nodesByLocation(getMissionVehicleViews(), v -> v.getMissionVehicleLink().getVehicle().getLocation());
         }
-
-    public Map<MissionVehicleLink, MissionVehicleView> getMissionVehicleViews() {
-        return missionUnitViews.values().stream()
-                    .flatMap(missionUnitView -> missionUnitView.getMissionVehicleViews().entrySet().stream())
-                    .collect(Collectors.toMap(
-                            Map.Entry::getKey,
-                            Map.Entry::getValue,
-                            (existing, _) -> existing,
-                            LinkedHashMap::new
-                    ));
-    }
 
     private void showVehicles(View view) {
         View.viewRunnable = () -> showVehicles(view);
@@ -149,21 +164,11 @@ public class MissionStationView extends ViewWithNode {
         missionView.showNode();
     }
 
-    // Mission Responder
 
-    public Map<MissionResponderLink, MissionResponderView> getMissionResponderViews() {
-        return missionUnitViews.values().stream()
-                .flatMap(missionUnitView -> missionUnitView.getMissionResponderViews().entrySet().stream())
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        Map.Entry::getValue,
-                        (existing, _) -> existing,
-                        LinkedHashMap::new
-                ));
-    }
+    // Mission Responders
 
     public Map<Location, List<Node>> missionResponderNodesByLocation() {
-        return nodesByLocation(getMissionResponderViews(), v -> v.getMissionResponderLink().getResponder().getLocation());
+        return utilsView.nodesByLocation(getMissionResponderViews(), v -> v.getMissionResponderLink().getResponder().getLocation());
     }
 
     private void showResponders(View view) {

@@ -20,6 +20,8 @@ public class MissionView extends ViewWithNode {
     private final UtilsView utilsView;
     private final Map<MissionDepartmentLink, MissionDepartmentView> missionDepartmentViews;
 
+    // Constructor
+
     public MissionView(Mission mission, View view, UtilsView utilsView) {
         super(utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, mission.getMissionType(), mission.getLocation()));
         this.mission = mission;
@@ -31,24 +33,26 @@ public class MissionView extends ViewWithNode {
         }
     }
 
-    public Mission getMission() {
-        return mission;
-    }
-
-    public Map<MissionDepartmentLink, MissionDepartmentView> getMissionDepartmentViews() {
-        return missionDepartmentViews;
-    }
-
-    public MissionDepartmentView getMissionDepartmentView(MissionDepartmentLink missionDepartmentLink) {
-        return missionDepartmentViews.get(missionDepartmentLink);
-    }
-
     public void addMissionDepartmentView(MissionDepartmentLink missionDepartmentLink, View view, UtilsView utilsView) {
         if (!missionDepartmentViews.containsKey(missionDepartmentLink)) {
             MissionDepartmentView missionDepartmentView = new MissionDepartmentView(missionDepartmentLink, view, utilsView);
             missionDepartmentViews.put(missionDepartmentLink, missionDepartmentView);
         }
     }
+
+
+    // Getter
+
+    public Mission getMission() {
+        return mission;
+    }
+
+    public MissionDepartmentView getMissionDepartmentView(MissionDepartmentLink missionDepartmentLink) {
+        return missionDepartmentViews.get(missionDepartmentLink);
+    }
+
+
+    // Methods
 
     public void addListDetails(View view) {
         Pane horizontalPane = utilsView.addIconAndButton(view.getDetailsPane(), mission.getMissionType(), mission.toString(), (_ -> show(view)));

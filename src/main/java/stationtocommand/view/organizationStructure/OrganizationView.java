@@ -13,6 +13,9 @@ public class OrganizationView {
     private final UtilsView utilsView;
     private final Map<Department, DepartmentView> departmentViews;
 
+
+    // Constructor
+
     public OrganizationView(List<Department> departments, View view, UtilsView utilsView) {
         this.departmentViews = new LinkedHashMap<>();
         for (Department department : departments) {
@@ -28,9 +31,15 @@ public class OrganizationView {
         }
     }
 
+
+    // Getter
+
     public DepartmentView getDepartmentView(Department department) {
         return departmentViews.get(department);
     }
+
+
+    // Methods
 
     public void show(View view) {
         showNavigationPanel(view);

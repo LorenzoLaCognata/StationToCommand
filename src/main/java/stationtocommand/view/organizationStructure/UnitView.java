@@ -14,7 +14,6 @@ import stationtocommand.view.mainStructure.ViewWithNode;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class UnitView extends ViewWithNode {
 
@@ -22,6 +21,8 @@ public class UnitView extends ViewWithNode {
     private final UtilsView utilsView;
     private final Map<Vehicle, VehicleView> vehicleViews;
     private final Map<Responder, ResponderView> responderViews;
+
+    // Constructor
 
     public UnitView(Unit unit, View view, UtilsView utilsView) {
         super(utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, unit.getUnitType(), unit.getStation().getLocation()));
@@ -37,40 +38,6 @@ public class UnitView extends ViewWithNode {
         for (Responder responder : unit.getResponders()) {
             addResponderView(responder, view);
         }
-    }
-
-    public Unit getUnit() {
-        return unit;
-    }
-
-    public Map<Vehicle, VehicleView> getVehicleViews() {
-        return vehicleViews;
-    }
-
-    public Map<Location, List<Node>> vehicleNodesByLocation() {
-        return vehicleViews.values().stream()
-                    .collect(Collectors.groupingBy(
-                            v -> v.getVehicle().getLocation(),
-                            Collectors.mapping(
-                                VehicleView::getNode,
-                                Collectors.toList()
-                            )
-                    ));
-    }
-
-    public Map<Responder, ResponderView> getResponderViews() {
-        return responderViews;
-    }
-
-    public Map<Location, List<Node>> responderNodesByLocation() {
-        return responderViews.values().stream()
-                .collect(Collectors.groupingBy(
-                        v -> v.getResponder().getLocation(),
-                        Collectors.mapping(
-                                ResponderView::getNode,
-                                Collectors.toList()
-                        )
-                ));
     }
 
     private void addVehicleView(Vehicle vehicle, View view) {
@@ -89,6 +56,24 @@ public class UnitView extends ViewWithNode {
         }
     }
 
+
+    // Getter
+
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public Map<Vehicle, VehicleView> getVehicleViews() {
+        return vehicleViews;
+    }
+
+    public Map<Responder, ResponderView> getResponderViews() {
+        return responderViews;
+    }
+
+
+    // Methods
+
     public void addListDetails(View view) {
         utilsView.addIconAndButtonAndIcon(view.getDetailsPane(), unit.getUnitType(), unit.toString(), (_ -> show(view)), unit.getUnitStatus());
     }
@@ -100,6 +85,13 @@ public class UnitView extends ViewWithNode {
         utilsView.addIconAndTitle(view.getTitlePane(), unit.getUnitType(), unit.toString());
         utilsView.addSelectedButtonWithGraphic(view.getButtonsPane(), unit.getStation().getDepartment().defaultVehicleType(), "Vehicles", () -> showVehicles(view));
         utilsView.addButtonWithGraphic(view.getButtonsPane(), unit.getStation().getDepartment().defaultAppearanceType(), "Responders", () -> showResponders(view));
+    }
+
+
+    // Vehicles
+
+    public Map<Location, List<Node>> vehicleNodesByLocation() {
+        return utilsView.nodesByLocation(vehicleViews, v -> v.getVehicle().getLocation());
     }
 
     private void showVehicles(View view) {
@@ -122,6 +114,13 @@ public class UnitView extends ViewWithNode {
         for (VehicleView vehicleView : vehicleViews.values()) {
             vehicleView.showNode();
         }
+    }
+
+
+    // Responders
+
+    public Map<Location, List<Node>> responderNodesByLocation() {
+        return utilsView.nodesByLocation(responderViews, v -> v.getResponder().getLocation());
     }
 
     private void showResponders(View view) {

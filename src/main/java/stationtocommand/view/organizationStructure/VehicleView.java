@@ -12,11 +12,16 @@ public class VehicleView extends ViewWithNode {
     private final Vehicle vehicle;
     private final UtilsView utilsView;
 
+    // Constructor
+
     public VehicleView(Vehicle vehicle, UtilsView utilsView) {
         super(utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, vehicle.getVehicleType(), vehicle.getLocation()));
         this.vehicle = vehicle;
         this.utilsView = utilsView;
     }
+
+
+    // Getter
 
     public Vehicle getVehicle() {
         return vehicle;
@@ -25,6 +30,9 @@ public class VehicleView extends ViewWithNode {
     public void addListDetails(View view) {
         utilsView.addIconAndButtonAndIcon(view.getDetailsPane(), vehicle.getVehicleType(), vehicle.toString(), (_ -> show(view)), vehicle.getVehicleStatus());
     }
+
+
+    // Methods
 
     public void show(View view) {
         View.viewRunnable = () -> show(view);

@@ -12,15 +12,23 @@ public class MissionResponderView extends ViewWithNode {
     private final MissionResponderLink missionResponderLink;
     private final UtilsView utilsView;
 
+    // Constructor
+
     public MissionResponderView(MissionResponderLink missionResponderLink, View view, UtilsView utilsView) {
         super(utilsView.createResourceIconWithLocation(IconType.SMALL, IconColor.EMPTY, missionResponderLink.getResponder().getAppearanceType(), missionResponderLink.getResponder().getLocation()));
         this.missionResponderLink = missionResponderLink;
         this.utilsView = utilsView;
     }
 
+
+    // Getter
+
     public MissionResponderLink getMissionResponderLink() {
         return missionResponderLink;
     }
+
+
+    // Methods
 
     public void addListDetails(View view) {
         utilsView.addIconAndButton(view.getDetailsPane(), missionResponderLink.getResponder().getAppearanceType(), missionResponderLink.getResponder().toString(), (_ -> show(view)));
