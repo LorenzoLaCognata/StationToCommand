@@ -10,7 +10,7 @@ public enum MissionType implements EnumWithResource {
   VEHICLE_FIRE("Vehicle Fire", "/images/mission/vehicleFire.png", 0.0f),
   WATER_RESCUE("Water Rescue", "/images/mission/waterRescue.png", 0.0f),
   // TODO: replace with final icons
-  COLLAPSE_RESCUE("Collapse Rescue", "/images/rescueMission.png", 0.0f),
+  COLLAPSE_RESCUE("Collapse Rescue", "/images/mission/collapseRescue.png", 0.0f),
   TRAFFIC_INCIDENT("Traffic Incident", "/images/rescueMission.png", 0.0f),
   BURGLARY("Burglary", "/images/policeMission.png", 0.0f),
   ASSAULT("Assault", "/images/policeMission.png", 0.0f),
