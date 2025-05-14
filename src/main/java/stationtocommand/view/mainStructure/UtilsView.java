@@ -19,7 +19,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -180,7 +179,7 @@ public class UtilsView {
             action.run();
         };
         Button button = addHorizontalButtonToPane(pane, label, buttonHandler);
-        button.setGraphic(smallIcon(resource.getResourcePath(), ""));
+        button.setGraphic(smallIcon(resource.getImage(), ""));
         return button;
     }
 
@@ -197,8 +196,8 @@ public class UtilsView {
     public Point2D locationToPoint(Location location, IconType iconType) {
         double iconSize = 0;
         switch (iconType) {
-            case IconType.SMALL, IconType.SMALL_SHADOW -> iconSize = SMALL_ICON_SIZE;
-            case IconType.MEDIUM, IconType.MEDIUM_SHADOW -> iconSize = MEDIUM_ICON_SIZE;
+            case IconType.SMALL, IconType.SMALL_FADED, IconType.SMALL_BORDER -> iconSize = SMALL_ICON_SIZE;
+            case IconType.MEDIUM, IconType.MEDIUM_FADED, IconType.MEDIUM_BORDER -> iconSize = MEDIUM_ICON_SIZE;
         }
         double x = normalize(location.longitude(), LocationManager.MIN_LONGITUDE, LocationManager.MAX_LONGITUDE) * WorldMap.MAP_WIDTH;
         double y = (1 - normalize(location.latitude(), LocationManager.MIN_LATITUDE, LocationManager.MAX_LATITUDE)) * WorldMap.MAP_HEIGHT;
@@ -231,8 +230,8 @@ public class UtilsView {
         }
     }
 
-    public ImageView basicIcon(String iconPath, String tooltipText) {
-        ImageView imageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResource(iconPath)).toExternalForm()));
+    public ImageView basicIcon(Image image, String tooltipText) {
+        ImageView imageView = new ImageView(image);
         if (!tooltipText.isEmpty()) {
             Tooltip tooltip = new Tooltip(tooltipText);
             tooltip.setShowDelay(javafx.util.Duration.millis(100));
@@ -242,53 +241,41 @@ public class UtilsView {
         return imageView;
     }
 
-    public ImageView mediumIcon(String iconPath, String tooltipText) {
-        ImageView imageView = basicIcon(iconPath, tooltipText);
+    public ImageView mediumIcon(Image image, String tooltipText) {
+        ImageView imageView = basicIcon(image, tooltipText);
         imageView.setFitWidth(MEDIUM_ICON_SIZE);
         imageView.setFitHeight(MEDIUM_ICON_SIZE);
         return imageView;
     }
 
-    public ImageView mediumShadowIcon(String iconPath, String tooltipText, IconColor iconColor) {
-        ImageView imageView = mediumIcon(iconPath, tooltipText);
-        imageView.setStyle("-fx-effect: dropshadow(gaussian, " + iconColor + ", 20, 0.3, 0, 0);");
-        return imageView;
-    }
-
-    public ImageView mediumFadedIcon(String iconPath, String tooltipText) {
-        ImageView imageView = mediumIcon(iconPath, tooltipText);
+    public ImageView mediumFadedIcon(Image image, String tooltipText) {
+        ImageView imageView = mediumIcon(image, tooltipText);
         imageView.setOpacity(0.2);
         return imageView;
     }
 
-    public StackPane mediumBorderIcon(String iconPath, String tooltipText, IconColor iconColor) {
-        ImageView imageView = mediumIcon(iconPath, tooltipText);
+    public StackPane mediumBorderIcon(Image image, String tooltipText, IconColor iconColor) {
+        ImageView imageView = mediumIcon(image, tooltipText);
         StackPane imageContainer = new StackPane(imageView);
         imageContainer.setStyle("-fx-border-color: " + iconColor + "; -fx-border-width: 1px; -fx-border-radius: 2px;");
         return imageContainer;
     }
 
-    public ImageView smallIcon(String iconPath, String tooltipText) {
-        ImageView imageView = basicIcon(iconPath, tooltipText);
+    public ImageView smallIcon(Image image, String tooltipText) {
+        ImageView imageView = basicIcon(image, tooltipText);
         imageView.setFitWidth(SMALL_ICON_SIZE);
         imageView.setFitHeight(SMALL_ICON_SIZE);
         return imageView;
     }
 
-    public ImageView smallShadowIcon(String iconPath, String tooltipText, IconColor iconColor) {
-        ImageView imageView = smallIcon(iconPath, tooltipText);
-        imageView.setStyle("-fx-effect: dropshadow(gaussian, " + iconColor + ", 20, 0.3, 0, 0);");
-        return imageView;
-    }
-
-    public ImageView smallFadedIcon(String iconPath, String tooltipText) {
-        ImageView imageView = smallIcon(iconPath, tooltipText);
+    public ImageView smallFadedIcon(Image image, String tooltipText) {
+        ImageView imageView = smallIcon(image, tooltipText);
         imageView.setOpacity(0.2);
         return imageView;
     }
 
-    public StackPane smallBorderIcon(String iconPath, String tooltipText, IconColor iconColor) {
-        ImageView imageView = smallIcon(iconPath, tooltipText);
+    public StackPane smallBorderIcon(Image image, String tooltipText, IconColor iconColor) {
+        ImageView imageView = smallIcon(image, tooltipText);
         StackPane imageContainer = new StackPane(imageView);
         imageContainer.setStyle("-fx-border-color: " + iconColor + "; -fx-border-width: 1px; -fx-border-radius: 2px;");
         return imageContainer;
@@ -336,19 +323,17 @@ public class UtilsView {
 
     public <T extends EnumWithResource> Node createResourceIcon(IconType iconType, IconColor iconColor, T resource) {
         Node node;
-        String imagePath = resource.getResourcePath();
+        Image image = resource.getImage();
         String tooltipText = resource.toString();
 
         switch (iconType) {
-            case IconType.SMALL -> node = smallIcon(imagePath, tooltipText);
-            case IconType.SMALL_SHADOW -> node = smallShadowIcon(imagePath, tooltipText, iconColor);
-            case IconType.SMALL_FADED -> node = smallFadedIcon(imagePath, tooltipText);
-            case IconType.SMALL_BORDER -> node = smallBorderIcon(imagePath, tooltipText, iconColor);
-            case IconType.MEDIUM -> node = mediumIcon(imagePath, tooltipText);
-            case IconType.MEDIUM_SHADOW -> node = mediumShadowIcon(imagePath, tooltipText, iconColor);
-            case IconType.MEDIUM_FADED -> node = mediumFadedIcon(imagePath, tooltipText);
-            case IconType.MEDIUM_BORDER -> node = mediumBorderIcon(imagePath, tooltipText, iconColor);
-            default -> node = smallIcon(imagePath, tooltipText);
+            case IconType.SMALL -> node = smallIcon(image, tooltipText);
+            case IconType.SMALL_FADED -> node = smallFadedIcon(image, tooltipText);
+            case IconType.SMALL_BORDER -> node = smallBorderIcon(image, tooltipText, iconColor);
+            case IconType.MEDIUM -> node = mediumIcon(image, tooltipText);
+            case IconType.MEDIUM_FADED -> node = mediumFadedIcon(image, tooltipText);
+            case IconType.MEDIUM_BORDER -> node = mediumBorderIcon(image, tooltipText, iconColor);
+            default -> node = smallIcon(image, tooltipText);
         }
 
         return node;

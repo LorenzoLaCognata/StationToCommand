@@ -4,6 +4,7 @@ import stationtocommand.model.missionStructure.Mission;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.UtilsView;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,14 +49,14 @@ public class DispatchView {
 
     private void showNavigationPanel(View view) {
         utilsView.addTitle(view.getTitlePane(), "Dispatch");
-        for (MissionView missionView : missionViews.values()) {
+        for (MissionView missionView : new ArrayList<>(missionViews.values())) {
             missionView.addListDetails(view);
         }
     }
 
     private void showMap(View view) {
         view.hideMap();
-        for (MissionView missionView : missionViews.values()) {
+        for (MissionView missionView : new ArrayList<>(missionViews.values())) {
             missionView.showNode();
         }
     }

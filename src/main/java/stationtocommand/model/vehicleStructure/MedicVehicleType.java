@@ -1,37 +1,38 @@
 package stationtocommand.model.vehicleStructure;
 
+import javafx.scene.image.Image;
+
 import java.util.Objects;
 
 public enum MedicVehicleType implements VehicleType {
-  BLS_AMBULANCE("BLS Ambulance", "/images/vehicle/blsAmbulance.png"),
-  ALS_AMBULANCE("ALS Ambulance", "/images/vehicle/alsAmbulance.png");
+    BLS_AMBULANCE("BLS Ambulance", "/images/vehicle/blsAmbulance.png"),
+    ALS_AMBULANCE("ALS Ambulance", "/images/vehicle/alsAmbulance.png");
+  
+    private final String name;
+    private final Image image;
 
-  private final String name;
-  private final String resourcePath;
+    MedicVehicleType(String name, String resourcePath) {
+        this.name = name;
+        this.image = new Image(Objects.requireNonNull(getClass().getResource(resourcePath)).toExternalForm());
+    }
 
-  MedicVehicleType(String name, String resourcePath) {
-    this.name = name;
-    this.resourcePath = resourcePath;
-  }
+    @Override
+    public String toString() {
+        return this.name;
+    }
 
-  @Override
-  public String toString() {
-    return this.name;
-  }
+    public Image getImage() {
+        return Objects.requireNonNullElse(image, new Image("/images/blank.png"));
+    }
 
-  @Override
-  public String getResourcePath() {
-    return Objects.requireNonNullElse(resourcePath, "/images/blank.png");
-  }
-
-  @Override
-  public MedicVehicleType[] getValues() {
-    return values();
-  }
-
-  @Override
-  public MedicVehicleType getPrimaryValue() {
-    return values()[0];
-  }
+    @Override
+    public MedicVehicleType[] getValues() {
+        return values();
+    }
+    
+    @Override
+    public MedicVehicleType getPrimaryValue() {
+        return values()[0];
+    }
 
 }

@@ -1,5 +1,6 @@
 package stationtocommand.model.unitStructure;
 
+import javafx.scene.image.Image;
 import stationtocommand.model.utilsStructure.EnumWithResource;
 
 import java.util.Objects;
@@ -12,11 +13,11 @@ public enum UnitStatus implements EnumWithResource {
     UNAVAILABLE("Unavailable", "/images/status/unavailableStatus.png");
 
     private final String name;
-    private final String resourcePath;
+    private final Image image;
 
     UnitStatus(String name, String resourcePath) {
         this.name = name;
-        this.resourcePath = resourcePath;
+        this.image = new Image(Objects.requireNonNull(getClass().getResource(resourcePath)).toExternalForm());
     }
 
     @Override
@@ -24,8 +25,8 @@ public enum UnitStatus implements EnumWithResource {
         return this.name;
     }
 
-    public String getResourcePath() {
-        return Objects.requireNonNullElse(resourcePath, "/images/blank.png");
+    public Image getImage() {
+        return Objects.requireNonNullElse(image, new Image("/images/blank.png"));
     }
 
     @Override

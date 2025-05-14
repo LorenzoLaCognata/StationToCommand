@@ -1,5 +1,7 @@
 package stationtocommand.model.rankTypeStructure;
 
+import javafx.scene.image.Image;
+
 import java.util.Objects;
 
 public enum PoliceRankType implements RankType {
@@ -13,12 +15,12 @@ public enum PoliceRankType implements RankType {
 
   private final String name;
   private final int level;
-  private final String resourcePath;
+  private final Image image;
 
   PoliceRankType(String name, int level, String resourcePath) {
     this.name = name;
     this.level = level;
-    this.resourcePath = resourcePath;
+    this.image = new Image(Objects.requireNonNull(getClass().getResource(resourcePath)).toExternalForm());
   }
 
   @Override
@@ -31,9 +33,8 @@ public enum PoliceRankType implements RankType {
     return this.level;
   }
 
-  @Override
-  public String getResourcePath() {
-    return Objects.requireNonNullElse(resourcePath, "/images/blank.png");
+  public Image getImage() {
+    return Objects.requireNonNullElse(image, new Image("/images/blank.png"));
   }
 
   @Override

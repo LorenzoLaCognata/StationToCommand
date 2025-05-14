@@ -98,6 +98,8 @@ public class MissionManager {
                 // TODO: select the closest/appropriate station to dispatch the mission to
                 int randomStation = Utils.randomGenerator.nextInt(stationsMatchingAllUnitTypes.size());
                 Station station = stationsMatchingAllUnitTypes.get(randomStation);
+
+                // TODO: manage the case where after assigning the station there are no units available anymore to assign
                 missionDepartmentLink.linkStation(station);
 
                 MissionStationLink missionStationLink = missionDepartmentLink.getStationLink(station);
@@ -130,6 +132,8 @@ public class MissionManager {
                         // TODO: select the closest/appropriate station to dispatch the mission to
                         int randomStation = Utils.randomGenerator.nextInt(stationsMatchingUnitType.size());
                         Station station = stationsMatchingUnitType.get(randomStation);
+
+                        // TODO: manage the case where after assigning the station there are no units available anymore to assign
                         missionDepartmentLink.linkStation(station);
 
                         MissionStationLink missionStationLink = missionDepartmentLink.getStationLink(station);

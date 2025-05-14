@@ -1,5 +1,6 @@
 package stationtocommand.model.missionStructure;
 
+import javafx.scene.image.Image;
 import stationtocommand.model.utilsStructure.EnumWithResource;
 
 import java.util.Objects;
@@ -25,12 +26,12 @@ public enum MissionType implements EnumWithResource {
   POISONING_OVERDOSE("Poisoning/Overdose", "/images/medicMission.png", 0.0f);
 
   private final String name;
-  private final String resourcePath;
+  private final Image image;
   private final float probability;
 
   MissionType(String name, String resourcePath, float probability) {
     this.name = name;
-    this.resourcePath = resourcePath;
+    this.image = new Image(Objects.requireNonNull(getClass().getResource(resourcePath)).toExternalForm());
     this.probability = probability;
   }
 
@@ -39,8 +40,8 @@ public enum MissionType implements EnumWithResource {
     return this.name;
   }
 
-  public String getResourcePath() {
-    return Objects.requireNonNullElse(resourcePath, "/images/blank.png");
+  public Image getImage() {
+    return Objects.requireNonNullElse(image, new Image("/images/blank.png"));
   }
 
   @Override
