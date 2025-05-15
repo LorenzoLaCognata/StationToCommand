@@ -1,5 +1,6 @@
 package stationtocommand.model.missionStructure;
 
+import javafx.scene.image.Image;
 import stationtocommand.model.utilsStructure.EnumWithResource;
 
 import java.util.Objects;
@@ -10,7 +11,7 @@ public enum MissionType implements EnumWithResource {
   VEHICLE_FIRE("Vehicle Fire", "/images/mission/vehicleFire.png", 0.0f),
   WATER_RESCUE("Water Rescue", "/images/mission/waterRescue.png", 0.0f),
   // TODO: replace with final icons
-  COLLAPSE_RESCUE("Collapse Rescue", "/images/rescueMission.png", 0.0f),
+  COLLAPSE_RESCUE("Collapse Rescue", "/images/mission/collapseRescue.png", 0.0f),
   TRAFFIC_INCIDENT("Traffic Incident", "/images/rescueMission.png", 0.0f),
   BURGLARY("Burglary", "/images/policeMission.png", 0.0f),
   ASSAULT("Assault", "/images/policeMission.png", 0.0f),
@@ -25,12 +26,12 @@ public enum MissionType implements EnumWithResource {
   POISONING_OVERDOSE("Poisoning/Overdose", "/images/medicMission.png", 0.0f);
 
   private final String name;
-  private final String resourcePath;
+  private final Image image;
   private final float probability;
 
   MissionType(String name, String resourcePath, float probability) {
     this.name = name;
-    this.resourcePath = resourcePath;
+    this.image = new Image(Objects.requireNonNull(getClass().getResource(resourcePath)).toExternalForm());
     this.probability = probability;
   }
 
@@ -39,8 +40,8 @@ public enum MissionType implements EnumWithResource {
     return this.name;
   }
 
-  public String getResourcePath() {
-    return Objects.requireNonNullElse(resourcePath, "/images/blank.png");
+  public Image getImage() {
+    return Objects.requireNonNullElse(image, new Image("/images/blank.png"));
   }
 
   @Override

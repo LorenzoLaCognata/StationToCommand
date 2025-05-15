@@ -1,5 +1,7 @@
 package stationtocommand.model.vehicleStructure;
 
+import javafx.scene.image.Image;
+
 import java.util.Objects;
 
 public enum FireVehicleType implements VehicleType {
@@ -11,11 +13,11 @@ public enum FireVehicleType implements VehicleType {
   HEAVY_RESCUE("Heavy Rescue Truck", "/images/vehicle/heavyRescueTruck.png");
 
   private final String name;
-  private final String resourcePath;
+  private final Image image;
 
   FireVehicleType(String name, String resourcePath) {
     this.name = name;
-    this.resourcePath = resourcePath;
+    this.image = new Image(Objects.requireNonNull(getClass().getResource(resourcePath)).toExternalForm());
   }
 
   @Override
@@ -23,9 +25,8 @@ public enum FireVehicleType implements VehicleType {
     return this.name;
   }
 
-  @Override
-  public String getResourcePath() {
-    return Objects.requireNonNullElse(resourcePath, "/images/blank.png");
+  public Image getImage() {
+    return Objects.requireNonNullElse(image, new Image("/images/blank.png"));
   }
 
   @Override

@@ -1,5 +1,7 @@
 package stationtocommand.model.unitTypeStructure;
 
+import javafx.scene.image.Image;
+
 import java.util.Objects;
 
 public enum FireUnitType implements UnitType {
@@ -8,11 +10,11 @@ public enum FireUnitType implements UnitType {
   RESCUE_SQUAD("Rescue Squad", "/images/unit/rescueSquad.png");
 
   private final String name;
-  private final String resourcePath;
+  private final Image image;
 
   FireUnitType(String name, String resourcePath) {
     this.name = name;
-    this.resourcePath = resourcePath;
+    this.image = new Image(Objects.requireNonNull(getClass().getResource(resourcePath)).toExternalForm());
   }
 
   @Override
@@ -20,9 +22,8 @@ public enum FireUnitType implements UnitType {
     return this.name;
   }
 
-  @Override
-  public String getResourcePath() {
-    return Objects.requireNonNullElse(resourcePath, "/images/blank.png");
+  public Image getImage() {
+    return Objects.requireNonNullElse(image, new Image("/images/blank.png"));
   }
 
   @Override

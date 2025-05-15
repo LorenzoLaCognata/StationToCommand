@@ -1,5 +1,7 @@
 package stationtocommand.model.equipmentStructure;
 
+import javafx.scene.image.Image;
+
 import java.util.Objects;
 
 public enum FireEquipmentType implements EquipmentType {
@@ -7,18 +9,18 @@ public enum FireEquipmentType implements EquipmentType {
   NOZZLE("Fog Nozzle", "/images/equipment/fogNozzle.png"),
   AXE("Fire Axe", "/images/equipment/fireAxe.png"),
   // TODO: replace with final icons
-  HALLIGAN("Halligan Bar", null),
-  LADDER("Portable Ladder", null),
-  CUTTER("Hydraulic Cutter", null),
-  SPREADER("Hydraulic Spreader", null),
-  SCBA("Self-Contained Breathing Apparatus", null);
+  HALLIGAN("Halligan Bar", "/images/blank.png"),
+  LADDER("Portable Ladder", "/images/blank.png"),
+  CUTTER("Hydraulic Cutter", "/images/blank.png"),
+  SPREADER("Hydraulic Spreader", "/images/blank.png"),
+  SCBA("Self-Contained Breathing Apparatus", "/images/blank.png");
 
   private final String name;
-  private final String resourcePath;
+  private final Image image;
 
   FireEquipmentType(String name, String resourcePath) {
     this.name = name;
-    this.resourcePath = resourcePath;
+    this.image = new Image(Objects.requireNonNull(getClass().getResource(resourcePath)).toExternalForm());
   }
 
   @Override
@@ -26,9 +28,18 @@ public enum FireEquipmentType implements EquipmentType {
     return this.name;
   }
 
+  public Image getImage() {
+    return Objects.requireNonNullElse(image, new Image("/images/blank.png"));
+  }
+
   @Override
-  public String getResourcePath() {
-    return Objects.requireNonNullElse(resourcePath, "/images/blank.png");
+  public FireEquipmentType[] getValues() {
+    return values();
+  }
+
+  @Override
+  public FireEquipmentType getPrimaryValue() {
+    return values()[0];
   }
 
 }

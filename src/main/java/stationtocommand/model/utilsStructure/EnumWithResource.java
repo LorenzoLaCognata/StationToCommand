@@ -1,9 +1,10 @@
 package stationtocommand.model.utilsStructure;
 
+import javafx.scene.image.Image;
+
 public interface EnumWithResource {
 
-    String getResourcePath();
+    Image getImage();
     EnumWithResource[] getValues();
     EnumWithResource getPrimaryValue();
-
 }

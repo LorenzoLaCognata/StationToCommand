@@ -1,5 +1,6 @@
 package stationtocommand.model.stationStructure;
 
+import javafx.scene.image.Image;
 import stationtocommand.model.utilsStructure.EnumWithResource;
 
 import java.util.Objects;
@@ -11,11 +12,11 @@ public enum StationType implements EnumWithResource {
   MEDIC_STATION("EMS", "/images/station/medicStation.png");
 
   private final String name;
-  private final String resourcePath;
+  private final Image image;
 
   StationType(String name, String resourcePath) {
     this.name = name;
-    this.resourcePath = resourcePath;
+    this.image = new Image(Objects.requireNonNull(getClass().getResource(resourcePath)).toExternalForm());
   }
 
   @Override
@@ -23,8 +24,8 @@ public enum StationType implements EnumWithResource {
     return this.name;
   }
 
-  public String getResourcePath() {
-    return Objects.requireNonNullElse(resourcePath, "/images/blank.png");
+  public Image getImage() {
+    return Objects.requireNonNullElse(image, new Image("/images/blank.png"));
   }
 
   @Override
