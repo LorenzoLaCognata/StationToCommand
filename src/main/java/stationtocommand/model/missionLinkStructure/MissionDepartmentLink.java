@@ -61,6 +61,10 @@ public class MissionDepartmentLink extends DepartmentLink {
     }
   }
 
+    public void clearStationLinks() {
+        stationLinks.clear();
+    }
+
   public Map<UnitStatus, Long> missionUnitsByStatus() {
     return getStationLinks().stream()
             .flatMap(missionStationLink -> missionStationLink.getUnitLinks().stream())

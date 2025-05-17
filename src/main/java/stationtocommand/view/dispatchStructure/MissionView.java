@@ -1,5 +1,6 @@
 package stationtocommand.view.dispatchStructure;
 
+import javafx.scene.control.Separator;
 import javafx.scene.layout.Pane;
 import stationtocommand.model.missionLinkStructure.MissionDepartmentLink;
 import stationtocommand.model.missionLinkStructure.MissionStationLink;
@@ -55,19 +56,24 @@ public class MissionView extends ViewWithNode {
     // Methods
 
     public void addListDetails(View view) {
-        Pane horizontalPane = utilsView.addIconAndButton(view.getDetailsPane(), mission.getMissionType(), mission.toString(), (_ -> show(view)));
+        utilsView.addIconAndButton(view.getDetailsPane(), mission.getMissionType(), mission.toString(), (_ -> show(view)));
         if (!mission.getDepartmentLinks().isEmpty()) {
+            Pane horizontalPane = utilsView.createHBox(view.getDetailsPane());
             for (MissionDepartmentLink missionDepartmentLink : mission.getDepartmentLinks()) {
-                utilsView.addIconToPane(horizontalPane, IconType.SMALL, IconColor.EMPTY, missionDepartmentLink.getDepartment().getDepartmentType());
-                for (MissionStationLink missionStationLink : missionDepartmentLink.getStationLinks()) {
-                    if (!missionStationLink.getUnitLinks().isEmpty()) {
-                        for (MissionUnitLink missionUnitLink : missionStationLink.getUnitLinks()) {
-                            utilsView.addBodyLabel(horizontalPane, missionUnitLink.getUnit().toString());
+                if (!missionDepartmentLink.getStationLinks().isEmpty()) {
+                    for (MissionStationLink missionStationLink : missionDepartmentLink.getStationLinks()) {
+                        if (!missionStationLink.getUnitLinks().isEmpty()) {
+                            for (MissionUnitLink missionUnitLink : missionStationLink.getUnitLinks()) {
+                                utilsView.addIconToPane(horizontalPane, IconType.SMALL, IconColor.EMPTY, missionUnitLink.getUnit().getUnitType());
+                                utilsView.addBodyLabel(horizontalPane, missionUnitLink.getUnit().toString());
+                            }
                         }
                     }
                 }
             }
         }
+        Separator separator = UtilsView.createSeparator();
+        view.getDetailsPane().getChildren().add(separator);
     }
 
     public void show(View view) {

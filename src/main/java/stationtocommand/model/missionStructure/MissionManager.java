@@ -156,6 +156,14 @@ public class MissionManager {
             }
         }
 
+        List<MissionUnitLink> missionUnitLinks = missionDepartmentLink.getStationLinks().stream()
+            .flatMap(item -> item.getUnitLinks().stream())
+            .toList();
+
+        if (missionUnitLinks.isEmpty()) {
+            missionDepartmentLink.clearStationLinks();
+        }
+
     }
 
     public void dispatchMissionToResponders(MissionUnitLink missionUnitLink) {
@@ -215,7 +223,7 @@ public class MissionManager {
                         requiredUnitTypes.add(FireUnitType.FIRE_TRUCK);
                         requiredUnitTypes.add(FireUnitType.RESCUE_SQUAD);
                     }
-                    case TRAFFIC_INCIDENT -> {
+                    case TRAFFIC_COLLISION -> {
                         requiredUnitTypes.add(FireUnitType.FIRE_ENGINE);
                         requiredUnitTypes.add(FireUnitType.RESCUE_SQUAD);
                     }
@@ -227,7 +235,7 @@ public class MissionManager {
                         requiredUnitTypes.add(PoliceUnitType.PATROL_UNIT);
                         requiredUnitTypes.add(PoliceUnitType.DETECTIVE_UNIT);
                     }
-                    case DISTURBANCE, CROWD_CONTROL, TRAFFIC_INCIDENT  -> requiredUnitTypes.add(PoliceUnitType.PATROL_UNIT);
+                    case DISTURBANCE, CROWD_CONTROL, TRAFFIC_COLLISION -> requiredUnitTypes.add(PoliceUnitType.PATROL_UNIT);
                     case HOMICIDE -> {
                         requiredUnitTypes.add(PoliceUnitType.PATROL_UNIT);
                         requiredUnitTypes.add(PoliceUnitType.HOMICIDE_UNIT);
@@ -244,7 +252,7 @@ public class MissionManager {
             }
             case MEDIC_DEPARTMENT -> {
                 switch (missionType) {
-                    case MEDICAL_EMERGENCY, TRAUMA_RESPONSE, TRAFFIC_INCIDENT -> requiredUnitTypes.add(MedicUnitType.PRIMARY_CARE_UNIT);
+                    case MEDICAL_EMERGENCY, TRAUMA_RESPONSE, TRAFFIC_COLLISION -> requiredUnitTypes.add(MedicUnitType.PRIMARY_CARE_UNIT);
                     case CARDIAC_ARREST, COLLAPSE_RESCUE, POISONING_OVERDOSE -> requiredUnitTypes.add(MedicUnitType.CRITICAL_CARE_UNIT);
                 }
             }

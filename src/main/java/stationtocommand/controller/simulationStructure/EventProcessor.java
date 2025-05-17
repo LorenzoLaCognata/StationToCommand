@@ -89,6 +89,13 @@ public class EventProcessor {
                         for (MissionStationLink missionStationLink : missionDepartmentLink.getStationLinks()) {
                             missionDepartmentView.addMissionStationView(missionStationLink, controller.getView(), controller.getView().getUtilsView());
                         }
+
+                        if (missionDepartmentLink.getStationLinks().isEmpty()) {
+                            nextEventTime = event.eventTime() + DISPATCH_UNIT_DELAY;
+                            nextEventType = ScheduledEventType.MISSION_DISPATCH_UNIT;
+                            nextEventObject = event.eventObject();
+                            eventQueue.scheduleEvent(nextEventTime, nextEventType, nextEventObject);
+                        }
                     }
                 }
                 break;

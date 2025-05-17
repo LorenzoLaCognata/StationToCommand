@@ -44,6 +44,7 @@ public class View {
     private final ToolBar toolbar = new ToolBar();
     private final BreadCrumbBar<Object> breadCrumbBar = new BreadCrumbBar<>();
     private final NavigationPanel navigationPanel = new NavigationPanel();
+    private final ScrollPane scrollPane = new ScrollPane(navigationPanel.getContainer());
     private final WorldMap worldMap = new WorldMap();
     private final HBox hud = new HBox(5);
 
@@ -52,12 +53,10 @@ public class View {
     public static Runnable viewRunnable;
 
     public View() {
-        ScrollPane scrollPane = new ScrollPane(navigationPanel.getContainer());
         scrollPane.setFitToWidth(true);
         scrollPane.setFitToHeight(true);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-
         gridPane.add(toolbar, 0, 0, 2, 1);
         gridPane.add(breadCrumbBar, 0, 1, 2, 1);
         gridPane.add(scrollPane, 0, 2, 1, 2);
@@ -339,6 +338,7 @@ public class View {
 
     public void organizationButtonHandler(String buttonText) {
         viewRunnable = () -> organizationButtonHandler(buttonText);
+        navigationPanel.getContainer().heightProperty().removeListener(_ -> scrollPane.setVvalue(1D));
         clearNavigationPanel();
         hideMap();
         utilsView.resetBreadCrumbBar(breadCrumbBar);
@@ -348,6 +348,7 @@ public class View {
 
     public void dispatchButtonHandler(String buttonText) {
         viewRunnable = () -> dispatchButtonHandler(buttonText);
+        this.getNavigationPanel().getContainer().heightProperty().addListener(_ -> scrollPane.setVvalue(1D));
         clearNavigationPanel();
         hideMap();
         utilsView.resetBreadCrumbBar(breadCrumbBar);
