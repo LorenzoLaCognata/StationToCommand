@@ -1,12 +1,12 @@
 package stationtocommand.view.organizationStructure;
 
+import javafx.application.Platform;
+import javafx.scene.chart.PieChart;
 import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.view.View;
 import stationtocommand.view.mainStructure.UtilsView;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class OrganizationView {
 

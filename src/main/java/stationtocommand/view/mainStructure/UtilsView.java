@@ -1,5 +1,7 @@
 package stationtocommand.view.mainStructure;
 
+import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
@@ -10,15 +12,14 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.text.Text;
 import org.controlsfx.control.BreadCrumbBar;
 import stationtocommand.model.locationStructure.Location;
 import stationtocommand.model.locationStructure.LocationManager;
 import stationtocommand.model.utilsStructure.EnumWithResource;
 
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -391,6 +392,14 @@ public class UtilsView {
     public  <T extends EnumWithResource, S extends EnumWithResource> void addAvailableResources(Pane pane, Map<S, Long> statusCounts, Map<T, Map<S, Long>> typeStatusCounts) {
         addSeparatorToPane(pane);
         Pane horizontalPane = createHBox(pane);
+        addAvailabilityTypeCounts(horizontalPane, typeStatusCounts, typeStatusCounts.keySet().iterator().next(), statusCounts.keySet().iterator().next());
+        addSeparatorToPane(pane);
+    }
+
+    // TODO: replace
+    public  <T extends EnumWithResource, S extends EnumWithResource> void addAvailableResourcesOLD(Pane pane, Map<S, Long> statusCounts, Map<T, Map<S, Long>> typeStatusCounts) {
+        addSeparatorToPane(pane);
+        Pane horizontalPane = createHBox(pane);
         Pane verticalPane = createVBox(horizontalPane);
         addPieChart(statusCounts, verticalPane);
         addSeparatorToPane(verticalPane);
@@ -422,17 +431,6 @@ public class UtilsView {
     private <S extends EnumWithResource> void addPieChart(Map<S, Long> statusCounts, Pane verticalDetailPane) {
         PieChart pieChart = new PieChart();
         pieChart.setAnimated(false);
-        /*+
-        String color = switch (i) {
-            case 0 -> "#66bb6a";
-            case 1 -> "#ff7043";
-            case 2 -> "#c62828";
-            case 3 -> "#00796b";
-            case 4 -> "#424242";
-            default -> "black";
-        };
-        */
-
         pieChart.setMinHeight(400);
         pieChart.setPrefHeight(400);
         verticalDetailPane.getChildren().add(pieChart);
@@ -450,6 +448,21 @@ public class UtilsView {
         int value = counts.getOrDefault(status, 0L).intValue();
         PieChart.Data slice = new PieChart.Data(status.toString(), value);
         pieChart.getData().add(slice);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <S extends EnumWithResource> void updateStatusPieChartSlices(PieChart pieChart, Map<S, Long> statusCounts, S sampleStatusClass) {
+        for (EnumWithResource status : sampleStatusClass.getValues()) {
+            pieChart.getData().stream()
+                .filter(data -> data.getName().equals(status.toString()))
+                .findFirst().ifPresent(data -> updateStatusPieChartSlice(data, statusCounts, (S) status));
+        }
+        updateLaterPieChartLabels(pieChart);
+    }
+
+    public <S extends EnumWithResource> void updateStatusPieChartSlice(PieChart.Data data, Map<S, Long> counts, S status) {
+        int value = counts.getOrDefault(status, 0L).intValue();
+        data.setPieValue(value);
     }
 
     @SuppressWarnings("unchecked")
@@ -485,6 +498,107 @@ public class UtilsView {
         addIconToPane(verticalDetailsPane, IconType.SMALL, IconColor.EMPTY, type);
         long total = statusCounts.values().stream().mapToLong(Long::longValue).sum();
         addBodySmallLabel(verticalDetailsPane, String.valueOf(total));
+    }
+
+    public String availabilityPieChartColors(String status) {
+        String color;
+        switch (status) {
+            case "Available" -> color = "#66bb6a";
+            case "Dispatched" -> color = "#ff7043";
+            case "On Scene" -> color = "#c62828";
+            case "Returning" -> color = "#00796b";
+            case "Unavailable" -> color = "#424242";
+            default -> color = "black";
+        }
+        return color;
+    }
+
+
+    public void setPieChartAvailabilityColors(PieChart pieChart) {
+
+        ObservableList<PieChart.Data> dataList = pieChart.getData();
+        Set<Node> legendItems = pieChart.lookupAll(".chart-legend-item");
+
+        List<Node> legendItemList = new ArrayList<>(legendItems);
+        legendItemList.sort(Comparator.comparingDouble(Node::getLayoutX));
+
+        for (int i = 0; i < dataList.size() && i < legendItemList.size(); i++) {
+            PieChart.Data data = dataList.get(i);
+            Node legendItem = legendItemList.get(i);
+
+            Node labelNode = legendItem.lookup(".label");
+            Node symbolNode = legendItem.lookup(".chart-legend-item-symbol");
+
+            String legendText = "";
+            if (labelNode instanceof Labeled labeled) {
+                legendText = labeled.getText();
+            } else if (labelNode instanceof Text text) {
+                legendText = text.getText();
+            }
+
+            String color = availabilityPieChartColors(legendText);
+
+            if (symbolNode != null) {
+                symbolNode.setStyle("-fx-background-color: " + color + ";");
+            }
+
+            Node sliceNode = data.getNode();
+            if (sliceNode != null) {
+                sliceNode.setStyle("-fx-pie-color: " + color + ";");
+            }
+
+        }
+
+    }
+
+    public void updateLaterPieChartLabels(PieChart pieChart) {
+        Platform.runLater(() -> {
+            pieChart.applyCss();
+            pieChart.layout();
+            updatePieChartLabels(pieChart);
+        });
+
+    }
+
+    public void updatePieChartLabels(PieChart pieChart) {
+        Map<String, PieChart.Data> dataByName = pieChart.getData().stream()
+                .collect(Collectors.toMap(PieChart.Data::getName, d -> d));
+
+        for (Node label : pieChart.lookupAll(".chart-pie-label")) {
+            if (label instanceof Text text) {
+                PieChart.Data match = dataByName.get((String) text.getUserData());
+                if (match != null) {
+                    text.setStyle("-fx-fill: white;");
+                    if (match.getPieValue() > 0) {
+                        text.setText(String.valueOf((int) match.getPieValue()));
+                    }
+                    else {
+                        text.setText("");
+                    }
+                }
+                else {
+                    for (String name : dataByName.keySet()) {
+                        if (text.getText().equals(name)) {
+                            text.setUserData(name);
+                            PieChart.Data data = dataByName.get(name);
+                            text.setStyle("-fx-fill: white;");
+                            if (data.getPieValue() > 0) {
+                                text.setText(String.valueOf((int) data.getPieValue()));
+                            }
+                            else {
+                                text.setText("");
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void updateSliceValue(PieChart pieChart, PieChart.Data data, double value) {
+        data.setPieValue(value);
+        updateLaterPieChartLabels(pieChart);
     }
 
     public <X, Y extends ViewWithNode> Map<Location, List<Node>> nodesByLocation(Map<X, Y> viewWithNode, Function<Y, Location> viewLocationFunction) {

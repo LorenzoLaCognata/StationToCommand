@@ -1,6 +1,8 @@
 package stationtocommand.view.organizationStructure;
 
+import javafx.application.Platform;
 import javafx.scene.Node;
+import javafx.scene.chart.PieChart;
 import stationtocommand.model.departmentStructure.Department;
 import stationtocommand.model.locationStructure.Location;
 import stationtocommand.model.responderStructure.Responder;
@@ -21,6 +23,8 @@ public class DepartmentView {
     private final UtilsView utilsView;
     private final Map<Station, StationView> stationViews;
 
+    private final PieChart pieChart = new PieChart();
+
     // Constructor
 
     public DepartmentView(Department department, View view, UtilsView utilsView) {
@@ -32,6 +36,30 @@ public class DepartmentView {
         for (Station station : department.getStations()) {
             addStationView(station, view, utilsView);
         }
+
+        createPieChart();
+    }
+
+    private void createPieChart() {
+        pieChart.setAnimated(false);
+        pieChart.setMinHeight(400);
+        pieChart.setPrefHeight(400);
+
+        utilsView.addStatusPieChartSlices(pieChart, department.unitsByStatus(), department.unitsByStatus().keySet().iterator().next());
+/*
+        PieChart.Data slice1 = new PieChart.Data("A", 0);
+        PieChart.Data slice2 = new PieChart.Data("B", 0);
+        PieChart.Data slice3 = new PieChart.Data("C", 0);
+        PieChart.Data slice4 = new PieChart.Data("D", 0);
+        PieChart.Data slice5 = new PieChart.Data("E", 0);
+        pieChart.getData().clear();
+        pieChart.getData().addAll(slice1, slice2, slice3, slice4, slice5);
+*/
+
+        Platform.runLater(() -> Platform.runLater(() -> {
+            utilsView.setPieChartAvailabilityColors(pieChart);
+            utilsView.updatePieChartLabels(pieChart);
+        }));
     }
 
     private void addStationView(Station station, View view, UtilsView utilsView) {
@@ -157,7 +185,16 @@ public class DepartmentView {
 
     private void showNavigationPanelUnits(View view) {
         view.clearDetailsPane();
+
+        view.getDetailsPane().getChildren().add(pieChart);
+        Platform.runLater(() -> Platform.runLater(() -> {
+            utilsView.setPieChartAvailabilityColors(pieChart);
+            utilsView.updatePieChartLabels(pieChart);
+        }));
+
+        utilsView.updateStatusPieChartSlices(pieChart, department.unitsByStatus(), department.unitsByStatus().keySet().iterator().next());
         utilsView.addAvailableResources(view.getDetailsPane(), department.unitsByStatus(), department.unitsByTypeAndStatus());
+
         for (UnitView unitView : getUnitViews().values()) {
             unitView.addListDetails(view);
         }
@@ -186,7 +223,7 @@ public class DepartmentView {
 
     private void showNavigationPanelVehicles(View view) {
         view.clearDetailsPane();
-        utilsView.addAvailableResources(view.getDetailsPane(), department.vehiclesByStatus(), department.vehiclesByTypeAndStatus());
+        utilsView.addAvailableResourcesOLD(view.getDetailsPane(), department.vehiclesByStatus(), department.vehiclesByTypeAndStatus());
         for (VehicleView vehicleView : getVehicleViews().values()) {
             vehicleView.addListDetails(view);
         }
@@ -215,7 +252,7 @@ public class DepartmentView {
 
     private void showNavigationPanelResponders(View view) {
         view.clearDetailsPane();
-        utilsView.addAvailableResources(view.getDetailsPane(), department.respondersByStatus(), department.respondersByRankAndStatus());
+        utilsView.addAvailableResourcesOLD(view.getDetailsPane(), department.respondersByStatus(), department.respondersByRankAndStatus());
         for (ResponderView responderView : getResponderViews().values()) {
             responderView.addListDetails(view);
         }

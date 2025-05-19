@@ -102,7 +102,7 @@ public class UnitView extends ViewWithNode {
 
     private void showNavigationPanelVehicles(View view) {
         view.clearDetailsPane();
-        utilsView.addAvailableResources(view.getDetailsPane(), unit.vehiclesByStatus(), unit.vehiclesByTypeAndStatus());
+        utilsView.addAvailableResourcesOLD(view.getDetailsPane(), unit.vehiclesByStatus(), unit.vehiclesByTypeAndStatus());
         for (VehicleView vehicleView : vehicleViews.values()) {
             vehicleView.addListDetails(view);
         }
@@ -131,7 +131,7 @@ public class UnitView extends ViewWithNode {
 
     private void showNavigationPanelResponders(View view) {
         view.clearDetailsPane();
-        utilsView.addAvailableResources(view.getDetailsPane(), unit.respondersByStatus(), unit.respondersByRankAndStatus());
+        utilsView.addAvailableResourcesOLD(view.getDetailsPane(), unit.respondersByStatus(), unit.respondersByRankAndStatus());
         for (ResponderView responderView : responderViews.values()) {
             responderView.addListDetails(view);
         }
